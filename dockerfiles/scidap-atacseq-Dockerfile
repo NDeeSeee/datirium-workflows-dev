@@ -1,0 +1,132 @@
+#################################################################
+# Dockerfile - ATAC-seq Analysis Container
+#
+# Software:         BioWardrobe ATAC-seq script with DiffBind
+# Software Version: v0.0.76 version of ATAC-seq scripts from BioWardrobe
+# Website:          https://github.com/Barski-lab/workflows
+# Base Image:       Built from scidap-deseq + ATAC-specific packages
+#
+# VERSIONING GUIDELINES:
+# 1. ALWAYS update "Software Version" above when making changes
+# 2. For script-only updates: increment third number (v0.0.54 → v0.0.55)
+# 3. For new packages: increment third number and document additions
+# 4. For major R version changes: increment second number (v0.0.x → v0.1.0)
+#
+# BUILD STRATEGIES:
+# - For script updates only: Use incremental build from previous version
+# - For adding single packages: Use incremental build with specific install
+# - For major updates: Uncomment full installation commands and rebuild from base
+#
+#################################################################
+
+# Provided components
+# ------------------
+# run_atac_lrt_step_1.R
+# run_atac_lrt_step_2.R (future)
+# 
+# ATAC-specific packages (added to scidap-deseq base):
+# ------------------
+# DiffBind          1.40.2   (ATAC-seq differential binding analysis)
+# ChIPseeker        1.40.0   (Peak annotation and visualization)
+# GenomicFeatures   1.56.0   (Genomic features manipulation)
+# rtracklayer       1.64.0   (Import/export genomic data)
+# Rsamtools         2.20.0   (BAM file manipulation)
+# VennDiagram       1.7.3    (Venn diagram plotting)
+# UpSetR            1.4.0    (UpSet plot for set intersections)
+# corrplot          0.92     (Correlation matrix visualization)
+# 
+# Inherits from scidap-deseq:
+# ------------------
+# All DESeq2/RNA-seq packages (BiocManager, DESeq2, logger, argparse, pheatmap, etc.)
+# See scidap-deseq-Dockerfile for complete base package list
+# 
+# Build Commands:
+# ------------------
+# Full build: docker build --no-cache --platform linux/amd64 --rm -t biowardrobe2/scidap-atac:v0.0.62 -f scidap-atacseq-Dockerfile .
+# Pull:       docker pull biowardrobe2/scidap-atac:v0.0.62
+# Run:        docker run --rm -ti biowardrobe2/scidap-atac:v0.0.62 /bin/bash
+#################################################################
+
+#################################################################
+# VERSION HISTORY
+#################################################################
+#
+# v0.0.61
+# - Improved CLI argument parsing with shared utilities
+# - Enhanced multi-value argument support for --input_files, --bamfiles, --name
+# - Added robust Docker path resolution for helper functions
+# - Streamlined manual parsing fallback mechanisms
+#
+# v0.0.60
+# - Fixed input_files argument parsing for CWL compatibility
+# - Updated ATAC workflow to properly handle peak file arrays
+# - Enhanced error handling in CLI argument processing
+#
+# v0.0.55
+# - Fixed ATAC-seq variable naming conflicts in R scripts (args$input → args$input_files)
+# - Updated ATAC analysis functions with proper parameter handling
+# - Added comprehensive ATAC-seq support with DiffBind integration
+# - Resolved CWL parameter mapping issues for ATAC workflows
+#
+# v0.0.54
+# - Enhanced ATAC-seq workflow with improved peak processing
+# - Updated DiffBind integration for better differential accessibility analysis
+# - Fixed file input handling for multiple peak files
+#
+# v0.0.53
+# - Updated ATAC-seq scripts with enhanced error handling
+# - Improved peak annotation and visualization capabilities
+#
+# v0.0.52 (Initial ATAC build from scidap-deseq base)
+# - Added ATAC-specific packages: DiffBind, ChIPseeker, GenomicFeatures
+# - Added genomic data packages: rtracklayer, Rsamtools
+# - Added visualization packages: VennDiagram, UpSetR, corrplot
+# - Built from scidap-deseq:v0.0.51 base image
+#
+#################################################################
+
+#############################################
+# BASE IMAGE SELECTION
+#############################################
+# Incremental build from previous version
+FROM biowardrobe2/scidap-atac:v0.0.76
+LABEL maintainer="pavlvalera3301@gmail.com"
+ENV DEBIAN_FRONTEND=noninteractive
+
+#############################################
+# SCRIPT UPDATES
+#############################################
+# Copy updated ATAC-seq script files
+COPY tools/dockerfiles/scripts/run_atac_lrt_step_1.R /usr/local/bin/run_atac_lrt_step_1.R
+COPY tools/dockerfiles/scripts/run_atac_lrt_step_2.R /usr/local/bin/run_atac_lrt_step_2.R
+COPY tools/dockerfiles/scripts/run_atac_pairwise.R /usr/local/bin/run_atac_pairwise.R
+
+# Copy function directories with updated cli_args.R and helpers
+COPY tools/dockerfiles/scripts/functions/ /usr/local/bin/functions/
+
+#############################################
+# FINALIZE IMAGE
+#############################################
+# Setting permissions
+RUN chmod +x /usr/local/bin/run_atac*.R && \
+    chmod -R +r /usr/local/bin/functions/ && \
+    find /usr/local/bin/functions -name "*.R" -exec chmod +x {} \; \
+    && \
+    apt-get clean && \
+    apt-get purge && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* && \
+    strip /usr/local/bin/*; true
+
+#############################################
+# FULL BUILD INSTRUCTIONS (COMMENTED)
+#############################################
+# The following sections are for full rebuilds only.
+# Uncomment when starting from scidap-deseq base image.
+
+# For full build from scidap-deseq base, use this instead:
+# FROM biowardrobe2/scidap-deseq:v0.0.53
+
+# Install missing Bioconductor package DiffBind and ensure rtracklayer dependencies
+# RUN R -e "if (!require('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('DiffBind'), update = FALSE, ask = FALSE)"
+
+RUN echo "DiffBind already present in base image"
