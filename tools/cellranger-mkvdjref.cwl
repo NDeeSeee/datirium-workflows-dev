@@ -1,12 +1,15 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_output_folder_name = function() { if (inputs.output_folder_name == ""){ var root = inputs.genome_fasta_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.genome_fasta_file.basename:root; } else { return inputs.output_folder_name; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_output_folder_name = function() { if (inputs.output_folder_name ==
+        ""){ var root = inputs.genome_fasta_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.genome_fasta_file.basename:root; } else { return
+        inputs.output_folder_name; } };
 hints:
-- class: DockerRequirement
-  dockerPull: cumulusprod/cellranger:8.0.1
+  - class: DockerRequirement
+    dockerPull: cumulusprod/cellranger:8.0.1
 inputs:
   genome_fasta_file:
     type: File
@@ -64,8 +67,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- cellranger
-- mkvdjref
+  - cellranger
+  - mkvdjref
 stdout: cellranger_mkvdjref_stdout.log
 stderr: cellranger_mkvdjref_stderr.log
 label: Cell Ranger Reference (VDJ)

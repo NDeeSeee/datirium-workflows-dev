@@ -1,9 +1,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bismark:v0.0.2
+  - class: InlineJavascriptRequirement
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bismark:v0.0.2
 inputs:
   genome_folder:
     type: Directory
@@ -90,13 +90,15 @@ outputs:
   bedgraph_coverage_file:
     type: File
     label: Methylation statuses bedGraph coverage file
-    doc: Coverage text file summarising cytosine methylation values in bedGraph format (tab-delimited; 0-based start coords, 1-based end coords)
+    doc: Coverage text file summarising cytosine methylation values in bedGraph format
+      (tab-delimited; 0-based start coords, 1-based end coords)
     outputBinding:
       glob: '*bedGraph.gz'
   bismark_coverage_file:
     type: File
     label: Methylation statuses Bismark coverage file
-    doc: Coverage text file summarising cytosine methylation values in Bismark format (tab-delimited, 1-based genomic coords)
+    doc: Coverage text file summarising cytosine methylation values in Bismark format
+      (tab-delimited, 1-based genomic coords)
     outputBinding:
       glob: '*bismark.cov.gz'
   genome_wide_methylation_report:
@@ -112,10 +114,10 @@ outputs:
     outputBinding:
       glob: '*splitting_report.txt'
 baseCommand:
-- bismark_methylation_extractor
-- --comprehensive
-- --bedgraph
-- --cytosine_report
+  - bismark_methylation_extractor
+  - --comprehensive
+  - --bedgraph
+  - --cytosine_report
 doc: |
   bismark_methylation_extractor script operates on Bismark result files and extracts the methylation call
   for every single C analysed. The position of every single C will be written out to a new output file,

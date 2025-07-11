@@ -1,14 +1,17 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var ext = function() { if (inputs.csi && !inputs.bai){ return '.csi'; } else { return '.bai'; } };
-  - var default_bam = function() { if (inputs.trigger == true){ return inputs.sort_input.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+".bam"; } else { return inputs.sort_input.location.split('/').slice(-1)[0]; } };
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var ext = function() { if (inputs.csi && !inputs.bai){ return '.csi'; } else
+        { return '.bai'; } };
+      - var default_bam = function() { if (inputs.trigger == true){ return 
+        inputs.sort_input.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+".bam";
+        } else { return inputs.sort_input.location.split('/').slice(-1)[0]; } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/samtools:v1.4
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/samtools:v1.4
 inputs:
   bash_script_sort:
     type: string?
@@ -112,53 +115,55 @@ outputs:
               return inputs.sort_output_filename;
             }
         }
-    secondaryFiles: ${ if (inputs.trigger == true){ return self.basename + ext(); } else { return inputs.sort_input.secondaryFiles?inputs.sort_input.secondaryFiles:"null"; } }
+    secondaryFiles: ${ if (inputs.trigger == true){ return self.basename + ext();
+      } else { return inputs.sort_input.secondaryFiles?inputs.sort_input.secondaryFiles:"null";
+      } }
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 arguments:
-- valueFrom: |
-    ${ return inputs.trigger ? "true" : "false" }
-  position: 6
-- valueFrom: bam
-  position: 13
-  prefix: -O
-- valueFrom: $(inputs.threads?inputs.threads:1)
-  position: 15
-  prefix: -@
-- valueFrom: ;
-  position: 17
-  shellQuote: false
-- valueFrom: bash
-  position: 18
-- valueFrom: -c
-  position: 19
-- valueFrom: |
-    ${ return inputs.trigger ? "true" : "false" }
-  position: 21
-- valueFrom: $(inputs.bai?'-b':inputs.csi?'-c':[])
-  position: 23
-- valueFrom: $(inputs.threads?inputs.threads:1)
-  position: 25
-  prefix: -@
-- valueFrom: |
-    ${
-        if (inputs.sort_output_filename == "" || inputs.trigger == false){
-          return default_bam();
-        } else {
-          return inputs.sort_output_filename;
-        }
-    }
-  position: 26
-- valueFrom: |
-    ${
-        if (inputs.sort_output_filename == "" || inputs.trigger == false){
-          return default_bam() + ext();
-        } else {
-          return inputs.sort_output_filename + ext();
-        }
-    }
-  position: 27
+  - valueFrom: |
+      ${ return inputs.trigger ? "true" : "false" }
+    position: 6
+  - valueFrom: bam
+    position: 13
+    prefix: -O
+  - valueFrom: $(inputs.threads?inputs.threads:1)
+    position: 15
+    prefix: -@
+  - valueFrom: ;
+    position: 17
+    shellQuote: false
+  - valueFrom: bash
+    position: 18
+  - valueFrom: -c
+    position: 19
+  - valueFrom: |
+      ${ return inputs.trigger ? "true" : "false" }
+    position: 21
+  - valueFrom: $(inputs.bai?'-b':inputs.csi?'-c':[])
+    position: 23
+  - valueFrom: $(inputs.threads?inputs.threads:1)
+    position: 25
+    prefix: -@
+  - valueFrom: |
+      ${
+          if (inputs.sort_output_filename == "" || inputs.trigger == false){
+            return default_bam();
+          } else {
+            return inputs.sort_output_filename;
+          }
+      }
+    position: 26
+  - valueFrom: |
+      ${
+          if (inputs.sort_output_filename == "" || inputs.trigger == false){
+            return default_bam() + ext();
+          } else {
+            return inputs.sort_output_filename + ext();
+          }
+      }
+    position: 27
 doc: |
   Tool to sort and index input BAM/SAM/CRAM.
   If input `trigger` is set to `true` or isn't set at all (`true` is used by default), run `samtools sort` and

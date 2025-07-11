@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   query_data_rds:
     type: File
@@ -52,17 +52,17 @@ inputs:
       Default: false
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     inputBinding:
       prefix: --theme
     doc: |
@@ -342,9 +342,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_triangulate.R"]:"/usr/local/bin/sc_triangulate.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_triangulate.R"]:"/usr/local/bin/sc_triangulate.R")
 stdout: sc_triangulate_stdout.log
 stderr: sc_triangulate_stderr.log
 label: Single-Cell Label Integration Analysis

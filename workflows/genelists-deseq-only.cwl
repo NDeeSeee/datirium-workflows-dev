@@ -1,30 +1,30 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   genelists:
-  - filter-deseq-for-heatmap.cwl
-  - filter-diffbind-for-heatmap.cwl
-  - filter-peaks-for-heatmap.cwl
-  - genelists-sets.cwl
+    - filter-deseq-for-heatmap.cwl
+    - filter-diffbind-for-heatmap.cwl
+    - filter-peaks-for-heatmap.cwl
+    - genelists-sets.cwl
   samples_rnaseq:
-  - mirna-mirdeep2-se.cwl
-  - rnaseq-se.cwl
-  - rnaseq-pe.cwl
-  - rnaseq-se-dutp.cwl
-  - rnaseq-pe-dutp.cwl
-  - rnaseq-se-dutp-mitochondrial.cwl
-  - rnaseq-pe-dutp-mitochondrial.cwl
-  - trim-rnaseq-pe.cwl
-  - trim-rnaseq-se.cwl
-  - trim-rnaseq-pe-dutp.cwl
-  - trim-rnaseq-pe-smarter-dutp.cwl
-  - trim-rnaseq-se-dutp.cwl
-  - trim-quantseq-mrnaseq-se-strand-specific.cwl
+    - mirna-mirdeep2-se.cwl
+    - rnaseq-se.cwl
+    - rnaseq-pe.cwl
+    - rnaseq-se-dutp.cwl
+    - rnaseq-pe-dutp.cwl
+    - rnaseq-se-dutp-mitochondrial.cwl
+    - rnaseq-pe-dutp-mitochondrial.cwl
+    - trim-rnaseq-pe.cwl
+    - trim-rnaseq-se.cwl
+    - trim-rnaseq-pe-dutp.cwl
+    - trim-rnaseq-pe-smarter-dutp.cwl
+    - trim-rnaseq-se-dutp.cwl
+    - trim-quantseq-mrnaseq-se-strand-specific.cwl
 inputs:
   alias:
     type: string
@@ -33,48 +33,49 @@ inputs:
       position: 1
   genelist_names:
     type:
-    - 'null'
-    - string[]
-    default: null
+      - 'null'
+      - string[]
+    default:
     label: Genelist sample names
     doc: Array of genelist aliases/sample names, param (-a)
     sd:upstreamSource: genelists/alias
     sd:localLabel: true
   genelist_feature_files:
     type:
-    - 'null'
-    - File[]
-    default: null
-    format: http://edamontology.org/format_3475
+      - 'null'
+      - File[]
+    default:
     label: feature files from genelist inputs
-    doc: Array of TSV files with differential genes from DESeq or diffbind pipelines, param (-b)
+    doc: Array of TSV files with differential genes from DESeq or diffbind pipelines,
+      param (-b)
     sd:upstreamSource: genelists/feature_file
   genelist_filtered_files:
     type:
-    - 'null'
-    - File[]
-    default: null
-    format: http://edamontology.org/format_3475
+      - 'null'
+      - File[]
+    default:
     label: Filtered differential genes
-    doc: Array of filtered differential genelists from DESeq or diffbind pipelines, param (-c)
+    doc: Array of filtered differential genelists from DESeq or diffbind pipelines,
+      param (-c)
     sd:upstreamSource: genelists/filtered_file
   sample_names_rnaseq:
     type:
-    - 'null'
-    - string[]?
-    default: null
+      - 'null'
+      - string[]?
+    default:
     label: Sample names for RNA-Seq experiments
     doc: Array of aliases for RNA-Seq experiments for column metadata, param (-e)
     sd:upstreamSource: samples_rnaseq/alias
     sd:localLabel: true
   datafiles_rnaseq:
     type:
-    - 'null'
-    - File[]?
-    default: null
-    format: http://edamontology.org/format_3475
-    label: Array of sample TSV files containing gene annotations with associated TotalReads and Rpkm counts
-    doc: Array of sample TSV files containing gene annotations with associated TotalReads and Rpkm counts, param (-g)
+      - 'null'
+      - File[]?
+    default:
+    label: Array of sample TSV files containing gene annotations with associated TotalReads
+      and Rpkm counts
+    doc: Array of sample TSV files containing gene annotations with associated TotalReads
+      and Rpkm counts, param (-g)
     sd:upstreamSource: samples_rnaseq/rpkm_genes
   threads:
     type: int?
@@ -87,20 +88,19 @@ outputs:
   master_samplesheet_scaled:
     type: File
     label: contains formatted information of the input data and files for scaled heatmaps
-    format: http://edamontology.org/format_3475
     doc: contains formatted information of the input data and files for scaled heatmaps
     outputSource: data_integration/master_samplesheet_scaled
   master_samplesheet_vst:
     type: File
     label: contains formatted information of the input data and files for vst heatmap
-    format: http://edamontology.org/format_3475
     doc: contains formatted information of the input data and files for vst heatmap
     outputSource: data_integration/master_samplesheet_vst
   master_samplesheet_vst_zscore:
     type: File
-    label: contains formatted information of the input data and files for vst zscore heatmap
-    format: http://edamontology.org/format_3475
-    doc: contains formatted information of the input data and files for vst zscore heatmap
+    label: contains formatted information of the input data and files for vst zscore
+      heatmap
+    doc: contains formatted information of the input data and files for vst zscore
+      heatmap
     outputSource: data_integration/master_samplesheet_vst_zscore
   heatmap_TotalReads_html:
     type: File
@@ -109,9 +109,9 @@ outputs:
     doc: |
       html of morpheus heatmap with preconfigured settings, TotalReads, no data scaling
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   heatmap_vst_html:
     type: File
     outputSource: data_integration/heatmap_vst_html
@@ -119,9 +119,9 @@ outputs:
     doc: |
       html of morpheus heatmap with preconfigured settings, VST values, no data scaling
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   heatmap_vst_zscore_html:
     type: File
     outputSource: data_integration/heatmap_vst_zscore_html
@@ -129,9 +129,9 @@ outputs:
     doc: |
       html of morpheus heatmap with preconfigured settings, Z-scores of VST values, no data scaling
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   heatmap_Rpkm_html:
     type: File
     outputSource: data_integration/heatmap_Rpkm_html
@@ -139,9 +139,9 @@ outputs:
     doc: |
       html of morpheus heatmap with preconfigured settings, RPKM, no data scaling
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   heatmap_scaled100_html:
     type: File
     outputSource: data_integration/heatmap_scaled100_html
@@ -149,9 +149,9 @@ outputs:
     doc: |
       html of morpheus heatmap with preconfigured settings, RPKM, data scaled 0-99, no percentile cutoff
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   heatmap_scaled99_html:
     type: File
     outputSource: data_integration/heatmap_scaled99_html
@@ -159,9 +159,9 @@ outputs:
     doc: |
       html of morpheus heatmap with preconfigured settings, RPKM, data scaled 0-99, max value set to 99th percentile RPKM value
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   heatmap_scaled95_html:
     type: File
     outputSource: data_integration/heatmap_scaled95_html
@@ -169,9 +169,9 @@ outputs:
     doc: |
       html of morpheus heatmap with preconfigured settings, RPKM, data scaled  0-99, max value set to 95th percentile RPKM value
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   log_file_stdout:
     type: File
     outputSource: data_integration/log_file_stdout
@@ -191,18 +191,18 @@ steps:
       sample_names_rnaseq: sample_names_rnaseq
       expression_files: datafiles_rnaseq
     out:
-    - master_samplesheet_scaled
-    - master_samplesheet_vst
-    - master_samplesheet_vst_zscore
-    - heatmap_TotalReads_html
-    - heatmap_vst_html
-    - heatmap_vst_zscore_html
-    - heatmap_Rpkm_html
-    - heatmap_scaled100_html
-    - heatmap_scaled99_html
-    - heatmap_scaled95_html
-    - log_file_stdout
-    - log_file_stderr
+      - master_samplesheet_scaled
+      - master_samplesheet_vst
+      - master_samplesheet_vst_zscore
+      - heatmap_TotalReads_html
+      - heatmap_vst_html
+      - heatmap_vst_zscore_html
+      - heatmap_Rpkm_html
+      - heatmap_scaled100_html
+      - heatmap_scaled99_html
+      - heatmap_scaled95_html
+      - log_file_stdout
+      - log_file_stderr
 label: Genelists heatmap - RNA-seq expression data visualized
 doc: |-
   # Genelists heatmap - RNA-seq expression data visualized

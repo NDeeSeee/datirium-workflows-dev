@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/visualization:v0.0.8
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/visualization:v0.0.8
 inputs:
   diff_expr_file:
     type: File
@@ -46,7 +46,7 @@ outputs:
   log_file_stderr:
     type: stderr
 baseCommand:
-- volcano_plot.sh
+  - volcano_plot.sh
 stdout: volcano_plot-stdout.log
 stderr: volcano_plot-stderr.log
 label: Volcano Plot

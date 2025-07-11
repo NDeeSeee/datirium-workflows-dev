@@ -1,21 +1,21 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   sample_to_filter:
-  - chipseq-se.cwl
-  - chipseq-pe.cwl
-  - trim-chipseq-se.cwl
-  - trim-chipseq-pe.cwl
-  - trim-atacseq-se.cwl
-  - trim-atacseq-pe.cwl
-  - cutandrun-macs2-pe.cwl
-  - cutandrun-seacr-pe.cwl
-  - diffbind.cwl
+    - chipseq-se.cwl
+    - chipseq-pe.cwl
+    - trim-chipseq-se.cwl
+    - trim-chipseq-pe.cwl
+    - trim-atacseq-se.cwl
+    - trim-atacseq-pe.cwl
+    - cutandrun-macs2-pe.cwl
+    - cutandrun-seacr-pe.cwl
+    - diffbind.cwl
 inputs:
   alias:
     type: string
@@ -24,7 +24,6 @@ inputs:
       position: 1
   feature_file:
     type: File
-    format: http://edamontology.org/format_3475
     label: ChIP/ATAC experiment
     doc: Called peaks file in TSV format with the nearest genes assigned
     sd:upstreamSource: sample_to_filter/iaintersect_result
@@ -32,7 +31,6 @@ inputs:
   annotation_file:
     type: File
     label: Annotation file
-    format: http://edamontology.org/format_3475
     doc: Tab-separated annotation file
     sd:upstreamSource: sample_to_filter/annotation_file
   sql_query:
@@ -42,37 +40,37 @@ inputs:
     sd:filtering:
       params:
         columns:
-        - refseq_id
-        - gene_id
-        - txStart
-        - txEnd
-        - strand
-        - chrom
-        - start
-        - end
-        - length
-        - abssummit
-        - pileup
-        - log10p
-        - foldenrich
-        - log10q
-        - region
+          - refseq_id
+          - gene_id
+          - txStart
+          - txEnd
+          - strand
+          - chrom
+          - start
+          - end
+          - length
+          - abssummit
+          - pileup
+          - log10p
+          - foldenrich
+          - log10q
+          - region
         types:
-        - string
-        - string
-        - number
-        - number
-        - string
-        - string
-        - number
-        - number
-        - number
-        - number
-        - number
-        - number
-        - number
-        - number
-        - string
+          - string
+          - string
+          - number
+          - number
+          - string
+          - string
+          - number
+          - number
+          - number
+          - number
+          - number
+          - number
+          - number
+          - number
+          - string
   header:
     type: boolean?
     default: false
@@ -82,15 +80,15 @@ inputs:
       advanced: true
   columns:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     default:
-    - chrom
-    - start
-    - end
-    - gene_id AS name
-    - foldenrich AS score
-    - strand
+      - chrom
+      - start
+      - end
+      - gene_id AS name
+      - foldenrich AS score
+      - strand
     label: Columns to print
     doc: |
       List of columns to print (SELECT parameters for SQL query).
@@ -104,54 +102,54 @@ inputs:
     sd:layout:
       advanced: true
     label: 'Max distance from gene TSS for promoter region assignment:'
-    doc: Max distance from gene TSS (in both directions) for peak to be assigned to the promoter region.
+    doc: Max distance from gene TSS (in both directions) for peak to be assigned to
+      the promoter region.
   upstream_dist:
     type: int?
     default: 20000
     sd:layout:
       advanced: true
-    label: 'Max distance from the promoter (only in 5'' direction) for peak to be assigned to the upstream region:'
-    doc: Max distance from the promoter (only in 5' direction) for peak to be assigned to the upstream region.
+    label: 'Max distance from the promoter (only in 5'' direction) for peak to be
+      assigned to the upstream region:'
+    doc: Max distance from the promoter (only in 5' direction) for peak to be assigned
+      to the upstream region.
 outputs:
   filtered_file:
     type: File
-    format: http://edamontology.org/format_3003
     label: Filtered called peaks with the nearest genes assigned
-    doc: Regions of interest formatted as headerless BED file with [chrom start end name]
+    doc: Regions of interest formatted as headerless BED file with [chrom start end
+      name]
     outputSource: feature_select/filtered_file
   filtered_file_for_igv:
     type: File
-    format: http://edamontology.org/format_3003
     label: Set peaks from operator, in simple bed format.
     doc: Regions of interest formatted as headerless BED file with [chrom start end]
     outputSource: formatting_bed/filtered_file_for_igv
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: bed
-        name: Set operated Peaks
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: bed
+          name: Set operated Peaks
+          displayMode: COLLAPSE
+          height: 40
   iaintersect_result:
     type: File?
-    format: http://edamontology.org/format_3475
     label: gene annotated filtered peaks file
-    doc: nearest gene annotation per peak [refseq_id gene_id txStart txEnd strand chrom start end length abssummit pileup log1-p foldenrich log10q region]
+    doc: nearest gene annotation per peak [refseq_id gene_id txStart txEnd strand
+      chrom start end length abssummit pileup log1-p foldenrich log10q region]
     outputSource: island_intersect/result_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Annotated Peak Filtering Results
-        Title: Filtered peaks with nearest gene annotation
+      - syncfusiongrid:
+          tab: Annotated Peak Filtering Results
+          Title: Filtered peaks with nearest gene annotation
   stdout_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: Filtering stdout log
     doc: Filtering stdout log
     outputSource: feature_select/stdout_log
   stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: Filtering stderr log
     doc: Filtering stderr log
     outputSource: feature_select/stderr_log
@@ -166,16 +164,16 @@ steps:
         valueFrom: $("DISTINCT " + self.join(", "))
       header: header
     out:
-    - filtered_file
-    - stdout_log
-    - stderr_log
+      - filtered_file
+      - stdout_log
+      - stderr_log
   formatting_bed:
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       requirements:
-      - class: ScatterFeatureRequirement
-      - class: ShellCommandRequirement
+        - class: ScatterFeatureRequirement
+        - class: ShellCommandRequirement
       inputs:
         script:
           type: string?
@@ -200,13 +198,13 @@ steps:
           outputBinding:
             glob: output-for-iaintersect.tsv
       baseCommand:
-      - bash
-      - -c
+        - bash
+        - -c
     in:
       headerless_bed: feature_select/filtered_file
     out:
-    - filtered_file_for_igv
-    - filtered_file_for_iaintersect
+      - filtered_file_for_igv
+      - filtered_file_for_iaintersect
   island_intersect:
     label: Peak annotation
     doc: |
@@ -219,9 +217,10 @@ steps:
       promoter_bp: promoter_dist
       upstream_bp: upstream_dist
     out:
-    - result_file
-    - log_file
-label: Filter ChIP/ATAC/cut&run/diffbind peaks for Tag Density Profile or Motif Enrichment analyses
+      - result_file
+      - log_file
+label: Filter ChIP/ATAC/cut&run/diffbind peaks for Tag Density Profile or Motif Enrichment
+  analyses
 doc: |
   Filters ChIP/ATAC/cut&run/diffbind peaks with the neatest genes assigned for Tag Density Profile or Motif Enrichment analyses
   ============================================================================================================

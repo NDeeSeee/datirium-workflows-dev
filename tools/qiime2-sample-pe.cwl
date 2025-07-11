@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-qiime2:stable
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-qiime2:stable
 inputs:
   samplename:
     type: string
@@ -85,7 +85,7 @@ outputs:
   log_file_stderr:
     type: stderr
 baseCommand:
-- run_qiime2_sample_pe.sh
+  - run_qiime2_sample_pe.sh
 stdout: qiime2_sample_pe-stdout.log
 stderr: qiime2_sample_pe-stderr.log
 doc: |

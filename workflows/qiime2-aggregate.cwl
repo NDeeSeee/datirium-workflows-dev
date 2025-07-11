@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: SubworkflowFeatureRequirement
 sd:serviceTag: Analysis
 sd:upstream:
   qiime2_sample_pe: qiime2-sample-pe.cwl
@@ -49,9 +49,9 @@ inputs:
       position: 5
   sample_names:
     type:
-    - 'null'
-    - string[]
-    default: null
+      - 'null'
+      - string[]
+    default:
     label: '16S samples for combined analysis:'
     doc: |
       Upstream 16S samples for combined analysis. R1 and R2 fastq are used for generating the manifest file for data import to qiime2.
@@ -61,28 +61,26 @@ inputs:
     sd:localLabel: true
   fastq_r1_array:
     type:
-    - 'null'
-    - File[]
-    default: null
-    format: http://edamontology.org/format_1930
+      - 'null'
+      - File[]
+    default:
     label: Array of R1 fastq files from upstream samples
     doc: |
       Array of forward read data in FASTQ format from SciDAP upstream qiime2-sample-pe workflow.
     sd:upstreamSource: qiime2_sample_pe/fastq_file_R1
   fastq_r2_array:
     type:
-    - 'null'
-    - File[]
-    default: null
-    format: http://edamontology.org/format_1930
+      - 'null'
+      - File[]
+    default:
     label: Array of R1 fastq files from upstream samples
     doc: |
       Array of reverse read data in FASTQ format from SciDAP upstream qiime2-sample-pe workflow.
     sd:upstreamSource: qiime2_sample_pe/fastq_file_R2
   trimLeftF:
     type:
-    - 'null'
-    - int?
+      - 'null'
+      - int?
     default: 0
     label: 'Trim 5'' of R1:'
     doc: |
@@ -90,8 +88,8 @@ inputs:
     sd:upstreamSource: qiime2_sample_pe/trimLeftF
   trimLeftR:
     type:
-    - 'null'
-    - int?
+      - 'null'
+      - int?
     default: 0
     label: 'Trim 5'' of R2:'
     doc: |
@@ -99,18 +97,18 @@ inputs:
     sd:upstreamSource: qiime2_sample_pe/trimLeftR
   truncLenF:
     type:
-    - 'null'
-    - int[]
-    default: null
+      - 'null'
+      - int[]
+    default:
     label: 'Truncate 3'' of R1:'
     doc: |
       Should be the same value used for the samples being used as input. Clips the forward read starting M bases from the 5' end (before trimming). If base quality is OK for entire read, value should be set to the expected number of Illumina cycles for R1.
     sd:upstreamSource: qiime2_sample_pe/truncLenF
   truncLenR:
     type:
-    - 'null'
-    - int[]
-    default: null
+      - 'null'
+      - int[]
+    default:
     label: 'Truncate 3'' of R2:'
     doc: |
       Should be the same value used for the samples being used as input. Clips the reverse read starting N bases from the 5' end (before trimming).  If base quality is OK for entire read, value should be set to the expected number of Illumina cycles for R2.
@@ -125,103 +123,107 @@ inputs:
 outputs:
   overview:
     type: File
-    format: http://edamontology.org/format_3835
     label: summary of inputs
     doc: summary of inputs
     outputSource: qiime_pipeline/overview
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   fastq_summary_file:
     type: File
     label: Summary of input FASTQ reads
     doc: summary of input read data
     outputSource: qiime_pipeline/fastq_summary_file
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
   denoising_stats:
     type: File
     label: Summary of read data denoising
     doc: summary of read data denoising
     outputSource: qiime_pipeline/denoising_stats
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
   alpha_rarefaction:
     type: File
     label: Alpha rarefaction curve
     doc: plot of OTU rarefaction
     outputSource: qiime_pipeline/alpha_rarefaction
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
   taxa_bar_plots:
     type: File
     label: Taxonomic classifications bar plot
     doc: bar plot for exploring the taxonomic composition of the sample
     outputSource: qiime_pipeline/taxa_bar_plots
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
   pcoa_uwunifrac:
     type: File?
     label: PCoA using unweighted unifrac method
     doc: PCoA using unweighted unifrac method
     outputSource: qiime_pipeline/pcoa_uwunifrac
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
   pcoa_braycurtis:
     type: File?
     label: PCoA using bray curtis method
     doc: PCoA using bray curtis method
     outputSource: qiime_pipeline/pcoa_braycurtis
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
   heatmap:
     type: File?
     label: Gneiss differential abundance analysis
-    doc: Heatmap from gneiss differential abundance analysis using unsupervised correlation-clustering method. This will define the partitions of microbes that commonly co-occur with each other using Ward hierarchical clustering.
+    doc: Heatmap from gneiss differential abundance analysis using unsupervised correlation-clustering
+      method. This will define the partitions of microbes that commonly co-occur with
+      each other using Ward hierarchical clustering.
     outputSource: qiime_pipeline/heatmap
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
   ancom_family:
     type: File?
     label: ANCOM differential abundance analysis - Family level
-    doc: Output from ANCOM differential abundance analysis at family taxonomic level (includes volcano plot).
+    doc: Output from ANCOM differential abundance analysis at family taxonomic level
+      (includes volcano plot).
     outputSource: qiime_pipeline/ancom_family
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
   ancom_genus:
     type: File?
     label: ANCOM differential abundance analysis - Genus level
-    doc: Output from ANCOM differential abundance analysis at genus taxonomic level (includes volcano plot).
+    doc: Output from ANCOM differential abundance analysis at genus taxonomic level
+      (includes volcano plot).
     outputSource: qiime_pipeline/ancom_genus
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
   ancom_species:
     type: File?
     label: ANCOM differential abundance analysis - Species level
-    doc: Output from ANCOM differential abundance analysis at species taxonomic level (includes volcano plot).
+    doc: Output from ANCOM differential abundance analysis at species taxonomic level
+      (includes volcano plot).
     outputSource: qiime_pipeline/ancom_species
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
 steps:
   qiime_pipeline:
     label: Run pipeline for processing a single 16S metagenomic sample using qiime2
@@ -241,19 +243,19 @@ steps:
       truncLenR: truncLenR
       threads: threads
     out:
-    - overview
-    - fastq_summary_file
-    - denoising_stats
-    - alpha_rarefaction
-    - taxa_bar_plots
-    - pcoa_uwunifrac
-    - pcoa_braycurtis
-    - heatmap
-    - ancom_family
-    - ancom_genus
-    - ancom_species
-    - log_file_stdout
-    - log_file_stderr
+      - overview
+      - fastq_summary_file
+      - denoising_stats
+      - alpha_rarefaction
+      - taxa_bar_plots
+      - pcoa_uwunifrac
+      - pcoa_braycurtis
+      - heatmap
+      - ancom_family
+      - ancom_genus
+      - ancom_species
+      - log_file_stdout
+      - log_file_stderr
 label: 16S metagenomic paired-end QIIME2 Analysis (differential abundance)
 doc: |
   A workflow for processing a multiple 16S samples from within the SciDAP platform, via a QIIME2 pipeline.

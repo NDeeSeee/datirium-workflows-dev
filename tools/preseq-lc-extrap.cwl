@@ -1,12 +1,15 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_output_filename = function(input_file) { if (inputs.estimates_filename == "") { var ext = "_preseq_estimates.tsv"; var root = input_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.input_file.basename+ext:root+ext; } else { return inputs.estimates_filename; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_output_filename = function(input_file) { if (inputs.estimates_filename
+        == "") { var ext = "_preseq_estimates.tsv"; var root = input_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.input_file.basename+ext:root+ext; } else { return
+        inputs.estimates_filename; } };
 hints:
-- class: DockerRequirement
-  dockerPull: stevetsa/preseq:2.0
+  - class: DockerRequirement
+    dockerPull: stevetsa/preseq:2.0
 inputs:
   confidence_level:
     type: float?
@@ -99,14 +102,14 @@ outputs:
     doc: |
       log for stderr
 baseCommand:
-- preseq
-- lc_extrap
-- -v
-- -bam
+  - preseq
+  - lc_extrap
+  - -v
+  - -bam
 stdout: preseq.log.stdout
 stderr: preseq.log.stderr
 successCodes:
-- 1
+  - 1
 doc: |
   Tool runs preseq lc_extrap. Only BAM input file is supported (-B option is used by default)
   successCodes: [1] - is used to pass this tool as a step in a workflow in case the BAM file was not correct for Preseq

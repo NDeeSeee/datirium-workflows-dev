@@ -1,27 +1,30 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var split_features = function(line) { function get_unique(value, index, self) { return self.indexOf(value) === index && value != ""; } let splitted_line = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var split_features = function(line) { function get_unique(value, index, self)
+        { return self.indexOf(value) === index && value != ""; } let splitted_line
+        = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line
+        && !!splitted_line.length)?splitted_line:null; };
 sd:upstream:
   sc_tools_sample:
-  - sc-multiome-filter.cwl
-  - sc-atac-reduce.cwl
-  - sc-atac-cluster.cwl
-  - sc-wnn-cluster.cwl
-  - sc-ctype-assign.cwl
-  - sc-rna-azimuth.cwl
+    - sc-multiome-filter.cwl
+    - sc-atac-reduce.cwl
+    - sc-atac-cluster.cwl
+    - sc-wnn-cluster.cwl
+    - sc-ctype-assign.cwl
+    - sc-rna-azimuth.cwl
   sc_atac_sample:
-  - cellranger-arc-count.cwl
-  - cellranger-arc-aggr.cwl
-  - cellranger-atac-count.cwl
-  - cellranger-atac-aggr.cwl
+    - cellranger-arc-count.cwl
+    - cellranger-arc-aggr.cwl
+    - cellranger-atac-count.cwl
+    - cellranger-atac-aggr.cwl
   genome_indices:
-  - genome-indices.cwl
+    - genome-indices.cwl
 inputs:
   alias:
     type: string
@@ -40,7 +43,7 @@ inputs:
   atac_fragments_file:
     type: File
     secondaryFiles:
-    - .tbi
+      - .tbi
     label: Cell Ranger ATAC or RNA+ATAC Sample
     doc: |
       Any "Cell Ranger ATAC or RNA+ATAC Sample"
@@ -80,7 +83,8 @@ inputs:
       filtering will be applied. Default: no extra metadata is added
   barcodes_data:
     type: File?
-    label: Optional TSV/CSV file to prefilter and extend metadata by barcodes. First column should be named as 'barcode'
+    label: Optional TSV/CSV file to prefilter and extend metadata by barcodes. First
+      column should be named as 'barcode'
     doc: |
       Path to the TSV/CSV file to optionally prefilter and extend Seurat object
       metadata be selected barcodes. First column should be named as 'barcode'.
@@ -90,7 +94,8 @@ inputs:
   flank_distance:
     type: int?
     default: 5
-    label: Distance in bp to flank both start and end of the each fragment in both direction
+    label: Distance in bp to flank both start and end of the each fragment in both
+      direction
     doc: |
       Distance in bp to flank both start and end of the each fragment in both
       direction to generate cut sites coverage. Default: 5
@@ -107,15 +112,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Number of cores/cpus to use
     doc: |
@@ -134,47 +139,47 @@ outputs:
       Locations of open-chromatin regions ("peaks")
       in bigBed format
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        format: bigbed
-        name: Peaks
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          format: bigbed
+          name: Peaks
+          height: 40
   cut_sites_bigwig_file:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_coverage/cut_sites_bigwig_file
     label: Genome coverage for Tn5 cut sites
     doc: |
       Genome coverage calculated for Tn5 cut sites
       in bigWig format
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: wig
-        name: Cut sites coverage
-        height: 120
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: wig
+          name: Cut sites coverage
+          height: 120
   fragments_bigwig_file:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_coverage/fragments_bigwig_file
     label: Genome coverage for ATAC fragments
     doc: |
       Genome coverage calculated for ATAC fragments
       in bigWig format
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: wig
-        name: ATAC fragments coverage
-        height: 120
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: wig
+          name: ATAC fragments coverage
+          height: 120
   sc_report_html_file:
     type: File?
     outputSource: sc_atac_coverage/sc_report_html_file
@@ -183,9 +188,9 @@ outputs:
       Tehcnical report.
       HTML format.
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   experiment_info:
     type: File
     label: IGV tracks order
@@ -193,8 +198,8 @@ outputs:
       Markdown file to explain the tracks order for IGV
     outputSource: create_metadata/output_file
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   sc_atac_coverage_stdout_log:
     type: File
     outputSource: sc_atac_coverage/stdout_log
@@ -230,12 +235,12 @@ steps:
         source: threads
         valueFrom: $(parseInt(self))
     out:
-    - peaks_bigbed_file
-    - cut_sites_bigwig_file
-    - fragments_bigwig_file
-    - sc_report_html_file
-    - stdout_log
-    - stderr_log
+      - peaks_bigbed_file
+      - cut_sites_bigwig_file
+      - fragments_bigwig_file
+      - sc_report_html_file
+      - stdout_log
+      - stderr_log
   create_metadata:
     run: ../tools/custom-bash.cwl
     in:
@@ -252,7 +257,7 @@ steps:
             (( j++ ))
           done;
     out:
-    - output_file
+      - output_file
 label: Single-Cell ATAC-Seq Genome Coverage
 doc: |-
   Single-Cell ATAC-Seq Genome Coverage

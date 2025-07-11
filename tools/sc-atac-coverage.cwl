@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   query_data_rds:
     type: File
@@ -20,7 +20,7 @@ inputs:
   atac_fragments_file:
     type: File
     secondaryFiles:
-    - .tbi
+      - .tbi
     inputBinding:
       prefix: --fragments
     doc: |
@@ -29,9 +29,9 @@ inputs:
       tbi-indexed.
   splitby:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: --splitby
     doc: |
@@ -126,9 +126,9 @@ outputs:
       in bigBed format.
   cut_sites_bigwig_file:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_cut_cov.bigWig'
     doc: |
@@ -136,9 +136,9 @@ outputs:
       in bigWig format.
   fragments_bigwig_file:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_frg_cov.bigWig'
     doc: |
@@ -156,9 +156,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_atac_coverage.R"]:"/usr/local/bin/sc_atac_coverage.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_atac_coverage.R"]:"/usr/local/bin/sc_atac_coverage.R")
 stdout: sc_atac_coverage_stdout.log
 stderr: sc_atac_coverage_stderr.log
 label: Single-Cell ATAC-Seq Genome Coverage

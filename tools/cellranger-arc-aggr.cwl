@@ -1,37 +1,41 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_label = function(i) { var rootname = inputs.rna_molecule_info_h5[i].basename.split('.').slice(0,-1).join('.'); rootname = (rootname=="")?inputs.rna_molecule_info_h5[i].basename:rootname; return inputs.gem_well_labels?inputs.gem_well_labels[i].replace(/\t|\s|\[|\]|\>|\<|,|\./g, "_"):rootname; };
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      var entry = "library_id,atac_fragments,per_barcode_metrics,gex_molecule_info\n"
-      var grouping = "library_id\tcondition\n"
-      for (var i=0; i < inputs.rna_molecule_info_h5.length; i++){
-        entry += get_label(i) + "," + inputs.atac_fragments_file_from_count[i].path + "," + inputs.barcode_metrics_report[i].path + "," + inputs.rna_molecule_info_h5[i].path + "\n"
-        grouping += get_label(i) + "\t" + get_label(i) + "\n"
-      }
-      return [
-        {
-          "entry": entry,
-          "entryname": "metadata.csv"
-        },
-        {
-          "entry": grouping,
-          "entryname": "grouping.tsv"
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_label = function(i) { var rootname = inputs.rna_molecule_info_h5[i].basename.split('.').slice(0,-1).join('.');
+        rootname = (rootname=="")?inputs.rna_molecule_info_h5[i].basename:rootname;
+        return 
+        inputs.gem_well_labels?inputs.gem_well_labels[i].replace(/\t|\s|\[|\]|\>|\<|,|\./g,
+        "_"):rootname; };
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        var entry = "library_id,atac_fragments,per_barcode_metrics,gex_molecule_info\n"
+        var grouping = "library_id\tcondition\n"
+        for (var i=0; i < inputs.rna_molecule_info_h5.length; i++){
+          entry += get_label(i) + "," + inputs.atac_fragments_file_from_count[i].path + "," + inputs.barcode_metrics_report[i].path + "," + inputs.rna_molecule_info_h5[i].path + "\n"
+          grouping += get_label(i) + "\t" + get_label(i) + "\n"
         }
-      ];
-    }
+        return [
+          {
+            "entry": entry,
+            "entryname": "metadata.csv"
+          },
+          {
+            "entry": grouping,
+            "entryname": "grouping.tsv"
+          }
+        ];
+      }
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/cellranger-arc:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/cellranger-arc:v0.0.1
 inputs:
   atac_fragments_file_from_count:
     type: File[]
     secondaryFiles:
-    - .tbi
+      - .tbi
     doc: |
       Array of files containing count and
       barcode information for every ATAC
@@ -54,8 +58,8 @@ inputs:
       "cellranger-arc count" command.
   gem_well_labels:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     doc: |
       Array of GEM well identifiers to be
       used for labeling purposes only. If
@@ -73,12 +77,12 @@ inputs:
       "cellranger-arc mkref" command.
   normalization_mode:
     type:
-    - 'null'
-    - type: enum
-      name: normalization
-      symbols:
-      - none
-      - depth
+      - 'null'
+      - type: enum
+        name: normalization
+        symbols:
+          - none
+          - depth
     inputBinding:
       position: 6
       prefix: --normalize
@@ -133,7 +137,7 @@ outputs:
     outputBinding:
       glob: aggregated/outs/atac_fragments.tsv.gz
     secondaryFiles:
-    - .tbi
+      - .tbi
     doc: |
       Count and barcode information for
       every ATAC fragment observed in the
@@ -225,13 +229,13 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- cellranger-arc
-- aggr
-- --disable-ui
-- --id
-- aggregated
-- --csv
-- metadata.csv
+  - cellranger-arc
+  - aggr
+  - --disable-ui
+  - --id
+  - aggregated
+  - --csv
+  - metadata.csv
 stdout: cellranger_arc_aggr_stdout.log
 stderr: cellranger_arc_aggr_stderr.log
 label: Cell Ranger Aggregate (RNA+ATAC)

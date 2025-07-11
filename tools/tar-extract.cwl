@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: ubuntu:20.04
+  - class: DockerRequirement
+    dockerPull: ubuntu:20.04
 inputs:
   file_to_extract:
     type: File
@@ -18,8 +18,8 @@ outputs:
       glob: '*'
     doc: Extracted folder
 baseCommand:
-- tar
-- xzf
+  - tar
+  - xzf
 label: TAR extract
 doc: |-
   TAR extract

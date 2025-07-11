@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: quay.io/biocontainers/umi_tools:0.5.5--py36h470a237_0
+  - class: DockerRequirement
+    dockerPull: quay.io/biocontainers/umi_tools:0.5.5--py36h470a237_0
 inputs:
   fastq_file_1:
     type: File
@@ -21,8 +21,8 @@ inputs:
     type:
       type: enum
       symbols:
-      - string
-      - regex
+        - string
+        - regex
     inputBinding:
       prefix: --extract-method=
       separate: false
@@ -65,8 +65,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- umi_tools
-- extract
+  - umi_tools
+  - extract
 stdout: umi_tools_extract_stdout.log
 stderr: umi_tools_extract_stderr.log
 doc: |

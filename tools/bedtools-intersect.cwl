@@ -1,12 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { if (inputs.output_filename == ""){ return inputs.file_a.basename; } else { return inputs.output_filename; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { if (inputs.output_filename == ""){
+        return inputs.file_a.basename; } else { return inputs.output_filename; } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bedtools2:v2.26.0
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bedtools2:v2.26.0
 inputs:
   file_a:
     type: File
@@ -25,7 +26,8 @@ inputs:
     inputBinding:
       position: 7
       prefix: -c
-    doc: For each entry in A, report the number of hits in B. Reports 0 for A entries that have no overlap with B
+    doc: For each entry in A, report the number of hits in B. Reports 0 for A entries
+      that have no overlap with B
   no_overlaps:
     type: boolean?
     inputBinding:
@@ -49,8 +51,8 @@ outputs:
       glob: $(default_output_filename())
     doc: Intersected BED file
 baseCommand:
-- bedtools
-- intersect
+  - bedtools
+  - intersect
 stdout: $(default_output_filename())
 doc: |
   Intersect features from A and B file. Only selected parameters are implemented.

@@ -1,26 +1,27 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      var listing = []
-      if (inputs.fastq_file_upstream){
-        listing.push(inputs.fastq_file_upstream);
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        var listing = []
+        if (inputs.fastq_file_upstream){
+          listing.push(inputs.fastq_file_upstream);
+        }
+        if (inputs.fastq_file_downstream){
+          listing.push(inputs.fastq_file_downstream);
+        }
+        return listing;
       }
-      if (inputs.fastq_file_downstream){
-        listing.push(inputs.fastq_file_downstream);
-      }
-      return listing;
-    }
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function(input_file, ext) { var root = input_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.input_file.basename+ext:root+ext; };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function(input_file, ext) { var root = input_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.input_file.basename+ext:root+ext; };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/trimmomatic:v0.35
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/trimmomatic:v0.35
 inputs:
   bash_script:
     type: string?
@@ -61,11 +62,11 @@ inputs:
       prefix: -jar
   lib_type:
     type:
-    - type: enum
-      name: format
-      symbols:
-      - SE
-      - PE
+      - type: enum
+        name: format
+        symbols:
+          - SE
+          - PE
     inputBinding:
       position: 8
     doc: |
@@ -73,12 +74,12 @@ inputs:
       Single End (SE) or Paired End (PE) mode
   phred:
     type:
-    - 'null'
-    - type: enum
-      name: phred
-      symbols:
-      - '33'
-      - '64'
+      - 'null'
+      - type: enum
+        name: phred
+        symbols:
+          - '33'
+          - '64'
     inputBinding:
       prefix: -phred
       separate: false
@@ -282,19 +283,22 @@ outputs:
     doc: |
       Trimmomatic Log file.
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 arguments:
-- valueFrom: $(default_output_filename(inputs.fastq_file_upstream, '.trimmed.fastq'))
-  position: 15
-- valueFrom: $(inputs.lib_type=="PE"?default_output_filename(inputs.fastq_file_upstream, '.trimmed.unpaired.fastq'):null)
-  position: 16
-- valueFrom: $(inputs.lib_type=="PE"?default_output_filename(inputs.fastq_file_downstream, '.trimmed.fastq'):null)
-  position: 17
-- valueFrom: $(inputs.lib_type=="PE"?default_output_filename(inputs.fastq_file_downstream, '.trimmed.unpaired.fastq'):null)
-  position: 18
-- valueFrom: $("ILLUMINACLIP:" + inputs.adapters_file.path + ":"+ inputs.illuminaclip_step_param)
-  position: 100
+  - valueFrom: $(default_output_filename(inputs.fastq_file_upstream, '.trimmed.fastq'))
+    position: 15
+  - valueFrom: $(inputs.lib_type=="PE"?default_output_filename(inputs.fastq_file_upstream,
+      '.trimmed.unpaired.fastq'):null)
+    position: 16
+  - valueFrom: $(inputs.lib_type=="PE"?default_output_filename(inputs.fastq_file_downstream,
+      '.trimmed.fastq'):null)
+    position: 17
+  - valueFrom: $(inputs.lib_type=="PE"?default_output_filename(inputs.fastq_file_downstream,
+      '.trimmed.unpaired.fastq'):null)
+    position: 18
+  - valueFrom: $("ILLUMINACLIP:" + inputs.adapters_file.path + ":"+ inputs.illuminaclip_step_param)
+    position: 100
 doc: |
   Tool runs trimmomatic with ILLUMINACLIP step by default.
 

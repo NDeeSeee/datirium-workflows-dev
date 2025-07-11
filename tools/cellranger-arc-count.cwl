@@ -1,75 +1,75 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      var listing = [
-        {
-          "entry": inputs.rna_fastq_file_r1,
-          "entryname": "rna_S1_L001_R1_001.fastq",
-          "writable": true
-        },
-        {
-          "entry": inputs.rna_fastq_file_r2,
-          "entryname": "rna_S1_L001_R2_001.fastq",
-          "writable": true
-        },
-        {
-          "entry": inputs.atac_fastq_file_r1,
-          "entryname": "atac_S1_L001_R1_001.fastq",
-          "writable": true
-        },
-        {
-          "entry": inputs.atac_fastq_file_r2,
-          "entryname": "atac_S1_L001_R2_001.fastq",
-          "writable": true
-        },
-        {
-          "entry": inputs.atac_fastq_file_r3,
-          "entryname": "atac_S1_L001_R3_001.fastq",
-          "writable": true
-        },
-        {
-          "entry":`fastqs,sample,library_type
-          ${runtime.outdir},rna,Gene Expression
-          ${runtime.outdir},atac,Chromatin Accessibility`,
-          "entryname": "libraries.csv"
-        }
-      ]
-      if (inputs.rna_fastq_file_i1){
-        listing.push(
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        var listing = [
           {
-            "entry": inputs.rna_fastq_file_i1,
-            "entryname": "rna_S1_L001_I1_001.fastq",
+            "entry": inputs.rna_fastq_file_r1,
+            "entryname": "rna_S1_L001_R1_001.fastq",
             "writable": true
-          }
-        );
-      };
-      if (inputs.rna_fastq_file_i2){
-        listing.push(
+          },
           {
-            "entry": inputs.rna_fastq_file_i2,
-            "entryname": "rna_S1_L001_I2_001.fastq",
+            "entry": inputs.rna_fastq_file_r2,
+            "entryname": "rna_S1_L001_R2_001.fastq",
             "writable": true
-          }
-        );
-      };
-      if (inputs.atac_fastq_file_i1){
-        listing.push(
+          },
           {
-            "entry": inputs.atac_fastq_file_i1,
-            "entryname": "atac_S1_L001_I1_001.fastq",
+            "entry": inputs.atac_fastq_file_r1,
+            "entryname": "atac_S1_L001_R1_001.fastq",
             "writable": true
+          },
+          {
+            "entry": inputs.atac_fastq_file_r2,
+            "entryname": "atac_S1_L001_R2_001.fastq",
+            "writable": true
+          },
+          {
+            "entry": inputs.atac_fastq_file_r3,
+            "entryname": "atac_S1_L001_R3_001.fastq",
+            "writable": true
+          },
+          {
+            "entry":`fastqs,sample,library_type
+            ${runtime.outdir},rna,Gene Expression
+            ${runtime.outdir},atac,Chromatin Accessibility`,
+            "entryname": "libraries.csv"
           }
-        );
-      };
-      return listing;
-    }
+        ]
+        if (inputs.rna_fastq_file_i1){
+          listing.push(
+            {
+              "entry": inputs.rna_fastq_file_i1,
+              "entryname": "rna_S1_L001_I1_001.fastq",
+              "writable": true
+            }
+          );
+        };
+        if (inputs.rna_fastq_file_i2){
+          listing.push(
+            {
+              "entry": inputs.rna_fastq_file_i2,
+              "entryname": "rna_S1_L001_I2_001.fastq",
+              "writable": true
+            }
+          );
+        };
+        if (inputs.atac_fastq_file_i1){
+          listing.push(
+            {
+              "entry": inputs.atac_fastq_file_i1,
+              "entryname": "atac_S1_L001_I1_001.fastq",
+              "writable": true
+            }
+          );
+        };
+        return listing;
+      }
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/cellranger-arc:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/cellranger-arc:v0.0.1
 inputs:
   rna_fastq_file_r1:
     type: File
@@ -173,7 +173,10 @@ inputs:
     inputBinding:
       position: 9
       prefix: --peaks
-    doc: "Peak caller override: specify peaks to use in downstream \nanalyses from supplied 3-column BED file. The supplied \npeaks file must be sorted by position and not contain \noverlapping peaks; comment lines beginning with `#` are \nallowed.\n"
+    doc: "Peak caller override: specify peaks to use in downstream \nanalyses from
+      supplied 3-column BED file. The supplied \npeaks file must be sorted by position
+      and not contain \noverlapping peaks; comment lines beginning with `#` are \n\
+      allowed.\n"
   threads:
     type: int?
     inputBinding:
@@ -234,7 +237,7 @@ outputs:
     outputBinding:
       glob: sample/outs/gex_possorted_bam.bam
     secondaryFiles:
-    - .bai
+      - .bai
     doc: |
       RNA position-sorted reads aligned to
       the genome and transcriptome annotated
@@ -244,7 +247,7 @@ outputs:
     outputBinding:
       glob: sample/outs/atac_possorted_bam.bam
     secondaryFiles:
-    - .bai
+      - .bai
     doc: |
       ATAC position-sorted reads aligned to
       the genome annotated with barcode
@@ -253,27 +256,42 @@ outputs:
     type: Directory
     outputBinding:
       glob: sample/outs/filtered_feature_bc_matrix
-    doc: "Filtered feature barcode matrix stored as a CSC sparse \nmatrix in MEX format. The rows consist of all gene and \npeak features concatenated together (identical to raw \nfeature barcode matrix), and the columns are restricted \nto barcodes identified as cells.\n"
+    doc: "Filtered feature barcode matrix stored as a CSC sparse \nmatrix in MEX format.
+      The rows consist of all gene and \npeak features concatenated together (identical
+      to raw \nfeature barcode matrix), and the columns are restricted \nto barcodes
+      identified as cells.\n"
   filtered_feature_bc_matrix_h5:
     type: File
     outputBinding:
       glob: sample/outs/filtered_feature_bc_matrix.h5
-    doc: "Filtered feature barcode matrix stored as a CSC sparse \nmatrix in hdf5 format. The rows consist of all gene and \npeak features concatenated together (identical to raw \nfeature barcode matrix), and the columns are restricted \nto barcodes identified as cells.\n"
+    doc: "Filtered feature barcode matrix stored as a CSC sparse \nmatrix in hdf5
+      format. The rows consist of all gene and \npeak features concatenated together
+      (identical to raw \nfeature barcode matrix), and the columns are restricted
+      \nto barcodes identified as cells.\n"
   raw_feature_bc_matrices_folder:
     type: Directory
     outputBinding:
       glob: sample/outs/raw_feature_bc_matrix
-    doc: "Raw feature barcode matrix stored as a CSC sparse matrix \nin MEX format. The rows consist of all gene and peak \nfeatures concatenated together, and the columns consist \nof all observed barcodes with non-zero signal for either \nATAC or gene expression.\n"
+    doc: "Raw feature barcode matrix stored as a CSC sparse matrix \nin MEX format.
+      The rows consist of all gene and peak \nfeatures concatenated together, and
+      the columns consist \nof all observed barcodes with non-zero signal for either
+      \nATAC or gene expression.\n"
   raw_feature_bc_matrices_h5:
     type: File
     outputBinding:
       glob: sample/outs/raw_feature_bc_matrix.h5
-    doc: "Raw feature barcode matrix stored as a CSC sparse matrix \nin hdf5 format. The rows consist of all gene and peak \nfeatures concatenated together, and the columns consist \nof all observed barcodes with non-zero signal for either \nATAC or gene expression.\n"
+    doc: "Raw feature barcode matrix stored as a CSC sparse matrix \nin hdf5 format.
+      The rows consist of all gene and peak \nfeatures concatenated together, and
+      the columns consist \nof all observed barcodes with non-zero signal for either
+      \nATAC or gene expression.\n"
   secondary_analysis_report_folder:
     type: Directory
     outputBinding:
       glob: sample/outs/analysis
-    doc: "Various secondary analyses that utilize the ATAC data, \nthe RNA data, and their linkage: dimensionality reduction \nand clustering results for the ATAC and RNA data, \ndifferential expression, and differential accessibility \nfor all clustering results, and linkage between ATAC and \nRNA data.\n"
+    doc: "Various secondary analyses that utilize the ATAC data, \nthe RNA data, and
+      their linkage: dimensionality reduction \nand clustering results for the ATAC
+      and RNA data, \ndifferential expression, and differential accessibility \nfor
+      all clustering results, and linkage between ATAC and \nRNA data.\n"
   rna_molecule_info_h5:
     type: File
     outputBinding:
@@ -294,7 +312,7 @@ outputs:
     outputBinding:
       glob: sample/outs/atac_fragments.tsv.gz
     secondaryFiles:
-    - .tbi
+      - .tbi
     doc: |
       Count and barcode information for
       every ATAC fragment observed in
@@ -330,13 +348,13 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- cellranger-arc
-- count
-- --disable-ui
-- --libraries
-- libraries.csv
-- --id
-- sample
+  - cellranger-arc
+  - count
+  - --disable-ui
+  - --libraries
+  - libraries.csv
+  - --id
+  - sample
 stdout: cellranger_arc_count_stdout.log
 stderr: cellranger_arc_count_stderr.log
 label: Cell Ranger Count (RNA+ATAC)

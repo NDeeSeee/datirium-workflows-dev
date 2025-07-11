@@ -1,23 +1,23 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    http_proxy: $(inputs.http_proxy?inputs.http_proxy:"")
-    https_proxy: $(inputs.https_proxy?inputs.https_proxy:"")
-- class: ResourceRequirement
-  ramMin: 7024
-  coresMin: 1
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      http_proxy: $(inputs.http_proxy?inputs.http_proxy:"")
+      https_proxy: $(inputs.https_proxy?inputs.https_proxy:"")
+  - class: ResourceRequirement
+    ramMin: 7024
+    coresMin: 1
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/fastqdwnld:v0.0.5
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/fastqdwnld:v0.0.5
 inputs:
   srr_id:
     type:
-    - string
-    - type: array
-      items: string
+      - string
+      - type: array
+        items: string
     inputBinding:
       position: 60
     doc: |
@@ -27,13 +27,20 @@ inputs:
     inputBinding:
       position: 10
       prefix: --split-files
-    doc: "Write reads into separate files. Read \nnumber will be suffixed to the file name.  \nNOTE! The `--split-3` option is recommended. \nIn cases where not all spots have the same \nnumber of reads, this option will produce \nfiles that WILL CAUSE ERRORS in most programs \nwhich process split pair fastq files. \n"
+    doc: "Write reads into separate files. Read \nnumber will be suffixed to the file
+      name.  \nNOTE! The `--split-3` option is recommended. \nIn cases where not all
+      spots have the same \nnumber of reads, this option will produce \nfiles that
+      WILL CAUSE ERRORS in most programs \nwhich process split pair fastq files. \n"
   split_3:
     type: boolean?
     inputBinding:
       position: 11
       prefix: --split-3
-    doc: "3-way splitting for mate-pairs. For each \nspot, if there are two biological reads \nsatisfying filter conditions, the first is \nplaced in the `*_1.fastq` file, and the \nsecond is placed in the `*_2.fastq` file. If \nthere is only one biological read \nsatisfying the filter conditions, it is \nplaced in the `*.fastq` file.All other \nreads in the spot are ignored.\n"
+    doc: "3-way splitting for mate-pairs. For each \nspot, if there are two biological
+      reads \nsatisfying filter conditions, the first is \nplaced in the `*_1.fastq`
+      file, and the \nsecond is placed in the `*_2.fastq` file. If \nthere is only
+      one biological read \nsatisfying the filter conditions, it is \nplaced in the
+      `*.fastq` file.All other \nreads in the spot are ignored.\n"
   http_proxy:
     type: string?
     doc: |
@@ -45,16 +52,16 @@ inputs:
 outputs:
   fastq_files:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*.gz'
   metadata_xml:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*.xml'
   report_md:
@@ -67,9 +74,9 @@ outputs:
       glob: collected_metadata.tsv
   run_acc:
     type:
-    - 'null'
-    - type: array
-      items: string
+      - 'null'
+      - type: array
+        items: string
     outputBinding:
       loadContents: true
       glob: collected_metadata.tsv
@@ -81,9 +88,9 @@ outputs:
         }
   experiment_acc:
     type:
-    - 'null'
-    - type: array
-      items: string
+      - 'null'
+      - type: array
+        items: string
     outputBinding:
       loadContents: true
       glob: collected_metadata.tsv
@@ -95,9 +102,9 @@ outputs:
         }
   study_acc:
     type:
-    - 'null'
-    - type: array
-      items: string
+      - 'null'
+      - type: array
+        items: string
     outputBinding:
       loadContents: true
       glob: collected_metadata.tsv
@@ -109,9 +116,9 @@ outputs:
         }
   biosample:
     type:
-    - 'null'
-    - type: array
-      items: string
+      - 'null'
+      - type: array
+        items: string
     outputBinding:
       loadContents: true
       glob: collected_metadata.tsv
@@ -123,9 +130,9 @@ outputs:
         }
   bioproject:
     type:
-    - 'null'
-    - type: array
-      items: string
+      - 'null'
+      - type: array
+        items: string
     outputBinding:
       loadContents: true
       glob: collected_metadata.tsv
@@ -140,7 +147,7 @@ outputs:
   log_stderr:
     type: stderr
 baseCommand:
-- sra_download.sh
+  - sra_download.sh
 stdout: sra_download_stdout.log
 stderr: sra_download_stderr.log
 label: FASTQ Download

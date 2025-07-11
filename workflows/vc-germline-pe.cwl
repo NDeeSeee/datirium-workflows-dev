@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: SubworkflowFeatureRequirement
 sd:upstream:
   alignment_index: bwa-index.cwl
   genome_indices: genome-indices.cwl
@@ -48,15 +48,15 @@ inputs:
       position: 6
   snpeffdb:
     type:
-    - 'null'
-    - type: enum
-      name: SNPEFF database
-      symbols:
-      - hg38
-      - mm10
-      - Drosophila_melanogaster
-      - Rnor_6.0.86
-      - R64-1-1.86
+      - 'null'
+      - type: enum
+        name: SNPEFF database
+        symbols:
+          - hg38
+          - mm10
+          - Drosophila_melanogaster
+          - Rnor_6.0.86
+          - R64-1-1.86
     label: 'SNPEFF database:'
     sd:localLabel: true
     doc: |
@@ -66,24 +66,22 @@ inputs:
       position: 7
   fastq_file_R1:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: 'Read 1 file:'
     sd:localLabel: true
-    format: http://edamontology.org/format_1930
     doc: |
       Read 1 FASTQ file from a paired-end sequencing run.
     sd:preview:
       position: 11
   fastq_file_R2:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: 'Read 2 file:'
     sd:localLabel: true
-    format: http://edamontology.org/format_1930
     doc: |
       Read 2 FASTQ file that pairs with the input R1 file.
     sd:preview:
@@ -231,85 +229,83 @@ outputs:
   fastx_statistics_R1:
     type: File
     label: FASTQ R1 statistics
-    format: http://edamontology.org/format_2330
     doc: fastx_quality_stats generated quality statistics file for R1
     outputSource: fastx_quality_stats_R1/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: FASTQ R1 Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: FASTQ R1 Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: FASTQ R1 Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: FASTQ R1 Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   fastx_statistics_R2:
     type: File
     label: FASTQ R2 statistics
-    format: http://edamontology.org/format_2330
     doc: fastx_quality_stats generated quality statistics file for R2
     outputSource: fastx_quality_stats_R2/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: FASTQ R2 Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: FASTQ R2 Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: FASTQ R2 Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: FASTQ R2 Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   trim_report_R1:
     type: File
     label: TrimGalore report for R1
@@ -326,13 +322,14 @@ outputs:
     doc: snpEff summary PDF
     outputSource: call_germline_variants/snpEff_summary
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   snpEff_genes:
     type: File?
     label: snpEff genes table
-    doc: text file containing gene details from snpeff, required for link in html summary
+    doc: text file containing gene details from snpeff, required for link in html
+      summary
     outputSource: call_germline_variants/snpEff_genes
   insert_size_histogram:
     type: File
@@ -340,118 +337,107 @@ outputs:
     doc: insert size histogram PDF
     outputSource: call_germline_variants/insert_size_histogram
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   recalibration_plots:
     type: File
     label: recalibration plots PDF
     doc: recalibration plots PDF
     outputSource: call_germline_variants/recalibration_plots
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   chrom_length_tsv:
     type: File
-    format: http://edamontology.org/format_3475
     label: tsv containing chromosome headers and length
     doc: 'Tab delimited chromosome length file: <chromName><TAB><chromSize>'
     outputSource: call_germline_variants/chrom_length_tsv
   bqsr2_indels_vcf:
     type: File
-    format: http://edamontology.org/format_3016
     label: indels called after filtering and recalibration
     doc: indels called after filtering and recalibration
     outputSource: call_germline_variants/bqsr2_indels_vcf
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: variant
-        name: Final Indel calls
-        height: 40
-        displayMode: COLLAPSED
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: variant
+          name: Final Indel calls
+          height: 40
+          displayMode: COLLAPSED
   bqsr2_snps_vcf:
     type: File
-    format: http://edamontology.org/format_3016
     label: snps called after filtering and recalibration
     doc: snps called after filtering and recalibration
     outputSource: call_germline_variants/bqsr2_snps_vcf
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: variant
-        name: Final SNP calls
-        height: 40
-        displayMode: COLLAPSED
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: variant
+          name: Final SNP calls
+          height: 40
+          displayMode: COLLAPSED
   bqsr2_all_ann_vcf:
     type: File?
-    format: http://edamontology.org/format_3016
     label: snps called after filtering and recalibration with effect annotations
     doc: snps called after filtering and recalibration with effect annotations
     outputSource: call_germline_variants/bqsr2_all_ann_vcf
   raw_indels_vcf:
     type: File
-    format: http://edamontology.org/format_3016
     label: indels called from gatk HaplotypeCaller using sorted_dedup_reads.bam
     doc: indels called from gatk HaplotypeCaller using sorted_dedup_reads.bam
     outputSource: call_germline_variants/raw_indels_vcf
   raw_snps_vcf:
     type: File
-    format: http://edamontology.org/format_3016
     label: snps called from gatk HaplotypeCaller using sorted_dedup_reads.bam
     doc: snps called from gatk HaplotypeCaller using sorted_dedup_reads.bam
     outputSource: call_germline_variants/raw_snps_vcf
   overview:
     type: File
-    format: http://edamontology.org/format_3835
     label: variant calling metrics
     doc: markdown parsed metrics from run_vc_germlinepe.sh script run by vc-germline-pe.cwl
     outputSource: call_germline_variants/overview
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   call_germline_variants_stdout:
     type: File
-    format: http://edamontology.org/format_2330
     label: stdout logfile
     doc: captures standard output from vc-germline-pe.cwl
     outputSource: call_germline_variants/log_file_stdout
   call_germline_variants_stderr:
     type: File
-    format: http://edamontology.org/format_2330
     label: stderr logfile
     doc: captures standard error from vc-germline-pe.cwl
     outputSource: call_germline_variants/log_file_stderr
   bigwig:
     type: File
-    format: http://edamontology.org/format_3006
     label: BigWig file
     doc: Generated BigWig file
     outputSource: bam_to_bigwig/bigwig_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: BigWig Track
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: BigWig Track
+          height: 120
   bam_bai_pair:
     type: File
-    format: http://edamontology.org/format_2572
     label: depulicated sorted alignments bam file
     doc: depulicated sorted alignments bam file
     outputSource: samtools_sort_index/bam_bai_pair
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: alignment
-        format: bam
-        name: BAM Track
-        displayMode: SQUISHED
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: alignment
+          format: bam
+          name: BAM Track
+          displayMode: SQUISHED
 steps:
   extract_fastq_R1:
     label: Loading unmapped sequence data for read 1
@@ -465,7 +451,7 @@ steps:
       output_prefix:
         default: merged_R1
     out:
-    - fastq_file
+      - fastq_file
   extract_fastq_R2:
     label: Loading unmapped sequence data for read 2
     doc: |
@@ -478,7 +464,7 @@ steps:
       output_prefix:
         default: merged_R2
     out:
-    - fastq_file
+      - fastq_file
   trim_fastq:
     label: Adapter trimming
     doc: |
@@ -500,10 +486,10 @@ steps:
       paired:
         default: true
     out:
-    - trimmed_file
-    - trimmed_file_pair
-    - report_file
-    - report_file_pair
+      - trimmed_file
+      - trimmed_file_pair
+      - report_file
+      - report_file_pair
   bypass_trim:
     run: ../tools/bypass-trimgalore-pe.cwl
     in:
@@ -516,10 +502,10 @@ steps:
       min_reads_count:
         default: 100
     out:
-    - selected_fastq_file_1
-    - selected_report_file_1
-    - selected_fastq_file_2
-    - selected_report_file_2
+      - selected_fastq_file_1
+      - selected_report_file_1
+      - selected_fastq_file_2
+      - selected_report_file_2
   rename_R1:
     run: ../tools/rename.cwl
     in:
@@ -528,7 +514,7 @@ steps:
         source: extract_fastq_R1/fastq_file
         valueFrom: $(self.basename)
     out:
-    - target_file
+      - target_file
   rename_R2:
     run: ../tools/rename.cwl
     in:
@@ -537,7 +523,7 @@ steps:
         source: extract_fastq_R2/fastq_file
         valueFrom: $(self.basename)
     out:
-    - target_file
+      - target_file
   fastx_quality_stats_R1:
     label: Quality control of unmapped sequence data for read 1
     doc: |
@@ -548,7 +534,7 @@ steps:
     in:
       input_file: rename_R1/target_file
     out:
-    - statistics_file
+      - statistics_file
   fastx_quality_stats_R2:
     label: Quality control of unmapped sequence data for read 2
     doc: |
@@ -559,9 +545,10 @@ steps:
     in:
       input_file: rename_R2/target_file
     out:
-    - statistics_file
+      - statistics_file
   call_germline_variants:
-    label: Run pipeline for calling germline variants, and read, alignment, and variant stat generation
+    label: Run pipeline for calling germline variants, and read, alignment, and variant
+      stat generation
     doc: |
       Calls shell wrapper for the Broad Institute's best practices gatk4 germline variant calling pipeline.
     run: ../tools/vc-germline-pe.cwl
@@ -584,20 +571,20 @@ steps:
       indel_FS: indel_FS
       indel_SOR: indel_SOR
     out:
-    - sorted_dedup_bam
-    - chrom_length_tsv
-    - bqsr2_indels_vcf
-    - bqsr2_snps_vcf
-    - bqsr2_all_ann_vcf
-    - raw_indels_vcf
-    - raw_snps_vcf
-    - overview
-    - log_file_stdout
-    - log_file_stderr
-    - insert_size_histogram
-    - recalibration_plots
-    - snpEff_summary
-    - snpEff_genes
+      - sorted_dedup_bam
+      - chrom_length_tsv
+      - bqsr2_indels_vcf
+      - bqsr2_snps_vcf
+      - bqsr2_all_ann_vcf
+      - raw_indels_vcf
+      - raw_snps_vcf
+      - overview
+      - log_file_stdout
+      - log_file_stderr
+      - insert_size_histogram
+      - recalibration_plots
+      - snpEff_summary
+      - snpEff_genes
   bam_to_bigwig:
     run: ../tools/bam-bedgraph-bigwig.cwl
     in:
@@ -606,14 +593,14 @@ steps:
       pairchip:
         default: true
     out:
-    - bigwig_file
+      - bigwig_file
   samtools_sort_index:
     run: ../tools/samtools-sort-index.cwl
     in:
       sort_input: call_germline_variants/sorted_dedup_bam
       threads: threads
     out:
-    - bam_bai_pair
+      - bam_bai_pair
 label: Variant calling germline paired-end
 doc: |
   A workflow for the Broad Institute's best practices gatk4 germline variant calling pipeline.

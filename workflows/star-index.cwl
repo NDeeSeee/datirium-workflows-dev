@@ -1,12 +1,12 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: ScatterFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: ScatterFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 sd:metadata:
-- ../metadata/indices-header.cwl
+  - ../metadata/indices-header.cwl
 inputs:
   genome:
     type: string
@@ -14,12 +14,10 @@ inputs:
     doc: Genome type, such as mm10, hg19, hg38, etc
   fasta_file:
     type: File
-    format: http://edamontology.org/format_1929
     label: Reference genome FASTA file
     doc: Reference genome FASTA file. Includes all chromosomes
   annotation_gtf_file:
     type: File?
-    format: http://edamontology.org/format_2306
     label: GTF annotation file
     doc: GTF annotation file
   genome_sa_sparse_d:
@@ -72,7 +70,6 @@ outputs:
     doc: STAR generated indices folder
   chrom_length_file:
     type: File
-    format: http://edamontology.org/format_2330
     outputSource: star_generate_indices/chrom_length
     label: Chromosome length file
     doc: Chromosome length file
@@ -99,10 +96,10 @@ steps:
       limit_genome_generate_ram: limit_genome_generate_ram
       threads: threads
     out:
-    - indices_folder
-    - chrom_length
-    - stdout_log
-    - stderr_log
+      - indices_folder
+      - chrom_length
+      - stdout_log
+      - stderr_log
 label: Build STAR indices
 doc: |
   Workflow runs [STAR](https://github.com/alexdobin/STAR) v2.5.3a (03/17/2017) PMID: [23104886](https://www.ncbi.nlm.nih.gov/pubmed/23104886)

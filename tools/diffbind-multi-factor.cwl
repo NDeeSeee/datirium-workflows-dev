@@ -1,34 +1,34 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/diffbind:v0.0.16
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      var listing = [];
-      for (var i = 0; i < inputs.alignment_files.length; i++){
-        var alignment_file = inputs.alignment_files[i];
-        var prefix = "u" + i + "_";
-        alignment_file.basename = prefix + alignment_file.basename;
-        if (alignment_file.secondaryFiles && alignment_file.secondaryFiles.length > 0){
-          for (var j = 0; j < alignment_file.secondaryFiles.length; j++){
-            var secondary_file = alignment_file.secondaryFiles[j];
-            secondary_file.basename = prefix + secondary_file.basename;
-            listing.push(secondary_file);
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/diffbind:v0.0.16
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        var listing = [];
+        for (var i = 0; i < inputs.alignment_files.length; i++){
+          var alignment_file = inputs.alignment_files[i];
+          var prefix = "u" + i + "_";
+          alignment_file.basename = prefix + alignment_file.basename;
+          if (alignment_file.secondaryFiles && alignment_file.secondaryFiles.length > 0){
+            for (var j = 0; j < alignment_file.secondaryFiles.length; j++){
+              var secondary_file = alignment_file.secondaryFiles[j];
+              secondary_file.basename = prefix + secondary_file.basename;
+              listing.push(secondary_file);
+            }
+            delete alignment_file.secondaryFiles;
           }
-          delete alignment_file.secondaryFiles;
+          listing.push(alignment_file);
         }
-        listing.push(alignment_file);
+        return listing;
       }
-      return listing;
-    }
 inputs:
   alignment_files:
     type: File[]
     secondaryFiles:
-    - .bai
+      - .bai
     inputBinding:
       prefix: --alignments
     doc: Sorted and indexed alignment files in bam format
@@ -36,7 +36,8 @@ inputs:
     type: File[]
     inputBinding:
       prefix: --peaks
-    doc: Peak files in the MACS2 xls format. Number and order of the files should correspond to the files provided in --alignments parameter.
+    doc: Peak files in the MACS2 xls format. Number and order of the files should
+      correspond to the files provided in --alignments parameter.
   dataset_names:
     type: string[]
     inputBinding:
@@ -61,11 +62,11 @@ inputs:
       All metadata columns are treated as factors (no covariates are supported).
   scoreby:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - pvalue
-      - qvalue
+      - 'null'
+      - type: enum
+        symbols:
+          - pvalue
+          - qvalue
     inputBinding:
       prefix: --scoreby
     doc: |
@@ -111,9 +112,9 @@ inputs:
       peaks are used in the differential analysis. Default: 2
   groupby:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: --groupby
     doc: |
@@ -141,9 +142,9 @@ inputs:
       will be used.
   base_levels:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: --base
     doc: |
@@ -152,11 +153,11 @@ inputs:
       alphabetically.
   analysis_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - deseq2
-      - edger
+      - 'null'
+      - type: enum
+        symbols:
+          - deseq2
+          - edger
     inputBinding:
       prefix: --method
     doc: |
@@ -165,13 +166,13 @@ inputs:
       Default: deseq2
   normalization_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - auto
-      - rle
-      - tmm
-      - lib
+      - 'null'
+      - type: enum
+        symbols:
+          - auto
+          - rle
+          - tmm
+          - lib
     inputBinding:
       prefix: --norm
     doc: |
@@ -188,12 +189,12 @@ inputs:
       Default: 0.05
   cluster_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - row
-      - column
-      - both
+      - 'null'
+      - type: enum
+        symbols:
+          - row
+          - column
+          - both
     inputBinding:
       prefix: --cluster
     doc: |
@@ -201,15 +202,15 @@ inputs:
       Default: do not run clustering
   row_distance:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     inputBinding:
       prefix: --rowdist
     doc: |
@@ -218,15 +219,15 @@ inputs:
       Default: cosangle
   column_distance:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     inputBinding:
       prefix: --columndist
     doc: |
@@ -265,9 +266,9 @@ inputs:
 outputs:
   pk_vrlp_s_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_pk_vrlp_s*.png'
     doc: |
@@ -275,9 +276,9 @@ outputs:
       PNG format
   pk_vrlp_s_plot_pdf:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_pk_vrlp_s*.pdf'
     doc: |
@@ -437,7 +438,7 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- run_diffbind_manual.R
+  - run_diffbind_manual.R
 stdout: diffbind_manual_stdout.log
 stderr: diffbind_manual_stderr.log
 label: DiffBind Multi-factor Analysis

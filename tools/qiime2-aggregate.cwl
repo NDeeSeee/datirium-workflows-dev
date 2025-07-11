@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-qiime2:stable
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-qiime2:stable
 inputs:
   metadata_file:
     type: File
@@ -157,7 +157,7 @@ outputs:
   log_file_stderr:
     type: stderr
 baseCommand:
-- run_qiime2_aggregate.sh
+  - run_qiime2_aggregate.sh
 stdout: qiime2_aggregate-stdout.log
 stderr: qiime2_aggregate-stderr.log
 doc: |

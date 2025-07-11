@@ -1,12 +1,17 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_name_prefix = function() { if (Array.isArray(inputs.readFilesIn) && inputs.readFilesIn.length > 0){ return inputs.readFilesIn[0].location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+"."; } else { return inputs.readFilesIn.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+"."; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_name_prefix = function() { if (Array.isArray(inputs.readFilesIn)
+        && inputs.readFilesIn.length > 0){ return 
+        inputs.readFilesIn[0].location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+".";
+        } else { return 
+        inputs.readFilesIn.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+".";
+        } };
 hints:
-- class: DockerRequirement
-  dockerPull: scidap/star:v2.7.5c
+  - class: DockerRequirement
+    dockerPull: scidap/star:v2.7.5c
 inputs:
   winBinNbits:
     type: int?
@@ -632,9 +637,9 @@ inputs:
       storage: each chromosome will occupy an integer number of bins
   readFilesIn:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     inputBinding:
       position: 1
       prefix: --readFilesIn
@@ -1028,8 +1033,8 @@ inputs:
       type: array
       items: string
     default:
-    - BAM
-    - Unsorted
+      - BAM
+      - Unsorted
     inputBinding:
       position: 1
       prefix: --outSAMtype
@@ -1192,12 +1197,12 @@ inputs:
       int: alignment will be output only if its score is higher than or equal to this value
   outReadsUnmapped:
     type:
-    - 'null'
-    - type: enum
-      name: unmapped
-      symbols:
-      - None
-      - Fastx
+      - 'null'
+      - type: enum
+        name: unmapped
+        symbols:
+          - None
+          - Fastx
     inputBinding:
       position: 1
       prefix: --outReadsUnmapped
@@ -1309,10 +1314,10 @@ outputs:
           return parseInt(self[0].contents.match(uniquelyMappedReadsNumberRegex)[0].split(/\|\t/g)[1]);
         }
 baseCommand:
-- STAR
+  - STAR
 arguments:
-- --runMode
-- alignReads
+  - --runMode
+  - alignReads
 doc: |
   Tool runs STAR alignReads.
 

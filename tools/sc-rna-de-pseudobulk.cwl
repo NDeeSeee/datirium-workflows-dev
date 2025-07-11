@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   query_data_rds:
     type: File
@@ -59,9 +59,9 @@ inputs:
       subset, include all cells into analysis.
   subset:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: --subset
     doc: |
@@ -97,18 +97,18 @@ inputs:
       cells for differential expression analysis.
   analysis_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - wilcoxon
-      - likelihood-ratio
-      - t-test
-      - negative-binomial
-      - poisson
-      - logistic-regression
-      - mast
-      - deseq
-      - deseq-lrt
+      - 'null'
+      - type: enum
+        symbols:
+          - wilcoxon
+          - likelihood-ratio
+          - t-test
+          - negative-binomial
+          - poisson
+          - logistic-regression
+          - mast
+          - deseq
+          - deseq-lrt
     inputBinding:
       prefix: --test
     doc: |
@@ -160,9 +160,9 @@ inputs:
       Default: 0.1
   genes_of_interest:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: --genes
     doc: |
@@ -181,12 +181,12 @@ inputs:
       well. Default: use all genes
   cluster_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - row
-      - column
-      - both
+      - 'null'
+      - type: enum
+        symbols:
+          - row
+          - column
+          - both
     inputBinding:
       prefix: --cluster
     doc: |
@@ -197,15 +197,15 @@ inputs:
       not run clustering
   row_distance:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     inputBinding:
       prefix: --rowdist
     doc: |
@@ -214,15 +214,15 @@ inputs:
       Default: cosangle
   column_distance:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     inputBinding:
       prefix: --columndist
     doc: |
@@ -247,17 +247,17 @@ inputs:
       Default: false
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     inputBinding:
       prefix: --theme
     doc: |
@@ -464,9 +464,9 @@ outputs:
       PDF format.
   xpr_per_cell_rd_rnaumap_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_xpr_per_cell_rd_rnaumap_*.png'
     doc: |
@@ -477,9 +477,9 @@ outputs:
       PNG format.
   xpr_per_cell_rd_rnaumap_plot_pdf:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_xpr_per_cell_rd_rnaumap_*.pdf'
     doc: |
@@ -490,9 +490,9 @@ outputs:
       PDF format.
   xpr_per_cell_rd_atacumap_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_xpr_per_cell_rd_atacumap_*.png'
     doc: |
@@ -503,9 +503,9 @@ outputs:
       PNG format.
   xpr_per_cell_rd_atacumap_plot_pdf:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_xpr_per_cell_rd_atacumap_*.pdf'
     doc: |
@@ -516,9 +516,9 @@ outputs:
       PDF format.
   xpr_per_cell_rd_wnnumap_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_xpr_per_cell_rd_wnnumap_*.png'
     doc: |
@@ -529,9 +529,9 @@ outputs:
       PNG format.
   xpr_per_cell_rd_wnnumap_plot_pdf:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_xpr_per_cell_rd_wnnumap_*.pdf'
     doc: |
@@ -603,9 +603,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_rna_de_pseudobulk.R"]:"/usr/local/bin/sc_rna_de_pseudobulk.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_rna_de_pseudobulk.R"]:"/usr/local/bin/sc_rna_de_pseudobulk.R")
 stdout: sc_rna_de_pseudobulk_stdout.log
 stderr: sc_rna_de_pseudobulk_stderr.log
 label: Single-Cell RNA-Seq Differential Expression Analysis

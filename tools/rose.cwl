@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/rose:v0.0.2
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/rose:v0.0.2
 inputs:
   binding_sites_file:
     type: File
@@ -18,7 +18,7 @@ inputs:
       position: 6
       prefix: -r
     secondaryFiles:
-    - .bai
+      - .bai
     doc: Indexed bamfile to rank enhancer by
   annotation_file:
     type: File
@@ -76,9 +76,9 @@ outputs:
     outputBinding:
       glob: '*Gateway_SuperEnhancers.bed'
 baseCommand:
-- ROSE_main
-- -o
-- ./
+  - ROSE_main
+  - -o
+  - ./
 doc: |
   Tool runs ROSE to get Super Enhancers regions
   -b and -c arguments are not supported

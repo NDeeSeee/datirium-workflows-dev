@@ -1,12 +1,12 @@
 cwlVersion: v1.0
 class: ExpressionTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 inputs:
   input_files:
     type:
-    - Directory
-    - File[]
+      - Directory
+      - File[]
   basename_regex:
     type: string
 outputs:

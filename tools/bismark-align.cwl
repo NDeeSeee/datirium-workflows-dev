@@ -1,9 +1,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bismark:v0.0.2
+  - class: InlineJavascriptRequirement
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bismark:v0.0.2
 inputs:
   indices_folder:
     type: Directory
@@ -29,7 +29,8 @@ inputs:
       position: 1
       prefix: --multicore
     label: Number of Bismark instances to run
-    doc: Set the number of parallel Bismark instances to run concurrently. Each Bismark instance runs four Bowtie2 aligners
+    doc: Set the number of parallel Bismark instances to run concurrently. Each Bismark
+      instance runs four Bowtie2 aligners
   threads:
     type: int?
     inputBinding:
@@ -51,25 +52,25 @@ outputs:
     outputBinding:
       glob: '*.txt'
 baseCommand:
-- bismark
-- --non_directional
+  - bismark
+  - --non_directional
 arguments:
-- valueFrom: |
-    ${
-      if (inputs.fastq_file_r1 && inputs.fastq_file_r2){
-        return "-1";
+  - valueFrom: |
+      ${
+        if (inputs.fastq_file_r1 && inputs.fastq_file_r2){
+          return "-1";
+        }
+        return null;
       }
-      return null;
-    }
-  position: 4
-- valueFrom: |
-    ${
-      if (inputs.fastq_file_r1 && inputs.fastq_file_r2){
-        return "-2";
+    position: 4
+  - valueFrom: |
+      ${
+        if (inputs.fastq_file_r1 && inputs.fastq_file_r2){
+          return "-2";
+        }
+        return null;
       }
-      return null;
-    }
-  position: 6
+    position: 6
 doc: |
   Default aligner - Bowtie2.
   Parameters used:

@@ -1,21 +1,21 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/intervene:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/intervene:v0.0.1
 inputs:
   figure_format:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - pdf
-      - svg
-      - ps
-      - tiff
-      - png
+      - 'null'
+      - type: enum
+        symbols:
+          - pdf
+          - svg
+          - ps
+          - tiff
+          - png
     inputBinding:
       position: 5
       prefix: --figtype
@@ -23,8 +23,8 @@ inputs:
       Format to export diagram figure
   intervals_colors:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     doc: |
       Comma-separated list of matplotlib-valid colors for fill.
       E.g., –colors=r,b,k
@@ -37,8 +37,8 @@ inputs:
       Files with the input genomic regions in (BED/GTF/GFF) format
   intervals_aliases:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     inputBinding:
       position: 7
       prefix: --names
@@ -75,20 +75,20 @@ inputs:
       Default: 1
   diagram_type:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - venn
-      - upset
-      - pairwise
+      - 'null'
+      - type: enum
+        symbols:
+          - venn
+          - upset
+          - pairwise
     default: venn
     doc: |
       Diagram type to report
 outputs:
   overlapped_intervals_files:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     outputBinding:
       glob: ./results/sets/*
     doc: Overlapped intervals files
@@ -118,27 +118,27 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- intervene
+  - intervene
 arguments:
-- valueFrom: $(inputs.diagram_type)
-- --type
-- genomic
-- valueFrom: $(inputs.diagram_type == "pairwise"?null:"--save-overlaps")
-- valueFrom: $(inputs.diagram_type == "pairwise"?"--diagonal":null)
-- valueFrom: $(inputs.diagram_type == "pairwise"?["--htype", "color"]:null)
-- valueFrom: |
-    ${
-      if (inputs.diagram_type == "venn" && inputs.intervals_colors !== null) {
-        return inputs.intervals_colors;
+  - valueFrom: $(inputs.diagram_type)
+  - --type
+  - genomic
+  - valueFrom: $(inputs.diagram_type == "pairwise"?null:"--save-overlaps")
+  - valueFrom: $(inputs.diagram_type == "pairwise"?"--diagonal":null)
+  - valueFrom: $(inputs.diagram_type == "pairwise"?["--htype", "color"]:null)
+  - valueFrom: |
+      ${
+        if (inputs.diagram_type == "venn" && inputs.intervals_colors !== null) {
+          return inputs.intervals_colors;
+        }
+        return null;
       }
-      return null;
-    }
-  prefix: --colors
-  itemSeparator: ','
-- --project
-- intervene
-- -o
-- results
+    prefix: --colors
+    itemSeparator: ','
+  - --project
+  - intervene
+  - -o
+  - results
 stdout: intervene_stdout.log
 stderr: intervene_stderr.log
 doc: |

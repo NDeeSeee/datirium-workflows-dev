@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-ubuntu22:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-ubuntu22:v1.0.0
 inputs:
   script_command:
     type: string?
@@ -115,9 +115,13 @@ outputs:
   log_file_stderr:
     type: stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: genelists-sets_stdout.log
 stderr: genelists-sets_stderr.log
-doc: "This tool takes as input 2 filtered genelists samples and performs the user input set operation on them.\nThe output is a single filtered gene list in the same format as the input files (headerless BED file with [chrom start end name score strand]).\nThe returned score value (column 5) is always derived from file A.\n    "
+doc: "This tool takes as input 2 filtered genelists samples and performs the user
+  input set operation on them.\nThe output is a single filtered gene list in the same
+  format as the input files (headerless BED file with [chrom start end name score
+  strand]).\nThe returned score value (column 5) is always derived from file A.\n\
+  \    "
 label: Genelists Set Operations

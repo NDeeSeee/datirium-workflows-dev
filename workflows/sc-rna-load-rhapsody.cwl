@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 inputs:
   alias:
     type: string
@@ -13,9 +13,9 @@ inputs:
       position: 1
   query_data_rds:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: RDS file(s) produced by BD Rhapsody Sequence Analysis Pipeline
     doc: |
       Path to the RDS file(s) to load Seurat object(s)
@@ -37,7 +37,8 @@ inputs:
     type: boolean?
     default: false
     label: Split each sample tag by origin
-    doc: "When assigning names to the sample tags, split \neach of them by origin (the RDS file the data\nwas loaded from). \nDefault: do not split\n"
+    doc: "When assigning names to the sample tags, split \neach of them by origin
+      (the RDS file the data\nwas loaded from). \nDefault: do not split\n"
     sd:layout:
       advanced: true
   export_html_report:
@@ -51,15 +52,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Cores/CPUs
     doc: |
@@ -74,7 +75,9 @@ outputs:
     type: File
     outputSource: sc_rna_load_rhapsody/feature_bc_matrices_folder
     label: TAR-gzipped folder with the feature-barcode matrix in MEX format
-    doc: "Compressed folder with the merged feature-barcode \nmatrix from the loaded RDS files produced by the \nBD Rhapsody Sequence Analysis Pipeline. \nMEX format (TAR-gzipped).\n"
+    doc: "Compressed folder with the merged feature-barcode \nmatrix from the loaded
+      RDS files produced by the \nBD Rhapsody Sequence Analysis Pipeline. \nMEX format
+      (TAR-gzipped).\n"
   aggregation_metadata:
     type: File?
     outputSource: sc_rna_load_rhapsody/aggregation_metadata
@@ -100,9 +103,9 @@ outputs:
       Tehcnical report.
       HTML format.
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   sc_rna_load_rhapsody_stdout_log:
     type: File
     outputSource: sc_rna_load_rhapsody/stdout_log
@@ -133,12 +136,12 @@ steps:
         source: threads
         valueFrom: $(parseInt(self))
     out:
-    - feature_bc_matrices_folder
-    - aggregation_metadata
-    - seurat_data_rds
-    - sc_report_html_file
-    - stdout_log
-    - stderr_log
+      - feature_bc_matrices_folder
+      - aggregation_metadata
+      - seurat_data_rds
+      - sc_report_html_file
+      - stdout_log
+      - stderr_log
 label: Single-cell RNA-Seq BD Rhapsody Import
 doc: |
   Single-cell RNA-Seq BD Rhapsody Import

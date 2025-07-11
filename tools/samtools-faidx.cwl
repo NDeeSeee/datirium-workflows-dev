@@ -1,24 +1,24 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ResourceRequirement
-  ramMin: 7620
-  coresMin: 1
-- class: InlineJavascriptRequirement
+  - class: ResourceRequirement
+    ramMin: 7620
+    coresMin: 1
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/samtools:v1.4
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      return  [
-                {
-                  "entry": inputs.fasta_file,
-                  "entryname": inputs.fasta_file.basename,
-                  "writable": true
-                }
-              ]
-    }
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/samtools:v1.4
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        return  [
+                  {
+                    "entry": inputs.fasta_file,
+                    "entryname": inputs.fasta_file.basename,
+                    "writable": true
+                  }
+                ]
+      }
 inputs:
   fasta_file:
     type: File
@@ -32,8 +32,8 @@ outputs:
       glob: '*.fai'
     doc: FAI index file
 baseCommand:
-- samtools
-- faidx
+  - samtools
+  - faidx
 doc: |
   Generates FAI index file for input FASTA file
   Output file has the same basename, as input file, but with updated `.fai` extension. `samtools faidx` exports

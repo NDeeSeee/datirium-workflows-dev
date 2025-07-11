@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/samtools:v1.4
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/samtools:v1.4
 inputs:
   script_command:
     type: string?
@@ -79,7 +79,8 @@ inputs:
       position: 50
   peak_caller:
     type: string
-    label: specify either SEACR or MACS2 peak caller tool that was used, will change how input called peaks file is parsed
+    label: specify either SEACR or MACS2 peak caller tool that was used, will change
+      how input called peaks file is parsed
     inputBinding:
       position: 60
 outputs:
@@ -108,9 +109,14 @@ outputs:
     doc: |
       log for stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: collected_stats_for_vis.log.stdout
 stderr: collected_stats_for_vis.log.stderr
-doc: "Tool processes BAM file and output from SEACR to produce the FRIP (fraction of\nreads in peaks) and mean peak length statistics for ATAC-seq and cut&run type\nsequencing experiments. These stats are calculated for spike-in normalized \npeak data, then concatentated to the *\"_collected_statistics_report\" files (md,\ntsv, and yaml). Additionally, a re-formatted peakcalled bed file is produced\nwith headers per column, and \"nearest gene\" annotation per peak.\n"
+doc: "Tool processes BAM file and output from SEACR to produce the FRIP (fraction
+  of\nreads in peaks) and mean peak length statistics for ATAC-seq and cut&run type\n
+  sequencing experiments. These stats are calculated for spike-in normalized \npeak
+  data, then concatentated to the *\"_collected_statistics_report\" files (md,\ntsv,
+  and yaml). Additionally, a re-formatted peakcalled bed file is produced\nwith headers
+  per column, and \"nearest gene\" annotation per peak.\n"
 label: collect-statistics-frip

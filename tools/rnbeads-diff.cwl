@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-rnbeads:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-rnbeads:v1.0.0
 inputs:
   threads:
     type: int
@@ -61,13 +61,15 @@ inputs:
     inputBinding:
       prefix: -p
       itemSeparator: ','
-    doc: List of absolute filepaths to methylation percent bigWig files for group 1
+    doc: List of absolute filepaths to methylation percent bigWig files for group
+      1
   condition2_methperc_bigwigs:
     type: File[]
     inputBinding:
       prefix: -q
       itemSeparator: ','
-    doc: List of absolute filepaths to methylation percent bigWig files for group 2
+    doc: List of absolute filepaths to methylation percent bigWig files for group
+      2
 outputs:
   c1_bigwigs:
     type: File[]
@@ -188,8 +190,42 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- run_rnbeads_diff.sh
+  - run_rnbeads_diff.sh
 stdout: rnbeads_diff_stdout.log
 stderr: rnbeads_diff_stderr.log
-doc: "Wrapper for RnBeads differential methylation pipeline script, with downstream processing for tables and IGV\n\nPrimary Output files:\n  - sig_dm_sites.bed (bed for IGV; sig diff meth sites)\n  - sig_dm_sites_annotated.tsv (tsv for TABLE; for each site above, closest single gene annotation)\n\nOutput rnbeads reports directory in container at '/tmp/reports/', includes:\n  reports/\n├── configuration\n├── data_import.html\n├── data_import_data\n├── data_import_images\n├── data_import_pdfs\n├── differential_methylation.html\n├── differential_methylation_data\n├── differential_methylation_images\n├── differential_methylation_pdfs\n├── preprocessing.html\n├── preprocessing_data\n├── preprocessing_images\n├── preprocessing_pdfs\n├── quality_control.html\n├── quality_control_data\n├── quality_control_images\n├── quality_control_pdfs\n├── tracks_and_tables.html\n├── tracks_and_tables_data\n├── tracks_and_tables_images\n└── tracks_and_tables_pdfs\n\nReported methylation is in the form of regions (genes, promoters, cpg, tiling) and specific sites:\n - genes - Ensembl gene definitions are downloaded using the biomaRt package.\n - promoters - A promoter is defined as the region spanning 1,500 bases upstream and 500 bases downstream of the transcription start site of the corresponding gene\n - cpg - the CpG islands from the UCSC Genome Browser\n - tiling - a window size of 5 kilobases are defined over the whole genome\n - sites - all cytosines in the context of CpGs in the respective genome\n\nSCRIPT PARAMS:\n-h  help\tshow this message\n-g  STRING   Sample genome, available options: hg19, hg38, mm9, mm10, rn5\n-t  INT\tnumber of threads\n-a  STRING     name of condition1\n-b  STRING     name of condition2\n-c  LIST\tcomma separated list of absolute filepaths to all condition1 bed files (BismarkCov format)\n-d  LIST\tcomma separated list of absolute filepaths to all condition2 bed files (BismarkCov format)\n-j  LIST   comma separated list of sample names in condition1\n-k  LIST   comma separated list of sample names in condition2\n-m  FILE   refGene.txt file for annotating DM sites with gene information\n\nBismarkCov formatted bed:\n    https://www.bioinformatics.babraham.ac.uk/projects/bismark/Bismark_User_Guide.pdf\n    The genome-wide cytosine report (optional) is tab-delimited in the following format (1-based coords):\n    <chromosome> <position> <strand> <count methylated> <count unmethylated> <C-context> <trinucleotide context>\n\n____________________________________________________________________________________________________\nReferences:\n    https://rnbeads.org/materials/example_3/differential_methylation.html\n        Makambi, K. (2003) Weighted inverse chi-square method for correlated significance tests.\n        Journal of Applied Statistics, 30(2), 225234\n    https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4216143/\n        Assenov Y, Müller F, Lutsik P, Walter J, Lengauer T, Bock C. Comprehensive analysis of DNA\n        methylation data with RnBeads. Nat Methods. 2014 Nov;11(11):1138-1140. doi: 10.1038/nmeth.3115.\n        Epub 2014 Sep 28. PMID: 25262207; PMCID: PMC4216143.\n"
+doc: "Wrapper for RnBeads differential methylation pipeline script, with downstream
+  processing for tables and IGV\n\nPrimary Output files:\n  - sig_dm_sites.bed (bed
+  for IGV; sig diff meth sites)\n  - sig_dm_sites_annotated.tsv (tsv for TABLE; for
+  each site above, closest single gene annotation)\n\nOutput rnbeads reports directory
+  in container at '/tmp/reports/', includes:\n  reports/\n├── configuration\n├── data_import.html\n
+  ├── data_import_data\n├── data_import_images\n├── data_import_pdfs\n├── differential_methylation.html\n
+  ├── differential_methylation_data\n├── differential_methylation_images\n├── differential_methylation_pdfs\n
+  ├── preprocessing.html\n├── preprocessing_data\n├── preprocessing_images\n├── preprocessing_pdfs\n
+  ├── quality_control.html\n├── quality_control_data\n├── quality_control_images\n
+  ├── quality_control_pdfs\n├── tracks_and_tables.html\n├── tracks_and_tables_data\n
+  ├── tracks_and_tables_images\n└── tracks_and_tables_pdfs\n\nReported methylation
+  is in the form of regions (genes, promoters, cpg, tiling) and specific sites:\n
+  - genes - Ensembl gene definitions are downloaded using the biomaRt package.\n -
+  promoters - A promoter is defined as the region spanning 1,500 bases upstream and
+  500 bases downstream of the transcription start site of the corresponding gene\n
+  - cpg - the CpG islands from the UCSC Genome Browser\n - tiling - a window size
+  of 5 kilobases are defined over the whole genome\n - sites - all cytosines in the
+  context of CpGs in the respective genome\n\nSCRIPT PARAMS:\n-h  help\tshow this
+  message\n-g  STRING   Sample genome, available options: hg19, hg38, mm9, mm10, rn5\n\
+  -t  INT\tnumber of threads\n-a  STRING     name of condition1\n-b  STRING     name
+  of condition2\n-c  LIST\tcomma separated list of absolute filepaths to all condition1
+  bed files (BismarkCov format)\n-d  LIST\tcomma separated list of absolute filepaths
+  to all condition2 bed files (BismarkCov format)\n-j  LIST   comma separated list
+  of sample names in condition1\n-k  LIST   comma separated list of sample names in
+  condition2\n-m  FILE   refGene.txt file for annotating DM sites with gene information\n
+  \nBismarkCov formatted bed:\n    https://www.bioinformatics.babraham.ac.uk/projects/bismark/Bismark_User_Guide.pdf\n\
+  \    The genome-wide cytosine report (optional) is tab-delimited in the following
+  format (1-based coords):\n    <chromosome> <position> <strand> <count methylated>
+  <count unmethylated> <C-context> <trinucleotide context>\n\n____________________________________________________________________________________________________\n\
+  References:\n    https://rnbeads.org/materials/example_3/differential_methylation.html\n\
+  \        Makambi, K. (2003) Weighted inverse chi-square method for correlated significance
+  tests.\n        Journal of Applied Statistics, 30(2), 225234\n    https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4216143/\n\
+  \        Assenov Y, Müller F, Lutsik P, Walter J, Lengauer T, Bock C. Comprehensive
+  analysis of DNA\n        methylation data with RnBeads. Nat Methods. 2014 Nov;11(11):1138-1140.
+  doi: 10.1038/nmeth.3115.\n        Epub 2014 Sep 28. PMID: 25262207; PMCID: PMC4216143.\n"
 label: rnbeads-diff

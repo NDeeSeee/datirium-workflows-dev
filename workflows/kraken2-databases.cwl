@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 inputs:
   alias:
     type: string
@@ -11,18 +11,18 @@ inputs:
       position: 1
   database_name:
     type:
-    - 'null'
-    - type: enum
-      name: name of Kraken2 database to download
-      symbols:
-      - Viral
-      - Standard
-      - Standard-16
-      - MinusB
-      - PlusPFP-16
-      - EuPathDB46
-      - 16S_Greengenes
-      - 16S_Silva_138
+      - 'null'
+      - type: enum
+        name: name of Kraken2 database to download
+        symbols:
+          - Viral
+          - Standard
+          - Standard-16
+          - MinusB
+          - PlusPFP-16
+          - EuPathDB46
+          - 16S_Greengenes
+          - 16S_Silva_138
     label: 'Select Kraken2 database for download:'
     sd:localLabel: true
     doc: |-
@@ -38,23 +38,23 @@ inputs:
 outputs:
   k2db:
     type: Directory
-    label: decompressed and untarred kraken2 database directory used as input for kraken2 classification
+    label: decompressed and untarred kraken2 database directory used as input for
+      kraken2 classification
     outputSource: download_k2db/k2db
   compressed_k2db_tar:
     type: File
-    label: compressed and tarred kraken2 database directory file for download and use outside of scidap
+    label: compressed and tarred kraken2 database directory file for download and
+      use outside of scidap
     outputSource: download_k2db/compressed_k2db_tar
   log_stdout:
     type: File
-    format: http://edamontology.org/format_2330
     label: stdout logfile
     outputSource: download_k2db/log_file_stdout
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   log_stderr:
     type: File
-    format: http://edamontology.org/format_2330
     label: stderr logfile
     outputSource: download_k2db/log_file_stderr
 steps:
@@ -65,10 +65,10 @@ steps:
         source: database_name
         valueFrom: $(self)
     out:
-    - k2db
-    - compressed_k2db_tar
-    - log_file_stdout
-    - log_file_stderr
+      - k2db
+      - compressed_k2db_tar
+      - log_file_stdout
+      - log_file_stderr
 label: Kraken2 Database installation pipeline
 doc: |
   This workflow downloads the user-selected pre-built kraken2 database from: https://benlangmead.github.io/aws-indexes/k2

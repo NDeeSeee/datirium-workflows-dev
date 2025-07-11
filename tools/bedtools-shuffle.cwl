@@ -1,12 +1,14 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { if (inputs.output_filename == ""){ return inputs.bed_file.basename; } else { return inputs.output_filename; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { if (inputs.output_filename == ""){
+        return inputs.bed_file.basename; } else { return inputs.output_filename; }
+        };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bedtools2:v2.26.0
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bedtools2:v2.26.0
 inputs:
   bed_file:
     type: File
@@ -70,8 +72,8 @@ outputs:
     doc: |
       Shuffled BED file
 baseCommand:
-- bedtools
-- shuffle
+  - bedtools
+  - shuffle
 stdout: $(default_output_filename())
 doc: |
   Randomly permutes the genomic locations of a feature file among a genome defined in a genome file.

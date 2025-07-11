@@ -1,12 +1,15 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { if (inputs.output_filename == ""){ var root = inputs.segment_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.segment_file.basename+".tsv":root+".tsv"; } else { return inputs.output_filename; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { if (inputs.output_filename == ""){
+        var root = inputs.segment_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.segment_file.basename+".tsv":root+".tsv"; } else
+        { return inputs.output_filename; } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/gat:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/gat:v0.0.1
 inputs:
   segment_file:
     type: File
@@ -47,16 +50,16 @@ inputs:
       Number of iterations
   counter:
     type:
-    - 'null'
-    - type: enum
-      name: counter
-      symbols:
-      - nucleotide-overlap
-      - nucleotide-density
-      - segment-overlap
-      - annotation-overlap
-      - segment-midoverlap
-      - annotation-midoverlap
+      - 'null'
+      - type: enum
+        name: counter
+        symbols:
+          - nucleotide-overlap
+          - nucleotide-density
+          - segment-overlap
+          - annotation-overlap
+          - segment-midoverlap
+          - annotation-midoverlap
     inputBinding:
       position: 10
       prefix: -c
@@ -90,8 +93,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- gat-run.py
-- --ignore-segment-tracks
+  - gat-run.py
+  - --ignore-segment-tracks
 stdout: gat_stdout.log
 stderr: gat_stderr.log
 doc: |

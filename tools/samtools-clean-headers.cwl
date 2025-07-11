@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/samtools:v1.4
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/samtools:v1.4
 inputs:
   script:
     type: string?
@@ -44,8 +44,8 @@ outputs:
     doc: |
       log for stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: samtools-clean-headers.log.stdout
 stderr: samtools-clean-headers.log.stderr
 doc: |

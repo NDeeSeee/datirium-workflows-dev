@@ -1,85 +1,85 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      var listing = [
-        {
-          "entry": inputs.rna_fastq_file_r1,
-          "entryname": "rna_S1_L001_R1_001.fastq",
-          "writable": true
-        },
-        {
-          "entry": inputs.rna_fastq_file_r2,
-          "entryname": "rna_S1_L001_R2_001.fastq",
-          "writable": true
-        },
-        {
-          "entry": inputs.vdj_fastq_file_r1,
-          "entryname": "vdj_S1_L001_R1_001.fastq",
-          "writable": true
-        },
-        {
-          "entry": inputs.vdj_fastq_file_r2,
-          "entryname": "vdj_S1_L001_R2_001.fastq",
-          "writable": true
-        },
-        {
-          "entry":`[gene-expression]
-          reference,${inputs.rna_indices_folder.path}
-          create-bam,${inputs.no_bam?"false":"true"}
-          [vdj]
-          reference,${inputs.vdj_indices_folder.path}
-          [libraries]
-          fastq_id,fastqs,lanes,feature_types
-          rna,${runtime.outdir},1,gene expression,
-          vdj,${runtime.outdir},1,${inputs.vdj_chain_type}`,
-          "entryname": "libraries.csv"
-        }
-      ]
-      if (inputs.rna_fastq_file_i1){
-        listing.push(
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        var listing = [
           {
-            "entry": inputs.rna_fastq_file_i1,
-            "entryname": "rna_S1_L001_I1_001.fastq",
+            "entry": inputs.rna_fastq_file_r1,
+            "entryname": "rna_S1_L001_R1_001.fastq",
             "writable": true
-          }
-        );
-      };
-      if (inputs.rna_fastq_file_i2){
-        listing.push(
+          },
           {
-            "entry": inputs.rna_fastq_file_i2,
-            "entryname": "rna_S1_L001_I2_001.fastq",
+            "entry": inputs.rna_fastq_file_r2,
+            "entryname": "rna_S1_L001_R2_001.fastq",
             "writable": true
-          }
-        );
-      };
-      if (inputs.vdj_fastq_file_i1){
-        listing.push(
+          },
           {
-            "entry": inputs.vdj_fastq_file_i1,
-            "entryname": "vdj_S1_L001_I1_001.fastq",
+            "entry": inputs.vdj_fastq_file_r1,
+            "entryname": "vdj_S1_L001_R1_001.fastq",
             "writable": true
-          }
-        );
-      };
-      if (inputs.vdj_fastq_file_i2){
-        listing.push(
+          },
           {
-            "entry": inputs.vdj_fastq_file_i2,
-            "entryname": "vdj_S1_L001_I2_001.fastq",
+            "entry": inputs.vdj_fastq_file_r2,
+            "entryname": "vdj_S1_L001_R2_001.fastq",
             "writable": true
+          },
+          {
+            "entry":`[gene-expression]
+            reference,${inputs.rna_indices_folder.path}
+            create-bam,${inputs.no_bam?"false":"true"}
+            [vdj]
+            reference,${inputs.vdj_indices_folder.path}
+            [libraries]
+            fastq_id,fastqs,lanes,feature_types
+            rna,${runtime.outdir},1,gene expression,
+            vdj,${runtime.outdir},1,${inputs.vdj_chain_type}`,
+            "entryname": "libraries.csv"
           }
-        );
-      };
-      return listing;
-    }
+        ]
+        if (inputs.rna_fastq_file_i1){
+          listing.push(
+            {
+              "entry": inputs.rna_fastq_file_i1,
+              "entryname": "rna_S1_L001_I1_001.fastq",
+              "writable": true
+            }
+          );
+        };
+        if (inputs.rna_fastq_file_i2){
+          listing.push(
+            {
+              "entry": inputs.rna_fastq_file_i2,
+              "entryname": "rna_S1_L001_I2_001.fastq",
+              "writable": true
+            }
+          );
+        };
+        if (inputs.vdj_fastq_file_i1){
+          listing.push(
+            {
+              "entry": inputs.vdj_fastq_file_i1,
+              "entryname": "vdj_S1_L001_I1_001.fastq",
+              "writable": true
+            }
+          );
+        };
+        if (inputs.vdj_fastq_file_i2){
+          listing.push(
+            {
+              "entry": inputs.vdj_fastq_file_i2,
+              "entryname": "vdj_S1_L001_I2_001.fastq",
+              "writable": true
+            }
+          );
+        };
+        return listing;
+      }
 hints:
-- class: DockerRequirement
-  dockerPull: cumulusprod/cellranger:8.0.1
+  - class: DockerRequirement
+    dockerPull: cumulusprod/cellranger:8.0.1
 inputs:
   rna_fastq_file_r1:
     type: File
@@ -145,14 +145,14 @@ inputs:
       command.
   vdj_chain_type:
     type:
-    - 'null'
-    - type: enum
-      name: chain_type
-      symbols:
-      - VDJ
-      - VDJ-T
-      - VDJ-B
-      - VDJ-T-GD
+      - 'null'
+      - type: enum
+        name: chain_type
+        symbols:
+          - VDJ
+          - VDJ-T
+          - VDJ-B
+          - VDJ-T-GD
     default: VDJ
     doc: |
       V(D)J chain type. Setting to VDJ will
@@ -215,7 +215,7 @@ outputs:
     outputBinding:
       glob: sample/outs/per_sample_outs/sample/count/sample_alignments.bam
     secondaryFiles:
-    - .bai
+      - .bai
     doc: |
       Indexed RNA BAM file containing
       position-sorted reads aligned to
@@ -284,7 +284,7 @@ outputs:
     outputBinding:
       glob: sample/outs/multi/vdj_*/all_contig.bam
     secondaryFiles:
-    - .bai
+      - .bai
     doc: |
       Indexed V(D)J BAM file with reads aligned
       to ALL assembled contigs, per cell barcode.
@@ -306,7 +306,7 @@ outputs:
     outputBinding:
       glob: sample/outs/multi/vdj_*/all_contig.fasta
     secondaryFiles:
-    - .fai
+      - .fai
     doc: |
       FASTA format sequence for ALL assembled contigs
       in the V(D)J library. This file includes both
@@ -376,7 +376,7 @@ outputs:
     outputBinding:
       glob: sample/outs/per_sample_outs/sample/vdj_*/concat_ref.bam
     secondaryFiles:
-    - .bai
+      - .bai
     doc: |
       Indexed V(D)J BAM file with contigs aligned to
       concatenated germline segments. For each clonotype
@@ -392,7 +392,7 @@ outputs:
     outputBinding:
       glob: sample/outs/per_sample_outs/sample/vdj_*/concat_ref.fasta
     secondaryFiles:
-    - .fai
+      - .fai
     doc: |
       Concatenated V(D)J reference segments for the
       segments detected on each consensus sequence.
@@ -403,7 +403,7 @@ outputs:
     outputBinding:
       glob: sample/outs/per_sample_outs/sample/vdj_*/consensus.bam
     secondaryFiles:
-    - .bai
+      - .bai
     doc: |
       Indexed V(D)J BAM file with contigs aligned to
       clonotype consensus. Each "reference" sequence
@@ -417,7 +417,7 @@ outputs:
     outputBinding:
       glob: sample/outs/per_sample_outs/sample/vdj_*/consensus.fasta
     secondaryFiles:
-    - .fai
+      - .fai
     doc: |
       The consensus sequence of each assembled contig.
   consensus_annotations_csv:
@@ -463,14 +463,40 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- cellranger
-- multi
-- --disable-ui
-- --csv
-- libraries.csv
-- --id
-- sample
+  - cellranger
+  - multi
+  - --disable-ui
+  - --csv
+  - libraries.csv
+  - --id
+  - sample
 stdout: cellranger_multi_stdout.log
 stderr: cellranger_multi_stderr.log
 label: Cell Ranger Count (RNA+VDJ)
-doc: "Cell Ranger Count (RNA+VDJ)\n\nQuantifies single-cell gene expression, performs V(D)J contigs\nassembly and clonotype calling of the sequencing data from a\nsingle 10x Genomics library in a combined manner.\n\nParameters set by default:\n--disable-ui - no need in any UI when running in Docker container\n--id - hardcoded to `sample` to simplify output files location\n--csv - points to the file libraries.csv generated based on\n  the input FASTQ files\n\nNo implemented parameters:\n--description \n--dry\n--jobmode (we will use local by default)\n--mempercore\n--maxjobs\n--jobinterval\n--overrides\n--output-dir\n--uiport\n--noexit\n--nopreflight\n\nNo implemented parameters in the [gene-expression] section:\n- r1-length                   - never used\n- r2-length                   - never used\n- chemistry                   - should be auto-estimated\n- expect-cells                - should be auto-estimated\n- force-cells                 - not needed now\n- include-introns             - by default is true, which is good\n- no-secondary                - no reason to disable it\n- check-library-compatibility - no reason to disable it\n\nAs for running cellranger aggr with cellranger multi outputs we\nneed only per_sample_outs/sample folder that already includes all\nnecessary files, there is no need to return the following files\nas separate outputs:\n- sample_molecule_info.h5  - used for RNA aggregation\n- vdj_contig_info.pb       - used for V(D)J aggregation\n\nWhy do we need to rename input files?\nhttps://support.10xgenomics.com/single-cell-multiome-atac-gex/software/pipelines/latest/using/using/fastq-input\n\n\nThe cellranger multi pipeline takes FASTQ files from cellranger mkfastq, BCL Convert,\nor bcl2fastq for any combination of 5' single cell gene expression, Feature Barcode\n(cell surface protein or antigen) and V(D)J libraries from a single GEM well. It\nperforms alignment, filtering, barcode counting, and UMI counting on the gene expression\nand/or Feature Barcode libraries. It also performs sequence assembly and paired clonotype\ncalling on the V(D)J libraries. Additionally, the cell calls provided by the gene\nexpression data are used to improve the cell calls inferred by the V(D)J library.\n"
+doc: "Cell Ranger Count (RNA+VDJ)\n\nQuantifies single-cell gene expression, performs
+  V(D)J contigs\nassembly and clonotype calling of the sequencing data from a\nsingle
+  10x Genomics library in a combined manner.\n\nParameters set by default:\n--disable-ui
+  - no need in any UI when running in Docker container\n--id - hardcoded to `sample`
+  to simplify output files location\n--csv - points to the file libraries.csv generated
+  based on\n  the input FASTQ files\n\nNo implemented parameters:\n--description \n
+  --dry\n--jobmode (we will use local by default)\n--mempercore\n--maxjobs\n--jobinterval\n
+  --overrides\n--output-dir\n--uiport\n--noexit\n--nopreflight\n\nNo implemented parameters
+  in the [gene-expression] section:\n- r1-length                   - never used\n
+  - r2-length                   - never used\n- chemistry                   - should
+  be auto-estimated\n- expect-cells                - should be auto-estimated\n- force-cells\
+  \                 - not needed now\n- include-introns             - by default is
+  true, which is good\n- no-secondary                - no reason to disable it\n-
+  check-library-compatibility - no reason to disable it\n\nAs for running cellranger
+  aggr with cellranger multi outputs we\nneed only per_sample_outs/sample folder that
+  already includes all\nnecessary files, there is no need to return the following
+  files\nas separate outputs:\n- sample_molecule_info.h5  - used for RNA aggregation\n
+  - vdj_contig_info.pb       - used for V(D)J aggregation\n\nWhy do we need to rename
+  input files?\nhttps://support.10xgenomics.com/single-cell-multiome-atac-gex/software/pipelines/latest/using/using/fastq-input\n
+  \n\nThe cellranger multi pipeline takes FASTQ files from cellranger mkfastq, BCL
+  Convert,\nor bcl2fastq for any combination of 5' single cell gene expression, Feature
+  Barcode\n(cell surface protein or antigen) and V(D)J libraries from a single GEM
+  well. It\nperforms alignment, filtering, barcode counting, and UMI counting on the
+  gene expression\nand/or Feature Barcode libraries. It also performs sequence assembly
+  and paired clonotype\ncalling on the V(D)J libraries. Additionally, the cell calls
+  provided by the gene\nexpression data are used to improve the cell calls inferred
+  by the V(D)J library.\n"

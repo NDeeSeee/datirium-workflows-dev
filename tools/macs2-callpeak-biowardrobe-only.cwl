@@ -1,85 +1,90 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function(sufix) { sufix = sufix || "_macs"; if (Object.prototype.toString.call(inputs.treatment_file) === '[object Array]'){ var basename = inputs.treatment_file[0].basename; var root = basename.split('.').slice(0,-1).join('.'); return (root == "")?basename+sufix:root+sufix; } else { var basename = inputs.treatment_file.basename; var root = basename.split('.').slice(0,-1).join('.'); return (root == "")?basename+sufix:root+sufix; } }
-- class: InitialWorkDirRequirement
-  listing:
-  - entryname: run.py
-    entry: |
-      #!/usr/bin/env python
-      import subprocess
-      import sys
-      import argparse
-      import re
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function(sufix) { sufix = sufix || "_macs";
+        if (Object.prototype.toString.call(inputs.treatment_file) === '[object Array]'){
+        var basename = inputs.treatment_file[0].basename; var root = basename.split('.').slice(0,-1).join('.');
+        return (root == "")?basename+sufix:root+sufix; } else { var basename = inputs.treatment_file.basename;
+        var root = basename.split('.').slice(0,-1).join('.'); return (root == "")?basename+sufix:root+sufix;
+        } }
+  - class: InitialWorkDirRequirement
+    listing:
+      - entryname: run.py
+        entry: |
+          #!/usr/bin/env python
+          import subprocess
+          import sys
+          import argparse
+          import re
 
-      def arg_parser():
-          """Returns argument parser. used only to get -n and --extsize values"""
-          parser = argparse.ArgumentParser(description='MACS2 Biowardrobe parser')
-          parser.add_argument("-n", help="MACS2 string name of the experiment")
-          parser.add_argument("--extsize", help="MACS2 arbitrary extension size in bp")
-          return parser
+          def arg_parser():
+              """Returns argument parser. used only to get -n and --extsize values"""
+              parser = argparse.ArgumentParser(description='MACS2 Biowardrobe parser')
+              parser.add_argument("-n", help="MACS2 string name of the experiment")
+              parser.add_argument("--extsize", help="MACS2 arbitrary extension size in bp")
+              return parser
 
-      def get_info (name):
-          fragments, islands = 0, 0
-          with open(name+'_peaks.xls', 'r') as infile:
-              for line in infile:
-                  if re.match('^# d = ', line):
-                      fragments = int(line.split('d = ')[1])
-                      continue
-                  if re.match('^#', line):
-                      continue
-                  if line.strip() != "":
-                      islands = islands + 1
-          islands = islands - 1
-          return fragments, islands
+          def get_info (name):
+              fragments, islands = 0, 0
+              with open(name+'_peaks.xls', 'r') as infile:
+                  for line in infile:
+                      if re.match('^# d = ', line):
+                          fragments = int(line.split('d = ')[1])
+                          continue
+                      if re.match('^#', line):
+                          continue
+                      if line.strip() != "":
+                          islands = islands + 1
+              islands = islands - 1
+              return fragments, islands
 
-      args, _ = arg_parser().parse_known_args()
-      argv=' '.join(sys.argv[1:])
+          args, _ = arg_parser().parse_known_args()
+          argv=' '.join(sys.argv[1:])
 
-      extsize=args.extsize
-      name=args.n
+          extsize=args.extsize
+          name=args.n
 
-      runtime_error=False
-      calculated_fragment_size=0
-      expected_fragment_size=0
-      island_count=0
+          runtime_error=False
+          calculated_fragment_size=0
+          expected_fragment_size=0
+          island_count=0
 
-      try:
-          subprocess.check_output(argv, shell=True)
-      except subprocess.CalledProcessError as e:
-          if '--nomodel' in argv:
-              print "MACS2 critical error: ", str(e)
-              sys.exit(1) # stop the whole workflow
-          print "MACS2 will be rerun to fix not critical error: ", str(e)
-          runtime_error=True
-          expected_fragment_size=extsize
-      else:
-          calculated_fragment_size,island_count=get_info(name)
-          expected_fragment_size=calculated_fragment_size
-
-      if runtime_error or (calculated_fragment_size < 80 and ('--nomodel' not in argv)):
           try:
-              subprocess.check_output(argv+' --nomodel', shell=True)
+              subprocess.check_output(argv, shell=True)
           except subprocess.CalledProcessError as e:
-              print "MACS2 forced error: ", str(e)
-              sys.exit(1) # stop the whole workflow
+              if '--nomodel' in argv:
+                  print "MACS2 critical error: ", str(e)
+                  sys.exit(1) # stop the whole workflow
+              print "MACS2 will be rerun to fix not critical error: ", str(e)
+              runtime_error=True
+              expected_fragment_size=extsize
           else:
               calculated_fragment_size,island_count=get_info(name)
+              expected_fragment_size=calculated_fragment_size
 
-      with open(name.replace('_macs','')+'_fragment_stat.tsv', 'w') as output_file:
-          output_file.write(' '.join([str(calculated_fragment_size),str(expected_fragment_size),str(island_count)]))
+          if runtime_error or (calculated_fragment_size < 80 and ('--nomodel' not in argv)):
+              try:
+                  subprocess.check_output(argv+' --nomodel', shell=True)
+              except subprocess.CalledProcessError as e:
+                  print "MACS2 forced error: ", str(e)
+                  sys.exit(1) # stop the whole workflow
+              else:
+                  calculated_fragment_size,island_count=get_info(name)
+
+          with open(name.replace('_macs','')+'_fragment_stat.tsv', 'w') as output_file:
+              output_file.write(' '.join([str(calculated_fragment_size),str(expected_fragment_size),str(island_count)]))
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/macs2:v2.1.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/macs2:v2.1.1
 inputs:
   treatment_file:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     inputBinding:
       position: 10
       prefix: -t
@@ -89,8 +94,8 @@ inputs:
       MACS will pool up all these files together.
   output_prefix:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 999
       prefix: -n
@@ -110,10 +115,10 @@ inputs:
       DEFAULT: generated on the base of the treatment input
   control_file:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       position: 12
       prefix: -c
@@ -121,8 +126,8 @@ inputs:
       The control or mock data file. Please follow the same direction as for -t/–treatment.
   format_mode:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 13
       prefix: -f
@@ -136,16 +141,22 @@ inputs:
       DEFAULT: AUTO
   genome_size:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 14
       prefix: -g
-    doc: "It’s the mappable genome size or effective genome size which is defined as the genome size which can be sequenced.\nBecause of the repetitive features on the chromsomes, the actual mappable genome size will be smaller than the\noriginal size, about 90% or 70% of the genome size. The default hs – 2.7e9 is recommended for UCSC human hg18\nassembly. Here are all precompiled parameters for effective genome size:\n  hs:\t2.7e9\n  mm:\t1.87e9\n  ce:\t9e7\n  dm:\t1.2e8\nDEFAULT: hs\n"
+    doc: "It’s the mappable genome size or effective genome size which is defined
+      as the genome size which can be sequenced.\nBecause of the repetitive features
+      on the chromsomes, the actual mappable genome size will be smaller than the\n
+      original size, about 90% or 70% of the genome size. The default hs – 2.7e9 is
+      recommended for UCSC human hg18\nassembly. Here are all precompiled parameters
+      for effective genome size:\n  hs:\t2.7e9\n  mm:\t1.87e9\n  ce:\t9e7\n  dm:\t
+      1.2e8\nDEFAULT: hs\n"
   keep_dup:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 15
       prefix: --keep-dup
@@ -162,8 +173,8 @@ inputs:
       DEFAULT: 1
   buffer_size:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 16
       prefix: --buffer-size
@@ -181,8 +192,8 @@ inputs:
       DEFAULT: 100000
   bdg:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 17
       prefix: --bdg
@@ -195,8 +206,8 @@ inputs:
       DEFAULT: False
   trackline:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 18
       prefix: --trackline
@@ -207,8 +218,8 @@ inputs:
       DEFAULT: False
   spmr:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 19
       prefix: --SPMR
@@ -218,8 +229,8 @@ inputs:
       DEFAULT: False
   tsize:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 20
       prefix: --tsize
@@ -228,8 +239,8 @@ inputs:
       DEFAULT: False
   bw:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 21
       prefix: --bw
@@ -239,8 +250,8 @@ inputs:
       DEFAULT: 300
   mfold:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 22
       prefix: -m
@@ -253,8 +264,8 @@ inputs:
       DEFAULT: 5 50
   fix_bimodal:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 23
       prefix: --fix-bimodal
@@ -266,8 +277,8 @@ inputs:
       DEFAULT: False
   nomodel:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 24
       prefix: --nomodel
@@ -277,8 +288,8 @@ inputs:
       DEFAULT: False
   shift:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 25
       prefix: --shift
@@ -308,8 +319,8 @@ inputs:
       DEFAULT: 200
   q_value:
     type:
-    - 'null'
-    - float
+      - 'null'
+      - float
     inputBinding:
       position: 27
       prefix: -q
@@ -319,8 +330,8 @@ inputs:
       DEFAULT: 0.05
   p_value:
     type:
-    - 'null'
-    - float
+      - 'null'
+      - float
     inputBinding:
       position: 28
       prefix: -p
@@ -331,8 +342,8 @@ inputs:
       DEFAULT: null
   to_large:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 29
       prefix: --to-large
@@ -344,8 +355,8 @@ inputs:
       DEFAULT: False
   ratio:
     type:
-    - 'null'
-    - float
+      - 'null'
+      - float
     inputBinding:
       position: 30
       prefix: --ratio
@@ -355,8 +366,8 @@ inputs:
       DEFAULT: null
   down_sample:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 31
       prefix: --down-sample
@@ -371,8 +382,8 @@ inputs:
       DEFAULT: False
   seed:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 32
       prefix: --seed
@@ -382,8 +393,8 @@ inputs:
       DEFAULT: null
   nolambda:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 33
       prefix: --nolambda
@@ -394,8 +405,8 @@ inputs:
       DEFAULT: False
   slocal:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 34
       prefix: --slocal
@@ -411,8 +422,8 @@ inputs:
       DEFAULT: 1000
   llocal:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 35
       prefix: --llocal
@@ -427,8 +438,8 @@ inputs:
       DEFAULT: 10000.
   broad:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 36
       prefix: --broad
@@ -439,8 +450,8 @@ inputs:
       DEFAULT: False
   broad_cutoff:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 37
       prefix: --broad-cutoff
@@ -451,8 +462,8 @@ inputs:
       DEFAULT: 0.1
   cutoff_analysis:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 38
       prefix: --cutoff-analysis
@@ -465,8 +476,8 @@ inputs:
       DEFAULT: False
   call_summits:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 39
       prefix: --call-summits
@@ -476,8 +487,8 @@ inputs:
       DEFAULT: False
   fe_cutoff:
     type:
-    - 'null'
-    - float
+      - 'null'
+      - float
     inputBinding:
       position: 40
       prefix: --fe-cutoff
@@ -488,8 +499,8 @@ inputs:
       DEFAULT: 1.0
   verbose:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 41
       prefix: --verbose
@@ -499,35 +510,43 @@ outputs:
   peak_xls_file:
     type: File?
     outputBinding:
-      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_peaks.xls'); } else { return inputs.output_prefix + '_peaks.xls'; } }
+      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_peaks.xls');
+        } else { return inputs.output_prefix + '_peaks.xls'; } }
   narrow_peak_file:
     type: File?
     outputBinding:
-      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_peaks.narrowPeak'); } else { return inputs.output_prefix + '_peaks.narrowPeak'; } }
+      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_peaks.narrowPeak');
+        } else { return inputs.output_prefix + '_peaks.narrowPeak'; } }
   broad_peak_file:
     type: File?
     outputBinding:
-      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_peaks.broadPeak'); } else { return inputs.output_prefix + '_peaks.broadPeak'; } }
+      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_peaks.broadPeak');
+        } else { return inputs.output_prefix + '_peaks.broadPeak'; } }
   gapped_peak_file:
     type: File?
     outputBinding:
-      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_peaks.gappedPeak'); } else { return inputs.output_prefix + '_peaks.gappedPeak'; } }
+      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_peaks.gappedPeak');
+        } else { return inputs.output_prefix + '_peaks.gappedPeak'; } }
   peak_summits_file:
     type: File?
     outputBinding:
-      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_summits.bed'); } else { return inputs.output_prefix + '_summits.bed'; } }
+      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_summits.bed');
+        } else { return inputs.output_prefix + '_summits.bed'; } }
   moder_r_file:
     type: File?
     outputBinding:
-      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_model.r'); } else { return inputs.output_prefix + '_model.r'; } }
+      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_model.r');
+        } else { return inputs.output_prefix + '_model.r'; } }
   treat_pileup_bdg_file:
     type: File?
     outputBinding:
-      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_treat_pileup.bdg'); } else { return inputs.output_prefix + '_treat_pileup.bdg'; } }
+      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_treat_pileup.bdg');
+        } else { return inputs.output_prefix + '_treat_pileup.bdg'; } }
   control_lambda_bdg_file:
     type: File?
     outputBinding:
-      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_control_lambda.bdg'); } else { return inputs.output_prefix + '_control_lambda.bdg'; } }
+      glob: ${ if (inputs.output_prefix == ""){ return default_output_filename('_macs_control_lambda.bdg');
+        } else { return inputs.output_prefix + '_control_lambda.bdg'; } }
   macs_log:
     type: File?
     outputBinding:
@@ -590,13 +609,14 @@ outputs:
         }
       outputEval: $(parseInt(self[0].contents.split(' ')[2]))
 baseCommand:
-- python
-- run.py
-- macs2 callpeak
+  - python
+  - run.py
+  - macs2 callpeak
 arguments:
-- valueFrom: ${ if (inputs.output_prefix == ""){ return ' 2> ' + default_output_filename('_macs.log'); } else { return ' 2> ' + inputs.output_prefix + '.log'; } }
-  position: 100000
-  shellQuote: true
+  - valueFrom: ${ if (inputs.output_prefix == ""){ return ' 2> ' + default_output_filename('_macs.log');
+      } else { return ' 2> ' + inputs.output_prefix + '.log'; } }
+    position: 100000
+    shellQuote: true
 doc: |
   Tool runs peak calling using MACS2 within the custom script `run.py`
 

@@ -1,12 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function(ext) { var root = inputs.input_filename.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.input_filename.basename+ext:root+ext; };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function(ext) { var root = inputs.input_filename.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.input_filename.basename+ext:root+ext; };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/iaintersect:v0.0.2
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/iaintersect:v0.0.2
 inputs:
   input_filename:
     type: File
@@ -104,7 +105,7 @@ outputs:
           }
         }
 baseCommand:
-- iaintersect
+  - iaintersect
 doc: |
   Tool assigns each peak obtained from MACS2 to a gene and region (upstream, promoter, exon, intron, intergenic)
 

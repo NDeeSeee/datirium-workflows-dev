@@ -1,14 +1,15 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_root = function(basename) { return basename.split('.').slice(0,1).join('.'); };
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_root = function(basename) { return basename.split('.').slice(0,1).join('.');
+        };
 sd:metadata:
-- ../metadata/rnaseq-header.cwl
+  - ../metadata/rnaseq-header.cwl
 sd:upstream:
   genome_indices: genome-indices.cwl
 inputs:
@@ -25,28 +26,24 @@ inputs:
   chrom_length_file:
     type: File
     label: Chromosome length file
-    format: http://edamontology.org/format_2330
     sd:upstreamSource: genome_indices/chrom_length
     doc: Chromosome length file
   annotation_file:
     type: File
     label: Annotation file
-    format: http://edamontology.org/format_3475
     sd:upstreamSource: genome_indices/annotation
     doc: GTF or TAB-separated annotation file
   annotation_gtf_file:
     type: File
     label: GTF annotation file
-    format: http://edamontology.org/format_2306
     sd:upstreamSource: genome_indices/annotation_gtf
     doc: GTF annotation file
   fastq_file:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: FASTQ input file(s)
-    format: http://edamontology.org/format_1930
     doc: Reads data in a FASTQ format
   use_umi:
     type: boolean?
@@ -57,16 +54,17 @@ inputs:
     doc: Use UMIs (for FWD-UMI libraries)
   strand_specificity:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - 'yes'
-      - 'no'
-      - reverse
+      - 'null'
+      - type: enum
+        symbols:
+          - 'yes'
+          - 'no'
+          - reverse
     default: 'yes'
     sd:layout:
       advanced: true
-    label: Strand specificity. 'Yes' for FWD or FWD-UMI analyses, 'Reverse' for REV, 'No' to disable
+    label: Strand specificity. 'Yes' for FWD or FWD-UMI analyses, 'Reverse' for REV,
+      'No' to disable
     doc: |
       Whether the data is from a strand-specific assay. For stranded=no, a read is
       considered overlapping with a feature regardless of whether it is mapped to
@@ -105,218 +103,197 @@ inputs:
 outputs:
   bigwig_upstream:
     type: File
-    format: http://edamontology.org/format_3006
     label: BigWig file
     doc: Generated BigWig file for (+)strand reads
     outputSource: bam_to_bigwig_upstream/bigwig_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: (+)strand BigWig
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: (+)strand BigWig
+          height: 120
   bigwig_downstream:
     type: File
-    format: http://edamontology.org/format_3006
     label: BigWig file
     doc: Generated BigWig file for (-)strand reads
     outputSource: bam_to_bigwig_downstream/bigwig_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: (-)strand BigWig
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: (-)strand BigWig
+          height: 120
   star_final_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: STAR final log
     doc: STAR Log.final.out
     outputSource: star_aligner/log_final
   star_out_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR log out
     doc: STAR Log.out
     outputSource: star_aligner/log_out
   star_progress_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR progress log
     doc: STAR Log.progress.out
     outputSource: star_aligner/log_progress
   star_stdout_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR stdout log
     doc: STAR Log.std.out
     outputSource: star_aligner/log_std
   star_sj_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR sj log
     doc: STAR SJ.out.tab
     outputSource: star_aligner/log_sj
   fastx_statistics:
     type: File
-    format: http://edamontology.org/format_2330
     label: FASTQ statistics
     doc: fastx_quality_stats generated FASTQ file quality statistics file
     outputSource: fastx_quality_stats/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   bambai_pair:
     type: File
-    format: http://edamontology.org/format_2572
     label: Coordinate sorted BAM alignment file (+index BAI)
     doc: Coordinate sorted BAM file and BAI index file
     outputSource: samtools_sort_index_after_dedup/bam_bai_pair
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        optional: true
-        type: alignment
-        format: bam
-        name: BAM Track
-        displayMode: SQUISHED
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          optional: true
+          type: alignment
+          format: bam
+          name: BAM Track
+          displayMode: SQUISHED
   bowtie_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: Bowtie alignment log
     doc: Bowtie alignment log file
     outputSource: bowtie_aligner/log_file
   gene_expression_file:
     type: File
-    format: http://edamontology.org/format_3475
     label: Gene expression
     doc: Gene expression
     outputSource: group_transcript_expression/gene_expression_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Gene Expression
-        Title: Read counts grouped by gene
+      - syncfusiongrid:
+          tab: Gene Expression
+          Title: Read counts grouped by gene
   rpkm_genes:
     type: File
-    format: http://edamontology.org/format_3475
     label: 'GEEP: expression grouped by gene name'
     doc: 'GEEP: expression grouped by gene name'
     outputSource: group_geep_transcript_expression/genes_file
   combined_gene_expression_file:
     type: File
-    format: http://edamontology.org/format_3475
     label: HTSeq vs GEEP gene expression comparison
     doc: |
       Merged by GeneId, Chrom, TxStart, TxEnd and Strand gene expression files
       with reported and renamed TotalReads columns.
     outputSource: feature_expression_merge/merged_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Gene Expression Comparison
-        Title: HTSeq vs GEEP gene expression comparison (read counts)
+      - syncfusiongrid:
+          tab: Gene Expression Comparison
+          Title: HTSeq vs GEEP gene expression comparison (read counts)
   feature_expression_merge_stdout_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: HTSeq vs GEEP gene expression comparison stdout log
     doc: HTSeq vs GEEP gene expression comparison stdout log
     outputSource: feature_expression_merge/stdout_log
   feature_expression_merge_stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: HTSeq vs GEEP gene expression comparison stderr log
     doc: HTSeq vs GEEP gene expression comparison stderr log
     outputSource: feature_expression_merge/stderr_log
   htseq_count_stdout_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: 'HTSeq: stdout log'
     doc: 'HTSeq: stdout log'
     outputSource: htseq_count_transcript_expression/stdout_log
   htseq_count_stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: 'HTSeq: stderr log'
     doc: 'HTSeq: stderr log'
     outputSource: htseq_count_transcript_expression/stderr_log
   get_stat_log:
     type: File?
     label: YAML formatted combined log
-    format: http://edamontology.org/format_3750
     doc: YAML formatted combined log
     outputSource: get_stat/collected_statistics_yaml
   get_stat_markdown:
     type: File?
     label: Markdown formatted combined log
-    format: http://edamontology.org/format_3835
     doc: Markdown formatted combined log
     outputSource: get_stat/collected_statistics_md
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   get_formatted_stats:
     type: File?
     label: Bowtie, STAR and GEEP mapping stats
-    format: http://edamontology.org/format_2330
     doc: Processed and combined Bowtie & STAR aligner and GEEP logs
     outputSource: get_stat/collected_statistics_tsv
     sd:visualPlugins:
-    - tableView:
-        vertical: true
-        tab: Overview
+      - tableView:
+          vertical: true
+          tab: Overview
     sd:preview:
       sd:visualPlugins:
-      - pie:
-          colors:
-          - '#b3de69'
-          - '#99c0db'
-          - '#fdc381'
-          - '#fb8072'
-          - '#778899'
-          data:
-          - $2
-          - $3
-          - $4
-          - $5
-          - $6
+        - pie:
+            colors:
+              - '#b3de69'
+              - '#99c0db'
+              - '#fdc381'
+              - '#fb8072'
+              - '#778899'
+            data:
+              - $2
+              - $3
+              - $4
+              - $5
+              - $6
   bam_statistics_report:
     type: File
     label: BAM statistics report
-    format: http://edamontology.org/format_2330
     doc: BAM statistics report (after deduplication step)
     outputSource: get_bam_statistics/log_file
   trim_adapters_stdout_log:
@@ -341,37 +318,36 @@ outputs:
     outputSource: umi_tools_dedup/stderr_log
   umi_tools_dedup_stats:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: umi_tools dedup statistics
     doc: umi_tools dedup statistics
     outputSource: umi_tools_dedup/output_stats
   gene_body_report:
     type: File?
-    format: http://edamontology.org/format_3475
     label: Gene body average tag density plot for all isoforms longer than 1000 bp
-    doc: Gene body average tag density plot for all isoforms longer than 1000 bp in TSV format
+    doc: Gene body average tag density plot for all isoforms longer than 1000 bp in
+      TSV format
     outputSource: get_gene_body/gene_body_report_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: Gene body average tag density plot
-        xAxisTitle: Gene body percentile (5' -> 3')
-        yAxisTitle: Average Tag Density (per percentile)
-        colors:
-        - '#232C15'
-        data:
-        - $2
-        comparable: gbatdp
+      - line:
+          tab: QC Plots
+          Title: Gene body average tag density plot
+          xAxisTitle: Gene body percentile (5' -> 3')
+          yAxisTitle: Average Tag Density (per percentile)
+          colors:
+            - '#232C15'
+          data:
+            - $2
+          comparable: gbatdp
   gene_body_plot_pdf:
     type: File?
-    format: http://edamontology.org/format_3508
     label: Gene body average tag density plot for all isoforms longer than 1000 bp
-    doc: Gene body average tag density plot for all isoforms longer than 1000 bp in PDF format
+    doc: Gene body average tag density plot for all isoforms longer than 1000 bp in
+      PDF format
     outputSource: get_gene_body/gene_body_plot_pdf
   rpkm_distribution_plot_pdf:
     type: File?
-    format: http://edamontology.org/format_3508
     label: RPKM distribution plot for isoforms
     doc: RPKM distribution plot for isoforms in PDF format
     outputSource: get_gene_body/rpkm_distribution_plot_pdf
@@ -383,7 +359,7 @@ steps:
       output_prefix:
         default: read_1
     out:
-    - fastq_file
+      - fastq_file
   move_umi_to_read_name:
     run: ../tools/custom-bash.cwl
     in:
@@ -405,20 +381,20 @@ steps:
             cp ${FILE} ${BASENAME}
           fi
     out:
-    - output_file
+      - output_file
   trim_adapters:
     in:
       fastq_file: move_umi_to_read_name/output_file
     out:
-    - trimmed_file
-    - stdout_log
-    - stderr_log
+      - trimmed_file
+      - stdout_log
+      - stderr_log
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       hints:
-      - class: DockerRequirement
-        dockerPull: scidap/trimgalore:v0.6.6
+        - class: DockerRequirement
+          dockerPull: scidap/trimgalore:v0.6.6
       inputs:
         bash_script:
           type: string?
@@ -447,8 +423,8 @@ steps:
         stderr_log:
           type: stderr
       baseCommand:
-      - bash
-      - -c
+        - bash
+        - -c
       stdout: cutadapt_stdout.log
       stderr: cutadapt_stderr.log
   star_aligner:
@@ -468,19 +444,19 @@ steps:
       clip5pNbases: clip_5p_end
       threads: threads
     out:
-    - aligned_file
-    - log_final
-    - uniquely_mapped_reads_number
-    - log_out
-    - log_progress
-    - log_std
-    - log_sj
+      - aligned_file
+      - log_final
+      - uniquely_mapped_reads_number
+      - log_out
+      - log_progress
+      - log_std
+      - log_sj
   fastx_quality_stats:
     run: ../tools/fastx-quality-stats.cwl
     in:
       input_file: trim_adapters/trimmed_file
     out:
-    - statistics_file
+      - statistics_file
   samtools_sort_index_before_dedup:
     run: ../tools/samtools-sort-index.cwl
     in:
@@ -490,7 +466,7 @@ steps:
         valueFrom: $(get_root(self.basename)+".bam")
       threads: threads
     out:
-    - bam_bai_pair
+      - bam_bai_pair
   umi_tools_dedup:
     run: ../tools/umi-tools-dedup.cwl
     in:
@@ -499,10 +475,10 @@ steps:
         default: NH
       trigger: use_umi
     out:
-    - dedup_bam_file
-    - output_stats
-    - stdout_log
-    - stderr_log
+      - dedup_bam_file
+      - output_stats
+      - stdout_log
+      - stderr_log
   samtools_sort_index_after_dedup:
     run: ../tools/samtools-sort-index.cwl
     in:
@@ -513,7 +489,7 @@ steps:
       threads: threads
       trigger: use_umi
     out:
-    - bam_bai_pair
+      - bam_bai_pair
   htseq_count_transcript_expression:
     run: ../tools/htseq-count.cwl
     in:
@@ -527,29 +503,70 @@ steps:
       additional_id:
         default: gene_id
     out:
-    - feature_counts_report_file
-    - stdout_log
-    - stderr_log
+      - feature_counts_report_file
+      - stdout_log
+      - stderr_log
   group_transcript_expression:
     in:
       transcript_expression_file: htseq_count_transcript_expression/feature_counts_report_file
       annotation_file: annotation_file
       mapped_reads_number: star_aligner/uniquely_mapped_reads_number
     out:
-    - transcript_expression_file
-    - gene_expression_file
-    - common_tss_expression_file
+      - transcript_expression_file
+      - gene_expression_file
+      - common_tss_expression_file
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/scidap-deseq:v0.0.21
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/scidap-deseq:v0.0.21
       requirements:
-      - class: InitialWorkDirRequirement
-        listing:
-        - entryname: process.R
-          entry: "#!/usr/bin/env Rscript\noptions(warn=-1)\noptions(\"width\"=300)\nsuppressMessages(library(data.table))\n\nargs <- commandArgs(trailingOnly = TRUE)\n\ntranscript_counts <- read.table(args[1], sep=\"\\t\", header=FALSE, stringsAsFactors=FALSE)\ncolnames(transcript_counts) <- c(\"RefseqId\", \"GeneId\", \"TotalReads\")\n\nannotation <- read.table(args[2], sep=\"\\t\", header=TRUE, stringsAsFactors=FALSE)\ncolnames(annotation) <- c(\"bin\", \"RefseqId\", \"Chrom\",\t\"Strand\",\t\"TxStart\", \"TxEnd\", \"cdsStart\", \"cdsEnd\", \"exonCount\", \"exonStarts\", \"exonEnds\", \"score\", \"GeneId\",\t\"cdsStartStat\",\t\"cdsEndStat\",\t\"exonFrames\")\n\nmapped_reads_number <- as.numeric(args[3])\n\ntranscript_counts <- merge(transcript_counts, annotation, by=c(\"RefseqId\", \"GeneId\"), sort = FALSE)\ntranscript_counts <- transcript_counts[, c(\"RefseqId\", \"GeneId\", \"Chrom\", \"TxStart\", \"TxEnd\", \"Strand\", \"TotalReads\")]\n\ntranscript_counts_table <- setDT(transcript_counts)\n\ngene_counts <- as.data.frame(\n  transcript_counts_table[\n    ,\n    .(\n      RefseqId = paste(sort(unique(RefseqId)), collapse = \",\"),\n      Chrom = Chrom[1],\n      TxStart = TxStart[1],\n      TxEnd = TxEnd[1],\n      Strand = Strand[1],\n      TotalReads = sum(TotalReads)\n    ),\n    by = GeneId\n  ]\n)\n\ncommon_tss_counts_positive_strand_table <- transcript_counts_table[\n  Strand==\"+\",\n  .(\n    RefseqId = paste(sort(unique(RefseqId)), collapse = \",\"),\n    GeneId = paste(sort(unique(GeneId)), collapse = \",\"),\n    TxEnd = max(TxEnd),\n    TotalReads = sum(TotalReads)),\n    by = .(Chrom, TxStart, Strand)\n]\n\ncommon_tss_counts_negative_strand_table <- transcript_counts_table[\n  Strand==\"-\",\n  .(\n    RefseqId = paste(sort(unique(RefseqId)), collapse = \",\"),\n    GeneId = paste(sort(unique(GeneId)), collapse = \",\"),\n    TxStart = min(TxStart),\n    TotalReads = sum(TotalReads)),\n    by = .(Chrom, TxEnd, Strand)\n]\n\ncommon_tss_counts <- as.data.frame(\n  rbind(common_tss_counts_positive_strand_table, common_tss_counts_negative_strand_table)\n)\n\nreordered_transcript_counts <- transcript_counts[, c(\"RefseqId\", \"GeneId\", \"Chrom\", \"TxStart\", \"TxEnd\", \"Strand\", \"TotalReads\")]\nreordered_transcript_counts$Rpkm <- reordered_transcript_counts$TotalReads / ( (reordered_transcript_counts$TxEnd - reordered_transcript_counts$TxStart) / 1000 * mapped_reads_number / 1000000 )\nreordered_gene_counts <- gene_counts[, c(\"RefseqId\", \"GeneId\", \"Chrom\", \"TxStart\", \"TxEnd\", \"Strand\", \"TotalReads\")]\nreordered_common_tss_counts <- common_tss_counts[, c(\"RefseqId\", \"GeneId\", \"Chrom\", \"TxStart\", \"TxEnd\", \"Strand\", \"TotalReads\")]\n\nwrite.table(reordered_transcript_counts, file=\"transcript_expression.csv\", sep=\",\", row.names=FALSE, col.names=TRUE, quote=FALSE)\nwrite.table(reordered_gene_counts, file=\"gene_expression.tsv\", sep=\"\\t\", row.names=FALSE, col.names=TRUE, quote=FALSE)\nwrite.table(reordered_common_tss_counts, file=\"common_tss_expression.tsv\", sep=\"\\t\", row.names=FALSE, col.names=TRUE, quote=FALSE)\n"
+        - class: InitialWorkDirRequirement
+          listing:
+            - entryname: process.R
+              entry: "#!/usr/bin/env Rscript\noptions(warn=-1)\noptions(\"width\"
+                =300)\nsuppressMessages(library(data.table))\n\nargs <- commandArgs(trailingOnly
+                = TRUE)\n\ntranscript_counts <- read.table(args[1], sep=\"\\t\", header=FALSE,
+                stringsAsFactors=FALSE)\ncolnames(transcript_counts) <- c(\"RefseqId\"\
+                , \"GeneId\", \"TotalReads\")\n\nannotation <- read.table(args[2],
+                sep=\"\\t\", header=TRUE, stringsAsFactors=FALSE)\ncolnames(annotation)
+                <- c(\"bin\", \"RefseqId\", \"Chrom\",\t\"Strand\",\t\"TxStart\",
+                \"TxEnd\", \"cdsStart\", \"cdsEnd\", \"exonCount\", \"exonStarts\"\
+                , \"exonEnds\", \"score\", \"GeneId\",\t\"cdsStartStat\",\t\"cdsEndStat\"\
+                ,\t\"exonFrames\")\n\nmapped_reads_number <- as.numeric(args[3])\n
+                \ntranscript_counts <- merge(transcript_counts, annotation, by=c(\"\
+                RefseqId\", \"GeneId\"), sort = FALSE)\ntranscript_counts <- transcript_counts[,
+                c(\"RefseqId\", \"GeneId\", \"Chrom\", \"TxStart\", \"TxEnd\", \"\
+                Strand\", \"TotalReads\")]\n\ntranscript_counts_table <- setDT(transcript_counts)\n
+                \ngene_counts <- as.data.frame(\n  transcript_counts_table[\n    ,\n\
+                \    .(\n      RefseqId = paste(sort(unique(RefseqId)), collapse =
+                \",\"),\n      Chrom = Chrom[1],\n      TxStart = TxStart[1],\n  \
+                \    TxEnd = TxEnd[1],\n      Strand = Strand[1],\n      TotalReads
+                = sum(TotalReads)\n    ),\n    by = GeneId\n  ]\n)\n\ncommon_tss_counts_positive_strand_table
+                <- transcript_counts_table[\n  Strand==\"+\",\n  .(\n    RefseqId
+                = paste(sort(unique(RefseqId)), collapse = \",\"),\n    GeneId = paste(sort(unique(GeneId)),
+                collapse = \",\"),\n    TxEnd = max(TxEnd),\n    TotalReads = sum(TotalReads)),\n\
+                \    by = .(Chrom, TxStart, Strand)\n]\n\ncommon_tss_counts_negative_strand_table
+                <- transcript_counts_table[\n  Strand==\"-\",\n  .(\n    RefseqId
+                = paste(sort(unique(RefseqId)), collapse = \",\"),\n    GeneId = paste(sort(unique(GeneId)),
+                collapse = \",\"),\n    TxStart = min(TxStart),\n    TotalReads =
+                sum(TotalReads)),\n    by = .(Chrom, TxEnd, Strand)\n]\n\ncommon_tss_counts
+                <- as.data.frame(\n  rbind(common_tss_counts_positive_strand_table,
+                common_tss_counts_negative_strand_table)\n)\n\nreordered_transcript_counts
+                <- transcript_counts[, c(\"RefseqId\", \"GeneId\", \"Chrom\", \"TxStart\"\
+                , \"TxEnd\", \"Strand\", \"TotalReads\")]\nreordered_transcript_counts$Rpkm
+                <- reordered_transcript_counts$TotalReads / ( (reordered_transcript_counts$TxEnd
+                - reordered_transcript_counts$TxStart) / 1000 * mapped_reads_number
+                / 1000000 )\nreordered_gene_counts <- gene_counts[, c(\"RefseqId\"\
+                , \"GeneId\", \"Chrom\", \"TxStart\", \"TxEnd\", \"Strand\", \"TotalReads\"\
+                )]\nreordered_common_tss_counts <- common_tss_counts[, c(\"RefseqId\"\
+                , \"GeneId\", \"Chrom\", \"TxStart\", \"TxEnd\", \"Strand\", \"TotalReads\"\
+                )]\n\nwrite.table(reordered_transcript_counts, file=\"transcript_expression.csv\"\
+                , sep=\",\", row.names=FALSE, col.names=TRUE, quote=FALSE)\nwrite.table(reordered_gene_counts,
+                file=\"gene_expression.tsv\", sep=\"\\t\", row.names=FALSE, col.names=TRUE,
+                quote=FALSE)\nwrite.table(reordered_common_tss_counts, file=\"common_tss_expression.tsv\"\
+                , sep=\"\\t\", row.names=FALSE, col.names=TRUE, quote=FALSE)\n"
       inputs:
         transcript_expression_file:
           type: File
@@ -577,8 +594,8 @@ steps:
           outputBinding:
             glob: common_tss_expression.tsv
       baseCommand:
-      - Rscript
-      - process.R
+        - Rscript
+        - process.R
   bam_to_bigwig_upstream:
     run: ../tools/bam-bedgraph-bigwig.cwl
     in:
@@ -591,7 +608,7 @@ steps:
       strand:
         default: +
     out:
-    - bigwig_file
+      - bigwig_file
   bam_to_bigwig_downstream:
     run: ../tools/bam-bedgraph-bigwig.cwl
     in:
@@ -606,7 +623,7 @@ steps:
       strand:
         default: '-'
     out:
-    - bigwig_file
+      - bigwig_file
   bowtie_aligner:
     run: ../tools/bowtie-alignreads.cwl
     in:
@@ -626,7 +643,7 @@ steps:
         default: true
       threads: threads
     out:
-    - log_file
+      - log_file
   get_bam_statistics:
     run: ../tools/samtools-stats.cwl
     in:
@@ -635,7 +652,7 @@ steps:
         source: samtools_sort_index_after_dedup/bam_bai_pair
         valueFrom: $(get_root(self.basename)+"_bam_statistics_report.txt")
     out:
-    - log_file
+      - log_file
   get_stat:
     run: ../tools/collect-statistics-rna-quantseq.cwl
     in:
@@ -644,9 +661,9 @@ steps:
       bam_statistics_report: get_bam_statistics/log_file
       isoforms_file: group_transcript_expression/transcript_expression_file
     out:
-    - collected_statistics_yaml
-    - collected_statistics_tsv
-    - collected_statistics_md
+      - collected_statistics_yaml
+      - collected_statistics_tsv
+      - collected_statistics_md
   geep_count_transcript_expression:
     run: ../tools/geep.cwl
     in:
@@ -658,19 +675,19 @@ steps:
         default: 0
       threads: threads
     out:
-    - isoforms_file
+      - isoforms_file
   group_geep_transcript_expression:
     in:
       isoforms_file: geep_count_transcript_expression/isoforms_file
     out:
-    - genes_file
-    - common_tss_file
+      - genes_file
+      - common_tss_file
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/scidap-deseq:v0.0.20
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/scidap-deseq:v0.0.20
       inputs:
         bash_script:
           type: string?
@@ -698,31 +715,31 @@ steps:
           outputBinding:
             glob: $(inputs.common_tss_file?inputs.common_tss_file:"*common_tss.tsv")
       baseCommand:
-      - bash
-      - -c
+        - bash
+        - -c
   feature_expression_merge:
     run: ../tools/feature-merge.cwl
     in:
       feature_files:
         source:
-        - group_transcript_expression/gene_expression_file
-        - group_geep_transcript_expression/genes_file
+          - group_transcript_expression/gene_expression_file
+          - group_geep_transcript_expression/genes_file
       feature_aliases:
         default:
-        - HTSeq
-        - GEEP
+          - HTSeq
+          - GEEP
       mergeby:
         default:
-        - RefseqId
-        - GeneId
-        - Chrom
-        - TxStart
-        - TxEnd
-        - Strand
+          - RefseqId
+          - GeneId
+          - Chrom
+          - TxStart
+          - TxEnd
+          - Strand
     out:
-    - merged_file
-    - stdout_log
-    - stderr_log
+      - merged_file
+      - stdout_log
+      - stderr_log
   get_gene_body:
     run: ../tools/plugin-plot-rna.cwl
     in:
@@ -734,9 +751,9 @@ steps:
       strand_specificity: strand_specificity
       threads: threads
     out:
-    - gene_body_report_file
-    - gene_body_plot_pdf
-    - rpkm_distribution_plot_pdf
+      - gene_body_report_file
+      - gene_body_plot_pdf
+      - rpkm_distribution_plot_pdf
 label: QuantSeq 3' FWD, FWD-UMI or REV for single-read mRNA-Seq data
 doc: '### QuantSeq 3'' FWD, FWD-UMI or REV for single-read mRNA-Seq data'
 sd:version: 100

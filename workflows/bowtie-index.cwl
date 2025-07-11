@@ -1,12 +1,12 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: ScatterFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: ScatterFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 sd:metadata:
-- ../metadata/indices-header.cwl
+  - ../metadata/indices-header.cwl
 inputs:
   genome:
     type: string
@@ -14,7 +14,6 @@ inputs:
     doc: Genome type, such as mm10, hg19, hg38, etc
   fasta_file:
     type: File
-    format: http://edamontology.org/format_1929
     label: Reference genome FASTA file
     doc: Reference genome FASTA file. Includes all chromosomes
 outputs:
@@ -40,9 +39,9 @@ steps:
       fasta_file: fasta_file
       index_base_name: genome
     out:
-    - indices_folder
-    - stdout_log
-    - stderr_log
+      - indices_folder
+      - stdout_log
+      - stderr_log
 label: Build Bowtie indices
 doc: |-
   Workflow runs [Bowtie](http://bowtie-bio.sourceforge.net/tutorial.shtml) v1.2.0 (12/30/2016) to build indices for reference

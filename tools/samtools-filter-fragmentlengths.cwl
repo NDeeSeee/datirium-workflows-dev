@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/samtools:v1.4
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/samtools:v1.4
 inputs:
   script:
     type: string?
@@ -56,8 +56,8 @@ outputs:
     outputBinding:
       glob: filtered.bam
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: filter_fragment_lengths.log.stdout
 stderr: filter_fragment_lengths.log.stderr
 doc: |

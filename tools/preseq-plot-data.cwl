@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-ubuntu22:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-ubuntu22:v1.0.0
 inputs:
   script:
     type: string?
@@ -59,8 +59,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: preseq-plot-data_stdout.log
 stderr: preseq-plot-data_stderr.log
 doc: |-

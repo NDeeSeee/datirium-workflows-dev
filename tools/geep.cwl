@@ -1,18 +1,19 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_prefix = function() { var ext = '.'; var root = inputs.bam_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.bam_file.basename+ext:root+ext; };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_prefix = function() { var ext = '.'; var root = inputs.bam_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.bam_file.basename+ext:root+ext; };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/geep:v0.0.5
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/geep:v0.0.5
 inputs:
   bam_file:
     type:
-    - File
+      - File
     secondaryFiles:
-    - .bai
+      - .bai
     inputBinding:
       position: 10
       prefix: --bam
@@ -20,7 +21,7 @@ inputs:
       Set the path to the coordinate sorted BAM file. Required
   annotation_file:
     type:
-    - File
+      - File
     inputBinding:
       position: 11
       prefix: --annotation
@@ -128,12 +129,12 @@ outputs:
       glob: '*raw.txt'
   log_file:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: $(inputs.log_filename)
 baseCommand:
-- geep
+  - geep
 label: geep
 doc: |
   Tool calculates RPKM values grouped by isoforms or genes.

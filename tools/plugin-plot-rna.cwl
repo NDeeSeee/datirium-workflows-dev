@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/plugin-plot-rna:v0.0.4
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/plugin-plot-rna:v0.0.4
 inputs:
   annotation_file:
     type: File
@@ -19,7 +19,7 @@ inputs:
       position: 6
       prefix: --bam
     secondaryFiles:
-    - .bai
+      - .bai
     doc: |
       Path to the indexed BAM file
   isoforms_file:
@@ -52,12 +52,12 @@ inputs:
       Run as paired end. Default: false
   strand_specificity:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - 'yes'
-      - 'no'
-      - reverse
+      - 'null'
+      - type: enum
+        symbols:
+          - 'yes'
+          - 'no'
+          - reverse
     inputBinding:
       position: 11
       prefix: --stranded
@@ -116,9 +116,9 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- plot_rna.R
+  - plot_rna.R
 successCodes:
-- 1
+  - 1
 stderr: gene_body_stderr.log
 stdout: gene_body_stdout.log
 label: Gene body average tag density plot and RPKM distribution histogram

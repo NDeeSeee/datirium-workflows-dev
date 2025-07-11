@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   query_data_rds:
     type: File
@@ -96,8 +96,8 @@ inputs:
       generating UMAP and composition plots.
   ranges:
     type:
-    - 'null'
-    - float[]
+      - 'null'
+      - float[]
     inputBinding:
       prefix: --ranges
     doc: |
@@ -113,17 +113,17 @@ inputs:
       Default: false
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     inputBinding:
       prefix: --theme
     doc: |
@@ -294,9 +294,9 @@ outputs:
       PNG format.
   all_plots_pdf:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*.pdf'
     doc: |
@@ -385,9 +385,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_rna_da_cells.R"]:"/usr/local/bin/sc_rna_da_cells.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_rna_da_cells.R"]:"/usr/local/bin/sc_rna_da_cells.R")
 stdout: sc_rna_da_cells_stdout.log
 stderr: sc_rna_da_cells_stderr.log
 label: Single-Cell Differential Abundance Analysis

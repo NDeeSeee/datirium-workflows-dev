@@ -1,31 +1,34 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_output_folder_name = function() { if (inputs.output_folder_name == ""){ var root = inputs.genome_fasta_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.genome_fasta_file.basename:root; } else { return inputs.output_folder_name; } };
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      var exclude_chr = "[]";
-      if (inputs.exclude_chr && inputs.exclude_chr.length > 0){
-        exclude_chr = '["' + inputs.exclude_chr.join('", "') + '"]'
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_output_folder_name = function() { if (inputs.output_folder_name ==
+        ""){ var root = inputs.genome_fasta_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.genome_fasta_file.basename:root; } else { return
+        inputs.output_folder_name; } };
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        var exclude_chr = "[]";
+        if (inputs.exclude_chr && inputs.exclude_chr.length > 0){
+          exclude_chr = '["' + inputs.exclude_chr.join('", "') + '"]'
+        }
+        var entry = `
+        {
+            genome: ["${get_output_folder_name()}"]
+            input_fasta: ["${inputs.genome_fasta_file.path}"]
+            input_gtf: ["${inputs.annotation_gtf_file.path}"]
+            non_nuclear_contigs: ${exclude_chr}
+        }`
+        return [{
+          "entry": entry,
+          "entryname": "config.txt"
+        }];
       }
-      var entry = `
-      {
-          genome: ["${get_output_folder_name()}"]
-          input_fasta: ["${inputs.genome_fasta_file.path}"]
-          input_gtf: ["${inputs.annotation_gtf_file.path}"]
-          non_nuclear_contigs: ${exclude_chr}
-      }`
-      return [{
-        "entry": entry,
-        "entryname": "config.txt"
-      }];
-    }
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/cellranger-arc:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/cellranger-arc:v0.0.1
 inputs:
   genome_fasta_file:
     type: File
@@ -37,8 +40,8 @@ inputs:
       GTF annotation file.
   exclude_chr:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     doc: |
       Contigs that do not have any chromatin structure,
       for example, mitochondria or plastids. These
@@ -86,10 +89,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- cellranger-arc
-- mkref
-- --config
-- config.txt
+  - cellranger-arc
+  - mkref
+  - --config
+  - config.txt
 stdout: cellranger_arc_mkref_stdout.log
 stderr: cellranger_arc_mkref_stderr.log
 label: Cell Ranger Reference (RNA+ATAC)

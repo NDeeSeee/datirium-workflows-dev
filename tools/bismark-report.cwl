@@ -1,9 +1,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bismark:v0.0.2
+  - class: InlineJavascriptRequirement
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bismark:v0.0.2
 inputs:
   alignment_report:
     type: File
@@ -43,7 +43,7 @@ outputs:
     outputBinding:
       glob: '*'
 baseCommand:
-- bismark2report
+  - bismark2report
 doc: |
   This tool uses a Bismark alignment report to generate a graphical HTML report page. Optionally, further reports of
   the Bismark suite such as deduplication, methylation extractor splitting or M-bias reports can be specified as well.

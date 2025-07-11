@@ -1,16 +1,16 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ResourceRequirement
-  coresMin: 8
-  coresMax: 16
-  ramMin: 32000
+  - class: InlineJavascriptRequirement
+  - class: ResourceRequirement
+    coresMin: 8
+    coresMax: 16
+    ramMin: 32000
 hints:
-- class: DockerRequirement
-  dockerPull: scidap/clipper:v0.2.0
+  - class: DockerRequirement
+    dockerPull: scidap/clipper:v0.2.0
 baseCommand:
-- clipper
+  - clipper
 inputs:
   species:
     type: string

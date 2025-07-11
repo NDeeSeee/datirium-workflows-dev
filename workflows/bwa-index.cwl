@@ -1,7 +1,7 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
+  - class: StepInputExpressionRequirement
 sd:upstream:
   genome_indices: genome-indices.cwl
 inputs:
@@ -26,15 +26,13 @@ outputs:
     outputSource: index_reference/bwa_index
   log_file_stdout:
     type: File
-    format: http://edamontology.org/format_2330
     label: stdout logfile
     outputSource: index_reference/log_file_stdout
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   log_file_stderr:
     type: File
-    format: http://edamontology.org/format_2330
     label: stderr logfile
     outputSource: index_reference/log_file_stderr
 steps:
@@ -43,9 +41,9 @@ steps:
     in:
       ref_genome_fasta: reference_fasta
     out:
-    - bwa_index
-    - log_file_stdout
-    - log_file_stderr
+      - bwa_index
+      - log_file_stdout
+      - log_file_stderr
 label: BWA index pipeline
 doc: |
   This workflow indexes the input reference FASTA with bwa, and generates faidx and dict file using samtools.

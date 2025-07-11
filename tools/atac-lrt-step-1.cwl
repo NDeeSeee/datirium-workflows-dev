@@ -5,8 +5,8 @@ requirements:
   - class: InlineJavascriptRequirement
 
 hints:
-- class: DockerRequirement
-  dockerPull: "biowardrobe2/scidap-atac:v0.0.80"
+  - class: DockerRequirement
+    dockerPull: "biowardrobe2/scidap-atac:v0.0.80"
 
 inputs:
   test_peak_files:
@@ -243,45 +243,9 @@ $namespaces:
 $schemas:
   - https://github.com/schemaorg/schemaorg/raw/main/data/releases/11.01/schemaorg-current-http.rdf
 
-s:name: "DESeq2 (LRT) - differential gene expression analysis using likelihood ratio test"
-label: "DESeq2 (LRT) - differential gene expression analysis using likelihood ratio test"
-s:alternateName: "Differential gene expression analysis based on the LRT (likelihood ratio test)"
-
-s:downloadUrl: https://raw.githubusercontent.com/Barski-lab/workflows/master/tools/deseq-lrt-step-1.cwl
-s:codeRepository: https://github.com/Barski-lab/workflows
-s:license: http://www.apache.org/licenses/LICENSE-2.0
-
-s:isPartOf:
-  class: s:CreativeWork
-  s:name: Common Workflow Language
-  s:url: http://commonwl.org/
-
-s:creator:
-  - class: s:Organization
-    s:legalName: "Cincinnati Children's Hospital Medical Center"
-    s:location:
-      - class: s:PostalAddress
-        s:addressCountry: "USA"
-        s:addressLocality: "Cincinnati"
-        s:addressRegion: "OH"
-        s:postalCode: "45229"
-        s:streetAddress: "3333 Burnet Ave"
-        s:telephone: "+1(513)636-4200"
-    s:logo: "https://www.cincinnatichildrens.org/-/media/cincinnati%20childrens/global%20shared/childrens-logo-new.png"
-    s:department:
-      - class: s:Organization
-        s:legalName: "Allergy and Immunology"
-        s:department:
-          - class: s:Organization
-            s:legalName: "Barski Research Lab"
-            s:member:
-              - class: s:Person
-                s:name: Michael Kotliar
-                s:email: mailto:misha.kotliar@gmail.com
-                s:sameAs:
-                  - id: http://orcid.org/0000-0002-6486-3898
-
-doc: |
+label: "DESeq2 (LRT) - differential gene expression analysis using likelihood ratio
+  test"
+doc: |-
   Runs DESeq2 using LRT (Likelihood Ratio Test)
 
   The LRT examines two models for the counts: a full model with a certain number of terms and a reduced model, in which some of the terms of the full model are removed. The test determines if the increased likelihood of the data using the extra terms in the full model is more than expected if those extra terms are truly zero.

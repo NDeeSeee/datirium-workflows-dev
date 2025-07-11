@@ -1,7 +1,7 @@
 cwlVersion: v1.0
 class: ExpressionTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 id: fastqc_results_trigger
 inputs:
   summary_file:
@@ -10,7 +10,8 @@ inputs:
       loadContents: true
   criteria:
     type: string?
-    default: .*Per base sequence quality.*|.*Per sequence quality scores.*|.*Overrepresented sequences.*|.*Adapter Content.*
+    default: .*Per base sequence quality.*|.*Per sequence quality scores.*|.*Overrepresented
+      sequences.*|.*Adapter Content.*
 outputs:
   trigger: boolean
 expression: |-

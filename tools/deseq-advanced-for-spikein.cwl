@@ -1,39 +1,39 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: avivdemorgan/scidap-deseqspikein:v1.6.0
+  - class: DockerRequirement
+    dockerPull: avivdemorgan/scidap-deseqspikein:v1.6.0
 inputs:
   untreated_files:
     type:
-    - File
-    - File[]
+      - File
+      - File[]
     inputBinding:
       prefix: -u
     doc: |
       Untreated input CSV/TSV files
   treated_files:
     type:
-    - File
-    - File[]
+      - File
+      - File[]
     inputBinding:
       prefix: -t
     doc: |
       Treated input CSV/TSV files
   ercc_counts_treated:
     type:
-    - File
-    - File[]
+      - File
+      - File[]
     inputBinding:
       prefix: -ter
     doc: |
       Untreated input CSV/TSV files
   ercc_counts_untreated:
     type:
-    - File
-    - File[]
+      - File
+      - File[]
     inputBinding:
       prefix: -uer
     doc: |
@@ -52,18 +52,18 @@ inputs:
       Name for treated condition, use only letters and numbers
   untreated_sample_names:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: -ua
     doc: |
       Unique aliases for untreated expression files. Default: basenames of -u without extensions
   treated_sample_names:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: -ta
     doc: |
@@ -76,12 +76,12 @@ inputs:
       Minimum threshold for rpkm filtering. Default: 5
   cluster_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - row
-      - column
-      - both
+      - 'null'
+      - type: enum
+        symbols:
+          - row
+          - column
+          - both
     inputBinding:
       prefix: --cluster
     doc: |
@@ -90,15 +90,15 @@ inputs:
       clustering
   row_distance:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     inputBinding:
       prefix: --rowdist
     doc: |
@@ -106,15 +106,15 @@ inputs:
       provided. Default: cosangle
   column_distance:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     inputBinding:
       prefix: --columndist
     doc: |
@@ -217,7 +217,7 @@ outputs:
     outputBinding:
       glob: error_report.txt
 baseCommand:
-- /usr/local/bin/run_deseq_for_spikein.R
+  - /usr/local/bin/run_deseq_for_spikein.R
 stdout: deseq_stdout.log
 stderr: deseq_stderr.log
 doc: |

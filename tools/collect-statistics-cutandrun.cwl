@@ -1,17 +1,271 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_output_prefix = function() { if (inputs.output_prefix) { return inputs.output_prefix; } var root = inputs.bowtie_alignment_report.basename.split('.').slice(0,-1).join('.'); var suffix = "_collected_statistics_report"; return (root == "")?inputs.bowtie_alignment_report.basename+suffix:root+suffix; };
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_output_prefix = function() { if (inputs.output_prefix) { return inputs.output_prefix;
+        } var root = inputs.bowtie_alignment_report.basename.split('.').slice(0,-1).join('.');
+        var suffix = "_collected_statistics_report"; return (root == "")?inputs.bowtie_alignment_report.basename+suffix:root+suffix;
+        };
 hints:
-- class: DockerRequirement
-  dockerPull: rackspacedot/python37
+  - class: DockerRequirement
+    dockerPull: rackspacedot/python37
 inputs:
   script:
     type: string?
-    default: "#!/usr/bin/env python\nimport os\nimport sys\nimport argparse\nimport yaml\nimport math\n\ndef cut_int(s):\n    return int(s.strip().split()[0])\n\n\ndef cut_float(s):\n    return float(s.strip().split()[0])\n\n\nTRIMGALORE = {\n    \"Trimming mode\": {\n        \"alias\": \"trimming mode\",\n        \"function\": str,\n        \"pair_end_specific\": False\n    },\n    \"Quality Phred score cutoff\": {\n        \"alias\": \"quality phred score cutoff\",\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n    \"Quality encoding type selected\": {\n        \"alias\": \"quality encoding type\",\n        \"function\": str,\n        \"pair_end_specific\": False\n    },\n    \"Adapter sequence\": {\n        \"alias\": \"adapter sequence\",\n        \"function\": str,\n        \"pair_end_specific\": False\n    },\n    \"Minimum required adapter overlap\": {\n        \"alias\": \"minimum required adapter overlap\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"Maximum trimming error rate\": {\n        \"alias\": \"maximum trimming error rate\",\n        \"function\": cut_float,\n        \"pair_end_specific\": False\n    },\n    \"Minimum required sequence length\": {\n        \"alias\": \"minimum required read length\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"Total number of sequences analysed\": {\n        \"alias\": \"number of reads/pairs analysed for length validation\",\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n    \"Number of sequence pairs removed\": {\n        \"alias\": \"reads/pairs removed because of length cutoff\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"Sequences removed because they became shorter\": {\n        \"alias\": \"reads/pairs removed because of length cutoff\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"order\": [\"fastq\",\n            \"trimming mode\",\n            \"adapter sequence\",\n            \"number of reads/pairs analysed for length validation\",\n            \"reads/pairs removed because of length cutoff\",\n            \"minimum required read length\",\n            \"quality phred score cutoff\",\n            \"quality encoding type\",\n            \"minimum required adapter overlap\",\n            \"maximum trimming error rate\"]\n}\n\n\nBOWTIE = {\n    \"reads processed\": {\n        \"alias\": \"total reads/pairs processed\",\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n    \"reads with at least one reported alignment\": {\n        \"alias\": \"reads/pairs with at least one reported alignment\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"reads that failed to align\": {\n        \"alias\": \"reads/pairs unmapped\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"reads with alignments suppressed due to -m\": {\n        \"alias\": \"reads/pairs suppressed due to multimapping\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"order\": [\"total reads/pairs processed\",\n            \"reads/pairs with at least one reported alignment\",\n            \"reads/pairs suppressed due to multimapping\",\n            \"reads/pairs unmapped\"]\n}\n\n\nBAMSTATS = {\n    \"raw total sequences\": {\n        \"alias\": \"total reads/pairs\",\n        \"function\": int,\n        \"pair_end_specific\": True\n    },\n    \"reads mapped\": {\n        \"alias\": \"reads/pairs mapped\",\n        \"function\": int,\n        \"pair_end_specific\": True\n    },\n    \"reads unmapped\": {\n        \"alias\": \"reads/pairs unmapped\",\n        \"function\": int,\n        \"pair_end_specific\": True\n    },\n    \"average length\": {\n        \"alias\": \"reads average length\",\n        \"function\": float,\n        \"pair_end_specific\": False\n    },\n    \"maximum length\": {\n        \"alias\": \"reads maximum length\",\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n    \"average quality\": {\n        \"alias\": \"reads average quality\",\n        \"function\": float,\n        \"pair_end_specific\": False\n    },\n    \"insert size average\": {\n        \"alias\": \"insert size average\",\n        \"function\": float,\n        \"pair_end_specific\": False\n    },\n    \"insert size standard deviation\": {\n        \"alias\": \"insert size standard deviation\",\n        \"function\": float,\n        \"pair_end_specific\": False\n    },\n    \"order\": [\"total reads/pairs\",\n            \"reads/pairs mapped\",\n            \"reads/pairs unmapped\",\n            \"reads average length\",\n            \"reads maximum length\",\n            \"reads average quality\",\n            \"insert size average\",\n            \"insert size standard deviation\"]\n}\n\n\nPEAKS = {\n    \"order\": [\"number of peaks called\"]\n}\n\n\ndef arg_parser():\n    general_parser = argparse.ArgumentParser()\n    general_parser.add_argument(\"--trim1\",           help=\"Path to Trimgalore report file for FASTQ 1. Optional\", required=False)\n    general_parser.add_argument(\"--trim2\",           help=\"Path to Trimgalore report file for FASTQ 2. Optional\", required=False)\n    general_parser.add_argument(\"--bowtie\",          help=\"Path to Bowtie report file\",                           required=True)\n    general_parser.add_argument(\"--bamstats\",        help=\"Path to bam statistics report file\",                   required=True)\n    general_parser.add_argument(\"--bamstatsfilter\",  help=\"Path to bam statistics report file after filtering\",   required=True)\n    general_parser.add_argument(\"--peaks\",           help=\"Path to called peaks tsv file\",                        required=True)\n    general_parser.add_argument(\"--preseq\",          help=\"Path to Preseq output file\",                           required=False)\n    general_parser.add_argument(\"--paired\",          help=\"Process as paired-end. Default: False\",                action=\"store_true\")\n    general_parser.add_argument(\"--output\",          help=\"Output filename prefix\",                               required=True)\n    return general_parser\n\n\ndef normalize_args(args, skip_list=[]):\n    normalized_args = {}\n    for key,value in args.__dict__.items():\n        if key not in skip_list:\n            normalized_args[key] = value if not value or os.path.isabs(value) else os.path.normpath(os.path.join(os.getcwd(), value))\n        else:\n            normalized_args[key]=value\n    return argparse.Namespace (**normalized_args)\n\n\ndef open_file(filename):\n    lines = []\n    with open(filename, 'r') as infile:\n        for line in infile:\n            if line.strip():\n                lines.append(line.strip())\n    return lines\n\n\ndef split_line(l, delimiter=\":\"):\n    return [i.strip() for i in l.split(delimiter)]\n\n\ndef get_correspondent_key(data, long_k):\n    for short_k, v in data.items():\n        if short_k in long_k:\n            return v[\"alias\"], v[\"function\"], v[\"pair_end_specific\"]\n    raise Exception\n\n\ndef process_trimgalore_report(filepath, collected_results, header=\"adapter trimming statistics\"):\n    if not collected_results.get(header, None):\n        collected_results[header] = {\"fastq\": []}\n    fastq = {}\n    for line in open_file(filepath):\n        try:\n            key, value = split_line(line)\n            if \"Total reads processed\" in line:\n                fastq[\"total reads processed\"] = int(value.strip().replace(\",\",\"\"))\n            elif \"Reads with adapters\" in line:\n                fastq[\"reads with adapters\"] = int(value.strip().replace(\",\",\"\").split()[0])\n            else:\n                res_key, res_function, pair_end_specific = get_correspondent_key(TRIMGALORE, key)\n                if not collected_results[header].get(res_key, None):\n                    collected_results[header][res_key] = res_function(value)\n        except Exception:\n            pass\n    if collected_results[header][\"trimming mode\"] == \"single-end\":\n        collected_results[header][\"number of reads/pairs analysed for length validation\"] = fastq[\"total reads processed\"]\n    collected_results[header][\"fastq\"].append(fastq)\n    if TRIMGALORE.get(\"order\", None):\n        collected_results[header] = {k: collected_results[header][k] for k in TRIMGALORE[\"order\"] if k in collected_results[header]}\n\n\ndef process_custom_report(filepath, collected_results, header, key_dict, pair_end=False):\n    if not collected_results.get(header, None):\n        collected_results[header] = {}\n    for line in open_file(filepath):\n        try:\n            key, value = split_line(line)\n            res_key, res_function, pair_end_specific = get_correspondent_key(key_dict, key)\n            if not collected_results[header].get(res_key, None):\n                if pair_end_specific and pair_end:\n                    collected_results[header][res_key] = res_function(res_function(value)/2)\n                else:\n                    collected_results[header][res_key] = res_function(value)\n        except Exception:\n            pass\n    if key_dict.get(\"order\", None):\n        collected_results[header] = {k: collected_results[header][k] for k in key_dict[\"order\"] if k in collected_results[header]}\n\n\ndef process_peaks_tsv(filepath, collected_results, header):\n    if not collected_results.get(header, None):\n        collected_results[header] = {}\n    count, length, prev_start, prev_end, prev_chr = 0, 0, 0, 0, \"\"\n    for line in open_file(filepath):\n        if \"#\" in line or \"start\" in line:\n            continue\n        line_list = [l.strip() for l in line.strip().split()]\n        chr = line_list[0]\n        start = int(line_list[1])\n        end = int(line_list[2])\n        if start == prev_start and end == prev_end and chr == prev_chr:\n            continue\n        count = count + 1\n        prev_start, prev_end, prev_chr = start, end, chr\n    collected_results[header][\"number of peaks called\"] = count\n    mapped = collected_results[\"BAM statistics after filtering\"][\"reads/pairs mapped\"]\n    if PEAKS.get(\"order\", None):\n        collected_results[header] = {k: collected_results[header][k] for k in PEAKS[\"order\"] if k in collected_results[header]}\n\n\ndef process_preseq_results(filepath, collected_results, header, threashold=0.001):\n    px, py = 0, 0\n    for line in open_file(filepath):\n        if \"TOTAL_READS\" in line:\n            continue\n        values = [float(l.strip()) for l in line.strip().split()]\n        dx, dy = values[0]-px, values[1]-py\n        px, py = values[0], values[1]\n        if dx != 0:\n            angle = math.degrees(math.atan2(dy, dx))\n            if angle <= threashold:\n                collected_results[header] = {\"maximum library diversity\": values[0]}\n                break\n\n\ndef collect_stats(args):\n    collected_results = {}\n    if args.trim1:\n        process_trimgalore_report(args.trim1, collected_results)\n    if args.trim2:\n        process_trimgalore_report(args.trim2, collected_results)\n    process_custom_report(args.bowtie, collected_results, \"alignment statistics\", BOWTIE)\n    process_custom_report(args.bamstats, collected_results, \"BAM statistics\", BAMSTATS, bool(args.paired))\n    process_custom_report(args.bamstatsfilter, collected_results, \"BAM statistics after filtering\", BAMSTATS, bool(args.paired))\n    process_custom_report(args.peaks, collected_results, \"peak calling statistics\", PEAKS)\n    if args.preseq:\n        process_preseq_results(args.preseq, collected_results, \"library preparation\")\n    process_peaks_tsv(args.peaks, collected_results, \"peak calling statistics\")\n    return (collected_results)\n\n\ndef export_results_yaml(collected_data, filepath):\n    with open(filepath+\".yaml\", 'w') as output_stream:\n        output_stream.write(yaml.dump(collected_data, width=1000, sort_keys=False))\n\n\ndef export_results_markdown(collected_data, filepath):\n    with open(filepath+\".md\", 'w') as output_stream:\n        for line in yaml.dump(collected_data, width=1000, sort_keys=False).split(\"\\n\"):\n            if not line.strip():\n                continue\n            if line.startswith(\"  - \"):\n                output_stream.write(\"-   \"+line.lstrip(\"- \")+\"\\n\")\n            elif line.startswith(\"    \"):\n                output_stream.write(\"-   \"+line.lstrip()+\"\\n\")\n            elif line.startswith(\"  \"):\n                output_stream.write(\"- \"+line+\"\\n\")\n            else:\n                output_stream.write(\"### \"+line+\"\\n\")\n\n\ndef export_results_table(collected_data, filepath):\n    with open(filepath+\".tsv\", 'w') as output_stream:\n        total = collected_data[\"alignment statistics\"][\"total reads/pairs processed\"]\n        mapped = collected_data[\"BAM statistics after filtering\"][\"reads/pairs mapped\"]\n        multimapped = collected_data[\"alignment statistics\"].get(\"reads/pairs suppressed due to multimapping\", 0)\n        unmapped = collected_data[\"alignment statistics\"][\"reads/pairs unmapped\"]\n        filtered = collected_data[\"BAM statistics\"][\"reads/pairs mapped\"] - collected_data[\"BAM statistics after filtering\"][\"reads/pairs mapped\"]\n        header = [\n                    \"Tags total\",\n                    \"Mapped\",\n                    \"Multi-mapped\",\n                    \"Unmapped\",\n                    \"Filtered\",\n\n                    \"alignment statistics\",\n                    \"total reads/pairs processed\",\n                    \"reads/pairs with at least one reported alignment\",\n                    \"reads/pairs suppressed due to multimapping\",\n                    \"reads/pairs unmapped\",\n                    \n                    \"BAM statistics\",\n                    \"total reads/pairs\",\n                    \"reads/pairs mapped\",\n                    \"reads/pairs unmapped\",\n                    \"insert size average\",\n                    \"insert size standard deviation\",\n                    \"reads average length\",\n                    \"reads average quality\",\n                    \"reads maximum length\",\n\n                    \"BAM statistics after filtering\",\n                    \"total reads/pairs\",\n                    \"reads/pairs mapped\",\n                    \"reads/pairs unmapped\",\n                    \"insert size average\",\n                    \"insert size standard deviation\",\n                    \"reads average length\",\n                    \"reads average quality\",\n                    \"reads maximum length\",\n        \n                    \"peak calling statistics\",\n                    \"number of peaks called\"\n                    ]\n\n        if collected_data.get(\"adapter trimming statistics\", None):\n            header.extend([\"adapter trimming statistics\",\n                        \"trimming mode\",\n                        \"adapter sequence\",\n                        \"quality phred score cutoff\",\n                        \"minimum required adapter overlap\",\n                        \"maximum trimming error rate\",\n                        \"minimum required read length\",\n                        \"number of reads/pairs analysed for length validation\",\n                        \"reads/pairs removed because of length cutoff\",\n                        \"fastq1: total reads processed\",\n                        \"fastq1: reads with adapters\"])\n            if len(collected_data[\"adapter trimming statistics\"][\"fastq\"]) > 1:\n                header.extend([\"fastq2: total reads processed\", \"fastq2: reads with adapters\"])\n\n        output_stream.write(\"\\t\".join(header)+\"\\n\")\n\n        data = [\n                total,\n                mapped,\n                multimapped,\n                unmapped,\n                filtered,\n\n                \"\",\n                collected_data[\"alignment statistics\"][\"total reads/pairs processed\"],\n                collected_data[\"alignment statistics\"][\"reads/pairs with at least one reported alignment\"],\n                collected_data[\"alignment statistics\"].get(\"reads/pairs suppressed due to multimapping\", 0),\n                collected_data[\"alignment statistics\"][\"reads/pairs unmapped\"],\n                \n                \"\",\n                collected_data[\"BAM statistics\"][\"total reads/pairs\"],\n                collected_data[\"BAM statistics\"][\"reads/pairs mapped\"],\n                collected_data[\"BAM statistics\"][\"reads/pairs unmapped\"],\n                collected_data[\"BAM statistics\"][\"insert size average\"],\n                collected_data[\"BAM statistics\"][\"insert size standard deviation\"],\n                collected_data[\"BAM statistics\"][\"reads average length\"],\n                collected_data[\"BAM statistics\"][\"reads average quality\"],\n                collected_data[\"BAM statistics\"][\"reads maximum length\"],\n                \n                \"\",\n                collected_data[\"BAM statistics after filtering\"][\"total reads/pairs\"],\n                collected_data[\"BAM statistics after filtering\"][\"reads/pairs mapped\"],\n                collected_data[\"BAM statistics after filtering\"][\"reads/pairs unmapped\"],\n                collected_data[\"BAM statistics after filtering\"][\"insert size average\"],\n                collected_data[\"BAM statistics after filtering\"][\"insert size standard deviation\"],\n                collected_data[\"BAM statistics after filtering\"][\"reads average length\"],\n                collected_data[\"BAM statistics after filtering\"][\"reads average quality\"],\n                collected_data[\"BAM statistics after filtering\"][\"reads maximum length\"],\n                \n                \"\",\n                collected_data[\"peak calling statistics\"][\"number of peaks called\"]\n                ]\n\n        if collected_data.get(\"adapter trimming statistics\", None):\n            data.extend([\"\",\n                        collected_data[\"adapter trimming statistics\"][\"trimming mode\"],\n                        collected_data[\"adapter trimming statistics\"][\"adapter sequence\"],\n                        collected_data[\"adapter trimming statistics\"][\"quality phred score cutoff\"],\n                        collected_data[\"adapter trimming statistics\"][\"minimum required adapter overlap\"],\n                        collected_data[\"adapter trimming statistics\"][\"maximum trimming error rate\"],\n                        collected_data[\"adapter trimming statistics\"][\"minimum required read length\"],\n                        collected_data[\"adapter trimming statistics\"][\"number of reads/pairs analysed for length validation\"],\n                        collected_data[\"adapter trimming statistics\"][\"reads/pairs removed because of length cutoff\"],\n                        collected_data[\"adapter trimming statistics\"][\"fastq\"][0][\"total reads processed\"],\n                        collected_data[\"adapter trimming statistics\"][\"fastq\"][0][\"reads with adapters\"]])\n            if len(collected_data[\"adapter trimming statistics\"][\"fastq\"]) > 1:\n                data.extend([collected_data[\"adapter trimming statistics\"][\"fastq\"][1][\"total reads processed\"],\n                            collected_data[\"adapter trimming statistics\"][\"fastq\"][1][\"reads with adapters\"]])\n\n        output_stream.write(\"\\t\".join(str(l) for l in data))\n\n\ndef main(argsl=None):\n    if argsl is None:\n        argsl = sys.argv[1:]\n    args,_ = arg_parser().parse_known_args(argsl)\n    args = normalize_args(args, skip_list=[\"paired\"])\n    collected_data = collect_stats(args)\n    export_results_yaml(collected_data, args.output)\n    export_results_table(collected_data, args.output)\n    export_results_markdown(collected_data, args.output)\n\n\nif __name__ == \"__main__\":\n    sys.exit(main(sys.argv[1:]))\n"
+    default: "#!/usr/bin/env python\nimport os\nimport sys\nimport argparse\nimport
+      yaml\nimport math\n\ndef cut_int(s):\n    return int(s.strip().split()[0])\n
+      \n\ndef cut_float(s):\n    return float(s.strip().split()[0])\n\n\nTRIMGALORE
+      = {\n    \"Trimming mode\": {\n        \"alias\": \"trimming mode\",\n     \
+      \   \"function\": str,\n        \"pair_end_specific\": False\n    },\n    \"\
+      Quality Phred score cutoff\": {\n        \"alias\": \"quality phred score cutoff\"\
+      ,\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n\
+      \    \"Quality encoding type selected\": {\n        \"alias\": \"quality encoding
+      type\",\n        \"function\": str,\n        \"pair_end_specific\": False\n\
+      \    },\n    \"Adapter sequence\": {\n        \"alias\": \"adapter sequence\"\
+      ,\n        \"function\": str,\n        \"pair_end_specific\": False\n    },\n\
+      \    \"Minimum required adapter overlap\": {\n        \"alias\": \"minimum required
+      adapter overlap\",\n        \"function\": cut_int,\n        \"pair_end_specific\"\
+      : False\n    },\n    \"Maximum trimming error rate\": {\n        \"alias\":
+      \"maximum trimming error rate\",\n        \"function\": cut_float,\n       \
+      \ \"pair_end_specific\": False\n    },\n    \"Minimum required sequence length\"\
+      : {\n        \"alias\": \"minimum required read length\",\n        \"function\"\
+      : cut_int,\n        \"pair_end_specific\": False\n    },\n    \"Total number
+      of sequences analysed\": {\n        \"alias\": \"number of reads/pairs analysed
+      for length validation\",\n        \"function\": int,\n        \"pair_end_specific\"\
+      : False\n    },\n    \"Number of sequence pairs removed\": {\n        \"alias\"\
+      : \"reads/pairs removed because of length cutoff\",\n        \"function\": cut_int,\n\
+      \        \"pair_end_specific\": False\n    },\n    \"Sequences removed because
+      they became shorter\": {\n        \"alias\": \"reads/pairs removed because of
+      length cutoff\",\n        \"function\": cut_int,\n        \"pair_end_specific\"\
+      : False\n    },\n    \"order\": [\"fastq\",\n            \"trimming mode\",\n\
+      \            \"adapter sequence\",\n            \"number of reads/pairs analysed
+      for length validation\",\n            \"reads/pairs removed because of length
+      cutoff\",\n            \"minimum required read length\",\n            \"quality
+      phred score cutoff\",\n            \"quality encoding type\",\n            \"\
+      minimum required adapter overlap\",\n            \"maximum trimming error rate\"\
+      ]\n}\n\n\nBOWTIE = {\n    \"reads processed\": {\n        \"alias\": \"total
+      reads/pairs processed\",\n        \"function\": int,\n        \"pair_end_specific\"\
+      : False\n    },\n    \"reads with at least one reported alignment\": {\n   \
+      \     \"alias\": \"reads/pairs with at least one reported alignment\",\n   \
+      \     \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n\
+      \    \"reads that failed to align\": {\n        \"alias\": \"reads/pairs unmapped\"\
+      ,\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n  \
+      \  },\n    \"reads with alignments suppressed due to -m\": {\n        \"alias\"\
+      : \"reads/pairs suppressed due to multimapping\",\n        \"function\": cut_int,\n\
+      \        \"pair_end_specific\": False\n    },\n    \"order\": [\"total reads/pairs
+      processed\",\n            \"reads/pairs with at least one reported alignment\"\
+      ,\n            \"reads/pairs suppressed due to multimapping\",\n           \
+      \ \"reads/pairs unmapped\"]\n}\n\n\nBAMSTATS = {\n    \"raw total sequences\"\
+      : {\n        \"alias\": \"total reads/pairs\",\n        \"function\": int,\n\
+      \        \"pair_end_specific\": True\n    },\n    \"reads mapped\": {\n    \
+      \    \"alias\": \"reads/pairs mapped\",\n        \"function\": int,\n      \
+      \  \"pair_end_specific\": True\n    },\n    \"reads unmapped\": {\n        \"\
+      alias\": \"reads/pairs unmapped\",\n        \"function\": int,\n        \"pair_end_specific\"\
+      : True\n    },\n    \"average length\": {\n        \"alias\": \"reads average
+      length\",\n        \"function\": float,\n        \"pair_end_specific\": False\n\
+      \    },\n    \"maximum length\": {\n        \"alias\": \"reads maximum length\"\
+      ,\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n\
+      \    \"average quality\": {\n        \"alias\": \"reads average quality\",\n\
+      \        \"function\": float,\n        \"pair_end_specific\": False\n    },\n\
+      \    \"insert size average\": {\n        \"alias\": \"insert size average\"\
+      ,\n        \"function\": float,\n        \"pair_end_specific\": False\n    },\n\
+      \    \"insert size standard deviation\": {\n        \"alias\": \"insert size
+      standard deviation\",\n        \"function\": float,\n        \"pair_end_specific\"\
+      : False\n    },\n    \"order\": [\"total reads/pairs\",\n            \"reads/pairs
+      mapped\",\n            \"reads/pairs unmapped\",\n            \"reads average
+      length\",\n            \"reads maximum length\",\n            \"reads average
+      quality\",\n            \"insert size average\",\n            \"insert size
+      standard deviation\"]\n}\n\n\nPEAKS = {\n    \"order\": [\"number of peaks called\"\
+      ]\n}\n\n\ndef arg_parser():\n    general_parser = argparse.ArgumentParser()\n\
+      \    general_parser.add_argument(\"--trim1\",           help=\"Path to Trimgalore
+      report file for FASTQ 1. Optional\", required=False)\n    general_parser.add_argument(\"\
+      --trim2\",           help=\"Path to Trimgalore report file for FASTQ 2. Optional\"\
+      , required=False)\n    general_parser.add_argument(\"--bowtie\",          help=\"\
+      Path to Bowtie report file\",                           required=True)\n   \
+      \ general_parser.add_argument(\"--bamstats\",        help=\"Path to bam statistics
+      report file\",                   required=True)\n    general_parser.add_argument(\"\
+      --bamstatsfilter\",  help=\"Path to bam statistics report file after filtering\"\
+      ,   required=True)\n    general_parser.add_argument(\"--peaks\",           help=\"\
+      Path to called peaks tsv file\",                        required=True)\n   \
+      \ general_parser.add_argument(\"--preseq\",          help=\"Path to Preseq output
+      file\",                           required=False)\n    general_parser.add_argument(\"\
+      --paired\",          help=\"Process as paired-end. Default: False\",       \
+      \         action=\"store_true\")\n    general_parser.add_argument(\"--output\"\
+      ,          help=\"Output filename prefix\",                               required=True)\n\
+      \    return general_parser\n\n\ndef normalize_args(args, skip_list=[]):\n  \
+      \  normalized_args = {}\n    for key,value in args.__dict__.items():\n     \
+      \   if key not in skip_list:\n            normalized_args[key] = value if not
+      value or os.path.isabs(value) else os.path.normpath(os.path.join(os.getcwd(),
+      value))\n        else:\n            normalized_args[key]=value\n    return argparse.Namespace
+      (**normalized_args)\n\n\ndef open_file(filename):\n    lines = []\n    with
+      open(filename, 'r') as infile:\n        for line in infile:\n            if
+      line.strip():\n                lines.append(line.strip())\n    return lines\n
+      \n\ndef split_line(l, delimiter=\":\"):\n    return [i.strip() for i in l.split(delimiter)]\n
+      \n\ndef get_correspondent_key(data, long_k):\n    for short_k, v in data.items():\n\
+      \        if short_k in long_k:\n            return v[\"alias\"], v[\"function\"\
+      ], v[\"pair_end_specific\"]\n    raise Exception\n\n\ndef process_trimgalore_report(filepath,
+      collected_results, header=\"adapter trimming statistics\"):\n    if not collected_results.get(header,
+      None):\n        collected_results[header] = {\"fastq\": []}\n    fastq = {}\n\
+      \    for line in open_file(filepath):\n        try:\n            key, value
+      = split_line(line)\n            if \"Total reads processed\" in line:\n    \
+      \            fastq[\"total reads processed\"] = int(value.strip().replace(\"\
+      ,\",\"\"))\n            elif \"Reads with adapters\" in line:\n            \
+      \    fastq[\"reads with adapters\"] = int(value.strip().replace(\",\",\"\").split()[0])\n\
+      \            else:\n                res_key, res_function, pair_end_specific
+      = get_correspondent_key(TRIMGALORE, key)\n                if not collected_results[header].get(res_key,
+      None):\n                    collected_results[header][res_key] = res_function(value)\n\
+      \        except Exception:\n            pass\n    if collected_results[header][\"\
+      trimming mode\"] == \"single-end\":\n        collected_results[header][\"number
+      of reads/pairs analysed for length validation\"] = fastq[\"total reads processed\"\
+      ]\n    collected_results[header][\"fastq\"].append(fastq)\n    if TRIMGALORE.get(\"\
+      order\", None):\n        collected_results[header] = {k: collected_results[header][k]
+      for k in TRIMGALORE[\"order\"] if k in collected_results[header]}\n\n\ndef process_custom_report(filepath,
+      collected_results, header, key_dict, pair_end=False):\n    if not collected_results.get(header,
+      None):\n        collected_results[header] = {}\n    for line in open_file(filepath):\n\
+      \        try:\n            key, value = split_line(line)\n            res_key,
+      res_function, pair_end_specific = get_correspondent_key(key_dict, key)\n   \
+      \         if not collected_results[header].get(res_key, None):\n           \
+      \     if pair_end_specific and pair_end:\n                    collected_results[header][res_key]
+      = res_function(res_function(value)/2)\n                else:\n             \
+      \       collected_results[header][res_key] = res_function(value)\n        except
+      Exception:\n            pass\n    if key_dict.get(\"order\", None):\n      \
+      \  collected_results[header] = {k: collected_results[header][k] for k in key_dict[\"\
+      order\"] if k in collected_results[header]}\n\n\ndef process_peaks_tsv(filepath,
+      collected_results, header):\n    if not collected_results.get(header, None):\n\
+      \        collected_results[header] = {}\n    count, length, prev_start, prev_end,
+      prev_chr = 0, 0, 0, 0, \"\"\n    for line in open_file(filepath):\n        if
+      \"#\" in line or \"start\" in line:\n            continue\n        line_list
+      = [l.strip() for l in line.strip().split()]\n        chr = line_list[0]\n  \
+      \      start = int(line_list[1])\n        end = int(line_list[2])\n        if
+      start == prev_start and end == prev_end and chr == prev_chr:\n            continue\n\
+      \        count = count + 1\n        prev_start, prev_end, prev_chr = start,
+      end, chr\n    collected_results[header][\"number of peaks called\"] = count\n\
+      \    mapped = collected_results[\"BAM statistics after filtering\"][\"reads/pairs
+      mapped\"]\n    if PEAKS.get(\"order\", None):\n        collected_results[header]
+      = {k: collected_results[header][k] for k in PEAKS[\"order\"] if k in collected_results[header]}\n
+      \n\ndef process_preseq_results(filepath, collected_results, header, threashold=0.001):\n\
+      \    px, py = 0, 0\n    for line in open_file(filepath):\n        if \"TOTAL_READS\"\
+      \ in line:\n            continue\n        values = [float(l.strip()) for l in
+      line.strip().split()]\n        dx, dy = values[0]-px, values[1]-py\n       \
+      \ px, py = values[0], values[1]\n        if dx != 0:\n            angle = math.degrees(math.atan2(dy,
+      dx))\n            if angle <= threashold:\n                collected_results[header]
+      = {\"maximum library diversity\": values[0]}\n                break\n\n\ndef
+      collect_stats(args):\n    collected_results = {}\n    if args.trim1:\n     \
+      \   process_trimgalore_report(args.trim1, collected_results)\n    if args.trim2:\n\
+      \        process_trimgalore_report(args.trim2, collected_results)\n    process_custom_report(args.bowtie,
+      collected_results, \"alignment statistics\", BOWTIE)\n    process_custom_report(args.bamstats,
+      collected_results, \"BAM statistics\", BAMSTATS, bool(args.paired))\n    process_custom_report(args.bamstatsfilter,
+      collected_results, \"BAM statistics after filtering\", BAMSTATS, bool(args.paired))\n\
+      \    process_custom_report(args.peaks, collected_results, \"peak calling statistics\"\
+      , PEAKS)\n    if args.preseq:\n        process_preseq_results(args.preseq, collected_results,
+      \"library preparation\")\n    process_peaks_tsv(args.peaks, collected_results,
+      \"peak calling statistics\")\n    return (collected_results)\n\n\ndef export_results_yaml(collected_data,
+      filepath):\n    with open(filepath+\".yaml\", 'w') as output_stream:\n     \
+      \   output_stream.write(yaml.dump(collected_data, width=1000, sort_keys=False))\n
+      \n\ndef export_results_markdown(collected_data, filepath):\n    with open(filepath+\"\
+      .md\", 'w') as output_stream:\n        for line in yaml.dump(collected_data,
+      width=1000, sort_keys=False).split(\"\\n\"):\n            if not line.strip():\n\
+      \                continue\n            if line.startswith(\"  - \"):\n     \
+      \           output_stream.write(\"-   \"+line.lstrip(\"- \")+\"\\n\")\n    \
+      \        elif line.startswith(\"    \"):\n                output_stream.write(\"\
+      -   \"+line.lstrip()+\"\\n\")\n            elif line.startswith(\"  \"):\n \
+      \               output_stream.write(\"- \"+line+\"\\n\")\n            else:\n\
+      \                output_stream.write(\"### \"+line+\"\\n\")\n\n\ndef export_results_table(collected_data,
+      filepath):\n    with open(filepath+\".tsv\", 'w') as output_stream:\n      \
+      \  total = collected_data[\"alignment statistics\"][\"total reads/pairs processed\"\
+      ]\n        mapped = collected_data[\"BAM statistics after filtering\"][\"reads/pairs
+      mapped\"]\n        multimapped = collected_data[\"alignment statistics\"].get(\"\
+      reads/pairs suppressed due to multimapping\", 0)\n        unmapped = collected_data[\"\
+      alignment statistics\"][\"reads/pairs unmapped\"]\n        filtered = collected_data[\"\
+      BAM statistics\"][\"reads/pairs mapped\"] - collected_data[\"BAM statistics
+      after filtering\"][\"reads/pairs mapped\"]\n        header = [\n           \
+      \         \"Tags total\",\n                    \"Mapped\",\n               \
+      \     \"Multi-mapped\",\n                    \"Unmapped\",\n               \
+      \     \"Filtered\",\n\n                    \"alignment statistics\",\n     \
+      \               \"total reads/pairs processed\",\n                    \"reads/pairs
+      with at least one reported alignment\",\n                    \"reads/pairs suppressed
+      due to multimapping\",\n                    \"reads/pairs unmapped\",\n    \
+      \                \n                    \"BAM statistics\",\n               \
+      \     \"total reads/pairs\",\n                    \"reads/pairs mapped\",\n\
+      \                    \"reads/pairs unmapped\",\n                    \"insert
+      size average\",\n                    \"insert size standard deviation\",\n \
+      \                   \"reads average length\",\n                    \"reads average
+      quality\",\n                    \"reads maximum length\",\n\n              \
+      \      \"BAM statistics after filtering\",\n                    \"total reads/pairs\"\
+      ,\n                    \"reads/pairs mapped\",\n                    \"reads/pairs
+      unmapped\",\n                    \"insert size average\",\n                \
+      \    \"insert size standard deviation\",\n                    \"reads average
+      length\",\n                    \"reads average quality\",\n                \
+      \    \"reads maximum length\",\n        \n                    \"peak calling
+      statistics\",\n                    \"number of peaks called\"\n            \
+      \        ]\n\n        if collected_data.get(\"adapter trimming statistics\"
+      , None):\n            header.extend([\"adapter trimming statistics\",\n    \
+      \                    \"trimming mode\",\n                        \"adapter sequence\"\
+      ,\n                        \"quality phred score cutoff\",\n               \
+      \         \"minimum required adapter overlap\",\n                        \"
+      maximum trimming error rate\",\n                        \"minimum required read
+      length\",\n                        \"number of reads/pairs analysed for length
+      validation\",\n                        \"reads/pairs removed because of length
+      cutoff\",\n                        \"fastq1: total reads processed\",\n    \
+      \                    \"fastq1: reads with adapters\"])\n            if len(collected_data[\"\
+      adapter trimming statistics\"][\"fastq\"]) > 1:\n                header.extend([\"\
+      fastq2: total reads processed\", \"fastq2: reads with adapters\"])\n\n     \
+      \   output_stream.write(\"\\t\".join(header)+\"\\n\")\n\n        data = [\n\
+      \                total,\n                mapped,\n                multimapped,\n\
+      \                unmapped,\n                filtered,\n\n                \"\"\
+      ,\n                collected_data[\"alignment statistics\"][\"total reads/pairs
+      processed\"],\n                collected_data[\"alignment statistics\"][\"reads/pairs
+      with at least one reported alignment\"],\n                collected_data[\"
+      alignment statistics\"].get(\"reads/pairs suppressed due to multimapping\",
+      0),\n                collected_data[\"alignment statistics\"][\"reads/pairs
+      unmapped\"],\n                \n                \"\",\n                collected_data[\"\
+      BAM statistics\"][\"total reads/pairs\"],\n                collected_data[\"\
+      BAM statistics\"][\"reads/pairs mapped\"],\n                collected_data[\"\
+      BAM statistics\"][\"reads/pairs unmapped\"],\n                collected_data[\"\
+      BAM statistics\"][\"insert size average\"],\n                collected_data[\"\
+      BAM statistics\"][\"insert size standard deviation\"],\n                collected_data[\"\
+      BAM statistics\"][\"reads average length\"],\n                collected_data[\"\
+      BAM statistics\"][\"reads average quality\"],\n                collected_data[\"\
+      BAM statistics\"][\"reads maximum length\"],\n                \n           \
+      \     \"\",\n                collected_data[\"BAM statistics after filtering\"\
+      ][\"total reads/pairs\"],\n                collected_data[\"BAM statistics after
+      filtering\"][\"reads/pairs mapped\"],\n                collected_data[\"BAM
+      statistics after filtering\"][\"reads/pairs unmapped\"],\n                collected_data[\"\
+      BAM statistics after filtering\"][\"insert size average\"],\n              \
+      \  collected_data[\"BAM statistics after filtering\"][\"insert size standard
+      deviation\"],\n                collected_data[\"BAM statistics after filtering\"\
+      ][\"reads average length\"],\n                collected_data[\"BAM statistics
+      after filtering\"][\"reads average quality\"],\n                collected_data[\"\
+      BAM statistics after filtering\"][\"reads maximum length\"],\n             \
+      \   \n                \"\",\n                collected_data[\"peak calling statistics\"\
+      ][\"number of peaks called\"]\n                ]\n\n        if collected_data.get(\"\
+      adapter trimming statistics\", None):\n            data.extend([\"\",\n    \
+      \                    collected_data[\"adapter trimming statistics\"][\"trimming
+      mode\"],\n                        collected_data[\"adapter trimming statistics\"\
+      ][\"adapter sequence\"],\n                        collected_data[\"adapter trimming
+      statistics\"][\"quality phred score cutoff\"],\n                        collected_data[\"\
+      adapter trimming statistics\"][\"minimum required adapter overlap\"],\n    \
+      \                    collected_data[\"adapter trimming statistics\"][\"maximum
+      trimming error rate\"],\n                        collected_data[\"adapter trimming
+      statistics\"][\"minimum required read length\"],\n                        collected_data[\"\
+      adapter trimming statistics\"][\"number of reads/pairs analysed for length validation\"\
+      ],\n                        collected_data[\"adapter trimming statistics\"][\"\
+      reads/pairs removed because of length cutoff\"],\n                        collected_data[\"\
+      adapter trimming statistics\"][\"fastq\"][0][\"total reads processed\"],\n \
+      \                       collected_data[\"adapter trimming statistics\"][\"fastq\"\
+      ][0][\"reads with adapters\"]])\n            if len(collected_data[\"adapter
+      trimming statistics\"][\"fastq\"]) > 1:\n                data.extend([collected_data[\"\
+      adapter trimming statistics\"][\"fastq\"][1][\"total reads processed\"],\n \
+      \                           collected_data[\"adapter trimming statistics\"][\"\
+      fastq\"][1][\"reads with adapters\"]])\n\n        output_stream.write(\"\\t\"\
+      .join(str(l) for l in data))\n\n\ndef main(argsl=None):\n    if argsl is None:\n\
+      \        argsl = sys.argv[1:]\n    args,_ = arg_parser().parse_known_args(argsl)\n\
+      \    args = normalize_args(args, skip_list=[\"paired\"])\n    collected_data
+      = collect_stats(args)\n    export_results_yaml(collected_data, args.output)\n\
+      \    export_results_table(collected_data, args.output)\n    export_results_markdown(collected_data,
+      args.output)\n\n\nif __name__ == \"__main__\":\n    sys.exit(main(sys.argv[1:]))\n"
     inputBinding:
       position: 5
   trimgalore_report_fastq_1:
@@ -81,8 +335,8 @@ outputs:
       glob: $(get_output_prefix()+".tsv")
       outputEval: $(parseInt(self[0].contents.split('\n')[1].split('\t')[1]))
 baseCommand:
-- python
-- -c
+  - python
+  - -c
 doc: |
   Tool processes and combines log files generated by Trimgalore, Bowtie, Samtools and peak calling tools.
 

@@ -3,12 +3,12 @@ class: CommandLineTool
 
 
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 
 
 hints:
-- class: DockerRequirement
-  dockerPull: "biowardrobe2/scidap-atac:v0.0.80"
+  - class: DockerRequirement
+    dockerPull: "biowardrobe2/scidap-atac:v0.0.80"
 
 
 inputs:
@@ -63,12 +63,12 @@ inputs:
 
   cluster_method:
     type:
-    - "null"
-    - type: enum
-      symbols:
-      - "row"
-      - "column"
-      - "both"
+      - "null"
+      - type: enum
+        symbols:
+          - "row"
+          - "column"
+          - "both"
     inputBinding:
       prefix: "--cluster"
     doc: |
@@ -78,14 +78,14 @@ inputs:
 
   row_distance:
     type:
-    - "null"
-    - type: enum
-      symbols:
-      - "cosangle"
-      - "abscosangle"
-      - "euclid"
-      - "cor"
-      - "abscor"
+      - "null"
+      - type: enum
+        symbols:
+          - "cosangle"
+          - "abscosangle"
+          - "euclid"
+          - "cor"
+          - "abscor"
     inputBinding:
       prefix: "--rowdist"
     doc: |
@@ -94,14 +94,14 @@ inputs:
 
   column_distance:
     type:
-    - "null"
-    - type: enum
-      symbols:
-      - "cosangle"
-      - "abscosangle"
-      - "euclid"
-      - "cor"
-      - "abscor"
+      - "null"
+      - type: enum
+        symbols:
+          - "cosangle"
+          - "abscosangle"
+          - "euclid"
+          - "cor"
+          - "abscor"
     inputBinding:
       prefix: "--columndist"
     doc: |
@@ -116,7 +116,7 @@ inputs:
       In the exploratory visualization part of the analysis output only features,
       with adjusted p-value (FDR) not bigger than this value. Also the significance,
       cutoff used for optimizing the independent filtering. Default: 0.1.
-  
+
   lfcthreshold:
     type: float?
     inputBinding:
@@ -131,8 +131,8 @@ inputs:
     inputBinding:
       prefix: "--use_lfc_thresh"
     default: false
-    doc: "Use lfcthreshold as the null hypothesis value in the results function call. Default: TRUE"
-      
+    doc: "Use lfcthreshold as the null hypothesis value in the results function call.
+      Default: TRUE"
   regulation:
     type:
       - "null"
@@ -190,20 +190,22 @@ inputs:
     inputBinding:
       prefix: "--k"
     default: 3
-    doc: "Number of levels (depth) for Hopach clustering: min - 1, max - 15. Default: 3."
+    doc: "Number of levels (depth) for Hopach clustering: min - 1, max - 15. Default:
+      3."
 
   kmax_hopach:
     type: int?
     inputBinding:
       prefix: "--kmax"
     default: 5
-    doc: "Maximum number of clusters at each level for Hopach clustering: min - 2, max - 9. Default: 5."
+    doc: "Maximum number of clusters at each level for Hopach clustering: min - 2,
+      max - 9. Default: 5."
 
   rpkm_cutoff:
     type: int?
     inputBinding:
       prefix: "--rpkm_cutoff"
-    default: null
+    default:
     doc: |
       Integer cutoff for filtering rows in the expression data.
       Rows will be kept if any column whose name contains "Rpkm" has a value greater than this cutoff.
@@ -324,45 +326,7 @@ $namespaces:
   s: http://schema.org/
 
 $schemas:
-- https://github.com/schemaorg/schemaorg/raw/main/data/releases/11.01/schemaorg-current-http.rdf
-
-s:mainEntity:
-  $import: ./metadata/deseq-metadata.yaml
-
-s:name: "deseq-advanced"
-s:downloadUrl: https://raw.githubusercontent.com/Barski-lab/workflows/master/tools/deseq-advanced.cwl
-s:codeRepository: https://github.com/Barski-lab/workflows
-s:license: http://www.apache.org/licenses/LICENSE-2.0
-
-s:isPartOf:
-  class: s:CreativeWork
-  s:name: Common Workflow Language
-  s:url: http://commonwl.org/
-
-s:creator:
-- class: s:Organization
-  s:legalName: "Cincinnati Children's Hospital Medical Center"
-  s:location:
-  - class: s:PostalAddress
-    s:addressCountry: "USA"
-    s:addressLocality: "Cincinnati"
-    s:addressRegion: "OH"
-    s:postalCode: "45229"
-    s:streetAddress: "3333 Burnet Ave"
-    s:telephone: "+1(513)636-4200"
-  s:logo: "https://www.cincinnatichildrens.org/-/media/cincinnati%20childrens/global%20shared/childrens-logo-new.png"
-  s:department:
-  - class: s:Organization
-    s:legalName: "Allergy and Immunology"
-    s:department:
-    - class: s:Organization
-      s:legalName: "Barski Research Lab"
-      s:member:
-      - class: s:Person
-        s:name: Michael Kotliar
-        s:email: mailto:misha.kotliar@gmail.com
-        s:sameAs:
-        - id: http://orcid.org/0000-0002-6486-3898
+  - https://github.com/schemaorg/schemaorg/raw/main/data/releases/11.01/schemaorg-current-http.rdf
 
 doc: |
   Tool runs DESeq/DESeq2 script similar to the original one from BioWArdrobe.
@@ -385,75 +349,3 @@ doc: |
   Normalized read counts and phenotype table are exported as GCT and CLS files for GSEA downstream analysis.
 
 
-s:about: |
-  usage: /Users/kot4or/workspaces/cwl_ws/workflows/tools/dockerfiles/scripts/run_atac.R
-        [-h] -u UNTREATED [UNTREATED ...] -t TREATED [TREATED ...]
-        [-ua [UALIAS ...]] [-ta [TALIAS ...]] [-un UNAME] [-tn TNAME]
-        [-bf BATCHFILE] [-cu CUTOFF] [--fdr FDR]
-        [--regulation {both,up,down}]
-        [--lfcthreshold LFCTHRESHOLD]
-        [--batchcorrection {none, combatseq,model}]
-        [--use_lfc_thresh]
-
-
-  Run BioWardrobe DESeq/DESeq2 for untreated-vs-treated groups (condition-1-vs-
-  condition-2)
-
-  options:
-    -h, --help            show this help message and exit
-    -u UNTREATED [UNTREATED ...], --untreated UNTREATED [UNTREATED ...]
-                          Untreated (condition 1) CSV/TSV isoforms expression
-                          files
-    -t TREATED [TREATED ...], --treated TREATED [TREATED ...]
-                          Treated (condition 2) CSV/TSV isoforms expression
-                          files
-    -ua [UALIAS ...], --ualias [UALIAS ...]
-                          Unique aliases for untreated (condition 1) expression
-                          files. Default: basenames of -u without extensions
-    -ta [TALIAS ...], --talias [TALIAS ...]
-                          Unique aliases for treated (condition 2) expression
-                          files. Default: basenames of -t without extensions
-    -un UNAME, --uname UNAME
-                          Name for untreated (condition 1), use only letters and
-                          numbers
-    -tn TNAME, --tname TNAME
-                          Name for treated (condition 2), use only letters and
-                          numbers
-    -bf BATCHFILE, --batchfile BATCHFILE
-                          Metadata file for multi-factor analysis. Headerless
-                          TSV/CSV file. First column - names from --ualias and
-                          --talias, second column - batch group name. Default:
-                          None
-    --fdr FDR             In the exploratory visualization part of the analysis output only features,
-                          with adjusted p-value (FDR) not bigger than this value. Also the significance,
-                          cutoff used for optimizing the independent filtering. Default: 0.1.
-    --cluster {row,column,both}
-                          Hopach clustering method to be run on normalized read
-                          counts for the exploratory visualization part of the
-                          analysis. Default: do not run clustering
-    --rowdist {cosangle,abscosangle,euclid,abseuclid,cor,abscor}
-                          Distance metric for HOPACH row clustering. Ignored if
-                          --cluster is not provided. Default: cosangle
-    --columndist {cosangle,abscosangle,euclid,abseuclid,cor,abscor}
-                          Distance metric for HOPACH column clustering. Ignored
-                          if --cluster is not provided. Default: euclid
-    -o OUTPUT, --output OUTPUT
-                          Output prefix. Default: deseq
-    -d DIGITS, --digits DIGITS
-                          Precision, number of digits to print. Default: 3
-    -p THREADS, --threads THREADS
-                          Threads
-    --lfcthreshold LFCTHRESHOLD
-                          Log2 fold change threshold for determining significant differential expression.
-                          Genes with absolute log2 fold change greater than this threshold will be considered.
-                          Default: 0.59 (about 1.5 fold change)
-    --regulation {both,up,down}
-                          Direction of differential expression comparison.
-                          'up' for upregulated genes, 'down' for downregulated genes,
-                          'both' for both up and downregulated genes. Default: both
-    --batchcorrection {none, combatseq,model}
-                          Specifies the batch correction method to be applied.
-                          - 'combatseq' applies ComBat_seq at the beginning of the analysis, removing batch effects from the design formula before differential expression analysis.
-                          - 'model' applies removeBatchEffect from the limma package after differential expression analysis, incorporating batch effects into the model during DE analysis.
-                          - Default: none
-    --use_lfc_thresh      Use lfcthreshold as the null hypothesis value in the results function call. Default: TRUE

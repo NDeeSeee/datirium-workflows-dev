@@ -1,31 +1,31 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ResourceRequirement
-  ramMin: 15250
-  coresMin: 1
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      return [
-        {
-          "class": "Directory",
-          "basename": inputs.index_base_name,
-          "listing": [],
-          "writable": true}
-      ]
-    }
+  - class: ResourceRequirement
+    ramMin: 15250
+    coresMin: 1
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        return [
+          {
+            "class": "Directory",
+            "basename": inputs.index_base_name,
+            "listing": [],
+            "writable": true}
+        ]
+      }
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bowtie:v1.2.0
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bowtie:v1.2.0
 inputs:
   fasta_file:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     inputBinding:
       itemSeparator: ','
       position: 25
@@ -40,8 +40,8 @@ inputs:
       write Ebwt data to files with this dir/basename
   force_large_index:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 3
       prefix: --large-index
@@ -49,8 +49,8 @@ inputs:
       force generated index to be 'large', even if ref has fewer than 4 billion nucleotides
   color:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 4
       prefix: --color
@@ -58,8 +58,8 @@ inputs:
       build a colorspace index
   noauto:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 5
       prefix: --noauto
@@ -67,8 +67,8 @@ inputs:
       disable automatic -p/--bmax/--dcv memory-fitting
   packed:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 6
       prefix: --packed
@@ -76,8 +76,8 @@ inputs:
       use packed strings internally; slower, less memory
   bmax:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 7
       prefix: --bmax
@@ -85,8 +85,8 @@ inputs:
       max bucket sz for blockwise suffix-array builder
   bmaxdivn:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 8
       prefix: --bmaxdivn
@@ -94,8 +94,8 @@ inputs:
       max bucket sz as divisor of ref len (default: 4)
   dcv:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 9
       prefix: --dcv
@@ -103,8 +103,8 @@ inputs:
       diff-cover period for blockwise (default: 1024)
   nodc:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 10
       prefix: --nodc
@@ -112,8 +112,8 @@ inputs:
       disable diff-cover (algorithm becomes quadratic)
   noref:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 11
       prefix: --noref
@@ -121,8 +121,8 @@ inputs:
       don't build .3/.4 index files
   justref:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 12
       prefix: --justref
@@ -130,8 +130,8 @@ inputs:
       just build .3/.4 index files
   offrate:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 13
       prefix: --offrate
@@ -139,8 +139,8 @@ inputs:
       SA is sampled every 2^<int> BWT chars (default: 5)
   ftabchars:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 14
       prefix: --ftabchars
@@ -148,8 +148,8 @@ inputs:
       # of chars consumed in initial lookup (default: 10)
   ntoa:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 15
       prefix: --ntoa
@@ -157,8 +157,8 @@ inputs:
       convert Ns in reference to As
   seed:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 16
       prefix: --seed
@@ -166,8 +166,8 @@ inputs:
       seed for random number generator
   quiet:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 17
       prefix: --quiet
@@ -183,7 +183,7 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- bowtie-build
+  - bowtie-build
 stderr: bowtie_stderr.log
 stdout: bowtie_stdout.log
 doc: |

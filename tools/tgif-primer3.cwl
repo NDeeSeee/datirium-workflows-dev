@@ -1,16 +1,17 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-tgif:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-tgif:v1.0.0
 inputs:
   insertions_filtered:
     type: File
     inputBinding:
       prefix: -i
-    doc: FASTQ file of WGS or NCATS enriched library (ideally long read, short read single-end only)
+    doc: FASTQ file of WGS or NCATS enriched library (ideally long read, short read
+      single-end only)
   reference_fasta:
     type: File
     inputBinding:
@@ -31,7 +32,7 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- /TgIF/tgif_primer3.sh
+  - /TgIF/tgif_primer3.sh
 stdout: tgif-primer3_stdout.log
 stderr: tgif-primer3_stderr.log
 doc: |-

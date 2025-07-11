@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-diffbind:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-diffbind:v1.0.0
 inputs:
   read_files_cond_1:
     type: File[]
@@ -36,22 +36,22 @@ inputs:
     doc: Peak files for condition 2. Minimim 2 files in format set with -pf
   sample_names_cond_1:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     inputBinding:
       prefix: -n1
     doc: 'Sample names for condition 1. Default: basenames of -r1 without extensions'
   sample_names_cond_2:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     inputBinding:
       prefix: -n2
     doc: 'Sample names for condition 2. Default: basenames of -r2 without extensions'
   blocked_attributes:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     inputBinding:
       prefix: -bl
     doc: |
@@ -68,24 +68,25 @@ inputs:
       First column - names from --name1 and --name2, second column - group name. --block is ignored
   peakformat:
     type:
-    - 'null'
-    - type: enum
-      name: peakformat
-      symbols:
-      - raw
-      - bed
-      - narrow
-      - macs
-      - bayes
-      - tpic
-      - sicer
-      - fp4
-      - swembl
-      - csv
-      - report
+      - 'null'
+      - type: enum
+        name: peakformat
+        symbols:
+          - raw
+          - bed
+          - narrow
+          - macs
+          - bayes
+          - tpic
+          - sicer
+          - fp4
+          - swembl
+          - csv
+          - report
     inputBinding:
       prefix: -pf
-    doc: 'Peak files format. One of [raw, bed, narrow, macs, bayes, tpic, sicer, fp4, swembl, csv, report]. Default: macs'
+    doc: 'Peak files format. One of [raw, bed, narrow, macs, bayes, tpic, sicer, fp4,
+      swembl, csv, report]. Default: macs'
   name_cond_1:
     type: string?
     inputBinding:
@@ -103,24 +104,24 @@ inputs:
     doc: 'P-value or FDR cutoff for reported results. Default: 0.05'
   cutoff_param:
     type:
-    - 'null'
-    - type: enum
-      name: cutoff
-      symbols:
-      - pvalue
-      - fdr
+      - 'null'
+      - type: enum
+        name: cutoff
+        symbols:
+          - pvalue
+          - fdr
     inputBinding:
       prefix: -cp
     doc: 'Parameter to which cutoff should be applied (fdr or pvalue). Default: fdr'
   analysis_method:
     type:
-    - 'null'
-    - type: enum
-      name: method
-      symbols:
-      - deseq2
-      - edger
-      - all
+      - 'null'
+      - type: enum
+        name: method
+        symbols:
+          - deseq2
+          - edger
+          - all
     inputBinding:
       prefix: -me
     doc: 'Method by which to analyze differential binding affinity. Default: all'
@@ -128,7 +129,8 @@ inputs:
     type: int?
     inputBinding:
       prefix: -mo
-    doc: 'Min peakset overlap. Only include peaks in at least this many peaksets when generating consensus peakset. Default: 2'
+    doc: 'Min peakset overlap. Only include peaks in at least this many peaksets when
+      generating consensus peakset. Default: 2'
   rec_summits:
     type: int?
     inputBinding:
@@ -142,7 +144,8 @@ inputs:
     type: boolean?
     inputBinding:
       prefix: -uc
-    doc: 'Derive consensus peaks only from the common peaks within each condition. Min peakset overlap is ignored. Default: false'
+    doc: 'Derive consensus peaks only from the common peaks within each condition.
+      Min peakset overlap is ignored. Default: false'
   output_prefix:
     type: string?
     inputBinding:
@@ -158,22 +161,26 @@ outputs:
     type: File?
     outputBinding:
       glob: '*_filtered_report_deseq.tsv'
-    doc: Differential binding analysis report for significantly differentially bound sites exported as TSV, DESeq2
+    doc: Differential binding analysis report for significantly differentially bound
+      sites exported as TSV, DESeq2
   diff_filtered_report_deseq_blocked:
     type: File?
     outputBinding:
       glob: '*_filtered_report_deseq_block.tsv'
-    doc: Differential binding analysis report for significantly differentially bound sites exported as TSV, DESeq2 Blocked
+    doc: Differential binding analysis report for significantly differentially bound
+      sites exported as TSV, DESeq2 Blocked
   diff_filtered_report_edger:
     type: File?
     outputBinding:
       glob: '*_filtered_report_edger.tsv'
-    doc: Differential binding analysis report for significantly differentially bound sites exported as TSV, EdgeR
+    doc: Differential binding analysis report for significantly differentially bound
+      sites exported as TSV, EdgeR
   diff_filtered_report_edger_blocked:
     type: File?
     outputBinding:
       glob: '*_filtered_report_edger_block.tsv'
-    doc: Differential binding analysis report for significantly differentially bound sites exported as TSV, EdgeR Blocked
+    doc: Differential binding analysis report for significantly differentially bound
+      sites exported as TSV, EdgeR Blocked
   all_report_deseq:
     type: File?
     outputBinding:
@@ -183,7 +190,8 @@ outputs:
     type: File?
     outputBinding:
       glob: '*_all_report_deseq_block.tsv'
-    doc: Not filtered differential binding analysis report exported as TSV, DESeq2 Blocked
+    doc: Not filtered differential binding analysis report exported as TSV, DESeq2
+      Blocked
   all_report_edger:
     type: File?
     outputBinding:
@@ -193,47 +201,56 @@ outputs:
     type: File?
     outputBinding:
       glob: '*_all_report_edger_block.tsv'
-    doc: Not filtered differential binding analysis report exported as TSV, EdgeR Blocked
+    doc: Not filtered differential binding analysis report exported as TSV, EdgeR
+      Blocked
   boxplot_deseq:
     type: File?
     outputBinding:
       glob: '*_filtered_box_plot_deseq.png'
-    doc: Box plots of read distributions for significantly differentially bound sites, DESeq2
+    doc: Box plots of read distributions for significantly differentially bound sites,
+      DESeq2
   boxplot_deseq_pdf:
     type: File?
     outputBinding:
       glob: '*_filtered_box_plot_deseq.pdf'
-    doc: Box plots of read distributions for significantly differentially bound sites, DESeq2
+    doc: Box plots of read distributions for significantly differentially bound sites,
+      DESeq2
   boxplot_deseq_blocked:
     type: File?
     outputBinding:
       glob: '*_filtered_box_plot_deseq_block.png'
-    doc: Box plots of read distributions for significantly differentially bound sites, DESeq2 Blocked
+    doc: Box plots of read distributions for significantly differentially bound sites,
+      DESeq2 Blocked
   boxplot_deseq_blocked_pdf:
     type: File?
     outputBinding:
       glob: '*_filtered_box_plot_deseq_block.pdf'
-    doc: Box plots of read distributions for significantly differentially bound sites, DESeq2 Blocked
+    doc: Box plots of read distributions for significantly differentially bound sites,
+      DESeq2 Blocked
   boxplot_edger:
     type: File?
     outputBinding:
       glob: '*_filtered_box_plot_edger.png'
-    doc: Box plots of read distributions for significantly differentially bound sites, EdgeR
+    doc: Box plots of read distributions for significantly differentially bound sites,
+      EdgeR
   boxplot_edger_pdf:
     type: File?
     outputBinding:
       glob: '*_filtered_box_plot_edger.pdf'
-    doc: Box plots of read distributions for significantly differentially bound sites, EdgeR
+    doc: Box plots of read distributions for significantly differentially bound sites,
+      EdgeR
   boxplot_edger_blocked:
     type: File?
     outputBinding:
       glob: '*_filtered_box_plot_edger_block.png'
-    doc: Box plots of read distributions for significantly differentially bound sites, EdgeR Blocked
+    doc: Box plots of read distributions for significantly differentially bound sites,
+      EdgeR Blocked
   boxplot_edger_blocked_pdf:
     type: File?
     outputBinding:
       glob: '*_filtered_box_plot_edger_block.pdf'
-    doc: Box plots of read distributions for significantly differentially bound sites, EdgeR Blocked
+    doc: Box plots of read distributions for significantly differentially bound sites,
+      EdgeR Blocked
   volcano_plot_deseq:
     type: File?
     outputBinding:
@@ -438,42 +455,50 @@ outputs:
     type: File?
     outputBinding:
       glob: '*_filtered_normalized_counts_correlation_heatmap_deseq.png'
-    doc: Normalized counts correlation heatmap for significantly differentially bound sites, DESeq2
+    doc: Normalized counts correlation heatmap for significantly differentially bound
+      sites, DESeq2
   diff_filtered_norm_counts_corr_heatmap_deseq_pdf:
     type: File?
     outputBinding:
       glob: '*_filtered_normalized_counts_correlation_heatmap_deseq.pdf'
-    doc: Normalized counts correlation heatmap for significantly differentially bound sites, DESeq2
+    doc: Normalized counts correlation heatmap for significantly differentially bound
+      sites, DESeq2
   diff_filtered_norm_counts_corr_heatmap_deseq_blocked:
     type: File?
     outputBinding:
       glob: '*_filtered_normalized_counts_correlation_heatmap_deseq_block.png'
-    doc: Normalized counts correlation heatmap for significantly differentially bound sites, DESeq2 Blocked
+    doc: Normalized counts correlation heatmap for significantly differentially bound
+      sites, DESeq2 Blocked
   diff_filtered_norm_counts_corr_heatmap_deseq_blocked_pdf:
     type: File?
     outputBinding:
       glob: '*_filtered_normalized_counts_correlation_heatmap_deseq_block.pdf'
-    doc: Normalized counts correlation heatmap for significantly differentially bound sites, DESeq2 Blocked
+    doc: Normalized counts correlation heatmap for significantly differentially bound
+      sites, DESeq2 Blocked
   diff_filtered_norm_counts_corr_heatmap_edger:
     type: File?
     outputBinding:
       glob: '*_filtered_normalized_counts_correlation_heatmap_edger.png'
-    doc: Normalized counts correlation heatmap for significantly differentially bound sites, EdgeR
+    doc: Normalized counts correlation heatmap for significantly differentially bound
+      sites, EdgeR
   diff_filtered_norm_counts_corr_heatmap_edger_pdf:
     type: File?
     outputBinding:
       glob: '*_filtered_normalized_counts_correlation_heatmap_edger.pdf'
-    doc: Normalized counts correlation heatmap for significantly differentially bound sites, EdgeR
+    doc: Normalized counts correlation heatmap for significantly differentially bound
+      sites, EdgeR
   diff_filtered_norm_counts_corr_heatmap_edger_blocked:
     type: File?
     outputBinding:
       glob: '*_filtered_normalized_counts_correlation_heatmap_edger_block.png'
-    doc: Normalized counts correlation heatmap for significantly differentially bound sites, EdgeR Blocked
+    doc: Normalized counts correlation heatmap for significantly differentially bound
+      sites, EdgeR Blocked
   diff_filtered_norm_counts_corr_heatmap_edger_blocked_pdf:
     type: File?
     outputBinding:
       glob: '*_filtered_normalized_counts_correlation_heatmap_edger_block.pdf'
-    doc: Normalized counts correlation heatmap for significantly differentially bound sites, EdgeR Blocked
+    doc: Normalized counts correlation heatmap for significantly differentially bound
+      sites, EdgeR Blocked
   all_norm_counts_corr_heatmap_deseq:
     type: File?
     outputBinding:
@@ -579,7 +604,7 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- run_diffbind-for-spikein.R
+  - run_diffbind-for-spikein.R
 stdout: diffbind_stdout.log
 stderr: diffbind_stderr.log
 label: DiffBind spike-in - Differential Binding Analysis of Peak Data

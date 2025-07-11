@@ -1,15 +1,15 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   genome_indices:
-  - cellranger-mkref.cwl
+    - cellranger-mkref.cwl
   vdj_indices:
-  - cellranger-mkvdjref.cwl
+    - cellranger-mkvdjref.cwl
 inputs:
   alias:
     type: string
@@ -47,46 +47,42 @@ inputs:
     sd:localLabel: true
   rna_fastq_file_r1:
     type:
-    - File
-    - type: array
-      items: File
-    format: http://edamontology.org/format_1930
+      - File
+      - type: array
+        items: File
     label: RNA FASTQ file(s) R1 (optionally compressed)
     doc: RNA FASTQ file(s) R1 (optionally compressed)
   rna_fastq_file_r2:
     type:
-    - File
-    - type: array
-      items: File
-    format: http://edamontology.org/format_1930
+      - File
+      - type: array
+        items: File
     label: RNA FASTQ file(s) R2 (optionally compressed)
     doc: RNA FASTQ file(s) R2 (optionally compressed)
   vdj_fastq_file_r1:
     type:
-    - File
-    - type: array
-      items: File
-    format: http://edamontology.org/format_1930
+      - File
+      - type: array
+        items: File
     label: V(D)J FASTQ file(s) R1 (optionally compressed)
     doc: V(D)J FASTQ file(s) R1 (optionally compressed)
   vdj_fastq_file_r2:
     type:
-    - File
-    - type: array
-      items: File
-    format: http://edamontology.org/format_1930
+      - File
+      - type: array
+        items: File
     label: V(D)J FASTQ file(s) R2 (optionally compressed)
     doc: V(D)J FASTQ file(s) R2 (optionally compressed)
   vdj_chain_type:
     type:
-    - 'null'
-    - type: enum
-      name: chain_type
-      symbols:
-      - VDJ
-      - VDJ-T
-      - VDJ-B
-      - VDJ-T-GD
+      - 'null'
+      - type: enum
+        name: chain_type
+        symbols:
+          - VDJ
+          - VDJ-T
+          - VDJ-B
+          - VDJ-T-GD
     default: VDJ
     label: V(D)J chain type. Use VDJ for auto detection.
     doc: |
@@ -98,15 +94,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Cores/CPUs
     doc: |
@@ -124,9 +120,9 @@ outputs:
     doc: |
       Run summary metrics and charts in HTML format
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   metrics_summary_report:
     type: File
     outputSource: convert_metrics_summary_report_to_tsv/output_file
@@ -134,9 +130,9 @@ outputs:
     doc: |
       Run summary metrics in TSV format
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: QC metrics
-        Title: QC metrics
+      - syncfusiongrid:
+          tab: QC metrics
+          Title: QC metrics
   possorted_genome_bam_bai:
     type: File
     outputSource: cellranger_multi/possorted_genome_bam_bai
@@ -193,7 +189,8 @@ outputs:
   all_contig_reads_bam_bai:
     type: File
     outputSource: cellranger_multi/all_contig_reads_bam_bai
-    label: Indexed V(D)J BAM file with reads aligned to ALL assembled contigs, per cell barcode
+    label: Indexed V(D)J BAM file with reads aligned to ALL assembled contigs, per
+      cell barcode
     doc: |
       Indexed V(D)J BAM file with reads aligned to ALL assembled contigs, per cell barcode.
       This file demonstrates how the reads and UMIs support the assembled contigs within
@@ -215,7 +212,8 @@ outputs:
   all_contig_annotations_bed:
     type: File
     outputSource: cellranger_multi/all_contig_annotations_bed
-    label: BED file with high-level and detailed annotations of ALL assembled contigs (from cell and background barcodes)
+    label: BED file with high-level and detailed annotations of ALL assembled contigs
+      (from cell and background barcodes)
     doc: |
       BED file with high-level and detailed annotations of ALL assembled contigs (from cell and
       background barcodes). Used for further investigation into why some contigs were filtered
@@ -226,7 +224,8 @@ outputs:
   all_contig_annotations_csv:
     type: File
     outputSource: cellranger_multi/all_contig_annotations_csv
-    label: CSV file with high-level and detailed annotations of ALL assembled contigs (from cell and background barcodes)
+    label: CSV file with high-level and detailed annotations of ALL assembled contigs
+      (from cell and background barcodes)
     doc: |
       CSV file with high-level and detailed annotations of ALL assembled contigs (from cell and
       background barcodes). Used for further investigation into why some contigs were filtered
@@ -237,7 +236,8 @@ outputs:
   airr_rearrangement_tsv:
     type: File
     outputSource: cellranger_multi/airr_rearrangement_tsv
-    label: Annotated contigs and consensus sequences of V(D)J rearrangements in the AIRR format
+    label: Annotated contigs and consensus sequences of V(D)J rearrangements in the
+      AIRR format
     doc: |
       Annotated contigs and consensus sequences of V(D)J rearrangements
       in the AIRR format. It includes only viable cells identified by
@@ -256,9 +256,9 @@ outputs:
       However, as clonotype grouping stage is hapenning before forming the final version
       of files in the per_sample_outs folder, the reported cells number won't be affected.
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: V(D)J clonotypes
-        Title: V(D)J clonotypes
+      - syncfusiongrid:
+          tab: V(D)J clonotypes
+          Title: V(D)J clonotypes
   germline_contigs_bam_bai:
     type: File
     outputSource: cellranger_multi/germline_contigs_bam_bai
@@ -274,7 +274,8 @@ outputs:
   germline_sequences_fasta:
     type: File
     outputSource: cellranger_multi/germline_sequences_fasta
-    label: Concatenated V(D)J reference segments for the segments detected on each consensus sequence
+    label: Concatenated V(D)J reference segments for the segments detected on each
+      consensus sequence
     doc: |
       Concatenated V(D)J reference segments for the segments detected on each
       consensus sequence. These serve as an approximate reference for each
@@ -298,14 +299,16 @@ outputs:
   consensus_annotations_csv:
     type: File
     outputSource: cellranger_multi/consensus_annotations_csv
-    label: CSV file with high-level and detailed annotations of each clonotype consensus sequence
+    label: CSV file with high-level and detailed annotations of each clonotype consensus
+      sequence
     doc: |
       CSV file with high-level and detailed annotations of each clonotype
       consensus sequence.
   filtered_contig_annotations_csv:
     type: File
     outputSource: cellranger_multi/filtered_contig_annotations_csv
-    label: CSV file with high-level annotations of each high-confidence contig from cell-associated barcodes
+    label: CSV file with high-level annotations of each high-confidence contig from
+      cell-associated barcodes
     doc: |
       CSV file with high-level annotations of each high-confidence contig from
       cell-associated barcodes. This is a subset of all_contig_annotations.csv.
@@ -341,9 +344,9 @@ outputs:
     doc: |
       CellBrowser formatted Cellranger report
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   cellranger_multi_stdout_log:
     type: File
     outputSource: cellranger_multi/stdout_log
@@ -364,7 +367,7 @@ steps:
       output_prefix:
         default: rna_read_1
     out:
-    - fastq_file
+      - fastq_file
   extract_rna_fastq_r2:
     run: ../tools/extract-fastq.cwl
     in:
@@ -372,7 +375,7 @@ steps:
       output_prefix:
         default: rna_read_2
     out:
-    - fastq_file
+      - fastq_file
   extract_vdj_fastq_r1:
     run: ../tools/extract-fastq.cwl
     in:
@@ -380,7 +383,7 @@ steps:
       output_prefix:
         default: vdj_read_1
     out:
-    - fastq_file
+      - fastq_file
   extract_vdj_fastq_r2:
     run: ../tools/extract-fastq.cwl
     in:
@@ -388,7 +391,7 @@ steps:
       output_prefix:
         default: vdj_read_2
     out:
-    - fastq_file
+      - fastq_file
   cellranger_multi:
     run: ../tools/cellranger-multi.cwl
     in:
@@ -405,50 +408,50 @@ steps:
       memory_limit: memory_limit
       virt_memory_limit: memory_limit
     out:
-    - web_summary_report
-    - metrics_summary_report
-    - possorted_genome_bam_bai
-    - filtered_feature_bc_matrix_folder
-    - filtered_feature_bc_matrix_h5
-    - raw_feature_bc_matrices_folder
-    - raw_feature_bc_matrices_h5
-    - secondary_analysis_report_folder
-    - loupe_browser_track
-    - all_contig_reads_bam_bai
-    - all_contig_sequences_fasta
-    - all_contig_annotations_bed
-    - all_contig_annotations_csv
-    - airr_rearrangement_tsv
-    - clonotypes_csv
-    - germline_contigs_bam_bai
-    - germline_sequences_fasta
-    - consensus_contigs_bam_bai
-    - consensus_sequences_fasta
-    - consensus_annotations_csv
-    - filtered_contig_annotations_csv
-    - filtered_contig_sequences_fasta
-    - loupe_vdj_browser_track
-    - filtered_data_folder
-    - stdout_log
-    - stderr_log
+      - web_summary_report
+      - metrics_summary_report
+      - possorted_genome_bam_bai
+      - filtered_feature_bc_matrix_folder
+      - filtered_feature_bc_matrix_h5
+      - raw_feature_bc_matrices_folder
+      - raw_feature_bc_matrices_h5
+      - secondary_analysis_report_folder
+      - loupe_browser_track
+      - all_contig_reads_bam_bai
+      - all_contig_sequences_fasta
+      - all_contig_annotations_bed
+      - all_contig_annotations_csv
+      - airr_rearrangement_tsv
+      - clonotypes_csv
+      - germline_contigs_bam_bai
+      - germline_sequences_fasta
+      - consensus_contigs_bam_bai
+      - consensus_sequences_fasta
+      - consensus_annotations_csv
+      - filtered_contig_annotations_csv
+      - filtered_contig_sequences_fasta
+      - loupe_vdj_browser_track
+      - filtered_data_folder
+      - stdout_log
+      - stderr_log
   compress_filtered_feature_bc_matrix_folder:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: cellranger_multi/filtered_feature_bc_matrix_folder
     out:
-    - compressed_folder
+      - compressed_folder
   compress_raw_feature_bc_matrices_folder:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: cellranger_multi/raw_feature_bc_matrices_folder
     out:
-    - compressed_folder
+      - compressed_folder
   compress_secondary_analysis_report_folder:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: cellranger_multi/secondary_analysis_report_folder
     out:
-    - compressed_folder
+      - compressed_folder
   convert_clonotypes_csv_to_tsv:
     run: ../tools/custom-bash.cwl
     in:
@@ -457,7 +460,7 @@ steps:
         default: |
           cat "$0" | tr "," "\t" > `basename $0 csv`tsv
     out:
-    - output_file
+      - output_file
   convert_metrics_summary_report_to_tsv:
     run: ../tools/custom-bash.cwl
     in:
@@ -466,15 +469,15 @@ steps:
         default: |
           cat "$0" | tr "," "\t" > `basename $0 csv`tsv
     out:
-    - output_file
+      - output_file
   cellbrowser_build:
     run: ../tools/cellbrowser-build-cellranger.cwl
     in:
       secondary_analysis_report_folder: cellranger_multi/secondary_analysis_report_folder
       filtered_feature_bc_matrix_folder: cellranger_multi/filtered_feature_bc_matrix_folder
     out:
-    - html_data
-    - index_html_file
+      - html_data
+      - index_html_file
 label: Cell Ranger Count (RNA+VDJ)
 doc: |-
   Cell Ranger Count (RNA+VDJ)

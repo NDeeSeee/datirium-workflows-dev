@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   feature_bc_matrices_folder:
     type: Directory
@@ -29,7 +29,7 @@ inputs:
   atac_fragments_file:
     type: File
     secondaryFiles:
-    - .tbi
+      - .tbi
     inputBinding:
       prefix: --fragments
     doc: |
@@ -59,13 +59,13 @@ inputs:
       Default: each dataset is assigned to its own group.
   blacklist_regions_file:
     type:
-    - 'null'
-    - File
-    - type: enum
-      symbols:
-      - hg19
-      - hg38
-      - mm10
+      - 'null'
+      - File
+      - type: enum
+        symbols:
+          - hg19
+          - hg38
+          - mm10
     inputBinding:
       prefix: --blacklist
       valueFrom: |
@@ -107,9 +107,9 @@ inputs:
       Default: 5 (applied to all datasets)
   minimum_fragments:
     type:
-    - 'null'
-    - int
-    - int[]
+      - 'null'
+      - int
+      - int[]
     inputBinding:
       prefix: --minfragments
     doc: |
@@ -121,9 +121,9 @@ inputs:
       Default: 1000 (applied to all datasets)
   maximum_nucl_signal:
     type:
-    - 'null'
-    - float
-    - float[]
+      - 'null'
+      - float
+      - float[]
     inputBinding:
       prefix: --maxnuclsignal
     doc: |
@@ -135,9 +135,9 @@ inputs:
       Default: 4 (applied to all datasets)
   minimum_tss_enrich:
     type:
-    - 'null'
-    - float
-    - float[]
+      - 'null'
+      - float
+      - float[]
     inputBinding:
       prefix: --mintssenrich
     doc: |
@@ -157,9 +157,9 @@ inputs:
       Default: 0.15 (applied to all datasets)
   maximum_blacklist_fraction:
     type:
-    - 'null'
-    - float
-    - float[]
+      - 'null'
+      - float
+      - float[]
     inputBinding:
       prefix: --maxblacklist
     doc: |
@@ -222,17 +222,17 @@ inputs:
       Default: false
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     inputBinding:
       prefix: --theme
     doc: |
@@ -675,9 +675,9 @@ outputs:
       PNG format.
   all_plots_pdf:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*.pdf'
     doc: |
@@ -741,9 +741,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_atac_filter.R"]:"/usr/local/bin/sc_atac_filter.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_atac_filter.R"]:"/usr/local/bin/sc_atac_filter.R")
 stdout: sc_atac_filter_stdout.log
 stderr: sc_atac_filter_stderr.log
 label: Single-Cell ATAC-Seq Filtering Analysis

@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
 hints:
-- class: DockerRequirement
-  dockerPull: quay.io/biocontainers/htseq:0.13.5--py38h1773678_0
+  - class: DockerRequirement
+    dockerPull: quay.io/biocontainers/htseq:0.13.5--py38h1773678_0
 inputs:
   script:
     type: string?
@@ -26,7 +26,7 @@ inputs:
   alignment_bam_file:
     type: File
     secondaryFiles:
-    - .bai
+      - .bai
     inputBinding:
       position: 5
     doc: |
@@ -39,12 +39,12 @@ inputs:
       GTF annotation file
   strand_specific:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - 'yes'
-      - 'no'
-      - reverse
+      - 'null'
+      - type: enum
+        symbols:
+          - 'yes'
+          - 'no'
+          - reverse
     inputBinding:
       position: 7
       prefix: -s
@@ -58,14 +58,14 @@ inputs:
       Default: "yes"
   feature_type:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - CDS
-      - exon
-      - start_codon
-      - stop_codon
-      - transcript
+      - 'null'
+      - type: enum
+        symbols:
+          - CDS
+          - exon
+          - start_codon
+          - stop_codon
+          - transcript
     inputBinding:
       position: 8
       prefix: -t
@@ -75,13 +75,13 @@ inputs:
       Default: exon
   feature_id:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gene_id
-      - transcript_id
-      - exon_id
-      - gene_name
+      - 'null'
+      - type: enum
+        symbols:
+          - gene_id
+          - transcript_id
+          - exon_id
+          - gene_name
     inputBinding:
       position: 9
       prefix: -i
@@ -93,14 +93,14 @@ inputs:
       Default: gene_id
   additional_id:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gene_id
-      - transcript_id
-      - exon_number
-      - exon_id
-      - gene_name
+      - 'null'
+      - type: enum
+        symbols:
+          - gene_id
+          - transcript_id
+          - exon_number
+          - exon_id
+          - gene_name
     inputBinding:
       position: 10
       prefix: --additional-attr
@@ -110,12 +110,12 @@ inputs:
       Default: none
   overlapping_mode:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - union
-      - intersection-strict
-      - intersection-nonempty
+      - 'null'
+      - type: enum
+        symbols:
+          - union
+          - intersection-strict
+          - intersection-nonempty
     inputBinding:
       position: 11
       prefix: -m
@@ -124,13 +124,13 @@ inputs:
       Default: union
   nonunique_mode:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - none
-      - all
-      - fraction
-      - random
+      - 'null'
+      - type: enum
+        symbols:
+          - none
+          - all
+          - fraction
+          - random
     inputBinding:
       position: 12
       prefix: --nonunique
@@ -156,11 +156,11 @@ inputs:
       Default: "none"
   secondary_alignments_mode:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - score
-      - ignore
+      - 'null'
+      - type: enum
+        symbols:
+          - score
+          - ignore
     inputBinding:
       position: 13
       prefix: --secondary-alignments
@@ -170,11 +170,11 @@ inputs:
       Default: "score"
   supplementary_alignments_mode:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - score
-      - ignore
+      - 'null'
+      - type: enum
+        symbols:
+          - score
+          - ignore
     inputBinding:
       position: 14
       prefix: --supplementary-alignments
@@ -196,8 +196,8 @@ outputs:
     outputBinding:
       glob: feature_counts_stderr.log
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 label: 'HTSeq: Analysing high-throughput sequencing data'
 doc: |
   For convenience to use in the workflow that sort and index BAM files by coordinate

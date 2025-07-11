@@ -1,19 +1,22 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var split_features = function(line) { function get_unique(value, index, self) { return self.indexOf(value) === index && value != ""; } let splitted_line = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var split_features = function(line) { function get_unique(value, index, self)
+        { return self.indexOf(value) === index && value != ""; } let splitted_line
+        = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line
+        && !!splitted_line.length)?splitted_line:null; };
 sd:upstream:
   sc_tools_sample:
-  - sc-rna-cluster.cwl
-  - sc-rna-reduce.cwl
-  - sc-atac-filter.cwl
-  - sc-multiome-filter.cwl
-  - sc-rna-azimuth.cwl
+    - sc-rna-cluster.cwl
+    - sc-rna-reduce.cwl
+    - sc-atac-filter.cwl
+    - sc-multiome-filter.cwl
+    - sc-rna-azimuth.cwl
 inputs:
   alias:
     type: string
@@ -32,13 +35,13 @@ inputs:
     sd:localLabel: true
   normalization_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - log-tfidf
-      - tf-logidf
-      - logtf-logidf
-      - idf
+      - 'null'
+      - type: enum
+        symbols:
+          - log-tfidf
+          - tf-logidf
+          - logtf-logidf
+          - idf
     label: Normalization method
     default: log-tfidf
     doc: |
@@ -53,12 +56,12 @@ inputs:
       Default: log-tfidf
   integration_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - signac
-      - harmony
-      - none
+      - 'null'
+      - type: enum
+        symbols:
+          - signac
+          - harmony
+          - none
     label: Integration method
     default: signac
     doc: |
@@ -76,12 +79,12 @@ inputs:
       Default: signac
   integrate_by:
     type:
-    - 'null'
-    - string
-    - type: enum
-      symbols:
-      - dataset
-      - condition
+      - 'null'
+      - string
+      - type: enum
+        symbols:
+          - dataset
+          - condition
     label: Batch correction (harmony)
     default: dataset
     doc: |
@@ -172,17 +175,17 @@ inputs:
       advanced: true
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     default: classic
     label: Plots color theme
     doc: |
@@ -193,15 +196,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Cores/CPUs
     doc: |
@@ -220,9 +223,9 @@ outputs:
       Correlation between QC metrics
       and LSI components
     sd:visualPlugins:
-    - image:
-        tab: QC
-        Caption: Correlation between QC metrics and LSI components
+      - image:
+          tab: QC
+          Caption: Correlation between QC metrics and LSI components
   umap_qc_mtrcs_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_qc_mtrcs_plot_png
@@ -230,9 +233,9 @@ outputs:
     doc: |
       UMAP, QC metrics
     sd:visualPlugins:
-    - image:
-        tab: QC
-        Caption: UMAP, QC metrics
+      - image:
+          tab: QC
+          Caption: UMAP, QC metrics
   umap_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_plot_png
@@ -240,9 +243,9 @@ outputs:
     doc: |
       UMAP, colored by dataset
     sd:visualPlugins:
-    - image:
-        tab: Per dataset
-        Caption: UMAP, colored by dataset
+      - image:
+          tab: Per dataset
+          Caption: UMAP, colored by dataset
   umap_spl_idnt_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_spl_idnt_plot_png
@@ -250,9 +253,9 @@ outputs:
     doc: |
       UMAP, split by dataset
     sd:visualPlugins:
-    - image:
-        tab: Per dataset
-        Caption: UMAP, split by dataset
+      - image:
+          tab: Per dataset
+          Caption: UMAP, split by dataset
   umap_spl_frgm_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_spl_frgm_plot_png
@@ -261,9 +264,10 @@ outputs:
       UMAP, colored by dataset, split
       by ATAC fragments in peaks per cell.
     sd:visualPlugins:
-    - image:
-        tab: Per dataset
-        Caption: UMAP, colored by dataset, split by ATAC fragments in peaks per cell
+      - image:
+          tab: Per dataset
+          Caption: UMAP, colored by dataset, split by ATAC fragments in peaks per
+            cell
   umap_spl_peak_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_spl_peak_plot_png
@@ -272,9 +276,9 @@ outputs:
       UMAP, colored by dataset, split
       by peaks per cell
     sd:visualPlugins:
-    - image:
-        tab: Per dataset
-        Caption: UMAP, colored by dataset, split by peaks per cell
+      - image:
+          tab: Per dataset
+          Caption: UMAP, colored by dataset, split by peaks per cell
   umap_spl_tss_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_spl_tss_plot_png
@@ -283,9 +287,9 @@ outputs:
       UMAP, colored by dataset, split
       by TSS enrichment score
     sd:visualPlugins:
-    - image:
-        tab: Per dataset
-        Caption: UMAP, colored by dataset, split by TSS enrichment score
+      - image:
+          tab: Per dataset
+          Caption: UMAP, colored by dataset, split by TSS enrichment score
   umap_spl_ncls_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_spl_ncls_plot_png
@@ -294,9 +298,9 @@ outputs:
       UMAP, colored by dataset, split
       by nucleosome signal
     sd:visualPlugins:
-    - image:
-        tab: Per dataset
-        Caption: UMAP, colored by dataset, split by nucleosome signal
+      - image:
+          tab: Per dataset
+          Caption: UMAP, colored by dataset, split by nucleosome signal
   umap_spl_frip_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_spl_frip_plot_png
@@ -305,9 +309,9 @@ outputs:
       UMAP, colored by dataset,
       split by FRiP
     sd:visualPlugins:
-    - image:
-        tab: Per dataset
-        Caption: UMAP, colored by dataset, split by FRiP
+      - image:
+          tab: Per dataset
+          Caption: UMAP, colored by dataset, split by FRiP
   umap_spl_blck_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_spl_blck_plot_png
@@ -316,9 +320,9 @@ outputs:
       UMAP, colored by dataset, split
       by blacklist fraction
     sd:visualPlugins:
-    - image:
-        tab: Per dataset
-        Caption: UMAP, colored by dataset, split by blacklist fraction
+      - image:
+          tab: Per dataset
+          Caption: UMAP, colored by dataset, split by blacklist fraction
   umap_spl_cnd_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_spl_cnd_plot_png
@@ -327,20 +331,22 @@ outputs:
       UMAP, colored by dataset, split
       by grouping condition
     sd:visualPlugins:
-    - image:
-        tab: Per group
-        Caption: UMAP, colored by dataset, split by grouping condition
+      - image:
+          tab: Per group
+          Caption: UMAP, colored by dataset, split by grouping condition
   umap_gr_cnd_spl_frgm_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_gr_cnd_spl_frgm_plot_png
-    label: UMAP, colored by grouping condition, split by ATAC fragments in peaks per cell
+    label: UMAP, colored by grouping condition, split by ATAC fragments in peaks per
+      cell
     doc: |
       UMAP, colored by grouping condition,
       split by ATAC fragments in peaks per cell
     sd:visualPlugins:
-    - image:
-        tab: Per group
-        Caption: UMAP, colored by grouping condition, split by ATAC fragments in peaks per cell
+      - image:
+          tab: Per group
+          Caption: UMAP, colored by grouping condition, split by ATAC fragments in
+            peaks per cell
   umap_gr_cnd_spl_peak_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_gr_cnd_spl_peak_plot_png
@@ -349,9 +355,9 @@ outputs:
       UMAP, colored by grouping condition,
       split by peaks per cell
     sd:visualPlugins:
-    - image:
-        tab: Per group
-        Caption: UMAP, colored by grouping condition, split by peaks per cell
+      - image:
+          tab: Per group
+          Caption: UMAP, colored by grouping condition, split by peaks per cell
   umap_gr_cnd_spl_tss_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_gr_cnd_spl_tss_plot_png
@@ -360,9 +366,9 @@ outputs:
       UMAP, colored by grouping condition,
       split by TSS enrichment score
     sd:visualPlugins:
-    - image:
-        tab: Per group
-        Caption: UMAP, colored by grouping condition, split by TSS enrichment score
+      - image:
+          tab: Per group
+          Caption: UMAP, colored by grouping condition, split by TSS enrichment score
   umap_gr_cnd_spl_ncls_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_gr_cnd_spl_ncls_plot_png
@@ -371,9 +377,9 @@ outputs:
       UMAP, colored by grouping condition,
       split by nucleosome signal
     sd:visualPlugins:
-    - image:
-        tab: Per group
-        Caption: UMAP, colored by grouping condition, split by nucleosome signal
+      - image:
+          tab: Per group
+          Caption: UMAP, colored by grouping condition, split by nucleosome signal
   umap_gr_cnd_spl_frip_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_gr_cnd_spl_frip_plot_png
@@ -382,9 +388,9 @@ outputs:
       UMAP, colored by grouping condition,
       split by FRiP
     sd:visualPlugins:
-    - image:
-        tab: Per group
-        Caption: UMAP, colored by grouping condition, split by FRiP
+      - image:
+          tab: Per group
+          Caption: UMAP, colored by grouping condition, split by FRiP
   umap_gr_cnd_spl_blck_plot_png:
     type: File?
     outputSource: sc_atac_reduce/umap_gr_cnd_spl_blck_plot_png
@@ -393,9 +399,9 @@ outputs:
       UMAP, colored by grouping condition,
       split by blacklist fraction
     sd:visualPlugins:
-    - image:
-        tab: Per group
-        Caption: UMAP, colored by grouping condition, split by blacklist fraction
+      - image:
+          tab: Per group
+          Caption: UMAP, colored by grouping condition, split by blacklist fraction
   ucsc_cb_html_data:
     type: Directory?
     outputSource: sc_atac_reduce/ucsc_cb_html_data
@@ -409,9 +415,9 @@ outputs:
     doc: |
       UCSC Cell Browser html index.
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   seurat_data_rds:
     type: File
     outputSource: sc_atac_reduce/seurat_data_rds
@@ -433,9 +439,9 @@ outputs:
       Tehcnical report.
       HTML format.
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   sc_atac_reduce_stdout_log:
     type: File
     outputSource: sc_atac_reduce/stdout_log
@@ -491,79 +497,79 @@ steps:
         source: threads
         valueFrom: $(parseInt(self))
     out:
-    - qc_dim_corr_plot_png
-    - umap_qc_mtrcs_plot_png
-    - umap_plot_png
-    - umap_spl_idnt_plot_png
-    - umap_spl_cnd_plot_png
-    - umap_spl_frgm_plot_png
-    - umap_spl_peak_plot_png
-    - umap_spl_tss_plot_png
-    - umap_spl_ncls_plot_png
-    - umap_spl_frip_plot_png
-    - umap_spl_blck_plot_png
-    - umap_gr_cnd_spl_frgm_plot_png
-    - umap_gr_cnd_spl_peak_plot_png
-    - umap_gr_cnd_spl_tss_plot_png
-    - umap_gr_cnd_spl_ncls_plot_png
-    - umap_gr_cnd_spl_frip_plot_png
-    - umap_gr_cnd_spl_blck_plot_png
-    - qc_dim_corr_plot_pdf
-    - umap_qc_mtrcs_plot_pdf
-    - umap_plot_pdf
-    - umap_spl_idnt_plot_pdf
-    - umap_spl_cnd_plot_pdf
-    - umap_spl_frgm_plot_pdf
-    - umap_spl_peak_plot_pdf
-    - umap_spl_tss_plot_pdf
-    - umap_spl_ncls_plot_pdf
-    - umap_spl_frip_plot_pdf
-    - umap_spl_blck_plot_pdf
-    - umap_gr_cnd_spl_frgm_plot_pdf
-    - umap_gr_cnd_spl_peak_plot_pdf
-    - umap_gr_cnd_spl_tss_plot_pdf
-    - umap_gr_cnd_spl_ncls_plot_pdf
-    - umap_gr_cnd_spl_frip_plot_pdf
-    - umap_gr_cnd_spl_blck_plot_pdf
-    - ucsc_cb_html_data
-    - ucsc_cb_html_file
-    - seurat_data_rds
-    - sc_report_html_file
-    - stdout_log
-    - stderr_log
+      - qc_dim_corr_plot_png
+      - umap_qc_mtrcs_plot_png
+      - umap_plot_png
+      - umap_spl_idnt_plot_png
+      - umap_spl_cnd_plot_png
+      - umap_spl_frgm_plot_png
+      - umap_spl_peak_plot_png
+      - umap_spl_tss_plot_png
+      - umap_spl_ncls_plot_png
+      - umap_spl_frip_plot_png
+      - umap_spl_blck_plot_png
+      - umap_gr_cnd_spl_frgm_plot_png
+      - umap_gr_cnd_spl_peak_plot_png
+      - umap_gr_cnd_spl_tss_plot_png
+      - umap_gr_cnd_spl_ncls_plot_png
+      - umap_gr_cnd_spl_frip_plot_png
+      - umap_gr_cnd_spl_blck_plot_png
+      - qc_dim_corr_plot_pdf
+      - umap_qc_mtrcs_plot_pdf
+      - umap_plot_pdf
+      - umap_spl_idnt_plot_pdf
+      - umap_spl_cnd_plot_pdf
+      - umap_spl_frgm_plot_pdf
+      - umap_spl_peak_plot_pdf
+      - umap_spl_tss_plot_pdf
+      - umap_spl_ncls_plot_pdf
+      - umap_spl_frip_plot_pdf
+      - umap_spl_blck_plot_pdf
+      - umap_gr_cnd_spl_frgm_plot_pdf
+      - umap_gr_cnd_spl_peak_plot_pdf
+      - umap_gr_cnd_spl_tss_plot_pdf
+      - umap_gr_cnd_spl_ncls_plot_pdf
+      - umap_gr_cnd_spl_frip_plot_pdf
+      - umap_gr_cnd_spl_blck_plot_pdf
+      - ucsc_cb_html_data
+      - ucsc_cb_html_file
+      - seurat_data_rds
+      - sc_report_html_file
+      - stdout_log
+      - stderr_log
   folder_pdf_plots:
     run: ../tools/files-to-folder.cwl
     in:
       input_files:
         source:
-        - sc_atac_reduce/qc_dim_corr_plot_pdf
-        - sc_atac_reduce/umap_qc_mtrcs_plot_pdf
-        - sc_atac_reduce/umap_plot_pdf
-        - sc_atac_reduce/umap_spl_idnt_plot_pdf
-        - sc_atac_reduce/umap_spl_cnd_plot_pdf
-        - sc_atac_reduce/umap_spl_frgm_plot_pdf
-        - sc_atac_reduce/umap_spl_peak_plot_pdf
-        - sc_atac_reduce/umap_spl_tss_plot_pdf
-        - sc_atac_reduce/umap_spl_ncls_plot_pdf
-        - sc_atac_reduce/umap_spl_frip_plot_pdf
-        - sc_atac_reduce/umap_spl_blck_plot_pdf
-        - sc_atac_reduce/umap_gr_cnd_spl_frgm_plot_pdf
-        - sc_atac_reduce/umap_gr_cnd_spl_peak_plot_pdf
-        - sc_atac_reduce/umap_gr_cnd_spl_tss_plot_pdf
-        - sc_atac_reduce/umap_gr_cnd_spl_ncls_plot_pdf
-        - sc_atac_reduce/umap_gr_cnd_spl_frip_plot_pdf
-        - sc_atac_reduce/umap_gr_cnd_spl_blck_plot_pdf
+          - sc_atac_reduce/qc_dim_corr_plot_pdf
+          - sc_atac_reduce/umap_qc_mtrcs_plot_pdf
+          - sc_atac_reduce/umap_plot_pdf
+          - sc_atac_reduce/umap_spl_idnt_plot_pdf
+          - sc_atac_reduce/umap_spl_cnd_plot_pdf
+          - sc_atac_reduce/umap_spl_frgm_plot_pdf
+          - sc_atac_reduce/umap_spl_peak_plot_pdf
+          - sc_atac_reduce/umap_spl_tss_plot_pdf
+          - sc_atac_reduce/umap_spl_ncls_plot_pdf
+          - sc_atac_reduce/umap_spl_frip_plot_pdf
+          - sc_atac_reduce/umap_spl_blck_plot_pdf
+          - sc_atac_reduce/umap_gr_cnd_spl_frgm_plot_pdf
+          - sc_atac_reduce/umap_gr_cnd_spl_peak_plot_pdf
+          - sc_atac_reduce/umap_gr_cnd_spl_tss_plot_pdf
+          - sc_atac_reduce/umap_gr_cnd_spl_ncls_plot_pdf
+          - sc_atac_reduce/umap_gr_cnd_spl_frip_plot_pdf
+          - sc_atac_reduce/umap_gr_cnd_spl_blck_plot_pdf
         valueFrom: $(self.flat().filter(n => n))
       folder_basename:
         default: pdf_plots
     out:
-    - folder
+      - folder
   compress_pdf_plots:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: folder_pdf_plots/folder
     out:
-    - compressed_folder
+      - compressed_folder
 label: Single-Cell ATAC-Seq Dimensionality Reduction Analysis
 doc: |-
   Single-Cell ATAC-Seq Dimensionality Reduction Analysis

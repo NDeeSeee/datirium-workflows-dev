@@ -1,14 +1,14 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   deseq_experiment:
-  - deseq.cwl
-  - deseq-for-spikein.cwl
+    - deseq.cwl
+    - deseq-for-spikein.cwl
 inputs:
   alias:
     type: string
@@ -17,53 +17,50 @@ inputs:
       position: 1
   read_counts_file:
     type: File
-    format: http://edamontology.org/format_3709
     label: DESeq experiment
     doc: Input gene expression dataset file in txt or gct format. Same with GSEA
     sd:upstreamSource: deseq_experiment/read_counts_file
     sd:localLabel: true
   phenotypes_file:
     type: File
-    format: http://edamontology.org/format_2330
     label: DESeq experiment
     doc: Input class vector (phenotype) file in CLS format. Same with GSEA
     sd:upstreamSource: deseq_experiment/phenotypes_file
     sd:localLabel: true
   gene_set_database:
     type:
-    - 'null'
-    - type: enum
-      name: genesetdatabase
-      symbols:
-      - H_hallmark_gene_sets
-      - C1_positional_gene_sets
-      - C2_curated_gene_sets
-      - C3_regulatory_target_gene_sets
-      - C4_computational_gene_sets
-      - C5_ontology_gene_sets
-      - C6_oncogenic_signature_gene_sets
-      - C7_immunologic_signature_gene_sets
-      - C8_cell_type_signature_gene_sets
-      - KEGG_2021_Human
-      - Reactome_2022
-      - WikiPathway_2023_Human
+      - 'null'
+      - type: enum
+        name: genesetdatabase
+        symbols:
+          - H_hallmark_gene_sets
+          - C1_positional_gene_sets
+          - C2_curated_gene_sets
+          - C3_regulatory_target_gene_sets
+          - C4_computational_gene_sets
+          - C5_ontology_gene_sets
+          - C6_oncogenic_signature_gene_sets
+          - C7_immunologic_signature_gene_sets
+          - C8_cell_type_signature_gene_sets
+          - KEGG_2021_Human
+          - Reactome_2022
+          - WikiPathway_2023_Human
     default: H_hallmark_gene_sets
     label: Gene set database. Ignored if GMT file is privided
     doc: Gene set database
   gene_set_database_file:
     type: File?
-    format: http://edamontology.org/format_2330
-    default: null
+    default:
     label: Gene set database file in GMT format
     doc: Gene set database file in GMT (Gene Matrix Transposed) format
   permutation_type:
     type:
-    - 'null'
-    - type: enum
-      name: permutationtype
-      symbols:
-      - gene_set
-      - phenotype
+      - 'null'
+      - type: enum
+        name: permutationtype
+        symbols:
+          - gene_set
+          - phenotype
     default: gene_set
     label: Permutation type
     doc: 'Permutation type. Default: gene_set'
@@ -88,15 +85,15 @@ inputs:
       advanced: true
   ranking_metrics:
     type:
-    - 'null'
-    - type: enum
-      name: rankingmetrics
-      symbols:
-      - signal_to_noise
-      - t_test
-      - ratio_of_classes
-      - diff_of_classes
-      - log2_ratio_of_classes
+      - 'null'
+      - type: enum
+        name: rankingmetrics
+        symbols:
+          - signal_to_noise
+          - t_test
+          - ratio_of_classes
+          - diff_of_classes
+          - log2_ratio_of_classes
     default: signal_to_noise
     label: Methods to calculate correlations of ranking metrics
     doc: 'Methods to calculate correlations of ranking metrics. Default: log2_ratio_of_classes'
@@ -104,7 +101,8 @@ inputs:
     type: float?
     default: 0.05
     label: Set p-value for enrichment plot and heatmap output
-    doc: 'Output only graphs from gene sets with p-value less than this set value. Default: 0.05'
+    doc: 'Output only graphs from gene sets with p-value less than this set value.
+      Default: 0.05'
     sd:layout:
       advanced: true
   seed:
@@ -124,29 +122,26 @@ inputs:
 outputs:
   gseapy_enrichment_report_csv:
     type: File
-    format: http://edamontology.org/format_3475
     label: Enrichment report
     doc: Enrichment report in original csv format
     outputSource: run_gseapy/enrichment_report
   gseapy_enrichment_report_tsv:
     type: File
-    format: http://edamontology.org/format_3475
     label: Enrichment report
     doc: Enrichment report converted to tsv format for scidap table
     outputSource: convert_to_tsv/output_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Gene Set Enrichment Table
-        Title: Gene Set Enrichment Table
+      - syncfusiongrid:
+          tab: Gene Set Enrichment Table
+          Title: Gene Set Enrichment Table
   gseapy_report_summary:
     type: File?
     label: Markdown formatted table with summary stats
-    format: http://edamontology.org/format_3835
     doc: Markdown formatted table with summary stats
     outputSource: run_gseapy/report_summary
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   gseapy_enrichment_plots:
     type: File
     label: Compressed TAR with enrichment plots
@@ -160,22 +155,22 @@ outputs:
   gseapy_filtered_enrichment_plots:
     type: File
     label: Compressed TAR with filtered enrichment plots
-    doc: Compressed TAR with enrichment plots having a p-value less than graphs_pvalue input value
+    doc: Compressed TAR with enrichment plots having a p-value less than graphs_pvalue
+      input value
     outputSource: run_gseapy/filtered_enrichment_plots
   gseapy_filtered_enrichment_heatmaps:
     type: File
     label: Compressed TAR with filtered enrichment heatmaps
-    doc: Compressed TAR with enrichment heatmaps having a p-value less than graphs_pvalue input value
+    doc: Compressed TAR with enrichment heatmaps having a p-value less than graphs_pvalue
+      input value
     outputSource: run_gseapy/filtered_enrichment_heatmaps
   gseapy_stdout_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: GSEApy stdout log
     doc: GSEApy stdout log
     outputSource: run_gseapy/stdout_log
   gseapy_stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: GSEApy stderr log
     doc: GSEApy stderr log
     outputSource: run_gseapy/stderr_log
@@ -187,8 +182,8 @@ steps:
       phenotypes_file: phenotypes_file
       gene_set_database:
         source:
-        - gene_set_database
-        - gene_set_database_file
+          - gene_set_database
+          - gene_set_database_file
         valueFrom: $(self[1]?self[1]:self[0])
       permutation_type: permutation_type
       permutation_count: permutation_count
@@ -199,14 +194,14 @@ steps:
       seed: seed
       threads: threads_count
     out:
-    - enrichment_report
-    - report_summary
-    - enrichment_plots
-    - enrichment_heatmaps
-    - filtered_enrichment_plots
-    - filtered_enrichment_heatmaps
-    - stdout_log
-    - stderr_log
+      - enrichment_report
+      - report_summary
+      - enrichment_plots
+      - enrichment_heatmaps
+      - filtered_enrichment_plots
+      - filtered_enrichment_heatmaps
+      - stdout_log
+      - stderr_log
   convert_to_tsv:
     run: ../tools/custom-bash.cwl
     in:
@@ -215,7 +210,7 @@ steps:
         default: |
           cat "$0" | tr "," "\t" > `basename $0 csv`tsv
     out:
-    - output_file
+      - output_file
 label: GSEApy - Gene Set Enrichment Analysis in Python
 doc: |-
   GSEAPY: Gene Set Enrichment Analysis in Python

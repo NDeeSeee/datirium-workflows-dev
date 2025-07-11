@@ -1,15 +1,15 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   sample_to_filter:
-  - deseq.cwl
-  - deseq-multi-factor.cwl
-  - deseq-for-spikein.cwl
+    - deseq.cwl
+    - deseq-multi-factor.cwl
+    - deseq-for-spikein.cwl
 inputs:
   alias:
     type: string
@@ -18,7 +18,6 @@ inputs:
       position: 1
   feature_file:
     type: File
-    format: http://edamontology.org/format_3475
     label: DESeq experiment run for genes
     doc: TSV file with differentially expressed genes from DESeq pipeline
     sd:upstreamSource: sample_to_filter/diff_expr_file
@@ -30,39 +29,39 @@ inputs:
     sd:filtering:
       params:
         columns:
-        - RefseqId
-        - GeneId
-        - Chrom
-        - TxStart
-        - TxEnd
-        - Strand
-        - RpkmCondition1
-        - RpkmCondition2
-        - baseMean
-        - log2FoldChange
-        - pvalue
-        - padj
-        - HCL
-        - '[HCL.1]'
-        - '[HCL.2]'
-        - '[HCL.3]'
+          - RefseqId
+          - GeneId
+          - Chrom
+          - TxStart
+          - TxEnd
+          - Strand
+          - RpkmCondition1
+          - RpkmCondition2
+          - baseMean
+          - log2FoldChange
+          - pvalue
+          - padj
+          - HCL
+          - '[HCL.1]'
+          - '[HCL.2]'
+          - '[HCL.3]'
         types:
-        - string
-        - string
-        - string
-        - number
-        - number
-        - string
-        - number
-        - number
-        - number
-        - number
-        - number
-        - number
-        - string
-        - string
-        - string
-        - string
+          - string
+          - string
+          - string
+          - number
+          - number
+          - string
+          - number
+          - number
+          - number
+          - number
+          - number
+          - number
+          - string
+          - string
+          - string
+          - string
   header:
     type: boolean?
     default: false
@@ -72,15 +71,15 @@ inputs:
       advanced: true
   columns:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     default:
-    - Chrom AS chrom
-    - TxStart AS start
-    - TxEnd AS end
-    - GeneId AS name
-    - log2FoldChange AS score
-    - Strand AS strand
+      - Chrom AS chrom
+      - TxStart AS start
+      - TxEnd AS end
+      - GeneId AS name
+      - log2FoldChange AS score
+      - Strand AS strand
     label: Columns to print
     doc: |
       List of columns to print (SELECT parameters for SQL query).
@@ -92,29 +91,27 @@ inputs:
 outputs:
   filtered_file:
     type: File
-    format: http://edamontology.org/format_3003
     label: Filtered differentially expressed genes
-    doc: Regions of interest formatted as headerless BED file with [chrom start end name score strand]
+    doc: Regions of interest formatted as headerless BED file with [chrom start end
+      name score strand]
     outputSource: feature_select/filtered_file
   filtered_file_w_header:
     type: File
-    format: http://edamontology.org/format_3003
     label: Filtered differentially expressed genes
-    doc: Regions of interest formatted as headered BED file with [chrom start end name score strand]
+    doc: Regions of interest formatted as headered BED file with [chrom start end
+      name score strand]
     outputSource: add_header/filtered_file_with_header
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Filtering results
-        Title: Filtered table
+      - syncfusiongrid:
+          tab: Filtering results
+          Title: Filtered table
   filtering_std_out_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: Filtering stdout log
     doc: Filtering stdout log
     outputSource: feature_select/stdout_log
   filtering_std_err_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: Filtering stderr log
     doc: Filtering stderr log
     outputSource: feature_select/stderr_log
@@ -135,7 +132,7 @@ steps:
           cat wo_header.tsv >> `basename $0`
           rm -f wo_header.tsv
     out:
-    - output_file
+      - output_file
   feature_select:
     run: ../tools/feature-select-sql.cwl
     in:
@@ -146,16 +143,16 @@ steps:
         valueFrom: $(self.join(", "))
       header: header
     out:
-    - filtered_file
-    - stdout_log
-    - stderr_log
+      - filtered_file
+      - stdout_log
+      - stderr_log
   add_header:
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       requirements:
-      - class: ScatterFeatureRequirement
-      - class: ShellCommandRequirement
+        - class: ScatterFeatureRequirement
+        - class: ShellCommandRequirement
       inputs:
         script:
           type: string?
@@ -174,12 +171,12 @@ steps:
           outputBinding:
             glob: genelist-filtered-set-w-header.bed
       baseCommand:
-      - bash
-      - -c
+        - bash
+        - -c
     in:
       headerless_bed: feature_select/filtered_file
     out:
-    - filtered_file_with_header
+      - filtered_file_with_header
 label: Filter differentially expressed genes from DESeq for Tag Density Profile Analyses
 doc: |
   Filters differentially expressed genes from DESeq for Tag Density Profile Analyses

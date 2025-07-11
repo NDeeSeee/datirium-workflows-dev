@@ -1,19 +1,19 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   query_data_rds:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     inputBinding:
       prefix: --rds
     doc: |
@@ -37,7 +37,8 @@ inputs:
     type: boolean?
     inputBinding:
       prefix: --split
-    doc: "When assigning names to the sample tags, split \neach of them by origin (the RDS file the data\nwas loaded from). \nDefault: do not split\n"
+    doc: "When assigning names to the sample tags, split \neach of them by origin
+      (the RDS file the data\nwas loaded from). \nDefault: do not split\n"
   verbose:
     type: boolean?
     inputBinding:
@@ -99,7 +100,9 @@ outputs:
     type: File
     outputBinding:
       glob: '*_bc_matrix.tar.gz'
-    doc: "Compressed folder with the merged feature-barcode \nmatrix from the loaded RDS files produced by the \nBD Rhapsody Sequence Analysis Pipeline. \nMEX format (TAR-gzipped).\n"
+    doc: "Compressed folder with the merged feature-barcode \nmatrix from the loaded
+      RDS files produced by the \nBD Rhapsody Sequence Analysis Pipeline. \nMEX format
+      (TAR-gzipped).\n"
   aggregation_metadata:
     type: File
     outputBinding:
@@ -136,9 +139,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_rna_load_rhapsody.R"]:"/usr/local/bin/sc_rna_load_rhapsody.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_rna_load_rhapsody.R"]:"/usr/local/bin/sc_rna_load_rhapsody.R")
 stdout: sc_rna_load_rhapsody_stdout.log
 stderr: sc_rna_load_rhapsody_stderr.log
 label: Single-cell RNA-Seq BD Rhapsody Import

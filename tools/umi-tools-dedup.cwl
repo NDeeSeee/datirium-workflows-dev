@@ -1,12 +1,14 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { var ext = inputs.bam_file.basename.split('.').slice(-1)[0]; var root = inputs.bam_file.basename.split('.').slice(0,-1).join('.'); return inputs.output_filename?inputs.output_filename:root+"_dedup."+ext; };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { var ext = inputs.bam_file.basename.split('.').slice(-1)[0];
+        var root = inputs.bam_file.basename.split('.').slice(0,-1).join('.'); return
+        inputs.output_filename?inputs.output_filename:root+"_dedup."+ext; };
 hints:
-- class: DockerRequirement
-  dockerPull: quay.io/biocontainers/umi_tools:1.0.1--py38h0213d0e_2
+  - class: DockerRequirement
+    dockerPull: quay.io/biocontainers/umi_tools:1.0.1--py38h0213d0e_2
 inputs:
   bash_script:
     type: string?
@@ -34,7 +36,7 @@ inputs:
   bam_file:
     type: File
     secondaryFiles:
-    - .bai
+      - .bai
     inputBinding:
       position: 7
       prefix: -I
@@ -81,11 +83,11 @@ outputs:
     outputBinding:
       glob: $(default_output_filename())
     secondaryFiles:
-    - .bai
+      - .bai
   output_stats:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     outputBinding:
       glob: $(inputs.output_stats + "*")
   stdout_log:
@@ -93,8 +95,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: umi_tools_dedup_stdout_file.log
 stderr: umi_tools_dedup_stderr_file.log
 doc: |

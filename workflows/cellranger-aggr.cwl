@@ -1,14 +1,14 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   sc_experiment:
-  - single-cell-preprocess-cellranger.cwl
-  - cellranger-multi.cwl
+    - single-cell-preprocess-cellranger.cwl
+    - cellranger-multi.cwl
 inputs:
   alias:
     type: string
@@ -17,8 +17,8 @@ inputs:
       position: 1
   molecule_info_h5:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Cell Ranger RNA or RNA+VDJ Sample
     doc: |
       Any "Cell Ranger RNA or RNA+VDJ Sample"
@@ -29,19 +29,19 @@ inputs:
     sd:localLabel: true
   filtered_data_folder:
     type:
-    - 'null'
-    - Directory[]
+      - 'null'
+      - Directory[]
     sd:upstreamSource: sc_experiment/filtered_data_folder
   gem_well_labels:
     type: string[]
     sd:upstreamSource: sc_experiment/alias
   normalization_mode:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - none
-      - mapped
+      - 'null'
+      - type: enum
+        symbols:
+          - none
+          - mapped
     default: none
     label: Library depth normalization mode
     doc: Library depth normalization mode
@@ -49,15 +49,16 @@ inputs:
       advanced: true
   clonotype_grouping:
     type:
-    - 'null'
-    - type: enum
-      name: clonotype_grouping
-      symbols:
-      - same_donor_different_origins
-      - same_donor_and_origin
-      - different_donors
+      - 'null'
+      - type: enum
+        name: clonotype_grouping
+        symbols:
+          - same_donor_different_origins
+          - same_donor_and_origin
+          - different_donors
     default: different_donors
-    label: Clonotype grouping. Ignored if upstream analysis doesn't include V(D)J data
+    label: Clonotype grouping. Ignored if upstream analysis doesn't include V(D)J
+      data
     doc: |
       When cellranger aggr is called with cellranger multi outputs, there are three
       ways it can process the datasets depending on the combination of donor and
@@ -85,9 +86,9 @@ outputs:
     label: Aggregated run summary metrics and charts in HTML format
     doc: Aggregated run summary metrics and charts in HTML format
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   metrics_summary_report_json:
     type: File
     outputSource: aggregate_counts/metrics_summary_report_json
@@ -135,9 +136,9 @@ outputs:
     label: CSV file with high-level descriptions of each clonotype
     doc: CSV file with high-level descriptions of each clonotype
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: V(D)J clonotypes
-        Title: V(D)J clonotypes
+      - syncfusiongrid:
+          tab: V(D)J clonotypes
+          Title: V(D)J clonotypes
   consensus_sequences_fasta:
     type: File?
     outputSource: aggregate_counts/consensus_sequences_fasta
@@ -146,13 +147,17 @@ outputs:
   consensus_annotations_csv:
     type: File?
     outputSource: aggregate_counts/consensus_annotations_csv
-    label: CSV file with high-level and detailed annotations of each clonotype consensus sequence
-    doc: CSV file with high-level and detailed annotations of each clonotype consensus sequence
+    label: CSV file with high-level and detailed annotations of each clonotype consensus
+      sequence
+    doc: CSV file with high-level and detailed annotations of each clonotype consensus
+      sequence
   filtered_contig_annotations_csv:
     type: File?
     outputSource: aggregate_counts/filtered_contig_annotations_csv
-    label: CSV file with high-level annotations of each high-confidence contig from cell-associated barcodes
-    doc: CSV file with high-level annotations of each high-confidence contig from cell-associated barcodes
+    label: CSV file with high-level annotations of each high-confidence contig from
+      cell-associated barcodes
+    doc: CSV file with high-level annotations of each high-confidence contig from
+      cell-associated barcodes
   loupe_vdj_browser_track:
     type: File?
     outputSource: aggregate_counts/loupe_vdj_browser_track
@@ -161,7 +166,8 @@ outputs:
   airr_rearrangement_tsv:
     type: File?
     outputSource: aggregate_counts/airr_rearrangement_tsv
-    label: Annotated contigs and consensus sequences of V(D)J rearrangements in the AIRR format
+    label: Annotated contigs and consensus sequences of V(D)J rearrangements in the
+      AIRR format
     doc: |
       Annotated contigs and consensus sequences of V(D)J
       rearrangements in the AIRR format. It includes only
@@ -182,9 +188,9 @@ outputs:
     label: CellBrowser formatted Cellranger report
     doc: CellBrowser formatted Cellranger report
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   aggregate_counts_stdout_log:
     type: File
     outputSource: aggregate_counts/stdout_log
@@ -208,34 +214,34 @@ steps:
       memory_limit: memory_limit
       virt_memory_limit: memory_limit
     out:
-    - web_summary_report
-    - metrics_summary_report_json
-    - secondary_analysis_report_folder
-    - filtered_feature_bc_matrix_folder
-    - filtered_feature_bc_matrix_h5
-    - aggregation_metadata
-    - grouping_data
-    - loupe_browser_track
-    - clonotypes_csv
-    - consensus_sequences_fasta
-    - consensus_annotations_csv
-    - filtered_contig_annotations_csv
-    - loupe_vdj_browser_track
-    - airr_rearrangement_tsv
-    - stdout_log
-    - stderr_log
+      - web_summary_report
+      - metrics_summary_report_json
+      - secondary_analysis_report_folder
+      - filtered_feature_bc_matrix_folder
+      - filtered_feature_bc_matrix_h5
+      - aggregation_metadata
+      - grouping_data
+      - loupe_browser_track
+      - clonotypes_csv
+      - consensus_sequences_fasta
+      - consensus_annotations_csv
+      - filtered_contig_annotations_csv
+      - loupe_vdj_browser_track
+      - airr_rearrangement_tsv
+      - stdout_log
+      - stderr_log
   compress_filtered_feature_bc_matrix_folder:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: aggregate_counts/filtered_feature_bc_matrix_folder
     out:
-    - compressed_folder
+      - compressed_folder
   compress_secondary_analysis_report_folder:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: aggregate_counts/secondary_analysis_report_folder
     out:
-    - compressed_folder
+      - compressed_folder
   cellbrowser_build:
     run: ../tools/cellbrowser-build-cellranger.cwl
     in:
@@ -243,14 +249,14 @@ steps:
       filtered_feature_bc_matrix_folder: aggregate_counts/filtered_feature_bc_matrix_folder
       aggregation_metadata: aggregate_counts/aggregation_metadata
     out:
-    - html_data
-    - index_html_file
+      - html_data
+      - index_html_file
   compress_html_data_folder:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: cellbrowser_build/html_data
     out:
-    - compressed_folder
+      - compressed_folder
 label: Cell Ranger Aggregate (RNA, RNA+VDJ)
 doc: |
   Cell Ranger Aggregate (RNA, RNA+VDJ)

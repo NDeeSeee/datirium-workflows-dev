@@ -1,12 +1,15 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_output_prefix = function(ext) { ext = ext || ""; if (inputs.output_prefix == ""){ var root = inputs.bambai_pair.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.bambai_pair.basename+ext:root+ext; } else { return inputs.output_prefix; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_output_prefix = function(ext) { ext = ext || ""; if (inputs.output_prefix
+        == ""){ var root = inputs.bambai_pair.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.bambai_pair.basename+ext:root+ext; } else { return
+        inputs.output_prefix; } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/plugin-plot-dna:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/plugin-plot-dna:v0.0.1
 inputs:
   islands_file:
     type: File
@@ -20,7 +23,7 @@ inputs:
       position: 6
       prefix: -b
     secondaryFiles:
-    - .bai
+      - .bai
     doc: Indexed BAM + BAI files
   output_prefix:
     type: string?
@@ -48,4 +51,4 @@ outputs:
     outputBinding:
       glob: '*reads.tsv'
 baseCommand:
-- plot_dna.R
+  - plot_dna.R

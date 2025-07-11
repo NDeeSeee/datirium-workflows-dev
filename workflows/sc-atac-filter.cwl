@@ -1,18 +1,19 @@
 cwlVersion: v1.1
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var split_numbers = function(line) { let splitted_line = line?line.split(/[\s,]+/).map(parseFloat):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var split_numbers = function(line) { let splitted_line = line?line.split(/[\s,]+/).map(parseFloat):null;
+        return (splitted_line && !!splitted_line.length)?splitted_line:null; };
 sd:upstream:
   sc_sample:
-  - cellranger-atac-count.cwl
-  - cellranger-atac-aggr.cwl
-  - cellranger-arc-count.cwl
-  - cellranger-arc-aggr.cwl
+    - cellranger-atac-count.cwl
+    - cellranger-atac-aggr.cwl
+    - cellranger-arc-count.cwl
+    - cellranger-arc-aggr.cwl
 inputs:
   alias:
     type: string
@@ -44,7 +45,7 @@ inputs:
   atac_fragments_file:
     type: File
     secondaryFiles:
-    - .tbi
+      - .tbi
     sd:upstreamSource: sc_sample/atac_fragments_file
   aggregation_metadata:
     type: File?
@@ -57,12 +58,12 @@ inputs:
     sd:upstreamSource: sc_sample/genome_indices/chrom_length_file
   blacklist_regions_file:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - hg19
-      - hg38
-      - mm10
+      - 'null'
+      - type: enum
+        symbols:
+          - hg19
+          - hg38
+          - mm10
     sd:upstreamSource: sc_sample/genome_indices/genome_indices/genome
   grouping_data:
     type: File?
@@ -265,17 +266,17 @@ inputs:
       advanced: true
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     default: classic
     label: Plots color theme
     doc: |
@@ -286,15 +287,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Cores/CPUs
     doc: |
@@ -314,9 +315,9 @@ outputs:
       Unfiltered; PC1/PC2.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered
-        Caption: QC metrics PCA (unfiltered, PC1/PC2)
+      - image:
+          tab: Unfiltered
+          Caption: QC metrics PCA (unfiltered, PC1/PC2)
   raw_2_3_qc_mtrcs_pca_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_2_3_qc_mtrcs_pca_plot_png
@@ -326,9 +327,9 @@ outputs:
       Unfiltered; PC2/PC3.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered
-        Caption: QC metrics PCA (unfiltered, PC2/PC3)
+      - image:
+          tab: Unfiltered
+          Caption: QC metrics PCA (unfiltered, PC2/PC3)
   raw_cell_cnts_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_cell_cnts_plot_png
@@ -338,9 +339,9 @@ outputs:
       Unfiltered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered
-        Caption: Number of cells per dataset (unfiltered)
+      - image:
+          tab: Unfiltered
+          Caption: Number of cells per dataset (unfiltered)
   raw_frgm_dnst_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_frgm_dnst_plot_png
@@ -351,9 +352,9 @@ outputs:
       Unfiltered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered
-        Caption: Distribution of ATAC fragments in peaks per cell (unfiltered)
+      - image:
+          tab: Unfiltered
+          Caption: Distribution of ATAC fragments in peaks per cell (unfiltered)
   raw_peak_dnst_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_peak_dnst_plot_png
@@ -363,22 +364,24 @@ outputs:
       Unfiltered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered
-        Caption: Distribution of peaks per cell (unfiltered)
+      - image:
+          tab: Unfiltered
+          Caption: Distribution of peaks per cell (unfiltered)
   raw_blck_dnst_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_blck_dnst_plot_png
-    label: Distribution of ATAC fragments within genomic blacklist regions per cell (unfiltered)
+    label: Distribution of ATAC fragments within genomic blacklist regions per cell
+      (unfiltered)
     doc: |
       Distribution of ATAC fragments within
       genomic blacklist regions per cell.
       Unfiltered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered
-        Caption: Distribution of ATAC fragments within genomic blacklist regions per cell (unfiltered)
+      - image:
+          tab: Unfiltered
+          Caption: Distribution of ATAC fragments within genomic blacklist regions
+            per cell (unfiltered)
   raw_tss_frgm_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_tss_frgm_plot_png
@@ -389,9 +392,9 @@ outputs:
       Unfiltered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered
-        Caption: TSS enrichment score vs ATAC fragments in peaks per cell (unfiltered)
+      - image:
+          tab: Unfiltered
+          Caption: TSS enrichment score vs ATAC fragments in peaks per cell (unfiltered)
   raw_qc_mtrcs_dnst_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_qc_mtrcs_dnst_plot_png
@@ -401,9 +404,9 @@ outputs:
       Unfiltered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered
-        Caption: Distribution of QC metrics per cell (unfiltered)
+      - image:
+          tab: Unfiltered
+          Caption: Distribution of QC metrics per cell (unfiltered)
   raw_atacdbl_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_atacdbl_plot_png
@@ -413,48 +416,54 @@ outputs:
       Unfiltered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered
-        Caption: Percentage of ATAC doublets (unfiltered)
+      - image:
+          tab: Unfiltered
+          Caption: Percentage of ATAC doublets (unfiltered)
   raw_tss_nrch_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_tss_nrch_plot_png
-    label: Signal enrichment around TSS (unfiltered, split by the minimum TSS enrichment score threshold)
+    label: Signal enrichment around TSS (unfiltered, split by the minimum TSS enrichment
+      score threshold)
     doc: |
       Signal enrichment around TSS.
       Unfiltered; split by the minimum
       TSS enrichment score threshold.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered
-        Caption: Signal enrichment around TSS (unfiltered, split by the minimum TSS enrichment score threshold)
+      - image:
+          tab: Unfiltered
+          Caption: Signal enrichment around TSS (unfiltered, split by the minimum
+            TSS enrichment score threshold)
   raw_frgm_hist_png:
     type: File?
     outputSource: sc_atac_filter/raw_frgm_hist_png
-    label: Histogram of ATAC fragment length (unfiltered, split by the maximum nucleosome signal threshold)
+    label: Histogram of ATAC fragment length (unfiltered, split by the maximum nucleosome
+      signal threshold)
     doc: |
       Histogram of ATAC fragment length.
       Unfiltered; split by the maximum
       nucleosome signal threshold.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered
-        Caption: Histogram of ATAC fragment length (unfiltered, split by the maximum nucleosome signal threshold)
+      - image:
+          tab: Unfiltered
+          Caption: Histogram of ATAC fragment length (unfiltered, split by the maximum
+            nucleosome signal threshold)
   raw_frgm_dnst_spl_cnd_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_frgm_dnst_spl_cnd_plot_png
-    label: Distribution of ATAC fragments in peaks per cell (unfiltered, split by grouping condition)
+    label: Distribution of ATAC fragments in peaks per cell (unfiltered, split by
+      grouping condition)
     doc: |
       Distribution of ATAC fragments in peaks
       per cell.
       Unfiltered; split by grouping condition.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered, split by group
-        Caption: Distribution of ATAC fragments in peaks per cell (unfiltered, split by grouping condition)
+      - image:
+          tab: Unfiltered, split by group
+          Caption: Distribution of ATAC fragments in peaks per cell (unfiltered, split
+            by grouping condition)
   raw_peak_dnst_spl_cnd_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_peak_dnst_spl_cnd_plot_png
@@ -464,22 +473,24 @@ outputs:
       Unfiltered; split by grouping condition.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered, split by group
-        Caption: Distribution of peaks per cell (unfiltered, split by grouping condition)
+      - image:
+          tab: Unfiltered, split by group
+          Caption: Distribution of peaks per cell (unfiltered, split by grouping condition)
   raw_blck_dnst_spl_cnd_plot_png:
     type: File?
     outputSource: sc_atac_filter/raw_blck_dnst_spl_cnd_plot_png
-    label: Distribution of ATAC fragments within genomic blacklist regions per cell (unfiltered, split by grouping condition)
+    label: Distribution of ATAC fragments within genomic blacklist regions per cell
+      (unfiltered, split by grouping condition)
     doc: |
       Distribution of ATAC fragments within
       genomic blacklist regions per cell.
       Unfiltered; split by grouping condition.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Unfiltered, split by group
-        Caption: Distribution of ATAC fragments within genomic blacklist regions per cell (unfiltered, split by grouping condition)
+      - image:
+          tab: Unfiltered, split by group
+          Caption: Distribution of ATAC fragments within genomic blacklist regions
+            per cell (unfiltered, split by grouping condition)
   fltr_1_2_qc_mtrcs_pca_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_1_2_qc_mtrcs_pca_plot_png
@@ -489,9 +500,9 @@ outputs:
       Filtered; PC1/PC2.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered
-        Caption: QC metrics PCA (filtered, PC1/PC2)
+      - image:
+          tab: Filtered
+          Caption: QC metrics PCA (filtered, PC1/PC2)
   fltr_2_3_qc_mtrcs_pca_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_2_3_qc_mtrcs_pca_plot_png
@@ -501,9 +512,9 @@ outputs:
       Filtered; PC2/PC3.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered
-        Caption: QC metrics PCA (filtered, PC2/PC3)
+      - image:
+          tab: Filtered
+          Caption: QC metrics PCA (filtered, PC2/PC3)
   fltr_cell_cnts_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_cell_cnts_plot_png
@@ -513,9 +524,9 @@ outputs:
       Filtered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered
-        Caption: Number of cells per dataset (filtered)
+      - image:
+          tab: Filtered
+          Caption: Number of cells per dataset (filtered)
   fltr_frgm_dnst_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_frgm_dnst_plot_png
@@ -526,9 +537,9 @@ outputs:
       Filtered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered
-        Caption: Distribution of ATAC fragments in peaks per cell (filtered)
+      - image:
+          tab: Filtered
+          Caption: Distribution of ATAC fragments in peaks per cell (filtered)
   fltr_peak_dnst_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_peak_dnst_plot_png
@@ -538,22 +549,24 @@ outputs:
       Filtered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered
-        Caption: Distribution of peaks per cell (filtered)
+      - image:
+          tab: Filtered
+          Caption: Distribution of peaks per cell (filtered)
   fltr_blck_dnst_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_blck_dnst_plot_png
-    label: Distribution of ATAC fragments within genomic blacklist regions per cell (filtered)
+    label: Distribution of ATAC fragments within genomic blacklist regions per cell
+      (filtered)
     doc: |
       Distribution of ATAC fragments within
       genomic blacklist regions per cell.
       Filtered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered
-        Caption: Distribution of ATAC fragments within genomic blacklist regions per cell (filtered)
+      - image:
+          tab: Filtered
+          Caption: Distribution of ATAC fragments within genomic blacklist regions
+            per cell (filtered)
   fltr_tss_frgm_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_tss_frgm_plot_png
@@ -564,9 +577,9 @@ outputs:
       Filtered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered
-        Caption: TSS enrichment score vs ATAC fragments in peaks per cell (filtered)
+      - image:
+          tab: Filtered
+          Caption: TSS enrichment score vs ATAC fragments in peaks per cell (filtered)
   fltr_qc_mtrcs_dnst_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_qc_mtrcs_dnst_plot_png
@@ -576,9 +589,9 @@ outputs:
       Filtered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered
-        Caption: Distribution of QC metrics per cell (filtered)
+      - image:
+          tab: Filtered
+          Caption: Distribution of QC metrics per cell (filtered)
   fltr_atacdbl_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_atacdbl_plot_png
@@ -588,48 +601,54 @@ outputs:
       Filtered.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered
-        Caption: Percentage of ATAC doublets (filtered)
+      - image:
+          tab: Filtered
+          Caption: Percentage of ATAC doublets (filtered)
   fltr_tss_nrch_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_tss_nrch_plot_png
-    label: Signal enrichment around TSS (filtered, split by the minimum TSS enrichment score threshold)
+    label: Signal enrichment around TSS (filtered, split by the minimum TSS enrichment
+      score threshold)
     doc: |
       Signal enrichment around TSS.
       Filtered; split by the minimum
       TSS enrichment score threshold.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered
-        Caption: Signal enrichment around TSS (filtered, split by the minimum TSS enrichment score threshold)
+      - image:
+          tab: Filtered
+          Caption: Signal enrichment around TSS (filtered, split by the minimum TSS
+            enrichment score threshold)
   fltr_frgm_hist_png:
     type: File?
     outputSource: sc_atac_filter/fltr_frgm_hist_png
-    label: Histogram of ATAC fragment length (filtered, split by the maximum nucleosome signal threshold)
+    label: Histogram of ATAC fragment length (filtered, split by the maximum nucleosome
+      signal threshold)
     doc: |
       Histogram of ATAC fragment length.
       Filtered; split by the maximum
       nucleosome signal threshold.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered
-        Caption: Histogram of ATAC fragment length (filtered, split by the maximum nucleosome signal threshold)
+      - image:
+          tab: Filtered
+          Caption: Histogram of ATAC fragment length (filtered, split by the maximum
+            nucleosome signal threshold)
   fltr_frgm_dnst_spl_cnd_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_frgm_dnst_spl_cnd_plot_png
-    label: Distribution of ATAC fragments in peaks per cell (filtered, split by grouping condition)
+    label: Distribution of ATAC fragments in peaks per cell (filtered, split by grouping
+      condition)
     doc: |
       Distribution of ATAC fragments in peaks
       per cell.
       Filtered; split by grouping condition.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered, split by group
-        Caption: Distribution of ATAC fragments in peaks per cell (filtered, split by grouping condition)
+      - image:
+          tab: Filtered, split by group
+          Caption: Distribution of ATAC fragments in peaks per cell (filtered, split
+            by grouping condition)
   fltr_peak_dnst_spl_cnd_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_peak_dnst_spl_cnd_plot_png
@@ -639,22 +658,24 @@ outputs:
       Filtered; split by grouping condition.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered, split by group
-        Caption: Distribution of peaks per cell (filtered, split by grouping condition)
+      - image:
+          tab: Filtered, split by group
+          Caption: Distribution of peaks per cell (filtered, split by grouping condition)
   fltr_blck_dnst_spl_cnd_plot_png:
     type: File?
     outputSource: sc_atac_filter/fltr_blck_dnst_spl_cnd_plot_png
-    label: Distribution of ATAC fragments within genomic blacklist regions per cell (filtered, split by grouping condition)
+    label: Distribution of ATAC fragments within genomic blacklist regions per cell
+      (filtered, split by grouping condition)
     doc: |
       Distribution of ATAC fragments within
       genomic blacklist regions per cell.
       Filtered; split by grouping condition.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Filtered, split by group
-        Caption: Distribution of ATAC fragments within genomic blacklist regions per cell (filtered, split by grouping condition)
+      - image:
+          tab: Filtered, split by group
+          Caption: Distribution of ATAC fragments within genomic blacklist regions
+            per cell (filtered, split by grouping condition)
   ucsc_cb_html_data:
     type: Directory
     outputSource: sc_atac_filter/ucsc_cb_html_data
@@ -668,9 +689,9 @@ outputs:
     doc: |
       UCSC Cell Browser html index.
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   seurat_data_rds:
     type: File
     outputSource: sc_atac_filter/seurat_data_rds
@@ -699,9 +720,9 @@ outputs:
       Tehcnical report.
       HTML format.
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   sc_atac_filter_stdout_log:
     type: File
     outputSource: sc_atac_filter/stdout_log
@@ -720,7 +741,7 @@ steps:
     in:
       file_to_extract: filtered_feature_bc_matrix_folder
     out:
-    - extracted_folder
+      - extracted_folder
   sc_atac_filter:
     run: ../tools/sc-atac-filter.cwl
     in:
@@ -777,59 +798,59 @@ steps:
         source: threads
         valueFrom: $(parseInt(self))
     out:
-    - raw_1_2_qc_mtrcs_pca_plot_png
-    - raw_2_3_qc_mtrcs_pca_plot_png
-    - raw_cell_cnts_plot_png
-    - raw_frgm_dnst_plot_png
-    - raw_peak_dnst_plot_png
-    - raw_blck_dnst_plot_png
-    - raw_tss_frgm_plot_png
-    - raw_qc_mtrcs_dnst_plot_png
-    - raw_atacdbl_plot_png
-    - raw_tss_nrch_plot_png
-    - raw_frgm_hist_png
-    - raw_frgm_dnst_spl_cnd_plot_png
-    - raw_peak_dnst_spl_cnd_plot_png
-    - raw_blck_dnst_spl_cnd_plot_png
-    - fltr_1_2_qc_mtrcs_pca_plot_png
-    - fltr_2_3_qc_mtrcs_pca_plot_png
-    - fltr_cell_cnts_plot_png
-    - fltr_frgm_dnst_plot_png
-    - fltr_peak_dnst_plot_png
-    - fltr_blck_dnst_plot_png
-    - fltr_atacdbl_plot_png
-    - fltr_tss_frgm_plot_png
-    - fltr_qc_mtrcs_dnst_plot_png
-    - fltr_tss_nrch_plot_png
-    - fltr_frgm_hist_png
-    - fltr_frgm_dnst_spl_cnd_plot_png
-    - fltr_peak_dnst_spl_cnd_plot_png
-    - fltr_blck_dnst_spl_cnd_plot_png
-    - all_plots_pdf
-    - ucsc_cb_html_data
-    - ucsc_cb_html_file
-    - seurat_data_rds
-    - datasets_metadata
-    - sc_report_html_file
-    - stdout_log
-    - stderr_log
+      - raw_1_2_qc_mtrcs_pca_plot_png
+      - raw_2_3_qc_mtrcs_pca_plot_png
+      - raw_cell_cnts_plot_png
+      - raw_frgm_dnst_plot_png
+      - raw_peak_dnst_plot_png
+      - raw_blck_dnst_plot_png
+      - raw_tss_frgm_plot_png
+      - raw_qc_mtrcs_dnst_plot_png
+      - raw_atacdbl_plot_png
+      - raw_tss_nrch_plot_png
+      - raw_frgm_hist_png
+      - raw_frgm_dnst_spl_cnd_plot_png
+      - raw_peak_dnst_spl_cnd_plot_png
+      - raw_blck_dnst_spl_cnd_plot_png
+      - fltr_1_2_qc_mtrcs_pca_plot_png
+      - fltr_2_3_qc_mtrcs_pca_plot_png
+      - fltr_cell_cnts_plot_png
+      - fltr_frgm_dnst_plot_png
+      - fltr_peak_dnst_plot_png
+      - fltr_blck_dnst_plot_png
+      - fltr_atacdbl_plot_png
+      - fltr_tss_frgm_plot_png
+      - fltr_qc_mtrcs_dnst_plot_png
+      - fltr_tss_nrch_plot_png
+      - fltr_frgm_hist_png
+      - fltr_frgm_dnst_spl_cnd_plot_png
+      - fltr_peak_dnst_spl_cnd_plot_png
+      - fltr_blck_dnst_spl_cnd_plot_png
+      - all_plots_pdf
+      - ucsc_cb_html_data
+      - ucsc_cb_html_file
+      - seurat_data_rds
+      - datasets_metadata
+      - sc_report_html_file
+      - stdout_log
+      - stderr_log
   folder_pdf_plots:
     run: ../tools/files-to-folder.cwl
     in:
       input_files:
         source:
-        - sc_atac_filter/all_plots_pdf
+          - sc_atac_filter/all_plots_pdf
         valueFrom: $(self.flat().filter(n => n))
       folder_basename:
         default: pdf_plots
     out:
-    - folder
+      - folder
   compress_pdf_plots:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: folder_pdf_plots/folder
     out:
-    - compressed_folder
+      - compressed_folder
 label: Single-Cell ATAC-Seq Filtering Analysis
 doc: |-
   Single-Cell ATAC-Seq Filtering Analysis

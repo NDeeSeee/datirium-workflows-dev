@@ -1,36 +1,36 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      var listing = [
-        {
-          "entry": inputs.fastq_file_r1,
-          "entryname": "sample_S1_L001_R1_001.fastq",
-          "writable": true
-        },
-        {
-          "entry": inputs.fastq_file_r2,
-          "entryname": "sample_S1_L001_R2_001.fastq",
-          "writable": true
-        }
-      ];
-      if (inputs.fastq_file_i1){
-        listing.push(
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        var listing = [
           {
-            "entry": inputs.fastq_file_i1,
-            "entryname": "sample_S1_L001_I1_001.fastq",
+            "entry": inputs.fastq_file_r1,
+            "entryname": "sample_S1_L001_R1_001.fastq",
+            "writable": true
+          },
+          {
+            "entry": inputs.fastq_file_r2,
+            "entryname": "sample_S1_L001_R2_001.fastq",
             "writable": true
           }
-        );
-      };
-      return listing;
-    }
+        ];
+        if (inputs.fastq_file_i1){
+          listing.push(
+            {
+              "entry": inputs.fastq_file_i1,
+              "entryname": "sample_S1_L001_I1_001.fastq",
+              "writable": true
+            }
+          );
+        };
+        return listing;
+      }
 hints:
-- class: DockerRequirement
-  dockerPull: cumulusprod/cellranger:8.0.1
+  - class: DockerRequirement
+    dockerPull: cumulusprod/cellranger:8.0.1
 inputs:
   fastq_file_r1:
     type: File
@@ -179,7 +179,7 @@ outputs:
     outputBinding:
       glob: sample/outs/possorted_genome_bam.bam
     secondaryFiles:
-    - .bai
+      - .bai
     doc: |
       Indexed reads aligned to the genome
       and transcriptome annotated with
@@ -239,15 +239,15 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- cellranger
-- count
-- --disable-ui
-- --fastqs
-- .
-- --sample
-- sample
-- --id
-- sample
+  - cellranger
+  - count
+  - --disable-ui
+  - --fastqs
+  - .
+  - --sample
+  - sample
+  - --id
+  - sample
 stdout: cellranger_count_stdout.log
 stderr: cellranger_count_stderr.log
 label: Cell Ranger Count (RNA)

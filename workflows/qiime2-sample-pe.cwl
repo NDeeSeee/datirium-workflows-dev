@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: SubworkflowFeatureRequirement
 inputs:
   alias:
     type: string
@@ -27,24 +27,22 @@ inputs:
       position: 3
   fastq_file_R1:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: 'Read 1 FASTQ file:'
     sd:localLabel: true
-    format: http://edamontology.org/format_1930
     doc: |
       Read 1 FASTQ file from a paired-end sequencing run.
     sd:preview:
       position: 11
   fastq_file_R2:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: 'Read 2 FASTQ file:'
     sd:localLabel: true
-    format: http://edamontology.org/format_1930
     doc: |
       Read 2 FASTQ file that pairs with the input R1 file.
     sd:preview:
@@ -88,121 +86,118 @@ outputs:
   fastx_statistics_R1:
     type: File
     label: FASTQ R1 statistics
-    format: http://edamontology.org/format_2330
     doc: fastx_quality_stats generated quality statistics file for R1
     outputSource: fastx_quality_stats_R1/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: FASTQ R1 Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: FASTQ R1 Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: FASTQ R1 Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: FASTQ R1 Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   fastx_statistics_R2:
     type: File
     label: FASTQ R2 statistics
-    format: http://edamontology.org/format_2330
     doc: fastx_quality_stats generated quality statistics file for R2
     outputSource: fastx_quality_stats_R2/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: FASTQ R2 Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: FASTQ R2 Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: FASTQ R2 Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: FASTQ R2 Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   overview:
     type: File
-    format: http://edamontology.org/format_3835
     label: summary of inputs
     doc: summary of inputs
     outputSource: qiime_pipeline/overview
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   fastq_summary:
     type: File?
     label: Summary of input FASTQ reads
     doc: summary of input read data
     outputSource: qiime_pipeline/fastq_summary
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
   alpha_rarefaction:
     type: File?
     label: Alpha rarefaction curve
     doc: plot of OTU rarefaction
     outputSource: qiime_pipeline/alpha_rarefaction
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
   taxa_bar_plots:
     type: File?
     label: Taxonomic classifications bar plot
     doc: bar plot for exploring the taxonomic composition of the sample
     outputSource: qiime_pipeline/taxa_bar_plots
     sd:visualPlugins:
-    - qiime2:
-        tab: Overview
-        target: _blank
+      - qiime2:
+          tab: Overview
+          target: _blank
 steps:
   extract_fastq_R1:
     label: Loading unmapped sequence data for read 1
@@ -216,7 +211,7 @@ steps:
       output_prefix:
         default: merged_R1
     out:
-    - fastq_file
+      - fastq_file
   extract_fastq_R2:
     label: Loading unmapped sequence data for read 2
     doc: |
@@ -229,7 +224,7 @@ steps:
       output_prefix:
         default: merged_R2
     out:
-    - fastq_file
+      - fastq_file
   trim_fastq:
     label: Adapter trimming
     doc: |
@@ -251,10 +246,10 @@ steps:
       paired:
         default: true
     out:
-    - trimmed_file
-    - trimmed_file_pair
-    - report_file
-    - report_file_pair
+      - trimmed_file
+      - trimmed_file_pair
+      - report_file
+      - report_file_pair
   bypass_trim:
     run: ../tools/bypass-trimgalore-pe.cwl
     in:
@@ -267,10 +262,10 @@ steps:
       min_reads_count:
         default: 100
     out:
-    - selected_fastq_file_1
-    - selected_report_file_1
-    - selected_fastq_file_2
-    - selected_report_file_2
+      - selected_fastq_file_1
+      - selected_report_file_1
+      - selected_fastq_file_2
+      - selected_report_file_2
   rename_R1:
     run: ../tools/rename.cwl
     in:
@@ -279,7 +274,7 @@ steps:
         source: extract_fastq_R1/fastq_file
         valueFrom: $(self.basename)
     out:
-    - target_file
+      - target_file
   rename_R2:
     run: ../tools/rename.cwl
     in:
@@ -288,7 +283,7 @@ steps:
         source: extract_fastq_R2/fastq_file
         valueFrom: $(self.basename)
     out:
-    - target_file
+      - target_file
   fastx_quality_stats_R1:
     label: Quality control of unmapped sequence data for read 1
     doc: |
@@ -299,7 +294,7 @@ steps:
     in:
       input_file: rename_R1/target_file
     out:
-    - statistics_file
+      - statistics_file
   fastx_quality_stats_R2:
     label: Quality control of unmapped sequence data for read 2
     doc: |
@@ -310,7 +305,7 @@ steps:
     in:
       input_file: rename_R2/target_file
     out:
-    - statistics_file
+      - statistics_file
   qiime_pipeline:
     label: Run pipeline for processing a single 16S metagenomic sample using qiime2
     doc: |
@@ -326,12 +321,55 @@ steps:
       truncLenR: truncLenR
       threads: threads
     out:
-    - overview
-    - fastq_summary
-    - alpha_rarefaction
-    - taxa_bar_plots
-    - log_file_stdout
-    - log_file_stderr
+      - overview
+      - fastq_summary
+      - alpha_rarefaction
+      - taxa_bar_plots
+      - log_file_stdout
+      - log_file_stderr
 label: 16S metagenomic paired-end QIIME2 Sample (preprocessing)
-doc: "A workflow for processing a single 16S sample via a QIIME2 pipeline.\n\n## __Outputs__\n#### Output files:\n  - overview.md, list of inputs\n  - demux.qzv, summary visualizations of imported data\n  - alpha-rarefaction.qzv, plot of OTU rarefaction\n  - taxa-bar-plots.qzv, relative frequency of taxomonies barplot\n\n## __Inputs__\n#### General Info\n - Sample short name/Alias: Used for samplename in downstream analyses. Ensure this is the same name used in the metadata samplesheet.\n - Environment: where the sample was collected\n - Catalog No.: catalog number if available (optional)\n - Read 1 FASTQ file: Read 1 FASTQ file from a paired-end sequencing run.\n - Read 2 FASTQ file: Read 2 FASTQ file that pairs with the input R1 file.\n - Trim 5' of R1: Recommended if adapters are still on the input sequences. Trims the first J bases from the 5' end of each forward read.\n - Trim 5' of R2: Recommended if adapters are still on the input sequences. Trims the first K bases from the 5' end of each reverse read.\n - Truncate 3' of R1: Recommended if quality drops off along the length of the read. Clips the forward read starting M bases from the 5' end (before trimming).\n - Truncate 3' of R2: Recommended if quality drops off along the length of the read. Clips the reverse read starting N bases from the 5' end (before trimming).\n - Threads: Number of threads to use for steps that support multithreading.\n\n### __Data Analysis Steps__\n1. Generate FASTX quality statistics for visualization of unmapped, raw FASTQ reads.\n2. Import the data, make a qiime artifact (demux.qza), and summary visualization\n3. Denoising will detect and correct (where possible) Illumina amplicon sequence data. This process will additionally filter any phiX reads (commonly present in marker gene Illumina sequence data) that are identified in the sequencing data, and will filter chimeric sequences.\n4. Generate a phylogenetic tree for diversity analyses and rarefaction processing and plotting.\n5. Taxonomy classification of amplicons. Performed using a Naive Bayes classifier trained on the Greengenes2 database \"gg_2022_10_backbone_full_length.nb.qza\".\n\n### __References__\n1. Bolyen E, Rideout JR, Dillon MR, Bokulich NA, Abnet CC, Al-Ghalith GA, Alexander H, Alm EJ, Arumugam M, Asnicar F, Bai Y, Bisanz JE, Bittinger K, Brejnrod A, Brislawn CJ, Brown CT, Callahan BJ, Caraballo-Rodríguez AM, Chase J, Cope EK, Da Silva R, Diener C, Dorrestein PC, Douglas GM, Durall DM, Duvallet C, Edwardson CF, Ernst M, Estaki M, Fouquier J, Gauglitz JM, Gibbons SM, Gibson DL, Gonzalez A, Gorlick K, Guo J, Hillmann B, Holmes S, Holste H, Huttenhower C, Huttley GA, Janssen S, Jarmusch AK, Jiang L, Kaehler BD, Kang KB, Keefe CR, Keim P, Kelley ST, Knights D, Koester I, Kosciolek T, Kreps J, Langille MGI, Lee J, Ley R, Liu YX, Loftfield E, Lozupone C, Maher M, Marotz C, Martin BD, McDonald D, McIver LJ, Melnik AV, Metcalf JL, Morgan SC, Morton JT, Naimey AT, Navas-Molina JA, Nothias LF, Orchanian SB, Pearson T, Peoples SL, Petras D, Preuss ML, Pruesse E, Rasmussen LB, Rivers A, Robeson MS, Rosenthal P, Segata N, Shaffer M, Shiffer A, Sinha R, Song SJ, Spear JR, Swafford AD, Thompson LR, Torres PJ, Trinh P, Tripathi A, Turnbaugh PJ, Ul-Hasan S, van der Hooft JJJ, Vargas F, Vázquez-Baeza Y, Vogtmann E, von Hippel M, Walters W, Wan Y, Wang M, Warren J, Weber KC, Williamson CHD, Willis AD, Xu ZZ, Zaneveld JR, Zhang Y, Zhu Q, Knight R, and Caporaso JG. 2019. Reproducible, interactive, scalable and extensible microbiome data science using QIIME 2. Nature Biotechnology 37: 852–857. https://doi.org/10.1038/s41587-019-0209-9\n  \n"
+doc: "A workflow for processing a single 16S sample via a QIIME2 pipeline.\n\n## __Outputs__\n
+  #### Output files:\n  - overview.md, list of inputs\n  - demux.qzv, summary visualizations
+  of imported data\n  - alpha-rarefaction.qzv, plot of OTU rarefaction\n  - taxa-bar-plots.qzv,
+  relative frequency of taxomonies barplot\n\n## __Inputs__\n#### General Info\n -
+  Sample short name/Alias: Used for samplename in downstream analyses. Ensure this
+  is the same name used in the metadata samplesheet.\n - Environment: where the sample
+  was collected\n - Catalog No.: catalog number if available (optional)\n - Read 1
+  FASTQ file: Read 1 FASTQ file from a paired-end sequencing run.\n - Read 2 FASTQ
+  file: Read 2 FASTQ file that pairs with the input R1 file.\n - Trim 5' of R1: Recommended
+  if adapters are still on the input sequences. Trims the first J bases from the 5'
+  end of each forward read.\n - Trim 5' of R2: Recommended if adapters are still on
+  the input sequences. Trims the first K bases from the 5' end of each reverse read.\n
+  - Truncate 3' of R1: Recommended if quality drops off along the length of the read.
+  Clips the forward read starting M bases from the 5' end (before trimming).\n - Truncate
+  3' of R2: Recommended if quality drops off along the length of the read. Clips the
+  reverse read starting N bases from the 5' end (before trimming).\n - Threads: Number
+  of threads to use for steps that support multithreading.\n\n### __Data Analysis
+  Steps__\n1. Generate FASTX quality statistics for visualization of unmapped, raw
+  FASTQ reads.\n2. Import the data, make a qiime artifact (demux.qza), and summary
+  visualization\n3. Denoising will detect and correct (where possible) Illumina amplicon
+  sequence data. This process will additionally filter any phiX reads (commonly present
+  in marker gene Illumina sequence data) that are identified in the sequencing data,
+  and will filter chimeric sequences.\n4. Generate a phylogenetic tree for diversity
+  analyses and rarefaction processing and plotting.\n5. Taxonomy classification of
+  amplicons. Performed using a Naive Bayes classifier trained on the Greengenes2 database
+  \"gg_2022_10_backbone_full_length.nb.qza\".\n\n### __References__\n1. Bolyen E,
+  Rideout JR, Dillon MR, Bokulich NA, Abnet CC, Al-Ghalith GA, Alexander H, Alm EJ,
+  Arumugam M, Asnicar F, Bai Y, Bisanz JE, Bittinger K, Brejnrod A, Brislawn CJ, Brown
+  CT, Callahan BJ, Caraballo-Rodríguez AM, Chase J, Cope EK, Da Silva R, Diener C,
+  Dorrestein PC, Douglas GM, Durall DM, Duvallet C, Edwardson CF, Ernst M, Estaki
+  M, Fouquier J, Gauglitz JM, Gibbons SM, Gibson DL, Gonzalez A, Gorlick K, Guo J,
+  Hillmann B, Holmes S, Holste H, Huttenhower C, Huttley GA, Janssen S, Jarmusch AK,
+  Jiang L, Kaehler BD, Kang KB, Keefe CR, Keim P, Kelley ST, Knights D, Koester I,
+  Kosciolek T, Kreps J, Langille MGI, Lee J, Ley R, Liu YX, Loftfield E, Lozupone
+  C, Maher M, Marotz C, Martin BD, McDonald D, McIver LJ, Melnik AV, Metcalf JL, Morgan
+  SC, Morton JT, Naimey AT, Navas-Molina JA, Nothias LF, Orchanian SB, Pearson T,
+  Peoples SL, Petras D, Preuss ML, Pruesse E, Rasmussen LB, Rivers A, Robeson MS,
+  Rosenthal P, Segata N, Shaffer M, Shiffer A, Sinha R, Song SJ, Spear JR, Swafford
+  AD, Thompson LR, Torres PJ, Trinh P, Tripathi A, Turnbaugh PJ, Ul-Hasan S, van der
+  Hooft JJJ, Vargas F, Vázquez-Baeza Y, Vogtmann E, von Hippel M, Walters W, Wan Y,
+  Wang M, Warren J, Weber KC, Williamson CHD, Willis AD, Xu ZZ, Zaneveld JR, Zhang
+  Y, Zhu Q, Knight R, and Caporaso JG. 2019. Reproducible, interactive, scalable and
+  extensible microbiome data science using QIIME 2. Nature Biotechnology 37: 852–857.
+  https://doi.org/10.1038/s41587-019-0209-9\n  \n"
 sd:version: 100

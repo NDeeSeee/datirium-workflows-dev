@@ -1,15 +1,15 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   sc_atacseq_sample:
-  - cellranger-atac-count.cwl
+    - cellranger-atac-count.cwl
   genome_indices:
-  - cellranger-mkref.cwl
+    - cellranger-mkref.cwl
 inputs:
   alias:
     type: string
@@ -28,7 +28,7 @@ inputs:
   fragments_file_from_count:
     type: File[]
     secondaryFiles:
-    - .tbi
+      - .tbi
     label: Cell Ranger ATAC Count Experiment
     doc: |
       Array of files containing count and barcode information for
@@ -64,11 +64,11 @@ inputs:
     sd:upstreamSource: genome_indices/memory_limit
   normalization_mode:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - none
-      - depth
+      - 'null'
+      - type: enum
+        symbols:
+          - none
+          - depth
     default: none
     label: Library depth normalization mode
     doc: Library depth normalization mode
@@ -76,15 +76,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Cores/CPUs
     doc: |
@@ -102,9 +102,9 @@ outputs:
     doc: |
       Run summary metrics and charts in HTML format
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   metrics_summary_report_json:
     type: File
     outputSource: aggregate_counts/metrics_summary_report_json
@@ -201,9 +201,9 @@ outputs:
     doc: |
       CellBrowser formatted Cellranger report
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
 steps:
   aggregate_counts:
     run: ../tools/cellranger-atac-aggr.cwl
@@ -219,32 +219,32 @@ steps:
       memory_limit: memory_limit
       virt_memory_limit: memory_limit
     out:
-    - web_summary_report
-    - metrics_summary_report_json
-    - metrics_summary_report_csv
-    - barcode_metrics_report
-    - fragments_file
-    - peaks_bed_file
-    - peak_annotation_file
-    - secondary_analysis_report_folder
-    - filtered_feature_bc_matrix_folder
-    - filtered_feature_bc_matrix_h5
-    - aggregation_metadata
-    - loupe_browser_track
-    - stdout_log
-    - stderr_log
+      - web_summary_report
+      - metrics_summary_report_json
+      - metrics_summary_report_csv
+      - barcode_metrics_report
+      - fragments_file
+      - peaks_bed_file
+      - peak_annotation_file
+      - secondary_analysis_report_folder
+      - filtered_feature_bc_matrix_folder
+      - filtered_feature_bc_matrix_h5
+      - aggregation_metadata
+      - loupe_browser_track
+      - stdout_log
+      - stderr_log
   compress_filtered_feature_bc_matrix_folder:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: aggregate_counts/filtered_feature_bc_matrix_folder
     out:
-    - compressed_folder
+      - compressed_folder
   compress_secondary_analysis_report_folder:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: aggregate_counts/secondary_analysis_report_folder
     out:
-    - compressed_folder
+      - compressed_folder
   cellbrowser_build:
     run: ../tools/cellbrowser-build-cellranger-atac.cwl
     in:
@@ -253,8 +253,8 @@ steps:
       aggregation_metadata: aggregate_counts/aggregation_metadata
       annotation_gtf_file: annotation_gtf_file
     out:
-    - html_data
-    - index_html_file
+      - html_data
+      - index_html_file
 label: Cell Ranger Aggregate (ATAC)
 doc: |-
   Cell Ranger Aggregate (ATAC)

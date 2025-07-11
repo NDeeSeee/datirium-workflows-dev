@@ -1,58 +1,61 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_label = function(input_array, i) { var rootname = input_array[i].basename.split('.').slice(0,-1).join('.'); rootname = (rootname=="")?input_array[i].basename:rootname; return inputs.gem_well_labels?inputs.gem_well_labels[i].replace(/\t|\s|\[|\]|\>|\<|,|\./g, "_"):rootname; };
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      var grouping = "library_id\tcondition\n"
-      if (inputs.molecule_info_h5 != null){
-        var entry = "sample_id,molecule_h5\n"
-        for (var i=0; i < inputs.molecule_info_h5.length; i++){
-          entry += get_label(inputs.molecule_info_h5, i) + "," + inputs.molecule_info_h5[i].path + "\n"
-          grouping += get_label(inputs.molecule_info_h5, i) + "\t" + get_label(inputs.molecule_info_h5, i) + "\n"
-        }
-      } else if (inputs.filtered_data_folder != null){
-        var entry = "sample_id,sample_outs,donor,origin\n"
-        for (var i=0; i < inputs.filtered_data_folder.length; i++){
-          var donor = "donor"
-          var origin = "origin"
-          if (inputs.clonotype_grouping == "same_donor_different_origins"){
-            origin = "origin_" + i
-          } else if (inputs.clonotype_grouping == "different_donors"){
-            donor = "donor_" + i
-            origin = "origin_" + i
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_label = function(input_array, i) { var rootname = input_array[i].basename.split('.').slice(0,-1).join('.');
+        rootname = (rootname=="")?input_array[i].basename:rootname; return 
+        inputs.gem_well_labels?inputs.gem_well_labels[i].replace(/\t|\s|\[|\]|\>|\<|,|\./g,
+        "_"):rootname; };
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        var grouping = "library_id\tcondition\n"
+        if (inputs.molecule_info_h5 != null){
+          var entry = "sample_id,molecule_h5\n"
+          for (var i=0; i < inputs.molecule_info_h5.length; i++){
+            entry += get_label(inputs.molecule_info_h5, i) + "," + inputs.molecule_info_h5[i].path + "\n"
+            grouping += get_label(inputs.molecule_info_h5, i) + "\t" + get_label(inputs.molecule_info_h5, i) + "\n"
           }
-          entry += get_label(inputs.filtered_data_folder, i) + "," + inputs.filtered_data_folder[i].path + "," + donor  + "," + origin + "\n"
-          grouping += get_label(inputs.filtered_data_folder, i) + "\t" + get_label(inputs.filtered_data_folder, i) + "\n"
+        } else if (inputs.filtered_data_folder != null){
+          var entry = "sample_id,sample_outs,donor,origin\n"
+          for (var i=0; i < inputs.filtered_data_folder.length; i++){
+            var donor = "donor"
+            var origin = "origin"
+            if (inputs.clonotype_grouping == "same_donor_different_origins"){
+              origin = "origin_" + i
+            } else if (inputs.clonotype_grouping == "different_donors"){
+              donor = "donor_" + i
+              origin = "origin_" + i
+            }
+            entry += get_label(inputs.filtered_data_folder, i) + "," + inputs.filtered_data_folder[i].path + "," + donor  + "," + origin + "\n"
+            grouping += get_label(inputs.filtered_data_folder, i) + "\t" + get_label(inputs.filtered_data_folder, i) + "\n"
+          }
+        } else {
+          var entry = "neither molecule_info_h5 nor filtered_data_folder was provided"
+          var grouping = "neither molecule_info_h5 nor filtered_data_folder was provided"
         }
-      } else {
-        var entry = "neither molecule_info_h5 nor filtered_data_folder was provided"
-        var grouping = "neither molecule_info_h5 nor filtered_data_folder was provided"
+        return [
+          {
+            "entry": entry,
+            "entryname": "metadata.csv",
+            "writable": true
+          },
+          {
+            "entry": grouping,
+            "entryname": "grouping.tsv",
+            "writable": true
+          }
+        ];
       }
-      return [
-        {
-          "entry": entry,
-          "entryname": "metadata.csv",
-          "writable": true
-        },
-        {
-          "entry": grouping,
-          "entryname": "grouping.tsv",
-          "writable": true
-        }
-      ];
-    }
 hints:
-- class: DockerRequirement
-  dockerPull: cumulusprod/cellranger:8.0.1
+  - class: DockerRequirement
+    dockerPull: cumulusprod/cellranger:8.0.1
 inputs:
   molecule_info_h5:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     doc: |
       Array of molecule-level information files in HDF5 format.
       Outputs from "cellranger count" command. Either
@@ -60,8 +63,8 @@ inputs:
       provided. If both inputs are provided - use molecule_info_h5.
   filtered_data_folder:
     type:
-    - 'null'
-    - Directory[]
+      - 'null'
+      - Directory[]
     doc: |
       Array of folders containing filtered data, i.e., only
       cell-associated barcodes. Outputs from "cellranger multi"
@@ -69,8 +72,8 @@ inputs:
       be provided. If both inputs are provided - use molecule_info_h5.
   gem_well_labels:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     doc: |
       Array of GEM well identifiers to be used for labeling purposes only.
       If not provided use rootnames of files from the molecule_info_h5 or
@@ -78,12 +81,12 @@ inputs:
       unique, cellranger will fails.
   normalization_mode:
     type:
-    - 'null'
-    - type: enum
-      name: normalization
-      symbols:
-      - none
-      - mapped
+      - 'null'
+      - type: enum
+        name: normalization
+        symbols:
+          - none
+          - mapped
     inputBinding:
       position: 5
       prefix: --normalize
@@ -92,13 +95,13 @@ inputs:
       Default: mapped
   clonotype_grouping:
     type:
-    - 'null'
-    - type: enum
-      name: clonotype_grouping
-      symbols:
-      - same_donor_different_origins
-      - same_donor_and_origin
-      - different_donors
+      - 'null'
+      - type: enum
+        name: clonotype_grouping
+        symbols:
+          - same_donor_different_origins
+          - same_donor_and_origin
+          - different_donors
     default: different_donors
     doc: |
       When cellranger aggr is called with cellranger multi outputs, there are three
@@ -239,13 +242,13 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- cellranger
-- aggr
-- --disable-ui
-- --id
-- aggregated
-- --csv
-- metadata.csv
+  - cellranger
+  - aggr
+  - --disable-ui
+  - --id
+  - aggregated
+  - --csv
+  - metadata.csv
 stdout: cellranger_aggr_stdout.log
 stderr: cellranger_aggr_stderr.log
 label: Cell Ranger Aggregate (RNA, RNA+VDJ)

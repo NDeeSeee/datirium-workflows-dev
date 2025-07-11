@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   feature_bc_matrices_folder:
     type: Directory
@@ -58,9 +58,9 @@ inputs:
       Default: 5 (applied to all datasets)
   minimum_genes:
     type:
-    - 'null'
-    - int
-    - int[]
+      - 'null'
+      - int
+      - int[]
     inputBinding:
       prefix: --mingenes
     doc: |
@@ -71,9 +71,9 @@ inputs:
       Default: 250 (applied to all datasets)
   maximum_genes:
     type:
-    - 'null'
-    - int
-    - int[]
+      - 'null'
+      - int
+      - int[]
     inputBinding:
       prefix: --maxgenes
     doc: |
@@ -84,9 +84,9 @@ inputs:
       Default: 5000 (applied to all datasets)
   minimum_umis:
     type:
-    - 'null'
-    - int
-    - int[]
+      - 'null'
+      - int
+      - int[]
     inputBinding:
       prefix: --minumis
     doc: |
@@ -98,9 +98,9 @@ inputs:
       Default: 500 (applied to all datasets)
   minimum_novelty_score:
     type:
-    - 'null'
-    - float
-    - float[]
+      - 'null'
+      - float
+      - float[]
     inputBinding:
       prefix: --minnovelty
     doc: |
@@ -160,17 +160,17 @@ inputs:
       Default: false
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     inputBinding:
       prefix: --theme
     doc: |
@@ -504,9 +504,9 @@ outputs:
       PNG format.
   all_plots_pdf:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*.pdf'
     doc: |
@@ -577,9 +577,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_rna_filter.R"]:"/usr/local/bin/sc_rna_filter.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_rna_filter.R"]:"/usr/local/bin/sc_rna_filter.R")
 stdout: sc_rna_filter_stdout.log
 stderr: sc_rna_filter_stderr.log
 label: Single-Cell RNA-Seq Filtering Analysis

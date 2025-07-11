@@ -1,19 +1,30 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_output_filename = function(ext) { var alt_ext = ""; if (inputs.input_file_type == "bam") { alt_ext = ".sorted.bam"; } else if (inputs.input_file_type == "bigwig") { alt_ext = ".bw"; } else if (inputs.input_file_type == "bed") { ext = ".bedGraph"; } else { alt_ext = ""; } ext = (ext || ext=="")?ext:alt_ext; if (inputs.output_basename == ""){ var root = inputs.input_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.input_file.basename+ext:root+ext; } else { return inputs.output_basename+ext; } };
-  - var get_log_filename = function() { var ext = ".log"; if (inputs.output_basename == ""){ var root = inputs.input_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.input_file.basename+ext:root+ext; } else { return inputs.output_basename+ext; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_output_filename = function(ext) { var alt_ext = ""; if (inputs.input_file_type
+        == "bam") { alt_ext = ".sorted.bam"; } else if (inputs.input_file_type ==
+        "bigwig") { alt_ext = ".bw"; } else if (inputs.input_file_type == "bed") {
+        ext = ".bedGraph"; } else { alt_ext = ""; } ext = (ext || ext=="")?ext:alt_ext;
+        if (inputs.output_basename == ""){ var root = inputs.input_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.input_file.basename+ext:root+ext; } else { return
+        inputs.output_basename+ext; } };
+      - var get_log_filename = function() { var ext = ".log"; if (inputs.output_basename
+        == ""){ var root = inputs.input_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.input_file.basename+ext:root+ext; } else { return
+        inputs.output_basename+ext; } };
 hints:
-- class: DockerRequirement
-  dockerPull: quay.io/biocontainers/crossmap:0.2.7--py27_0
+  - class: DockerRequirement
+    dockerPull: quay.io/biocontainers/crossmap:0.2.7--py27_0
 inputs:
   input_file_type:
     type: string
     inputBinding:
       position: 1
-    doc: "bam\t    convert alignment file in BAM format.\nbed\t    convert genome cooridnate or annotation file in BED or BED-like format.\nbigwig\tconvert genome coordinate file in BigWig format.\n"
+    doc: "bam\t    convert alignment file in BAM format.\nbed\t    convert genome
+      cooridnate or annotation file in BED or BED-like format.\nbigwig\tconvert genome
+      coordinate file in BigWig format.\n"
   chain_file:
     type: File
     inputBinding:
@@ -101,7 +112,7 @@ outputs:
       Log file
 stdout: $(get_log_filename())
 baseCommand:
-- CrossMap.py
+  - CrossMap.py
 doc: |
   Runs CrossMap.py script to project input BAM, BED, BIGWIG file based on input chain file.
   Not supported input file types: SAM, GFF, VCF, WIG

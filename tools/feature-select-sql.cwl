@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/scidap-merge:v0.0.3
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/scidap-merge:v0.0.3
 inputs:
   feature_file:
     type: File
@@ -49,7 +49,7 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- sql_select.R
+  - sql_select.R
 stdout: sql_select_stdout.log
 stderr: sql_select_stderr.log
 label: Feature select - filters TSV/CSV files based on the provided SQL query parameters

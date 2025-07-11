@@ -1,31 +1,29 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: ScatterFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: ScatterFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
 sd:upstream:
   genome_indices:
-  - bismark-index.cwl
+    - bismark-index.cwl
 sd:metadata:
-- ../metadata/chipseq-header.cwl
+  - ../metadata/chipseq-header.cwl
 inputs:
   fastq_file_r1:
     type:
-    - File
-    - type: array
-      items: File
-    format: http://edamontology.org/format_1930
+      - File
+      - type: array
+        items: File
     label: FASTQ read 1 file(s)
     doc: Uncompressed or gzipped FASTQ read 1 file(s)
   fastq_file_r2:
     type:
-    - File
-    - type: array
-      items: File
-    format: http://edamontology.org/format_1930
+      - File
+      - type: array
+        items: File
     label: FASTQ read 2 file(s)
     doc: Uncompressed or gzipped FASTQ read 2 file(s)
   indices_folder:
@@ -35,7 +33,6 @@ inputs:
     sd:upstreamSource: genome_indices/indices_folder
   chrom_length:
     type: File
-    format: http://edamontology.org/format_2330
     label: Chromosomes length file
     doc: Chromosomes length file
     sd:upstreamSource: genome_indices/chrom_length
@@ -51,143 +48,129 @@ outputs:
     type: File
     label: BAM alignment file
     doc: Bismark generated not sorted BAM alignment file
-    format: http://edamontology.org/format_2572
     outputSource: bismark_align/bam_file
   bambai_pair:
     type: File
     label: BAM alignment and BAI index files
     doc: Bismark generated coordinate sorted BAM alignment and BAI index files
-    format: http://edamontology.org/format_2572
     outputSource: samtools_sort_index/bam_bai_pair
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: alignment
-        format: bam
-        name: BAM Track
-        displayMode: SQUISHED
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: alignment
+          format: bam
+          name: BAM Track
+          displayMode: SQUISHED
   bismark_alignment_report:
     type: File
     label: Bismark alignment and methylation report
     doc: Bismark generated alignment and methylation summary report
-    format: http://edamontology.org/format_2330
     outputSource: bismark_align/alignment_report
   chg_context_file:
     type: File
     label: CHG methylation call
     doc: CHG methylation call
-    format: http://edamontology.org/format_3475
     outputSource: bismark_extract_methylation/chg_context_file
   chh_context_file:
     type: File
     label: CHH methylation call
     doc: CHH methylation call
-    format: http://edamontology.org/format_3475
     outputSource: bismark_extract_methylation/chh_context_file
   cpg_context_file:
     type: File
     label: CpG methylation call
     doc: CpG methylation call
-    format: http://edamontology.org/format_3475
     outputSource: bismark_extract_methylation/cpg_context_file
   mbias_plot:
     type: File
     label: Methylation bias plot
     doc: QC data showing methylation bias across read lengths
-    format: http://edamontology.org/format_3475
     outputSource: bismark_extract_methylation/mbias_plot
   mbias_plot_png:
     type: File[]
     label: Methylation bias plot (PNG)
     doc: QC data showing methylation bias across read lengths
-    format: http://edamontology.org/format_3603
     outputSource: bismark_extract_methylation/mbias_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Plots
-        Caption: Methylation bias plot
+      - image:
+          tab: Plots
+          Caption: Methylation bias plot
   bedgraph_coverage_file:
     type: File
     label: Methylation statuses bedGraph coverage file
-    doc: Coverage text file summarising cytosine methylation values in bedGraph format (tab-delimited; 0-based start coords, 1-based end coords)
-    format: http://edamontology.org/format_3583
+    doc: Coverage text file summarising cytosine methylation values in bedGraph format
+      (tab-delimited; 0-based start coords, 1-based end coords)
     outputSource: bismark_extract_methylation/bedgraph_coverage_file
   bigwig_coverage_file:
     type: File
     label: Methylation statuses bigWig coverage file
-    doc: Coverage text file summarising cytosine methylation values in bigWig format (tab-delimited; 0-based start coords, 1-based end coords)
-    format: http://edamontology.org/format_3006
+    doc: Coverage text file summarising cytosine methylation values in bigWig format
+      (tab-delimited; 0-based start coords, 1-based end coords)
     outputSource: sorted_bedgraph_to_bigwig/bigwig_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: Methylation statuses
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: Methylation statuses
+          height: 120
   bismark_coverage_file:
     type: File
     label: Methylation statuses Bismark coverage file
-    doc: Coverage text file summarising cytosine methylation values in Bismark format (tab-delimited, 1-based genomic coords)
-    format: http://edamontology.org/format_3583
+    doc: Coverage text file summarising cytosine methylation values in Bismark format
+      (tab-delimited, 1-based genomic coords)
     outputSource: bismark_extract_methylation/bismark_coverage_file
   genome_wide_methylation_report:
     type: File
     label: Genome-wide cytosine methylation report
     doc: Genome-wide methylation report for all cytosines in the genome
-    format: http://edamontology.org/format_3475
     outputSource: bismark_extract_methylation/genome_wide_methylation_report
   splitting_report:
     type: File
     label: Methylation extraction log
     doc: Log file giving summary statistics about methylation extraction
-    format: http://edamontology.org/format_2330
     outputSource: bismark_extract_methylation/splitting_report
   collected_report:
     type: File
     label: Bismark Processing Report
     doc: Bismark generated graphical HTML report page
-    format: http://edamontology.org/format_2331
     outputSource: bismark_report/collected_report
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   collected_report_formatted:
     type: File
     label: Combined Bismark alignment and splitting reports
     doc: Bismark generated alignment and splitting reports. Combined
-    format: http://edamontology.org/format_3475
     outputSource: format_bismark_report/collected_report_formatted
     sd:visualPlugins:
-    - tableView:
-        vertical: true
-        tab: Overview
+      - tableView:
+          vertical: true
+          tab: Overview
     sd:preview:
       sd:visualPlugins:
-      - pie:
-          colors:
-          - '#b3de69'
-          - '#99c0db'
-          - '#fb8072'
-          - '#fdc381'
-          data:
-          - $2
-          - $3
-          - $4
-          - $5
+        - pie:
+            colors:
+              - '#b3de69'
+              - '#99c0db'
+              - '#fb8072'
+              - '#fdc381'
+            data:
+              - $2
+              - $3
+              - $4
+              - $5
   trim_adapters_report:
     type: File
     label: TrimGalore report for R1
     doc: TrimGalore generated report for R1
-    format: http://edamontology.org/format_2330
     outputSource: trim_adapters/report_file
   trim_adapters_report_pair:
     type: File
     label: TrimGalore report for R1
     doc: TrimGalore generated report for R1
-    format: http://edamontology.org/format_2330
     outputSource: trim_adapters/report_file_pair
 steps:
   extract_fastq_r1:
@@ -197,7 +180,7 @@ steps:
       output_prefix:
         default: read_1
     out:
-    - fastq_file
+      - fastq_file
   extract_fastq_r2:
     run: ../tools/extract-fastq.cwl
     in:
@@ -205,7 +188,7 @@ steps:
       output_prefix:
         default: read_2
     out:
-    - fastq_file
+      - fastq_file
   trim_adapters:
     run: ../tools/trimgalore.cwl
     in:
@@ -220,10 +203,10 @@ steps:
       paired:
         default: true
     out:
-    - trimmed_file
-    - trimmed_file_pair
-    - report_file
-    - report_file_pair
+      - trimmed_file
+      - trimmed_file_pair
+      - report_file
+      - report_file_pair
   bismark_align:
     run: ../tools/bismark-align.cwl
     in:
@@ -234,8 +217,8 @@ steps:
         default: 1
       threads: threads
     out:
-    - bam_file
-    - alignment_report
+      - bam_file
+      - alignment_report
   bismark_extract_methylation:
     run: ../tools/bismark-extract-methylation.cwl
     in:
@@ -246,15 +229,15 @@ steps:
       processes:
         default: 1
     out:
-    - chg_context_file
-    - chh_context_file
-    - cpg_context_file
-    - mbias_plot
-    - mbias_plot_png
-    - bedgraph_coverage_file
-    - bismark_coverage_file
-    - genome_wide_methylation_report
-    - splitting_report
+      - chg_context_file
+      - chh_context_file
+      - cpg_context_file
+      - mbias_plot
+      - mbias_plot_png
+      - bedgraph_coverage_file
+      - bismark_coverage_file
+      - genome_wide_methylation_report
+      - splitting_report
   bismark_report:
     run: ../tools/bismark-report.cwl
     in:
@@ -262,14 +245,14 @@ steps:
       splitting_report: bismark_extract_methylation/splitting_report
       mbias_report: bismark_extract_methylation/mbias_plot
     out:
-    - collected_report
+      - collected_report
   format_bismark_report:
     run: ../tools/python-get-stat-bismark.cwl
     in:
       alignment_report: bismark_align/alignment_report
       splitting_report: bismark_extract_methylation/splitting_report
     out:
-    - collected_report_formatted
+      - collected_report_formatted
   samtools_sort_index:
     run: ../tools/samtools-sort-index.cwl
     in:
@@ -278,7 +261,7 @@ steps:
         default: sorted_alignments.bam
       threads: threads
     out:
-    - bam_bai_pair
+      - bam_bai_pair
   remove_metadata:
     run: ../tools/custom-bash.cwl
     in:
@@ -287,17 +270,17 @@ steps:
         default: |
           zcat "$0" | grep -v "track" > methylation_statuses.bedGraph
     out:
-    - output_file
+      - output_file
   sort_bedgraph:
     run: ../tools/linux-sort.cwl
     in:
       unsorted_file: remove_metadata/output_file
       key:
         default:
-        - 1,1
-        - 2,2n
+          - 1,1
+          - 2,2n
     out:
-    - sorted_file
+      - sorted_file
   sorted_bedgraph_to_bigwig:
     run: ../tools/ucsc-bedgraphtobigwig.cwl
     in:
@@ -307,7 +290,7 @@ steps:
         source: sort_bedgraph/sorted_file
         valueFrom: $(self.basename.split('.').slice(0,-1).join('.') + ".bigWig")
     out:
-    - bigwig_file
+      - bigwig_file
 label: Bismark Methylation PE
 doc: |-
   Sequence reads are first cleaned from adapters and transformed into fully bisulfite-converted forward (C->T) and reverse

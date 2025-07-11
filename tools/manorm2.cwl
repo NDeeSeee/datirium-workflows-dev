@@ -1,14 +1,14 @@
 cwlVersion: v1.0
 class: CommandLineTool
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/manorm2:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/manorm2:v0.0.1
 inputs:
   read_files_cond_1:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     inputBinding:
       prefix: --read1
     doc: |
@@ -17,9 +17,9 @@ inputs:
       to the first biological condition.
   read_files_cond_2:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     inputBinding:
       prefix: --read2
     doc: |
@@ -28,9 +28,9 @@ inputs:
       to the second biological condition.
   peak_files_cond_1:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     inputBinding:
       prefix: --peak1
     doc: |
@@ -39,9 +39,9 @@ inputs:
       first biological condition.
   peak_files_cond_2:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     inputBinding:
       prefix: --peak2
     doc: |
@@ -50,9 +50,9 @@ inputs:
       second biological condition.
   sample_names_cond_1:
     type:
-    - string
-    - type: array
-      items: string
+      - string
+      - type: array
+        items: string
     inputBinding:
       prefix: --name1
     doc: |
@@ -61,9 +61,9 @@ inputs:
       and --name2 parameters should be unique.
   sample_names_cond_2:
     type:
-    - string
-    - type: array
-      items: string
+      - string
+      - type: array
+        items: string
     inputBinding:
       prefix: --name2
     doc: |
@@ -72,10 +72,10 @@ inputs:
       and --name2 parameters should be unique.
   summit_files_cond_1:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       prefix: --summit1
     doc: |
@@ -85,10 +85,10 @@ inputs:
       center is taken as the summit.
   summit_files_cond_2:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       prefix: --summit2
     doc: |
@@ -98,8 +98,8 @@ inputs:
       center is taken as the summit.
   condition_1:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       prefix: --condition1
     doc: |
@@ -108,8 +108,8 @@ inputs:
       vs --condition1. Default: control.
   condition_2:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       prefix: --condition2
     doc: |
@@ -118,8 +118,8 @@ inputs:
       vs --condition1. Default: treatment.
   minimum_overlap:
     type:
-    - 'null'
-    - float
+      - 'null'
+      - float
     inputBinding:
       prefix: --minoverlap
     doc: |
@@ -131,8 +131,8 @@ inputs:
       at least this fraction of datasets. Default: 1
   maximum_padj:
     type:
-    - 'null'
-    - float
+      - 'null'
+      - float
     inputBinding:
       prefix: --padj
     doc: |
@@ -141,8 +141,8 @@ inputs:
       to the provided value. Default: 0.05
   batch_metadata_file:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       prefix: --batch
     doc: |
@@ -154,8 +154,8 @@ inputs:
       not apply batch correction.
   maximum_peak_number:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       prefix: --maxpeaks
     doc: |
@@ -168,8 +168,8 @@ inputs:
       used for peak calling. Default: keep all peaks.
   minimum_peak_gap:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       prefix: --minpeakgap
     doc: |
@@ -181,8 +181,8 @@ inputs:
       of size --binsize. Default: 150
   bin_size:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       prefix: --binsize
     doc: |
@@ -192,8 +192,8 @@ inputs:
       H3K27ac, and 1000 bp for TFs or DNase-seq. Default: 2000
   fixed_bin_size:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       prefix: --fixbinsize
     doc: |
@@ -204,8 +204,8 @@ inputs:
       the boundaries of the original peak.
   blacklist_regions_file:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       prefix: --blacklist
     doc: |
@@ -215,8 +215,8 @@ inputs:
       all reference genomic bins.
   remove_duplicated_reads:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       prefix: --dedup
     doc: |
@@ -227,8 +227,8 @@ inputs:
       all reads.
   shift_size:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       prefix: --shiftsize
     doc: |
@@ -239,8 +239,8 @@ inputs:
       parameter is provided. Default 100
   paired_end:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       prefix: --paired
     doc: |
@@ -250,10 +250,10 @@ inputs:
       Default: treat all reads as single-end.
   exclude_chromosomes:
     type:
-    - 'null'
-    - string
-    - type: array
-      items: string
+      - 'null'
+      - string
+      - type: array
+        items: string
     inputBinding:
       prefix: --exclude
     doc: |
@@ -261,12 +261,12 @@ inputs:
       Default: include all chromosomes
   normalization_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - pseudo-reference
-      - baseline
-      - hierarchical
+      - 'null'
+      - type: enum
+        symbols:
+          - pseudo-reference
+          - baseline
+          - hierarchical
     inputBinding:
       prefix: --norm
     doc: |
@@ -286,24 +286,24 @@ inputs:
       Default: pseudo-reference
   export_pdf_plots:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       prefix: --pdf
     doc: |
       Export plots in PDF. Default: false
   output_prefix:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       prefix: --output
     doc: |
       Output prefix. Default: ./manorm
   parallel_memory_limit:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       prefix: --memory
     doc: |
@@ -312,16 +312,16 @@ inputs:
       Default: 32
   threads:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       prefix: --cpus
     doc: |
       Number of cores/cpus to use. Default: 1
   seed:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       prefix: --seed
     doc: |
@@ -346,8 +346,8 @@ outputs:
       TSV format.
   smpl_corr_raw_plot_png:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_smpl_corr_raw.png'
     doc: |
@@ -357,8 +357,8 @@ outputs:
       PNG format.
   smpl_corr_crtd_plot_png:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_smpl_corr_crtd.png'
     doc: |
@@ -368,8 +368,8 @@ outputs:
       PNG format.
   smpl_corr_norm_plot_png:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_smpl_corr_norm.png'
     doc: |
@@ -380,8 +380,8 @@ outputs:
       PNG format.
   smpl_vrlp_plot_png:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_smpl_vrlp.png'
     doc: |
@@ -391,8 +391,8 @@ outputs:
       PNG format.
   cnd_vrlp_plot_png:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_cnd_vrlp.png'
     doc: |
@@ -402,8 +402,8 @@ outputs:
       PNG format.
   ma_corr_plot_png:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_ma_corr.png'
     doc: |
@@ -413,8 +413,8 @@ outputs:
       PNG format.
   diff_vlcn_plot_png:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_diff_vlcn.png'
     doc: |
@@ -422,8 +422,8 @@ outputs:
       PNG format.
   diff_ma_plot_png:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_diff_ma.png'
     doc: |
@@ -431,8 +431,8 @@ outputs:
       PNG format.
   pca_1_2_plot_png:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_pca_1_2.png'
     doc: |
@@ -440,8 +440,8 @@ outputs:
       PNG format.
   pca_2_3_plot_png:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_pca_2_3.png'
     doc: |
@@ -449,8 +449,8 @@ outputs:
       PNG format.
   mds_plot_html:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_mds_plot.html'
     doc: |
@@ -460,8 +460,8 @@ outputs:
       HTML format.
   read_cnts_gct:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: '*_read_cnts.gct'
     doc: |
@@ -471,9 +471,9 @@ outputs:
       GCT format
   all_plots_pdf:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*.pdf'
     doc: |
@@ -484,7 +484,7 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- run_manorm2.R
+  - run_manorm2.R
 stderr: manorm_stderr.log
 stdout: manorm_stdout.log
 label: MAnorm2 for Normalizing and Comparing ChIP-Seq/ATAC-Seq Samples

@@ -1,13 +1,16 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_output_filename = function(ext) { ext = ext || ""; if (inputs.output_filename == null){ var root = inputs.rsem_isoforms_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.rsem_isoforms_file.basename+ext:root+ext; } else { return inputs.output_filename; } };
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_output_filename = function(ext) { ext = ext || ""; if (inputs.output_filename
+        == null){ var root = inputs.rsem_isoforms_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.rsem_isoforms_file.basename+ext:root+ext; } else
+        { return inputs.output_filename; } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/scidap:v0.0.3
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/scidap:v0.0.3
 inputs:
   script:
     type: string?
@@ -56,12 +59,12 @@ outputs:
     outputBinding:
       glob: '*'
 baseCommand:
-- python
-- -c
+  - python
+  - -c
 arguments:
-- valueFrom: $(" > " + get_output_filename(".csv"))
-  position: 100000
-  shellQuote: false
+  - valueFrom: $(" > " + get_output_filename(".csv"))
+    position: 100000
+    shellQuote: false
 doc: |
   Tool to generate BioWardrobe compatible isoforms file from RSEM outputs.
   `rsem_annotation_file` and `rsem_isoforms_file` are supposed to have identical order and number of isoforms.

@@ -1,23 +1,23 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/scidap-deseq:v0.0.28
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/scidap-deseq:v0.0.28
 inputs:
   untreated_files:
     type:
-    - File
-    - File[]
+      - File
+      - File[]
     inputBinding:
       prefix: -u
     doc: |
       Untreated input CSV/TSV files
   treated_files:
     type:
-    - File
-    - File[]
+      - File
+      - File[]
     inputBinding:
       prefix: -t
     doc: |
@@ -36,30 +36,30 @@ inputs:
       Name for treated condition, use only letters and numbers
   untreated_sample_names:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: -ua
     doc: |
       Unique aliases for untreated expression files. Default: basenames of -u without extensions
   treated_sample_names:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: -ta
     doc: |
       Unique aliases for treated expression files. Default: basenames of -t without extensions
   cluster_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - row
-      - column
-      - both
+      - 'null'
+      - type: enum
+        symbols:
+          - row
+          - column
+          - both
     inputBinding:
       prefix: --cluster
     doc: |
@@ -68,15 +68,15 @@ inputs:
       clustering
   row_distance:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     inputBinding:
       prefix: --rowdist
     doc: |
@@ -84,15 +84,15 @@ inputs:
       provided. Default: cosangle
   column_distance:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     inputBinding:
       prefix: --columndist
     doc: |
@@ -119,15 +119,16 @@ inputs:
     inputBinding:
       prefix: --use_lfc_thresh
     default: true
-    doc: 'Use lfcthreshold as the null hypothesis value in the results function call. Default: TRUE'
+    doc: 'Use lfcthreshold as the null hypothesis value in the results function call.
+      Default: TRUE'
   regulation:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - both
-      - up
-      - down
+      - 'null'
+      - type: enum
+        symbols:
+          - both
+          - up
+          - down
     inputBinding:
       prefix: --regulation
     doc: |
@@ -139,12 +140,12 @@ inputs:
     default: both
   batchcorrection:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - none
-      - combatseq
-      - limmaremovebatcheffect
+      - 'null'
+      - type: enum
+        symbols:
+          - none
+          - combatseq
+          - limmaremovebatcheffect
     inputBinding:
       prefix: --batchcorrection
     doc: |
@@ -231,7 +232,7 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- run_deseq.R
+  - run_deseq.R
 stdout: deseq_stdout.log
 stderr: deseq_stderr.log
 doc: |

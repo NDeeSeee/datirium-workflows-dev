@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   genome_indices:
-  - genome-indices.cwl
+    - genome-indices.cwl
 inputs:
   alias:
     type: string
@@ -37,15 +37,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Cores/CPUs
     doc: |
@@ -111,17 +111,17 @@ steps:
       output_folder_name:
         default: cellranger_ref
     out:
-    - indices_folder
-    - chrom_length_file
-    - stdout_log
-    - stderr_log
+      - indices_folder
+      - chrom_length_file
+      - stdout_log
+      - stderr_log
   sort_annotation_gtf:
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       hints:
-      - class: DockerRequirement
-        dockerPull: python:3.8.6
+        - class: DockerRequirement
+          dockerPull: python:3.8.6
       inputs:
         script:
           type: string?
@@ -153,13 +153,13 @@ steps:
         sorted_annotation_gtf_file:
           type: stdout
       baseCommand:
-      - python3
-      - -c
+        - python3
+        - -c
       stdout: sorted.gtf
     in:
       annotation_gtf_file: annotation_gtf_file
     out:
-    - sorted_annotation_gtf_file
+      - sorted_annotation_gtf_file
   cellranger_arc_mkref:
     run: ../tools/cellranger-arc-mkref.cwl
     in:
@@ -167,7 +167,7 @@ steps:
       annotation_gtf_file: sort_annotation_gtf/sorted_annotation_gtf_file
       exclude_chr:
         default:
-        - chrM
+          - chrM
       output_folder_name:
         default: cellranger_arc_ref
       threads:
@@ -175,9 +175,9 @@ steps:
         valueFrom: $(parseInt(self))
       memory_limit: memory_limit
     out:
-    - indices_folder
-    - stdout_log
-    - stderr_log
+      - indices_folder
+      - stdout_log
+      - stderr_log
 label: Cell Ranger Reference (RNA, ATAC, RNA+ATAC)
 doc: |-
   Cell Ranger Reference (RNA, ATAC, RNA+ATAC)

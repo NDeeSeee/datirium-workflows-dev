@@ -1,14 +1,14 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-- class: ResourceRequirement
-  ramMin: 244130
-  coresMin: 20
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ResourceRequirement
+    ramMin: 244130
+    coresMin: 20
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-kraken2:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-kraken2:v1.0.0
 inputs:
   script:
     type: string?
@@ -97,8 +97,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: k2-stdout.log
 stderr: k2-stderr.log
 doc: |

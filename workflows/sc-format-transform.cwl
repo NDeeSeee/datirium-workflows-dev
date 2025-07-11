@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 inputs:
   alias:
     type: string
@@ -46,8 +46,8 @@ steps:
       cwlVersion: v1.0
       class: CommandLineTool
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/scidap:v0.0.3
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/scidap:v0.0.3
       inputs:
         script:
           type: string?
@@ -78,14 +78,14 @@ steps:
           outputBinding:
             glob: '*_aggr.tsv'
       baseCommand:
-      - bash
-      - -c
+        - bash
+        - -c
     in:
       compressed_sparse_matrix: compressed_sparse_matrix
       metadata: metadata
     out:
-    - filtered_feature_bc_matrix_folder
-    - aggregation_metadata
+      - filtered_feature_bc_matrix_folder
+      - aggregation_metadata
 label: Single-cell Format Transform
 doc: |
   Single-cell Format Transform

@@ -1,15 +1,16 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: ScatterFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_root = function(basename) { return basename.split('.').slice(0,1).join('.'); };
+  - class: SubworkflowFeatureRequirement
+  - class: ScatterFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_root = function(basename) { return basename.split('.').slice(0,1).join('.');
+        };
 sd:metadata:
-- ../metadata/chipseq-header.cwl
+  - ../metadata/chipseq-header.cwl
 sd:upstream:
   genome_indices: genome-indices.cwl
   control_file: trim-chipseq-se.cwl
@@ -23,7 +24,6 @@ inputs:
     type: File
     sd:upstreamSource: genome_indices/annotation
     label: Annotation file
-    format: http://edamontology.org/format_3475
     doc: Tab-separated annotation file
   genome_size:
     type: string
@@ -34,16 +34,15 @@ inputs:
     type: File
     sd:upstreamSource: genome_indices/chrom_length
     label: Chromosomes length file
-    format: http://edamontology.org/format_2330
     doc: Chromosomes length file
   control_file:
     type: File?
-    default: null
+    default:
     sd:upstreamSource: control_file/bambai_pair
     sd:localLabel: true
     label: Use sample as a control (optional)
-    format: http://edamontology.org/format_2572
-    doc: If skipping upstream (i.e. not using an upstream sample as input here), please upload a BAM format file.
+    doc: If skipping upstream (i.e. not using an upstream sample as input here), please
+      upload a BAM format file.
   broad_peak:
     type: boolean?
     default: false
@@ -51,11 +50,10 @@ inputs:
     doc: Set to call broad peak for MACS2
   fastq_file:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: FASTQ input file(s)
-    format: http://edamontology.org/format_1930
     doc: Reads data in a FASTQ format, received after single end sequencing
   exp_fragment_size:
     type: int?
@@ -118,15 +116,19 @@ inputs:
     default: 1000
     sd:layout:
       advanced: true
-    label: Max distance from gene TSS (in both direction) overlapping which the peak will be assigned to the promoter region
-    doc: Max distance from gene TSS (in both direction) overlapping which the peak will be assigned to the promoter region
+    label: Max distance from gene TSS (in both direction) overlapping which the peak
+      will be assigned to the promoter region
+    doc: Max distance from gene TSS (in both direction) overlapping which the peak
+      will be assigned to the promoter region
   upstream_dist:
     type: int?
     default: 20000
     sd:layout:
       advanced: true
-    label: Max distance from the promoter (only in upstream direction) overlapping which the peak will be assigned to the upstream region
-    doc: Max distance from the promoter (only in upstream direction) overlapping which the peak will be assigned to the upstream region
+    label: Max distance from the promoter (only in upstream direction) overlapping
+      which the peak will be assigned to the upstream region
+    doc: Max distance from the promoter (only in upstream direction) overlapping which
+      the peak will be assigned to the upstream region
   threads:
     type: int?
     default: 2
@@ -137,256 +139,233 @@ inputs:
 outputs:
   unaligned_fastq:
     type:
-    - 'null'
-    - File[]
-    format: http://edamontology.org/format_1930
+      - 'null'
+      - File[]
     label: Unaligned FASTQ file(s)
     doc: Unaligned FASTQ file(s)
     outputSource: bowtie_aligner/unaligned_fastq
   multimapped_fastq:
     type:
-    - 'null'
-    - File[]
-    format: http://edamontology.org/format_1930
+      - 'null'
+      - File[]
     label: Multimapped FASTQ file(s)
     doc: Multimapped FASTQ file(s)
     outputSource: bowtie_aligner/multimapped_fastq
   bigwig:
     type: File
-    format: http://edamontology.org/format_3006
     label: BigWig file
     doc: Generated BigWig file
     outputSource: bam_to_bigwig/bigwig_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: BigWig Track
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: BigWig Track
+          height: 120
   fastx_statistics:
     type: File
     label: FASTQ statistics
-    format: http://edamontology.org/format_2330
     doc: fastx_quality_stats generated FASTQ file quality statistics file
     outputSource: fastx_quality_stats/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   bowtie_log:
     type: File
     label: BOWTIE alignment log
-    format: http://edamontology.org/format_2330
     doc: BOWTIE generated alignment log
     outputSource: bowtie_aligner/log_file
   iaintersect_log:
     type: File
     label: Island intersect log
-    format: http://edamontology.org/format_3475
     doc: Iaintersect generated log
     outputSource: island_intersect/log_file
   iaintersect_result:
     type: File
     label: Island intersect results
-    format: http://edamontology.org/format_3475
     doc: Iaintersect generated results
     outputSource: island_intersect/result_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Peak Calling
-        Title: Islands list
+      - syncfusiongrid:
+          tab: Peak Calling
+          Title: Islands list
   atdp_log_file:
     type: File
     label: ATDP log
-    format: http://edamontology.org/format_3475
     doc: Average Tag Density generated log
     outputSource: average_tag_density/log_file
   atdp_result:
     type: File
     label: ATDP results
-    format: http://edamontology.org/format_3475
     doc: Average Tag Density generated results
     outputSource: average_tag_density/result_file
     sd:visualPlugins:
-    - scatter:
-        tab: QC Plots
-        Title: Average Tag Density
-        xAxisTitle: Distance From TSS (bases)
-        yAxisTitle: Average Tag Density (per bp)
-        colors:
-        - '#b3de69'
-        height: 500
-        data:
-        - $1
-        - $2
-        comparable: atdp
+      - scatter:
+          tab: QC Plots
+          Title: Average Tag Density
+          xAxisTitle: Distance From TSS (bases)
+          yAxisTitle: Average Tag Density (per bp)
+          colors:
+            - '#b3de69'
+          height: 500
+          data:
+            - $1
+            - $2
+          comparable: atdp
   bambai_pair:
     type: File
-    format: http://edamontology.org/format_2572
     label: Coordinate sorted BAM alignment file (+index BAI)
     doc: Coordinate sorted BAM file and BAI index file
     outputSource: samtools_remove_duplicates/deduplicated_bam_bai_pair
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        optional: true
-        type: alignment
-        format: bam
-        name: BAM Track
-        displayMode: SQUISHED
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          optional: true
+          type: alignment
+          format: bam
+          name: BAM Track
+          displayMode: SQUISHED
   macs2_called_peaks:
     type: File?
     label: Called peaks
-    format: http://edamontology.org/format_3468
     doc: XLS file to include information about called peaks
     outputSource: macs2_callpeak/peak_xls_file
   macs2_narrow_peaks:
     type: File?
     label: Narrow peaks
-    format: http://edamontology.org/format_3613
     doc: Contains the peak locations together with peak summit, pvalue and qvalue
     outputSource: macs2_callpeak/narrow_peak_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Narrow peaks
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Narrow peaks
+          displayMode: COLLAPSE
+          height: 40
   macs2_broad_peaks:
     type: File?
     label: Broad peaks
-    format: http://edamontology.org/format_3614
     doc: Contains the peak locations together with peak summit, pvalue and qvalue
     outputSource: macs2_callpeak/broad_peak_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Broad peaks
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Broad peaks
+          displayMode: COLLAPSE
+          height: 40
   macs2_peak_summits:
     type: File?
     label: Peak summits
-    format: http://edamontology.org/format_3003
     doc: Contains the peak summits locations for every peaks
     outputSource: macs2_callpeak/peak_summits_file
   macs2_moder_r:
     type: File?
     label: MACS2 generated R script
-    format: http://edamontology.org/format_2330
     doc: R script to produce a PDF image about the model based on your data
     outputSource: macs2_callpeak/moder_r_file
   macs2_gapped_peak:
     type: File?
     label: Gapped peaks
-    format: http://edamontology.org/format_3586
     doc: Contains both the broad region and narrow peaks
     outputSource: macs2_callpeak/gapped_peak_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Gapped peaks
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Gapped peaks
+          displayMode: COLLAPSE
+          height: 40
   macs2_log:
     type: File?
     label: MACS2 log
-    format: http://edamontology.org/format_2330
     doc: MACS2 output log
     outputSource: macs2_callpeak/macs_log
   get_stat_log:
     type: File?
     label: YAML formatted combined log
-    format: http://edamontology.org/format_3750
     doc: YAML formatted combined log
     outputSource: get_stat/collected_statistics_yaml
   get_stat_markdown:
     type: File?
     label: Markdown formatted combined log
-    format: http://edamontology.org/format_3835
     doc: Markdown formatted combined log
     outputSource: get_stat/collected_statistics_md
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   get_stat_formatted_log:
     type: File?
     label: Bowtie & Samtools Rmdup combined formatted log
-    format: http://edamontology.org/format_3475
     doc: Processed and combined Bowtie aligner and Samtools rmdup formatted log
     outputSource: get_stat/collected_statistics_tsv
     sd:visualPlugins:
-    - tableView:
-        vertical: true
-        tab: Overview
+      - tableView:
+          vertical: true
+          tab: Overview
     sd:preview:
       sd:visualPlugins:
-      - pie:
-          colors:
-          - '#b3de69'
-          - '#99c0db'
-          - '#fb8072'
-          - '#fdc381'
-          data:
-          - $2
-          - $3
-          - $4
-          - $5
+        - pie:
+            colors:
+              - '#b3de69'
+              - '#99c0db'
+              - '#fb8072'
+              - '#fdc381'
+            data:
+              - $2
+              - $3
+              - $4
+              - $5
   bam_statistics_report:
     type: File
     label: BAM statistics report (original)
-    format: http://edamontology.org/format_2330
     doc: BAM statistics report (right after alignment and sorting)
     outputSource: get_bam_statistics/log_file
   bam_statistics_report_after_filtering:
     type: File
     label: BAM statistics report (after filtering)
-    format: http://edamontology.org/format_2330
     doc: BAM statistics report (after all filters applied)
     outputSource: get_bam_statistics_after_filtering/log_file
   macs2_fragment_stat:
     type: File?
     label: FRAGMENT, FRAGMENTE, ISLANDS
-    format: http://edamontology.org/format_2330
     doc: fragment, calculated fragment, islands count from MACS2 results
     outputSource: macs2_callpeak/macs2_stat_file
   trim_report:
@@ -397,22 +376,21 @@ outputs:
   preseq_estimates_plot_data:
     type: File?
     label: Preseq estimates
-    format: http://edamontology.org/format_3475
     doc: Preseq estimated results
     outputSource: preseq_plot_data/estimates_file_plot_data
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: Distinct Read Counts Estimates
-        xAxisTitle: Mapped Reads/Fragments/Tags (millions)
-        yAxisTitle: Distinct Reads Count
-        colors:
-        - '#4b78a3'
-        - '#a3514b'
-        height: 500
-        data:
-        - $2
-        - $5
+      - line:
+          tab: QC Plots
+          Title: Distinct Read Counts Estimates
+          xAxisTitle: Mapped Reads/Fragments/Tags (millions)
+          yAxisTitle: Distinct Reads Count
+          colors:
+            - '#4b78a3'
+            - '#a3514b'
+          height: 500
+          data:
+            - $2
+            - $5
   estimated_fragment_size:
     type: int
     label: Estimated fragment size
@@ -436,7 +414,7 @@ steps:
       output_prefix:
         default: read_1
     out:
-    - fastq_file
+      - fastq_file
   trim_fastq:
     label: Adapter trimming
     doc: |
@@ -452,8 +430,8 @@ steps:
         default: true
       length: minimum_length
     out:
-    - trimmed_file
-    - report_file
+      - trimmed_file
+      - report_file
   bypass_trim:
     run: ../tools/bypass-trimgalore-se.cwl
     in:
@@ -463,8 +441,8 @@ steps:
       min_reads_count:
         default: 100
     out:
-    - selected_fastq_file
-    - selected_report_file
+      - selected_fastq_file
+      - selected_report_file
   rename:
     run: ../tools/rename.cwl
     in:
@@ -473,7 +451,7 @@ steps:
         source: extract_fastq/fastq_file
         valueFrom: $(self.basename)
     out:
-    - target_file
+      - target_file
   fastx_quality_stats:
     label: Quality control of unmapped sequence data
     doc: |
@@ -484,7 +462,7 @@ steps:
     in:
       input_file: rename/target_file
     out:
-    - statistics_file
+      - statistics_file
   bowtie_aligner:
     label: Alignment to reference genome
     doc: |
@@ -519,17 +497,17 @@ steps:
       X:
         default: 500
     out:
-    - sam_file
-    - log_file
-    - unaligned_fastq
-    - multimapped_fastq
+      - sam_file
+      - log_file
+      - unaligned_fastq
+      - multimapped_fastq
   samtools_sort_index:
     run: ../tools/samtools-sort-index.cwl
     in:
       sort_input: bowtie_aligner/sam_file
       threads: threads
     out:
-    - bam_bai_pair
+      - bam_bai_pair
   samtools_mark_duplicates:
     run: ../tools/samtools-markdup.cwl
     in:
@@ -538,13 +516,13 @@ steps:
         default: true
       threads: threads
     out:
-    - deduplicated_bam_bai_pair
+      - deduplicated_bam_bai_pair
   clean_sam_headers_for_preseq:
     run: ../tools/samtools-clean-headers.cwl
     in:
       bam_file: samtools_mark_duplicates/deduplicated_bam_bai_pair
     out:
-    - preseq_bam
+      - preseq_bam
   preseq:
     label: Sequencing depth estimation
     doc: |
@@ -556,9 +534,9 @@ steps:
       extrapolation:
         default: 1000000000
     out:
-    - estimates_file
-    - log_file_stdout
-    - log_file_stderr
+      - estimates_file
+      - log_file_stdout
+      - log_file_stderr
   samtools_remove_duplicates:
     run: ../tools/samtools-markdup.cwl
     in:
@@ -568,7 +546,7 @@ steps:
         valueFrom: $(!self)
       threads: threads
     out:
-    - deduplicated_bam_bai_pair
+      - deduplicated_bam_bai_pair
   macs2_callpeak:
     label: Peak detection
     doc: |
@@ -601,17 +579,17 @@ steps:
       buffer_size:
         default: 10000
     out:
-    - peak_xls_file
-    - narrow_peak_file
-    - peak_summits_file
-    - broad_peak_file
-    - moder_r_file
-    - gapped_peak_file
-    - treat_pileup_bdg_file
-    - control_lambda_bdg_file
-    - macs_log
-    - macs2_stat_file
-    - macs2_fragments_calculated
+      - peak_xls_file
+      - narrow_peak_file
+      - peak_summits_file
+      - broad_peak_file
+      - moder_r_file
+      - gapped_peak_file
+      - treat_pileup_bdg_file
+      - control_lambda_bdg_file
+      - macs_log
+      - macs2_stat_file
+      - macs2_fragments_calculated
   bam_to_bigwig:
     run: ../tools/bam-bedgraph-bigwig.cwl
     in:
@@ -620,7 +598,7 @@ steps:
       mapped_reads_number: get_stat/mapped_reads
       fragment_size: macs2_callpeak/macs2_fragments_calculated
     out:
-    - bigwig_file
+      - bigwig_file
   get_bam_statistics:
     label: Quality control of aligned sequence data
     doc: |
@@ -633,7 +611,7 @@ steps:
         source: samtools_mark_duplicates/deduplicated_bam_bai_pair
         valueFrom: $(get_root(self.basename)+"_bam_statistics_report.txt")
     out:
-    - log_file
+      - log_file
   get_bam_statistics_after_filtering:
     run: ../tools/samtools-stats.cwl
     in:
@@ -642,8 +620,8 @@ steps:
         source: samtools_remove_duplicates/deduplicated_bam_bai_pair
         valueFrom: $(get_root(self.basename)+"_bam_statistics_report_after_filtering.txt")
     out:
-    - log_file
-    - reads_mapped
+      - log_file
+      - reads_mapped
   get_stat:
     run: ../tools/collect-statistics-chip-seq.cwl
     in:
@@ -655,10 +633,10 @@ steps:
       atdp_results: average_tag_density/result_file
       preseq_results: preseq/estimates_file
     out:
-    - collected_statistics_yaml
-    - collected_statistics_tsv
-    - mapped_reads
-    - collected_statistics_md
+      - collected_statistics_yaml
+      - collected_statistics_tsv
+      - mapped_reads
+      - collected_statistics_md
   preseq_plot_data:
     label: Formats sequencing depth estimation data for plotting
     doc: |
@@ -670,7 +648,7 @@ steps:
       estimates_file: preseq/estimates_file
       mapped_reads: get_stat/mapped_reads
     out:
-    - estimates_file_plot_data
+      - estimates_file_plot_data
   island_intersect:
     label: Peak annotation
     doc: |
@@ -683,15 +661,15 @@ steps:
       promoter_bp: promoter_dist
       upstream_bp: upstream_dist
     out:
-    - result_file
-    - log_file
+      - result_file
+      - log_file
   samtools_sort_index_for_atdp:
     run: ../tools/samtools-sort-index.cwl
     in:
       sort_input: samtools_remove_duplicates/deduplicated_bam_bai_pair
       threads: threads
     out:
-    - bam_bai_pair
+      - bam_bai_pair
   average_tag_density:
     label: Read enrichment around genes TSS
     doc: |
@@ -716,8 +694,78 @@ steps:
         source: get_bam_statistics_after_filtering/reads_mapped
         valueFrom: $(parseInt(self))
     out:
-    - result_file
-    - log_file
+      - result_file
+      - log_file
 label: Trim Galore ChIP-Seq pipeline single-read
-doc: ".\nThis ChIP-Seq pipeline is based on the  original [BioWardrobe's](https://biowardrobe.com) [PubMed ID:26248465](https://www.ncbi.nlm.nih.gov/pubmed/26248465)\n**ChIP-Seq** basic analysis workflow for a **single-read** experiment with Trim Galore.\n\n### Data Analysis\nSciDAP starts from the .fastq files which most DNA cores and commercial NGS companies return. Starting from raw data allows us to ensure that all experiments have been processed in the same way and simplifies the deposition of data to GEO upon publication. The data can be uploaded from users computer, downloaded directly from an ftp server of the core facility by providing a URL or from GEO by providing SRA accession number.\nOur current pipelines include the following steps:\n1. Trimming the adapters with TrimGalore. This step is particularly important when the reads are long and the fragments are short-resulting in sequencing adapters at the end of read. If adapter is not removed the read will not map. TrimGalore can recognize standard adapters, such as Illumina or Nexterra/Tn5 adapters.\n2. QC\n3. (Optional) trimming adapters on 5' or 3' end by the specified number of bases.\n4. Mapping reads with BowTie. Only uniquely mapped reads with less than 3 mismatches are used in the downstream analysis. Results are saved as a .bam file.\n5.  (Optional) Removal of duplicates (reads/pairs of reads mapping to exactly same location). This step is used to remove reads overamplified in PCR. Unfortunately, it may also remove \"good\" reads. We usually do not remove duplicates unless the library is heavily duplicated. Please note that MACS2 will remove 'excessive' duplicates during peak calling ina smart way (those not supported by other nearby reads).\n6.  Peakcalling by MACS2. (Optionally), it is possible to specify read extension length for MACS2 to use if the length determined automatically is wrong. \n7.  Generation of BigWig coverage files for display on the browser. The coverage shows the number of fragments at each base in the genome normalized to the number of millions of mapped reads. In the case of PE sequencing the fragments are real, but in the case of single reads the fragments are estimated by extending reads to the average fragment length found by MACS2 or specified by the user in 6.\n\n### Details\n_Trim Galore_ is a wrapper around [Cutadapt](https://github.com/marcelm/cutadapt)\nand [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) to consistently\napply adapter and quality trimming to FastQ files, with extra functionality for RRBS data.\n\nIn outputs it returns coordinate sorted BAM file alongside with index BAI file, quality\nstatistics of the input FASTQ file, reads coverage in a form of BigWig file, peaks calling\ndata in a form of narrowPeak or broadPeak files, islands with the assigned nearest genes and\nregion type, data for average tag density plot (on the base of BAM file).\n\nWorkflow starts with step *fastx\\_quality\\_stats* from FASTX-Toolkit\nto calculate quality statistics for input FASTQ file.\n\nAt the same time `bowtie` is used to align\nreads from input FASTQ file to reference genome *bowtie\\_aligner*. The output of this step\nis unsorted SAM file which is being sorted and indexed by `samtools sort` and `samtools index`\n*samtools\\_sort\\_index*.\n\nBased on workflow’s input parameters indexed and sorted BAM file\ncan be processed by `samtools markdup` *samtools\\_remove\\_duplicates*  to get rid of duplicated reads.\n\nRight after that `macs2 callpeak` performs peak calling *macs2\\_callpeak*. On the base of returned outputs the next step\n*macs2\\_island\\_count* calculates the number of islands and estimated fragment size. If the last\none is less that 80bp (hardcoded in the workflow) `macs2 callpeak` is rerun again with forced fixed\nfragment size value (*macs2\\_callpeak\\_forced*). If at the very beginning it was set in workflow\ninput parameters to force run peak calling with fixed fragment size, this step is skipped and the\noriginal peak calling results are saved.\n\nIn the next step workflow again calculates the number of islands and estimates fragment size (*macs2\\_island\\_count\\_forced*)\nfor the data obtained from *macs2\\_callpeak\\_forced* step. If the last one was skipped the results from *macs2\\_island\\_count\\_forced* step\nare equal to the ones obtained from *macs2\\_island\\_count* step.\n\nNext step (*macs2\\_stat*) is used to define which of the islands and estimated fragment size should be used\nin workflow output: either from *macs2\\_island\\_count* step or from *macs2\\_island\\_count\\_forced* step. If input\ntrigger of this step is set to True it means that *macs2\\_callpeak\\_forced* step was run and it returned different\nfrom *macs2\\_callpeak* step results, so *macs2\\_stat* step should return [fragments\\_new, fragments\\_old, islands\\_new],\nif trigger is False the step returns [fragments\\_old, fragments\\_old, islands\\_old], where sufix \"old\" defines\nresults obtained from *macs2\\_island\\_count* step and sufix \"new\" - from *macs2\\_island\\_count\\_forced* step.\n\nThe following two steps (*bamtools\\_stats* and *bam\\_to\\_bigwig*) are used to calculate coverage on the base\nof input BAM file and save it in BigWig format. For that purpose bamtools stats returns the number of\nmapped reads number which is then used as scaling factor by bedtools genomecov when it performs coverage\ncalculation and saves it in BED format. The last one is then being sorted and converted to BigWig format by\nbedGraphToBigWig tool from UCSC utilities. Step *get\\_stat* is used to return a text file with statistics\nin a form of [TOTAL, ALIGNED, SUPRESSED, USED] reads count.\n\nStep *island\\_intersect* assigns genes and regions to the islands obtained from *macs2\\_callpeak\\_forced*.\nStep *average\\_tag\\_density* is used to calculate data for average tag density plot on the base of BAM file.\n"
+doc: ".\nThis ChIP-Seq pipeline is based on the  original [BioWardrobe's](https://biowardrobe.com)
+  [PubMed ID:26248465](https://www.ncbi.nlm.nih.gov/pubmed/26248465)\n**ChIP-Seq**
+  basic analysis workflow for a **single-read** experiment with Trim Galore.\n\n###
+  Data Analysis\nSciDAP starts from the .fastq files which most DNA cores and commercial
+  NGS companies return. Starting from raw data allows us to ensure that all experiments
+  have been processed in the same way and simplifies the deposition of data to GEO
+  upon publication. The data can be uploaded from users computer, downloaded directly
+  from an ftp server of the core facility by providing a URL or from GEO by providing
+  SRA accession number.\nOur current pipelines include the following steps:\n1. Trimming
+  the adapters with TrimGalore. This step is particularly important when the reads
+  are long and the fragments are short-resulting in sequencing adapters at the end
+  of read. If adapter is not removed the read will not map. TrimGalore can recognize
+  standard adapters, such as Illumina or Nexterra/Tn5 adapters.\n2. QC\n3. (Optional)
+  trimming adapters on 5' or 3' end by the specified number of bases.\n4. Mapping
+  reads with BowTie. Only uniquely mapped reads with less than 3 mismatches are used
+  in the downstream analysis. Results are saved as a .bam file.\n5.  (Optional) Removal
+  of duplicates (reads/pairs of reads mapping to exactly same location). This step
+  is used to remove reads overamplified in PCR. Unfortunately, it may also remove
+  \"good\" reads. We usually do not remove duplicates unless the library is heavily
+  duplicated. Please note that MACS2 will remove 'excessive' duplicates during peak
+  calling ina smart way (those not supported by other nearby reads).\n6.  Peakcalling
+  by MACS2. (Optionally), it is possible to specify read extension length for MACS2
+  to use if the length determined automatically is wrong. \n7.  Generation of BigWig
+  coverage files for display on the browser. The coverage shows the number of fragments
+  at each base in the genome normalized to the number of millions of mapped reads.
+  In the case of PE sequencing the fragments are real, but in the case of single reads
+  the fragments are estimated by extending reads to the average fragment length found
+  by MACS2 or specified by the user in 6.\n\n### Details\n_Trim Galore_ is a wrapper
+  around [Cutadapt](https://github.com/marcelm/cutadapt)\nand [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+  to consistently\napply adapter and quality trimming to FastQ files, with extra functionality
+  for RRBS data.\n\nIn outputs it returns coordinate sorted BAM file alongside with
+  index BAI file, quality\nstatistics of the input FASTQ file, reads coverage in a
+  form of BigWig file, peaks calling\ndata in a form of narrowPeak or broadPeak files,
+  islands with the assigned nearest genes and\nregion type, data for average tag density
+  plot (on the base of BAM file).\n\nWorkflow starts with step *fastx\\_quality\\
+  _stats* from FASTX-Toolkit\nto calculate quality statistics for input FASTQ file.\n
+  \nAt the same time `bowtie` is used to align\nreads from input FASTQ file to reference
+  genome *bowtie\\_aligner*. The output of this step\nis unsorted SAM file which is
+  being sorted and indexed by `samtools sort` and `samtools index`\n*samtools\\_sort\\
+  _index*.\n\nBased on workflow’s input parameters indexed and sorted BAM file\ncan
+  be processed by `samtools markdup` *samtools\\_remove\\_duplicates*  to get rid
+  of duplicated reads.\n\nRight after that `macs2 callpeak` performs peak calling
+  *macs2\\_callpeak*. On the base of returned outputs the next step\n*macs2\\_island\\
+  _count* calculates the number of islands and estimated fragment size. If the last\n
+  one is less that 80bp (hardcoded in the workflow) `macs2 callpeak` is rerun again
+  with forced fixed\nfragment size value (*macs2\\_callpeak\\_forced*). If at the
+  very beginning it was set in workflow\ninput parameters to force run peak calling
+  with fixed fragment size, this step is skipped and the\noriginal peak calling results
+  are saved.\n\nIn the next step workflow again calculates the number of islands and
+  estimates fragment size (*macs2\\_island\\_count\\_forced*)\nfor the data obtained
+  from *macs2\\_callpeak\\_forced* step. If the last one was skipped the results from
+  *macs2\\_island\\_count\\_forced* step\nare equal to the ones obtained from *macs2\\
+  _island\\_count* step.\n\nNext step (*macs2\\_stat*) is used to define which of
+  the islands and estimated fragment size should be used\nin workflow output: either
+  from *macs2\\_island\\_count* step or from *macs2\\_island\\_count\\_forced* step.
+  If input\ntrigger of this step is set to True it means that *macs2\\_callpeak\\
+  _forced* step was run and it returned different\nfrom *macs2\\_callpeak* step results,
+  so *macs2\\_stat* step should return [fragments\\_new, fragments\\_old, islands\\
+  _new],\nif trigger is False the step returns [fragments\\_old, fragments\\_old,
+  islands\\_old], where sufix \"old\" defines\nresults obtained from *macs2\\_island\\
+  _count* step and sufix \"new\" - from *macs2\\_island\\_count\\_forced* step.\n\n
+  The following two steps (*bamtools\\_stats* and *bam\\_to\\_bigwig*) are used to
+  calculate coverage on the base\nof input BAM file and save it in BigWig format.
+  For that purpose bamtools stats returns the number of\nmapped reads number which
+  is then used as scaling factor by bedtools genomecov when it performs coverage\n
+  calculation and saves it in BED format. The last one is then being sorted and converted
+  to BigWig format by\nbedGraphToBigWig tool from UCSC utilities. Step *get\\_stat*
+  is used to return a text file with statistics\nin a form of [TOTAL, ALIGNED, SUPRESSED,
+  USED] reads count.\n\nStep *island\\_intersect* assigns genes and regions to the
+  islands obtained from *macs2\\_callpeak\\_forced*.\nStep *average\\_tag\\_density*
+  is used to calculate data for average tag density plot on the base of BAM file.\n"
 sd:version: 100

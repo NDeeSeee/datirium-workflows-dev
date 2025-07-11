@@ -1,17 +1,20 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { if (inputs.output_filename == ""){ var root = inputs.intervals_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.intervals_file.basename+".fa":root+".fa"; } else { return inputs.output_filename; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { if (inputs.output_filename == ""){
+        var root = inputs.intervals_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.intervals_file.basename+".fa":root+".fa"; } else
+        { return inputs.output_filename; } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bedtools2:v2.26.0
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bedtools2:v2.26.0
 inputs:
   genome_fasta_file:
     type: File
     secondaryFiles:
-    - .fai
+      - .fai
     inputBinding:
       position: 5
       prefix: -fi
@@ -33,8 +36,8 @@ outputs:
       glob: $(default_output_filename())
     doc: Sequences file
 baseCommand:
-- bedtools
-- getfasta
+  - bedtools
+  - getfasta
 stdout: $(default_output_filename())
 doc: |
   Extracts sequences from a FASTA file for each of the intervals defined in a BED/GFF/VCF file. Only selected parameters are implemented.

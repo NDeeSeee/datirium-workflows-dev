@@ -1,9 +1,9 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: ScatterFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
+  - class: ScatterFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 inputs:
   bam_file:
     type: File[]
@@ -36,13 +36,13 @@ steps:
       fragment_size: fragment_size
       total_reads: total_reads
     scatter:
-    - bam_file
-    - output_folder
-    - fragment_size
-    - total_reads
+      - bam_file
+      - output_folder
+      - fragment_size
+      - total_reads
     scatterMethod: dotproduct
     out:
-    - output_tag_folder
+      - output_tag_folder
 doc: |
   Workflow runs homer-make-tag-directory.cwl tool using scatter for the following inputs
     - bam_file

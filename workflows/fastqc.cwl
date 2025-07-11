@@ -1,10 +1,11 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_root = function(basename) { return basename.split('.').slice(0,1).join('.'); };
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_root = function(basename) { return basename.split('.').slice(0,1).join('.');
+        };
 inputs:
   alias:
     type: string
@@ -13,11 +14,10 @@ inputs:
       position: 1
   fastq_file:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: FASTQ file
-    format: http://edamontology.org/format_1930
     doc: Reads data in a FASTQ format, optionally compressed
 outputs:
   fastqc_report:
@@ -26,22 +26,22 @@ outputs:
     label: FastqQC HTML report
     doc: FastqQC HTML report
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
 steps:
   extract_fastq:
     run: ../tools/extract-fastq.cwl
     in:
       compressed_file: fastq_file
     out:
-    - fastq_file
+      - fastq_file
   run_fastqc:
     run: ../tools/fastqc.cwl
     in:
       reads_file: extract_fastq/fastq_file
     out:
-    - html_file
+      - html_file
   rename_fastqc_report:
     run: ../tools/rename.cwl
     in:
@@ -50,7 +50,7 @@ steps:
         source: fastq_file
         valueFrom: $(get_root(self.basename)+"_fastqc_report.html")
     out:
-    - target_file
+      - target_file
 label: FastQC - a quality control tool for high throughput sequence data
 doc: |-
   FastQC - a quality control tool for high throughput sequence data

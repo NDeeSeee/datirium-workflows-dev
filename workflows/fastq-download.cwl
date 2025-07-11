@@ -1,12 +1,15 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var split_features = function(line) { function get_unique(value, index, self) { return self.indexOf(value) === index && value != ""; } var splitted_line = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var split_features = function(line) { function get_unique(value, index, self)
+        { return self.indexOf(value) === index && value != ""; } var splitted_line
+        = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line
+        && !!splitted_line.length)?splitted_line:null; };
 inputs:
   alias:
     type: string
@@ -20,12 +23,12 @@ inputs:
       Comma or space separated list of SRR Identifiers
   splitby:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - Split into all available files
-      - 3-way splitting for mate-pairs
-      - Do not split
+      - 'null'
+      - type: enum
+        symbols:
+          - Split into all available files
+          - 3-way splitting for mate-pairs
+          - Do not split
     default: 3-way splitting for mate-pairs
     label: Split reads by
     doc: |-
@@ -49,9 +52,9 @@ inputs:
 outputs:
   fastq_files:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: fastq_dump/fastq_files
     label: Gzip-compressed FASTQ files
     doc: |
@@ -64,13 +67,13 @@ outputs:
       Collected report for downloaded FASTQ files
       in Markdown format
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   metadata_xml:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: fastq_dump/metadata_xml
     label: SRR metadata files in XML format
     doc: |
@@ -83,45 +86,45 @@ outputs:
       Collected metadata in TSV format
   run_acc:
     type:
-    - 'null'
-    - type: array
-      items: string
+      - 'null'
+      - type: array
+        items: string
     outputSource: fastq_dump/run_acc
     label: Collected Run identifiers
     doc: |
       Collected Run identifiers
   experiment_acc:
     type:
-    - 'null'
-    - type: array
-      items: string
+      - 'null'
+      - type: array
+        items: string
     outputSource: fastq_dump/experiment_acc
     label: Collected Experiment identifiers
     doc: |
       Collected Experiment identifiers
   study_acc:
     type:
-    - 'null'
-    - type: array
-      items: string
+      - 'null'
+      - type: array
+        items: string
     outputSource: fastq_dump/study_acc
     label: Collected SRA Study identifiers
     doc: |
       Collected SRA Study identifiers
   biosample:
     type:
-    - 'null'
-    - type: array
-      items: string
+      - 'null'
+      - type: array
+        items: string
     outputSource: fastq_dump/biosample
     label: Collected BioSample identifiers
     doc: |
       Collected BioSample identifiers
   bioproject:
     type:
-    - 'null'
-    - type: array
-      items: string
+      - 'null'
+      - type: array
+        items: string
     outputSource: fastq_dump/bioproject
     label: Collected BioProject identifiers
     doc: |
@@ -158,17 +161,17 @@ steps:
         source: https_proxy
         valueFrom: $(self==""?null:self)
     out:
-    - fastq_files
-    - metadata_xml
-    - collected_metadata
-    - run_acc
-    - experiment_acc
-    - study_acc
-    - biosample
-    - bioproject
-    - report_md
-    - log_stdout
-    - log_stderr
+      - fastq_files
+      - metadata_xml
+      - collected_metadata
+      - run_acc
+      - experiment_acc
+      - study_acc
+      - biosample
+      - bioproject
+      - report_md
+      - log_stdout
+      - log_stderr
 label: FASTQ Download
 doc: |
   FASTQ Download

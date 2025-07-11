@@ -1,15 +1,16 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ResourceRequirement
-  ramMin: 7024
-  coresMin: 1
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_target_name = function() { return inputs.target_filename.split('/').slice(-1)[0]; }
+  - class: ResourceRequirement
+    ramMin: 7024
+    coresMin: 1
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_target_name = function() { return inputs.target_filename.split('/').slice(-1)[0];
+        }
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/scidap:v0.0.3
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/scidap:v0.0.3
 inputs:
   script:
     type: string?
@@ -44,8 +45,8 @@ outputs:
           }
         }
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 doc: |
   Tool renames `source_file` to `target_filename`.
   Input `target_filename` should be set as string. If it's a full path, only basename will be used.

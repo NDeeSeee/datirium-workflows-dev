@@ -1,20 +1,20 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      return  [
-                {
-                  "entry": inputs.bam_bai_pair,
-                  "entryname": inputs.bam_bai_pair.basename,
-                  "writable": true
-                }
-              ]
-    }
-- class: DockerRequirement
-  dockerPull: biowardrobe2/samtools:v1.11
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        return  [
+                  {
+                    "entry": inputs.bam_bai_pair,
+                    "entryname": inputs.bam_bai_pair.basename,
+                    "writable": true
+                  }
+                ]
+      }
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/samtools:v1.11
 inputs:
   script:
     type: string?
@@ -100,7 +100,7 @@ outputs:
     outputBinding:
       glob: '*.bam'
     secondaryFiles:
-    - .bai
+      - .bai
     doc: BAM+BAI files with PCR duplicates removed
   markdup_report:
     type: File
@@ -108,8 +108,8 @@ outputs:
       glob: markdup_report.tsv
     doc: Markdup report
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 doc: |
   Removes or only marks PCR duplicates from
   coordinate sorted and indexed BAM file.

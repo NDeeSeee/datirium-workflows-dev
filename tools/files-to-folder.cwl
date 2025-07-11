@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: ExpressionTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 id: files_to_folder
 inputs:
   input_files:
     type:
-    - File[]
-    - File
+      - File[]
+      - File
   folder_basename:
     type: string?
     default: ''

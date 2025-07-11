@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 inputs:
   bam_file:
     type: File
@@ -75,17 +75,17 @@ steps:
       strand: strand
       du: dutp
     out:
-    - genome_coverage_file
+      - genome_coverage_file
   sort_bedgraph:
     run: ../tools/linux-sort.cwl
     in:
       unsorted_file: bam_to_bedgraph/genome_coverage_file
       key:
         default:
-        - 1,1
-        - 2,2n
+          - 1,1
+          - 2,2n
     out:
-    - sorted_file
+      - sorted_file
   sorted_bedgraph_to_bigwig:
     run: ../tools/ucsc-bedgraphtobigwig.cwl
     in:
@@ -93,7 +93,7 @@ steps:
       chrom_length_file: chrom_length_file
       output_filename: bigwig_filename
     out:
-    - bigwig_file
+      - bigwig_file
 doc: |-
   Workflow converts input BAM file into bigWig and bedGraph files.
 

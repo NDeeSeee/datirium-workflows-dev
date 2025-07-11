@@ -1,21 +1,24 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var split_by_common_delim = function(line) { function get_unique(value, index, self) { return self.indexOf(value) === index && value != ""; } var splitted_line = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var split_by_common_delim = function(line) { function get_unique(value, index,
+        self) { return self.indexOf(value) === index && value != ""; } var splitted_line
+        = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line
+        && !!splitted_line.length)?splitted_line:null; };
 sd:upstream:
   dna_experiment:
-  - chipseq-se.cwl
-  - chipseq-pe.cwl
-  - trim-chipseq-se.cwl
-  - trim-chipseq-pe.cwl
-  - trim-atacseq-se.cwl
-  - trim-atacseq-pe.cwl
+    - chipseq-se.cwl
+    - chipseq-pe.cwl
+    - trim-chipseq-se.cwl
+    - trim-chipseq-pe.cwl
+    - trim-atacseq-se.cwl
+    - trim-atacseq-pe.cwl
   genome_indices:
-  - genome-indices.cwl
+    - genome-indices.cwl
 inputs:
   alias:
     type: string
@@ -25,7 +28,7 @@ inputs:
   alignment_files:
     type: File[]
     secondaryFiles:
-    - .bai
+      - .bai
     label: ChIP-Seq/ATAC-Seq experiments
     doc: |
       Sorted and indexed alignment files
@@ -54,8 +57,8 @@ inputs:
     sd:localLabel: true
   narrow_peak_files:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: ChIP-Seq/ATAC-Seq experiments
     doc: |
       Called peaks files in narrowPeak format
@@ -63,8 +66,8 @@ inputs:
     sd:localLabel: true
   broad_peak_files:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: ChIP-Seq/ATAC-Seq experiments
     doc: |
       Called peaks files in broadPeak format
@@ -101,7 +104,7 @@ inputs:
       as factors (no covariates are supported).
   groupby:
     type: string?
-    default: null
+    default:
     label: Diff. analysis. Metadata column(s) that should be used for samples grouping
     doc: |
       Column(s) from the metadata table to define
@@ -126,7 +129,7 @@ inputs:
       ~Treatment%2BTissue%2BTreatment%3ATissue
   base_levels:
     type: string?
-    default: null
+    default:
     label: Diff. analysis. Base levels (optional)
     doc: |
       Base levels for each of the metadata columns.
@@ -136,7 +139,7 @@ inputs:
       defined alphabetically.
   contrast:
     type: string?
-    default: null
+    default:
     label: Diff. analysis. Contrast for calculating log2 fold changes
     doc: |
       Contrast applied to the analysis results when
@@ -148,18 +151,19 @@ inputs:
   padj_threshold:
     type: float?
     default: 0.05
-    label: Diff. analysis. Maximum allowed adjusted P-value for differentially bound sites
+    label: Diff. analysis. Maximum allowed adjusted P-value for differentially bound
+      sites
     doc: |
       Filtering threshold to report only differentially
       bound sites with adjusted P-value less than or
       equal to the provided value.
   scoreby:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - pvalue
-      - qvalue
+      - 'null'
+      - type: enum
+        symbols:
+          - pvalue
+          - qvalue
     default: pvalue
     label: Peak selection. Score metrics to exclude low quality peaks
     doc: |
@@ -233,13 +237,13 @@ inputs:
       advanced: true
   cluster_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - row
-      - column
-      - both
-      - none
+      - 'null'
+      - type: enum
+        symbols:
+          - row
+          - column
+          - both
+          - none
     default: none
     label: Peak clustering. Clustering method
     doc: |
@@ -249,15 +253,15 @@ inputs:
       advanced: true
   row_distance:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     default: cosangle
     label: Peak clustering. Distance metric for row clustering
     doc: |
@@ -266,15 +270,15 @@ inputs:
       advanced: true
   column_distance:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     default: euclid
     label: Peak clustering. Distance metric for column clustering
     doc: |
@@ -284,13 +288,13 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
     default: '1'
     label: Number of cores/cpus to use
     doc: |
@@ -305,44 +309,44 @@ outputs:
       Genome coverage files in bigWig format
     outputSource: pipe/gc_files
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: wig
-        name: Genome coverage
-        height: 120
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: wig
+          name: Genome coverage
+          height: 120
   np_files:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Called peaks (narrowPeak format)
     doc: |
       Called peaks files in narrowPeak format
     outputSource: pipe/np_files
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Called peaks
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Called peaks
+          displayMode: COLLAPSE
+          height: 40
   bp_files:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Called peaks (broadPeak format)
     doc: |
       Called peaks files in broadPeak format
     outputSource: pipe/bp_files
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Called peaks
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Called peaks
+          displayMode: COLLAPSE
+          height: 40
   diff_sts_bigbed:
     type: File
     label: Differentially bound sites (bigBed format)
@@ -350,27 +354,27 @@ outputs:
       Differentially bound sites in bigBed format
     outputSource: bed_to_bigbed/bigbed_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        format: bigbed
-        name: Differentially bound sites
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          format: bigbed
+          name: Differentially bound sites
+          height: 40
   pk_vrlp_s_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     label: Peakset overlap rate
     doc: |
       Peakset overlap rate
       PNG format
     outputSource: diffbind/pk_vrlp_s_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: Peakset overlap rate
+      - image:
+          tab: Exploratory plots
+          Caption: Peakset overlap rate
   all_pk_scr_corr_plot_png:
     type: File?
     label: Samples correlation (all peaks)
@@ -379,9 +383,9 @@ outputs:
       PNG format
     outputSource: diffbind/all_pk_scr_corr_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: Samples correlation (all peaks)
+      - image:
+          tab: Exploratory plots
+          Caption: Samples correlation (all peaks)
   cns_pk_scr_corr_plot_png:
     type: File?
     label: Samples correlation (opt. rec. cons. peaks)
@@ -391,9 +395,9 @@ outputs:
       PNG format
     outputSource: diffbind/cns_pk_scr_corr_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: Samples correlation (opt. rec. cons. peaks)
+      - image:
+          tab: Exploratory plots
+          Caption: Samples correlation (opt. rec. cons. peaks)
   rw_rds_corr_plot_png:
     type: File?
     label: Samples correlation (raw reads)
@@ -402,9 +406,9 @@ outputs:
       PNG format
     outputSource: diffbind/rw_rds_corr_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: Samples correlation (raw reads)
+      - image:
+          tab: Exploratory plots
+          Caption: Samples correlation (raw reads)
   nr_rds_corr_plot_png:
     type: File?
     label: Samples correlation (normalized reads)
@@ -413,9 +417,9 @@ outputs:
       PNG format
     outputSource: diffbind/nr_rds_corr_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: Samples correlation (normalized reads)
+      - image:
+          tab: Exploratory plots
+          Caption: Samples correlation (normalized reads)
   pk_prfl_plot_png:
     type: File?
     label: Peak profiles
@@ -424,9 +428,9 @@ outputs:
       PNG format
     outputSource: diffbind/pk_prfl_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Differential plots
-        Caption: Peak profiles
+      - image:
+          tab: Differential plots
+          Caption: Peak profiles
   diff_vlcn_plot_png:
     type: File?
     label: Volcano plot for differentially bound sites
@@ -435,9 +439,9 @@ outputs:
       PNG format
     outputSource: diffbind/diff_vlcn_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Differential plots
-        Caption: Volcano plot for differentially bound sites
+      - image:
+          tab: Differential plots
+          Caption: Volcano plot for differentially bound sites
   diff_ma_plot_png:
     type: File?
     label: MA-plot for differentially bound sites
@@ -446,9 +450,9 @@ outputs:
       PNG format
     outputSource: diffbind/diff_ma_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Differential plots
-        Caption: MA-plot for differentially bound sites
+      - image:
+          tab: Differential plots
+          Caption: MA-plot for differentially bound sites
   nr_rds_pca_1_2_plot_png:
     type: File?
     label: PCA (1,2) of not filtered normalized counts
@@ -457,9 +461,9 @@ outputs:
       PNG format
     outputSource: diffbind/nr_rds_pca_1_2_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: PCA (1,2) of not filtered normalized counts
+      - image:
+          tab: Exploratory plots
+          Caption: PCA (1,2) of not filtered normalized counts
   nr_rds_pca_2_3_plot_png:
     type: File?
     label: PCA (2,3) of not filtered normalized counts
@@ -468,9 +472,9 @@ outputs:
       PNG format
     outputSource: diffbind/nr_rds_pca_2_3_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: PCA (2,3) of not filtered normalized counts
+      - image:
+          tab: Exploratory plots
+          Caption: PCA (2,3) of not filtered normalized counts
   nr_rds_mds_html:
     type: File?
     outputSource: diffbind/nr_rds_mds_html
@@ -479,9 +483,9 @@ outputs:
       MDS plot of normalized counts.
       HTML format
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   diff_sts_tsv:
     type: File
     label: Differentially bound sites with assigned nearest genes
@@ -490,9 +494,9 @@ outputs:
       TSV format
     outputSource: restore_columns/output_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Differentially bound sites
-        Title: Differentially bound sites
+      - syncfusiongrid:
+          tab: Differentially bound sites
+          Title: Differentially bound sites
   diff_sts_labeled_tsv:
     type: File
     label: Differentially bound sites with labels
@@ -507,9 +511,9 @@ outputs:
       HTML index file for Volcano Plot
     outputSource: make_volcano_plot/html_file
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   volcano_plot_html_data:
     type: Directory
     label: Directory html data for Volcano Plot
@@ -523,9 +527,9 @@ outputs:
       HTML index file for MA-plot
     outputSource: make_ma_plot/html_file
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   ma_plot_html_data:
     type: Directory
     label: Directory html data for Volcano Plot
@@ -539,9 +543,9 @@ outputs:
       Morpheus heatmap in HTML format
     outputSource: morpheus_heatmap/heatmap_html
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   nr_rds_gct:
     type: File
     label: GCT file with normalized read counts per peak
@@ -555,8 +559,8 @@ outputs:
       Markdown file to explain the sample order for IGV
     outputSource: create_metadata/output_file
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   pdf_plots:
     type: File
     outputSource: compress_pdf_plots/compressed_folder
@@ -590,9 +594,10 @@ outputs:
     outputSource: morpheus_heatmap/stderr_log
   iaintersect_result:
     type: File
-    format: http://edamontology.org/format_3475
-    label: Differential binding analysis results formatted as chip/atac/cutandrun results
-    doc: Differential binding analysis results  formatted as chip/atac/cutandrun results exported as TSV
+    label: Differential binding analysis results formatted as chip/atac/cutandrun
+      results
+    doc: Differential binding analysis results  formatted as chip/atac/cutandrun results
+      exported as TSV
     outputSource: assign_genes/result_file
 steps:
   pipe:
@@ -604,23 +609,23 @@ steps:
           type: File[]
         narrow_peak_files:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
         broad_peak_files:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
       outputs:
         gc_files:
           type: File[]
         np_files:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
         bp_files:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
       expression: |
         ${
           var results = {};
@@ -657,9 +662,9 @@ steps:
       narrow_peak_files: narrow_peak_files
       broad_peak_files: broad_peak_files
     out:
-    - gc_files
-    - np_files
-    - bp_files
+      - gc_files
+      - np_files
+      - bp_files
   diffbind:
     run: ../tools/diffbind-multi-factor.cwl
     in:
@@ -700,57 +705,57 @@ steps:
         source: threads
         valueFrom: $(parseInt(self))
     out:
-    - pk_vrlp_s_plot_png
-    - all_pk_scr_corr_plot_png
-    - cns_pk_scr_corr_plot_png
-    - rw_rds_corr_plot_png
-    - nr_rds_corr_plot_png
-    - pk_prfl_plot_png
-    - diff_vlcn_plot_png
-    - diff_ma_plot_png
-    - nr_rds_pca_1_2_plot_png
-    - nr_rds_pca_2_3_plot_png
-    - pk_vrlp_s_plot_pdf
-    - all_pk_scr_corr_plot_pdf
-    - cns_pk_scr_corr_plot_pdf
-    - rw_rds_corr_plot_pdf
-    - nr_rds_corr_plot_pdf
-    - pk_prfl_plot_pdf
-    - diff_vlcn_plot_pdf
-    - diff_ma_plot_pdf
-    - nr_rds_pca_1_2_plot_pdf
-    - nr_rds_pca_2_3_plot_pdf
-    - nr_rds_mds_html
-    - diff_sts_tsv
-    - nr_rds_gct
-    - stdout_log
-    - stderr_log
+      - pk_vrlp_s_plot_png
+      - all_pk_scr_corr_plot_png
+      - cns_pk_scr_corr_plot_png
+      - rw_rds_corr_plot_png
+      - nr_rds_corr_plot_png
+      - pk_prfl_plot_png
+      - diff_vlcn_plot_png
+      - diff_ma_plot_png
+      - nr_rds_pca_1_2_plot_png
+      - nr_rds_pca_2_3_plot_png
+      - pk_vrlp_s_plot_pdf
+      - all_pk_scr_corr_plot_pdf
+      - cns_pk_scr_corr_plot_pdf
+      - rw_rds_corr_plot_pdf
+      - nr_rds_corr_plot_pdf
+      - pk_prfl_plot_pdf
+      - diff_vlcn_plot_pdf
+      - diff_ma_plot_pdf
+      - nr_rds_pca_1_2_plot_pdf
+      - nr_rds_pca_2_3_plot_pdf
+      - nr_rds_mds_html
+      - diff_sts_tsv
+      - nr_rds_gct
+      - stdout_log
+      - stderr_log
   folder_pdf_plots:
     run: ../tools/files-to-folder.cwl
     in:
       input_files:
         source:
-        - diffbind/pk_vrlp_s_plot_pdf
-        - diffbind/all_pk_scr_corr_plot_pdf
-        - diffbind/cns_pk_scr_corr_plot_pdf
-        - diffbind/rw_rds_corr_plot_pdf
-        - diffbind/nr_rds_corr_plot_pdf
-        - diffbind/pk_prfl_plot_pdf
-        - diffbind/diff_vlcn_plot_pdf
-        - diffbind/diff_ma_plot_pdf
-        - diffbind/nr_rds_pca_1_2_plot_pdf
-        - diffbind/nr_rds_pca_2_3_plot_pdf
+          - diffbind/pk_vrlp_s_plot_pdf
+          - diffbind/all_pk_scr_corr_plot_pdf
+          - diffbind/cns_pk_scr_corr_plot_pdf
+          - diffbind/rw_rds_corr_plot_pdf
+          - diffbind/nr_rds_corr_plot_pdf
+          - diffbind/pk_prfl_plot_pdf
+          - diffbind/diff_vlcn_plot_pdf
+          - diffbind/diff_ma_plot_pdf
+          - diffbind/nr_rds_pca_1_2_plot_pdf
+          - diffbind/nr_rds_pca_2_3_plot_pdf
         valueFrom: $(self.flat().filter(n => n))
       folder_basename:
         default: pdf_plots
     out:
-    - folder
+      - folder
   compress_pdf_plots:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: folder_pdf_plots/folder
     out:
-    - compressed_folder
+      - compressed_folder
   filter_columns:
     run: ../tools/custom-bash.cwl
     in:
@@ -759,7 +764,7 @@ steps:
         default: |
           cat $0 | grep -v "Start" | awk 'BEGIN {print "chr\tstart\tend\tlength\tabs_summit\tpileup\t-log10(pvalue)\tfold_enrichment\t-log10(qvalue)\tname"} {print $1"\t"$2"\t"$3"\t"$3-$2+1"\t0\t"NR"\t0\t0\t0\t0"}' > `basename $0`
     out:
-    - output_file
+      - output_file
   assign_genes:
     run: ../tools/iaintersect.cwl
     in:
@@ -768,13 +773,13 @@ steps:
       promoter_bp: promoter_dist
       upstream_bp: upstream_dist
     out:
-    - result_file
+      - result_file
   restore_columns:
     run: ../tools/custom-bash.cwl
     in:
       input_file:
-      - assign_genes/result_file
-      - diffbind/diff_sts_tsv
+        - assign_genes/result_file
+        - diffbind/diff_sts_tsv
       script:
         default: |
           cat $0 | grep -v "start" | sort -k 11n | cut -f 1-5,15 > iaintersect_result.tsv
@@ -784,7 +789,7 @@ steps:
           cat iaintersect_result.tsv | paste - diffbind_result.tsv >> `basename $0`
           rm iaintersect_result.tsv diffbind_result.tsv
     out:
-    - output_file
+      - output_file
   convert_to_bed:
     run: ../tools/custom-bash.cwl
     in:
@@ -793,23 +798,23 @@ steps:
         default: |
           cat "$0" | awk -F "\t" 'NR==1 {for (i=1; i<=NF; i++) {ix[$i]=i} } NR>1 {color="255,0,0"; if ($ix["log2FoldChange"]<0) color="0,255,0"; print $ix["Chr"]"\t"$ix["Start"]"\t"$ix["End"]"\tpvalue="$ix["pvalue"]+0.0";padj="$ix["padj"]+0.0";log2FC="$ix["log2FoldChange"]"\t"1000"\t"$ix["Strand"]"\t"$ix["Start"]"\t"$ix["End"]"\t"color}' > `basename $0`
     out:
-    - output_file
+      - output_file
   sort_bed:
     run: ../tools/linux-sort.cwl
     in:
       unsorted_file: convert_to_bed/output_file
       key:
         default:
-        - 1,1
-        - 2,2n
+          - 1,1
+          - 2,2n
     out:
-    - sorted_file
+      - sorted_file
   overlap_with_chr_length:
     run: ../tools/custom-bedops.cwl
     in:
       input_file:
-      - chrom_length_file
-      - sort_bed/sorted_file
+        - chrom_length_file
+        - sort_bed/sorted_file
       script:
         default: |
           cat "$0" | awk '{print $1"\t0\t"$2}' | sort-bed - > temp_chrom_length.bed
@@ -817,7 +822,7 @@ steps:
           bedops --element-of 100% temp_sorted.bed temp_chrom_length.bed > `basename $1`
           rm -f temp_chrom_length.bed temp_sorted.bed
     out:
-    - output_file
+      - output_file
   bed_to_bigbed:
     run: ../tools/ucsc-bedtobigbed.cwl
     in:
@@ -829,7 +834,7 @@ steps:
         source: overlap_with_chr_length/output_file
         valueFrom: $(self.basename.split('.').slice(0,-1).join('.') + ".bigBed")
     out:
-    - bigbed_file
+      - bigbed_file
   add_label_column:
     run: ../tools/custom-bash.cwl
     in:
@@ -840,7 +845,7 @@ steps:
           echo -e "label\t${HEADER}" > diff_sts_labeled.tsv;
           cat "$0" | grep -v "Start" | awk -F "\t" '{print $1":"$2"-"$3"\t"$0}' >> diff_sts_labeled.tsv
     out:
-    - output_file
+      - output_file
   make_volcano_plot:
     run: ../tools/volcano-plot.cwl
     in:
@@ -852,8 +857,8 @@ steps:
       label_column:
         default: label
     out:
-    - html_data
-    - html_file
+      - html_data
+      - html_file
   make_ma_plot:
     run: ../tools/ma-plot.cwl
     in:
@@ -865,44 +870,44 @@ steps:
       label_column:
         default: label
     out:
-    - html_data
-    - html_file
+      - html_data
+      - html_file
   extend_gct:
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/morpheus:v0.0.2
-      - class: InitialWorkDirRequirement
-        listing:
-        - entryname: extend.R
-          entry: |
-            options(error=function(){traceback(3); quit(save="no", status=1, runLast=FALSE)})
-            suppressMessages(library("cmapR"))
-            suppressMessages(library("dplyr"))
-            suppressMessages(library("tibble"))
-            suppressMessages(library("morpheus"))
-            suppressMessages(library("argparse"))
-            args = commandArgs(trailingOnly=TRUE)
-            gct_data <- read.gct(args[1])
-            metadata <- read.table(args[2], sep="\t", header=TRUE, check.names=FALSE, stringsAsFactors=FALSE) %>%
-                        mutate(id=paste(Chr, paste(Start, End, sep="-"), sep=":")) %>%
-                        select(id, Gene_id, Region)
-            row_metadata <- gct_data$rowAnnotations %>%
-                            rownames_to_column("id") %>%
-                            left_join(metadata, by="id") %>%
-                            mutate_at("id", as.vector)
-            col_metadata <- gct_data$columnAnnotations %>%
-                            rownames_to_column("id") %>%
-                            mutate_at("id", as.vector)
-            gct_data <- new(
-                "GCT",
-                mat=gct_data$data[row_metadata$id, col_metadata$id],
-                rdesc=row_metadata,
-                cdesc=col_metadata
-            )
-            write_gct(ds=gct_data, ofile="extended.gct", appenddim=FALSE)
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/morpheus:v0.0.2
+        - class: InitialWorkDirRequirement
+          listing:
+            - entryname: extend.R
+              entry: |
+                options(error=function(){traceback(3); quit(save="no", status=1, runLast=FALSE)})
+                suppressMessages(library("cmapR"))
+                suppressMessages(library("dplyr"))
+                suppressMessages(library("tibble"))
+                suppressMessages(library("morpheus"))
+                suppressMessages(library("argparse"))
+                args = commandArgs(trailingOnly=TRUE)
+                gct_data <- read.gct(args[1])
+                metadata <- read.table(args[2], sep="\t", header=TRUE, check.names=FALSE, stringsAsFactors=FALSE) %>%
+                            mutate(id=paste(Chr, paste(Start, End, sep="-"), sep=":")) %>%
+                            select(id, Gene_id, Region)
+                row_metadata <- gct_data$rowAnnotations %>%
+                                rownames_to_column("id") %>%
+                                left_join(metadata, by="id") %>%
+                                mutate_at("id", as.vector)
+                col_metadata <- gct_data$columnAnnotations %>%
+                                rownames_to_column("id") %>%
+                                mutate_at("id", as.vector)
+                gct_data <- new(
+                    "GCT",
+                    mat=gct_data$data[row_metadata$id, col_metadata$id],
+                    rdesc=row_metadata,
+                    cdesc=col_metadata
+                )
+                write_gct(ds=gct_data, ofile="extended.gct", appenddim=FALSE)
       inputs:
         input_files:
           type: File[]
@@ -914,22 +919,22 @@ steps:
           outputBinding:
             glob: extended.gct
       baseCommand:
-      - Rscript
-      - extend.R
+        - Rscript
+        - extend.R
     in:
       input_files:
-      - diffbind/nr_rds_gct
-      - restore_columns/output_file
+        - diffbind/nr_rds_gct
+        - restore_columns/output_file
     out:
-    - extended_gct
+      - extended_gct
   morpheus_heatmap:
     run: ../tools/morpheus-heatmap.cwl
     in:
       read_counts_gct: extend_gct/extended_gct
     out:
-    - heatmap_html
-    - stdout_log
-    - stderr_log
+      - heatmap_html
+      - stdout_log
+      - stderr_log
   create_metadata:
     run: ../tools/custom-bash.cwl
     in:
@@ -948,7 +953,7 @@ steps:
             (( j++ ))
           done;
     out:
-    - output_file
+      - output_file
 label: DiffBind Multi-factor Analysis
 doc: |-
   DiffBind Multi-factor Analysis

@@ -1,29 +1,32 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var split_features = function(line) { function get_unique(value, index, self) { return self.indexOf(value) === index && value != ""; } let splitted_line = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var split_features = function(line) { function get_unique(value, index, self)
+        { return self.indexOf(value) === index && value != ""; } let splitted_line
+        = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line
+        && !!splitted_line.length)?splitted_line:null; };
 sd:upstream:
   control:
-  - cutandrun-macs2-pe.cwl
-  - cutandrun-seacr-pe.cwl
-  - trim-chipseq-se.cwl
-  - trim-chipseq-pe.cwl
-  - trim-atacseq-se.cwl
-  - trim-atacseq-pe.cwl
+    - cutandrun-macs2-pe.cwl
+    - cutandrun-seacr-pe.cwl
+    - trim-chipseq-se.cwl
+    - trim-chipseq-pe.cwl
+    - trim-atacseq-se.cwl
+    - trim-atacseq-pe.cwl
   treatment:
-  - cutandrun-macs2-pe.cwl
-  - cutandrun-seacr-pe.cwl
-  - trim-chipseq-se.cwl
-  - trim-chipseq-pe.cwl
-  - trim-atacseq-se.cwl
-  - trim-atacseq-pe.cwl
+    - cutandrun-macs2-pe.cwl
+    - cutandrun-seacr-pe.cwl
+    - trim-chipseq-se.cwl
+    - trim-chipseq-pe.cwl
+    - trim-atacseq-se.cwl
+    - trim-atacseq-pe.cwl
   genome_indices:
-  - genome-indices.cwl
+    - genome-indices.cwl
 inputs:
   alias:
     type: string
@@ -50,8 +53,8 @@ inputs:
     sd:localLabel: true
   narrow_peak_files_cond_1:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Control group sample(s)
     doc: |
       Narrow peak files with the peaks called from
@@ -59,8 +62,8 @@ inputs:
     sd:upstreamSource: control/macs2_narrow_peaks
   narrow_peak_files_cond_2:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Treatment group sample(s)
     doc: |
       Narrow peak files with the peaks called from
@@ -68,8 +71,8 @@ inputs:
     sd:upstreamSource: treatment/macs2_narrow_peaks
   broad_peak_files_cond_1:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Control group sample(s)
     doc: |
       Broad peak files with the peaks called from
@@ -77,8 +80,8 @@ inputs:
     sd:upstreamSource: control/macs2_broad_peaks
   broad_peak_files_cond_2:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Treatment group sample(s)
     doc: |
       Broad peak files with the peaks called from
@@ -102,8 +105,8 @@ inputs:
     sd:upstreamSource: treatment/bigwig
   summit_files_cond_1:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Control group sample(s)
     doc: |
       BED files with the summits of the peaks
@@ -113,8 +116,8 @@ inputs:
     sd:upstreamSource: control/macs2_peak_summits
   summit_files_cond_2:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Treatment group sample(s)
     doc: |
       BED files with the summits of the peaks
@@ -204,12 +207,12 @@ inputs:
       size. Default: 150
   normalization_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - pseudo-reference
-      - baseline
-      - hierarchical
+      - 'null'
+      - type: enum
+        symbols:
+          - pseudo-reference
+          - baseline
+          - hierarchical
     default: pseudo-reference
     label: Normalization method
     doc: |
@@ -319,7 +322,7 @@ inputs:
       advanced: true
   exclude_chromosomes:
     type: string?
-    default: null
+    default:
     label: Chromosomes to be exluded from the analysis
     doc: |
       A comma- or space-separated list of
@@ -369,15 +372,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Cores/CPUs
     doc: |
@@ -405,12 +408,12 @@ outputs:
       samples that belong to the control group.
     outputSource: pipe/coverage_files_cond_1
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: wig
-        name: Coverage (control)
-        height: 120
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: wig
+          name: Coverage (control)
+          height: 120
   coverage_files_cond_2:
     type: File[]
     label: Treatment group sample(s)
@@ -420,16 +423,16 @@ outputs:
       samples that belong to the treatment group.
     outputSource: pipe/coverage_files_cond_2
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: wig
-        name: Coverage (treatment)
-        height: 120
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: wig
+          name: Coverage (treatment)
+          height: 120
   n_peak_files_cond_1:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Control group sample(s)
     doc: |
       Narrow peak files with the peaks called
@@ -437,17 +440,17 @@ outputs:
       control group.
     outputSource: pipe/n_peak_files_cond_1
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Peaks (control)
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Peaks (control)
+          displayMode: COLLAPSE
+          height: 40
   n_peak_files_cond_2:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Treatment group sample(s)
     doc: |
       Narrow peak files with the peaks called
@@ -455,47 +458,47 @@ outputs:
       treatment group.
     outputSource: pipe/n_peak_files_cond_2
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Peaks (treatment)
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Peaks (treatment)
+          displayMode: COLLAPSE
+          height: 40
   b_peak_files_cond_1:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Control group sample(s)
     doc: |
       Broad peak files with the peaks called from
       the samples that belong to the control group.
     outputSource: pipe/b_peak_files_cond_1
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Peaks (control)
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Peaks (control)
+          displayMode: COLLAPSE
+          height: 40
   b_peak_files_cond_2:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     label: Treatment group sample(s)
     doc: |
       Broad peak files with the peaks called from
       the samples that belong to the treatment group.
     outputSource: pipe/b_peak_files_cond_2
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Peaks (treatment)
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Peaks (treatment)
+          displayMode: COLLAPSE
+          height: 40
   diff_rgns_bigbed:
     type: File
     label: Differentially bound sites (bigBed format)
@@ -504,13 +507,13 @@ outputs:
       bigBed format.
     outputSource: bed_to_bigbed/bigbed_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        format: bigbed
-        name: Differentially bound sites
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          format: bigbed
+          name: Differentially bound sites
+          height: 40
   smpl_corr_raw_plot_png:
     type: File?
     label: Read counts correlation between the samples (raw)
@@ -521,9 +524,9 @@ outputs:
       PNG format.
     outputSource: manorm/smpl_corr_raw_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: Read counts correlation between the samples (raw)
+      - image:
+          tab: Exploratory plots
+          Caption: Read counts correlation between the samples (raw)
   smpl_corr_crtd_plot_png:
     type: File?
     label: Read counts correlation between the samples (batch corrected)
@@ -534,9 +537,9 @@ outputs:
       PNG format.
     outputSource: manorm/smpl_corr_crtd_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: Read counts correlation between the samples (batch corrected)
+      - image:
+          tab: Exploratory plots
+          Caption: Read counts correlation between the samples (batch corrected)
   smpl_corr_norm_plot_png:
     type: File?
     label: Read counts correlation between the samples (normalized)
@@ -548,9 +551,9 @@ outputs:
       PNG format.
     outputSource: manorm/smpl_corr_norm_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: Read counts correlation between the samples (normalized)
+      - image:
+          tab: Exploratory plots
+          Caption: Read counts correlation between the samples (normalized)
   smpl_vrlp_plot_png:
     type: File?
     label: Peaks overlap between the samples
@@ -561,9 +564,9 @@ outputs:
       PNG format.
     outputSource: manorm/smpl_vrlp_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: Peaks overlap between the samples
+      - image:
+          tab: Exploratory plots
+          Caption: Peaks overlap between the samples
   cnd_vrlp_plot_png:
     type: File?
     label: Peaks overlap between the biological conditions
@@ -574,9 +577,9 @@ outputs:
       PNG format.
     outputSource: manorm/cnd_vrlp_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: Peaks overlap between the biological conditions
+      - image:
+          tab: Exploratory plots
+          Caption: Peaks overlap between the biological conditions
   ma_corr_plot_png:
     type: File?
     label: Correlation between M and A values
@@ -587,9 +590,9 @@ outputs:
       PNG format.
     outputSource: manorm/ma_corr_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: Correlation between M and A values
+      - image:
+          tab: Exploratory plots
+          Caption: Correlation between M and A values
   diff_vlcn_plot_png:
     type: File?
     label: Volcano plot for differentially bound sites
@@ -598,9 +601,9 @@ outputs:
       PNG format.
     outputSource: manorm/diff_vlcn_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Differential plots
-        Caption: Volcano plot for differentially bound sites
+      - image:
+          tab: Differential plots
+          Caption: Volcano plot for differentially bound sites
   diff_ma_plot_png:
     type: File?
     label: MA-plot for differentially bound sites
@@ -609,9 +612,9 @@ outputs:
       PNG format.
     outputSource: manorm/diff_ma_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Differential plots
-        Caption: MA-plot for differentially bound sites
+      - image:
+          tab: Differential plots
+          Caption: MA-plot for differentially bound sites
   pca_1_2_plot_png:
     type: File?
     label: Read counts PCA (PC1/PC2).
@@ -620,9 +623,9 @@ outputs:
       PNG format.
     outputSource: manorm/pca_1_2_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: PCA (1,2) of not filtered normalized counts
+      - image:
+          tab: Exploratory plots
+          Caption: PCA (1,2) of not filtered normalized counts
   pca_2_3_plot_png:
     type: File?
     label: Read counts PCA (PC2/PC3)
@@ -631,9 +634,9 @@ outputs:
       PNG format.
     outputSource: manorm/pca_2_3_plot_png
     sd:visualPlugins:
-    - image:
-        tab: Exploratory plots
-        Caption: PCA (2,3) of not filtered normalized counts
+      - image:
+          tab: Exploratory plots
+          Caption: PCA (2,3) of not filtered normalized counts
   mds_plot_html:
     type: File?
     outputSource: manorm/mds_plot_html
@@ -644,9 +647,9 @@ outputs:
       reference genomic bins.
       HTML format.
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   diff_rgns_tsv:
     type: File
     label: Differentially bound sites with assigned nearest genes
@@ -657,9 +660,9 @@ outputs:
       TSV format.
     outputSource: restore_columns/output_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Differentially bound sites
-        Title: Differentially bound sites
+      - syncfusiongrid:
+          tab: Differentially bound sites
+          Title: Differentially bound sites
   diff_rgns_labeled_tsv:
     type: File
     label: Differentially bound sites with labels
@@ -676,9 +679,9 @@ outputs:
       Volcano Plot html index.
     outputSource: make_volcano_plot/html_file
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   volcano_plot_html_data:
     type: Directory
     label: Volcano Plot (data)
@@ -692,9 +695,9 @@ outputs:
       MA-plot html index.
     outputSource: make_ma_plot/html_file
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   ma_plot_html_data:
     type: Directory
     label: MA-plot (data)
@@ -708,9 +711,9 @@ outputs:
       Morpheus heatmap html index.
     outputSource: morpheus_heatmap/heatmap_html
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   read_cnts_gct:
     type: File
     label: Normalized read counts within the reference genomic bins
@@ -728,8 +731,8 @@ outputs:
       order for IGV.
     outputSource: create_metadata/output_file
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   pdf_plots:
     type: File
     outputSource: compress_pdf_plots/compressed_folder
@@ -772,20 +775,20 @@ steps:
           type: File[]
         narrow_peak_files_cond_1:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
         narrow_peak_files_cond_2:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
         broad_peak_files_cond_1:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
         broad_peak_files_cond_2:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
       outputs:
         coverage_files_cond_1:
           type: File[]
@@ -793,20 +796,20 @@ steps:
           type: File[]
         n_peak_files_cond_1:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
         n_peak_files_cond_2:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
         b_peak_files_cond_1:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
         b_peak_files_cond_2:
           type:
-          - 'null'
-          - File[]
+            - 'null'
+            - File[]
       expression: |
         ${
           var results = {};
@@ -853,12 +856,12 @@ steps:
       broad_peak_files_cond_1: broad_peak_files_cond_1
       broad_peak_files_cond_2: broad_peak_files_cond_2
     out:
-    - coverage_files_cond_1
-    - coverage_files_cond_2
-    - n_peak_files_cond_1
-    - n_peak_files_cond_2
-    - b_peak_files_cond_1
-    - b_peak_files_cond_2
+      - coverage_files_cond_1
+      - coverage_files_cond_2
+      - n_peak_files_cond_1
+      - n_peak_files_cond_2
+      - b_peak_files_cond_1
+      - b_peak_files_cond_2
   manorm:
     run: ../tools/manorm2.cwl
     in:
@@ -866,10 +869,10 @@ steps:
       read_files_cond_2: read_files_cond_2
       peak_files_cond_1:
         source:
-        - narrow_peak_files_cond_1
-        - narrow_peak_files_cond_2
-        - broad_peak_files_cond_1
-        - broad_peak_files_cond_2
+          - narrow_peak_files_cond_1
+          - narrow_peak_files_cond_2
+          - broad_peak_files_cond_1
+          - broad_peak_files_cond_2
         valueFrom: |
           ${
             if (self[2] && self[3]){
@@ -881,10 +884,10 @@ steps:
           }
       peak_files_cond_2:
         source:
-        - narrow_peak_files_cond_1
-        - narrow_peak_files_cond_2
-        - broad_peak_files_cond_1
-        - broad_peak_files_cond_2
+          - narrow_peak_files_cond_1
+          - narrow_peak_files_cond_2
+          - broad_peak_files_cond_1
+          - broad_peak_files_cond_2
         valueFrom: |
           ${
             if (self[2] && self[3]){
@@ -933,40 +936,40 @@ steps:
         source: threads
         valueFrom: $(parseInt(self))
     out:
-    - peak_profile_bins_xls
-    - diff_rgns_tsv
-    - smpl_corr_raw_plot_png
-    - smpl_corr_crtd_plot_png
-    - smpl_corr_norm_plot_png
-    - smpl_vrlp_plot_png
-    - cnd_vrlp_plot_png
-    - ma_corr_plot_png
-    - diff_vlcn_plot_png
-    - diff_ma_plot_png
-    - pca_1_2_plot_png
-    - pca_2_3_plot_png
-    - mds_plot_html
-    - read_cnts_gct
-    - all_plots_pdf
-    - stderr_log
-    - stdout_log
+      - peak_profile_bins_xls
+      - diff_rgns_tsv
+      - smpl_corr_raw_plot_png
+      - smpl_corr_crtd_plot_png
+      - smpl_corr_norm_plot_png
+      - smpl_vrlp_plot_png
+      - cnd_vrlp_plot_png
+      - ma_corr_plot_png
+      - diff_vlcn_plot_png
+      - diff_ma_plot_png
+      - pca_1_2_plot_png
+      - pca_2_3_plot_png
+      - mds_plot_html
+      - read_cnts_gct
+      - all_plots_pdf
+      - stderr_log
+      - stdout_log
   folder_pdf_plots:
     run: ../tools/files-to-folder.cwl
     in:
       input_files:
         source:
-        - manorm/all_plots_pdf
+          - manorm/all_plots_pdf
         valueFrom: $(self.flat().filter(n => n))
       folder_basename:
         default: pdf_plots
     out:
-    - folder
+      - folder
   compress_pdf_plots:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: folder_pdf_plots/folder
     out:
-    - compressed_folder
+      - compressed_folder
   filter_columns:
     run: ../tools/custom-bash.cwl
     in:
@@ -975,7 +978,7 @@ steps:
         default: |
           cat $0 | grep -v "Start" | awk 'BEGIN {print "chr\tstart\tend\tlength\tabs_summit\tpileup\t-log10(pvalue)\tfold_enrichment\t-log10(qvalue)\tname"} {print $1"\t"$2"\t"$3"\t"$3-$2+1"\t0\t"NR"\t0\t0\t0\t0"}' > `basename $0`
     out:
-    - output_file
+      - output_file
   assign_genes:
     run: ../tools/iaintersect.cwl
     in:
@@ -984,13 +987,13 @@ steps:
       promoter_bp: promoter_dist
       upstream_bp: upstream_dist
     out:
-    - result_file
+      - result_file
   restore_columns:
     run: ../tools/custom-bash.cwl
     in:
       input_file:
-      - assign_genes/result_file
-      - manorm/diff_rgns_tsv
+        - assign_genes/result_file
+        - manorm/diff_rgns_tsv
       script:
         default: |
           cat $0 | grep -v "start" | sort -k 11n | cut -f 1-5,15 > iaintersect_result.tsv
@@ -1000,7 +1003,7 @@ steps:
           cat iaintersect_result.tsv | paste - manorm_result.tsv >> `basename $0`
           rm iaintersect_result.tsv manorm_result.tsv
     out:
-    - output_file
+      - output_file
   convert_to_bed:
     run: ../tools/custom-bash.cwl
     in:
@@ -1012,17 +1015,17 @@ steps:
         default: |
           cat "$0" | awk -F "\t" -v maximum_padj="$1" 'NR==1 {for (i=1; i<=NF; i++) {ix[$i]=i} } NR>1 && $ix["padj"]<=maximum_padj {color="255,0,0"; if ($ix["log2FoldChange"]<0) color="0,255,0"; print $ix["chr"]"\t"$ix["start"]"\t"$ix["end"]"\tpvalue="$ix["pvalue"]+0.0";padj="$ix["padj"]+0.0";log2FC="$ix["log2FoldChange"]"\t"1000"\t"$ix["strand"]"\t"$ix["start"]"\t"$ix["end"]"\t"color}' > `basename $0`
     out:
-    - output_file
+      - output_file
   sort_bed:
     run: ../tools/linux-sort.cwl
     in:
       unsorted_file: convert_to_bed/output_file
       key:
         default:
-        - 1,1
-        - 2,2n
+          - 1,1
+          - 2,2n
     out:
-    - sorted_file
+      - sorted_file
   bed_to_bigbed:
     run: ../tools/ucsc-bedtobigbed.cwl
     in:
@@ -1034,7 +1037,7 @@ steps:
         source: sort_bed/sorted_file
         valueFrom: $(self.basename.split('.').slice(0,-1).join('.') + ".bigBed")
     out:
-    - bigbed_file
+      - bigbed_file
   add_label_column:
     run: ../tools/custom-bash.cwl
     in:
@@ -1045,7 +1048,7 @@ steps:
           echo -e "label\t${HEADER}" > diff_rgns_labeled.tsv;
           cat "$0" | grep -v "start" | awk -F "\t" '{print $1":"$2"-"$3"\t"$0}' >> diff_rgns_labeled.tsv
     out:
-    - output_file
+      - output_file
   make_volcano_plot:
     run: ../tools/volcano-plot.cwl
     in:
@@ -1057,8 +1060,8 @@ steps:
       label_column:
         default: label
     out:
-    - html_data
-    - html_file
+      - html_data
+      - html_file
   make_ma_plot:
     run: ../tools/ma-plot.cwl
     in:
@@ -1070,44 +1073,44 @@ steps:
       label_column:
         default: label
     out:
-    - html_data
-    - html_file
+      - html_data
+      - html_file
   extend_gct:
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/morpheus:v0.0.2
-      - class: InitialWorkDirRequirement
-        listing:
-        - entryname: extend.R
-          entry: |
-            options(error=function(){traceback(3); quit(save="no", status=1, runLast=FALSE)})
-            suppressMessages(library("cmapR"))
-            suppressMessages(library("dplyr"))
-            suppressMessages(library("tibble"))
-            suppressMessages(library("morpheus"))
-            suppressMessages(library("argparse"))
-            args = commandArgs(trailingOnly=TRUE)
-            gct_data <- read.gct(args[1])
-            metadata <- read.table(args[2], sep="\t", header=TRUE, check.names=FALSE, stringsAsFactors=FALSE) %>%
-                        mutate(id=paste(chr, paste(start, end, sep="-"), sep=":")) %>%
-                        select(id, gene_id, region)
-            row_metadata <- gct_data$rowAnnotations %>%
-                            rownames_to_column("id") %>%
-                            left_join(metadata, by="id") %>%
-                            mutate_at("id", as.vector)
-            col_metadata <- gct_data$columnAnnotations %>%
-                            rownames_to_column("id") %>%
-                            mutate_at("id", as.vector)
-            gct_data <- new(
-                "GCT",
-                mat=gct_data$data[row_metadata$id, col_metadata$id],
-                rdesc=row_metadata,
-                cdesc=col_metadata
-            )
-            write_gct(ds=gct_data, ofile="extended.gct", appenddim=FALSE)
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/morpheus:v0.0.2
+        - class: InitialWorkDirRequirement
+          listing:
+            - entryname: extend.R
+              entry: |
+                options(error=function(){traceback(3); quit(save="no", status=1, runLast=FALSE)})
+                suppressMessages(library("cmapR"))
+                suppressMessages(library("dplyr"))
+                suppressMessages(library("tibble"))
+                suppressMessages(library("morpheus"))
+                suppressMessages(library("argparse"))
+                args = commandArgs(trailingOnly=TRUE)
+                gct_data <- read.gct(args[1])
+                metadata <- read.table(args[2], sep="\t", header=TRUE, check.names=FALSE, stringsAsFactors=FALSE) %>%
+                            mutate(id=paste(chr, paste(start, end, sep="-"), sep=":")) %>%
+                            select(id, gene_id, region)
+                row_metadata <- gct_data$rowAnnotations %>%
+                                rownames_to_column("id") %>%
+                                left_join(metadata, by="id") %>%
+                                mutate_at("id", as.vector)
+                col_metadata <- gct_data$columnAnnotations %>%
+                                rownames_to_column("id") %>%
+                                mutate_at("id", as.vector)
+                gct_data <- new(
+                    "GCT",
+                    mat=gct_data$data[row_metadata$id, col_metadata$id],
+                    rdesc=row_metadata,
+                    cdesc=col_metadata
+                )
+                write_gct(ds=gct_data, ofile="extended.gct", appenddim=FALSE)
       inputs:
         input_files:
           type: File[]
@@ -1119,34 +1122,34 @@ steps:
           outputBinding:
             glob: extended.gct
       baseCommand:
-      - Rscript
-      - extend.R
+        - Rscript
+        - extend.R
     in:
       input_files:
-      - manorm/read_cnts_gct
-      - restore_columns/output_file
+        - manorm/read_cnts_gct
+        - restore_columns/output_file
     out:
-    - extended_gct
+      - extended_gct
   morpheus_heatmap:
     run: ../tools/morpheus-heatmap.cwl
     in:
       read_counts_gct: extend_gct/extended_gct
     out:
-    - heatmap_html
-    - stdout_log
-    - stderr_log
+      - heatmap_html
+      - stdout_log
+      - stderr_log
   create_metadata:
     run: ../tools/custom-bash.cwl
     in:
       input_file:
         source:
-        - read_files_cond_1
-        - read_files_cond_2
+          - read_files_cond_1
+          - read_files_cond_2
         valueFrom: $(self.flat().filter(n => n))
       param:
         source:
-        - sample_names_cond_1
-        - sample_names_cond_2
+          - sample_names_cond_1
+          - sample_names_cond_2
         valueFrom: $(self.flat().filter(n => n))
       script:
         default: |
@@ -1161,7 +1164,7 @@ steps:
             (( j++ ))
           done;
     out:
-    - output_file
+      - output_file
 label: MAnorm2 for Normalizing and Comparing ChIP-Seq/ATAC-Seq Samples
 doc: MAnorm2 for Normalizing and Comparing ChIP-Seq/ATAC-Seq Samples
 sd:version: 100

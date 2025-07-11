@@ -1,24 +1,24 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   first_chipseq_sample:
-  - chipseq-pe.cwl
-  - trim-chipseq-pe.cwl
-  - trim-atacseq-pe.cwl
-  - cutandrun-macs2-pe.cwl
-  - cutandrun-seacr-pe.cwl
+    - chipseq-pe.cwl
+    - trim-chipseq-pe.cwl
+    - trim-atacseq-pe.cwl
+    - cutandrun-macs2-pe.cwl
+    - cutandrun-seacr-pe.cwl
   second_chipseq_sample:
-  - chipseq-pe.cwl
-  - trim-chipseq-pe.cwl
-  - trim-atacseq-pe.cwl
-  - cutandrun-macs2-pe.cwl
-  - cutandrun-seacr-pe.cwl
+    - chipseq-pe.cwl
+    - trim-chipseq-pe.cwl
+    - trim-atacseq-pe.cwl
+    - cutandrun-macs2-pe.cwl
+    - cutandrun-seacr-pe.cwl
   genome_indices:
-  - genome-indices.cwl
+    - genome-indices.cwl
 inputs:
   alias_name:
     type: string
@@ -27,7 +27,6 @@ inputs:
       position: 1
   peak_file_first:
     type: File
-    format: http://edamontology.org/format_3468
     label: ChIP-Seq PE sample 1
     doc: |
       XLS peak file from sample 1, formatted as MACS2 output
@@ -35,7 +34,6 @@ inputs:
     sd:localLabel: true
   peak_file_second:
     type: File
-    format: http://edamontology.org/format_3468
     label: ChIP-Seq PE sample 2
     doc: |
       XLS peak file from sample 2, formatted as MACS2 output
@@ -43,7 +41,6 @@ inputs:
     sd:localLabel: true
   broad_peak_file_first:
     type: File?
-    format: http://edamontology.org/format_3614
     label: ChIP-Seq PE sample 1
     doc: |
       Broad peak file from sample 1
@@ -51,7 +48,6 @@ inputs:
     sd:localLabel: true
   broad_peak_file_second:
     type: File?
-    format: http://edamontology.org/format_3614
     label: ChIP-Seq PE sample 2
     doc: |
       Broad peak file from sample 2
@@ -59,14 +55,12 @@ inputs:
     sd:localLabel: true
   bam_file_first:
     type: File
-    format: http://edamontology.org/format_2572
     label: BAM file from sample 1
     doc: |
       BAM alignment file from sample 1
     sd:upstreamSource: first_chipseq_sample/bambai_pair
   bam_file_second:
     type: File
-    format: http://edamontology.org/format_2572
     label: BAM file from sample 2
     doc: |
       BAM alignment file from sample 2
@@ -101,7 +95,8 @@ inputs:
     type: float?
     default: 1
     label: M-value (log2-ratio) cutoff
-    doc: 'Absolute M-value (log2-ratio) cutoff to define biased (differential binding) peaks. Default: 1.0'
+    doc: 'Absolute M-value (log2-ratio) cutoff to define biased (differential binding)
+      peaks. Default: 1.0'
     sd:layout:
       advanced: true
   p_value_cutoff:
@@ -114,7 +109,8 @@ inputs:
   window_size:
     type: int?
     default: 2000
-    label: Window size (2000 is recommended for sharp histone marks like H3K4me3 and H3K27ac)
+    label: Window size (2000 is recommended for sharp histone marks like H3K4me3 and
+      H3K27ac)
     doc: |
       Window size to count reads and calculate read densities. 2000 is recommended for
       sharp histone marks like H3K4me3 and H3K27ac, and 1000 for TFs or DNase-seq.
@@ -144,7 +140,6 @@ inputs:
 outputs:
   common_peak_file:
     type: File
-    format: http://edamontology.org/format_3475
     label: MAnorm common peak file with assigned genes
     doc: |
       "File contains nearest gene information, the M-A values and normalized read
@@ -152,136 +147,124 @@ outputs:
        Coordinates in a result file is under 1-based coordinate-system"
     outputSource: restore_columns/output_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Differential Peak Calling
-        Title: MAnorm Common Peak Results
+      - syncfusiongrid:
+          tab: Differential Peak Calling
+          Title: MAnorm Common Peak Results
   above_m_cutoff_peak_file:
     type: File
-    format: http://edamontology.org/format_3003
     label: Above M-value cutoff peak file
     doc: Above M-value cutoff peak file
     outputSource: manorm/above_m_cutoff_peak_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Above M-value cutoff peaks
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Above M-value cutoff peaks
+          height: 120
   below_m_cutoff_peak_file:
     type: File
-    format: http://edamontology.org/format_3003
     label: Below M-value cutoff peak file
     doc: Below M-value cutoff peak file
     outputSource: manorm/below_m_cutoff_peak_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Below M-value cutoff peaks
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Below M-value cutoff peaks
+          height: 120
   unbiased_peak_file:
     type: File
-    format: http://edamontology.org/format_3003
     label: Unbiased peak file
     doc: Unbiased peak file
     outputSource: manorm/unbiased_peak_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Unbiased peaks
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Unbiased peaks
+          height: 120
   m_values_wig_file:
     type: File
-    format: http://edamontology.org/format_3003
     label: Genome track file for M-values
     doc: Genome track file for M-values
     outputSource: manorm/m_values_wig_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: M-values
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: M-values
+          height: 120
   a_values_wig_file:
     type: File
-    format: http://edamontology.org/format_3003
     label: Genome track file for A-values
     doc: Genome track file for A-values
     outputSource: manorm/a_values_wig_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: A-values
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: A-values
+          height: 120
   p_values_wig_file:
     type: File
-    format: http://edamontology.org/format_3003
     label: Genome track file for P-values
     doc: Genome track file for P-values
     outputSource: manorm/p_values_wig_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: P-values
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: P-values
+          height: 120
   ma_before_normalization_plot:
     type: File
-    format: http://edamontology.org/format_3603
     label: MA-values before normalization plot
     doc: MA-values before normalization plot
     outputSource: manorm/ma_before_normalization_plot
     sd:visualPlugins:
-    - image:
-        tab: Plots
-        Caption: MA-values before normalization
+      - image:
+          tab: Plots
+          Caption: MA-values before normalization
   ma_after_normalization_plot:
     type: File
-    format: http://edamontology.org/format_3603
     label: MA-values after normalization plot
     doc: MA-values after normalization plot
     outputSource: manorm/ma_after_normalization_plot
     sd:visualPlugins:
-    - image:
-        tab: Plots
-        Caption: MA-values after normalization
+      - image:
+          tab: Plots
+          Caption: MA-values after normalization
   ma_with_P_value_plot:
     type: File
-    format: http://edamontology.org/format_3603
     label: MA-values with P-values plot
     doc: MA-values with P-values plot
     outputSource: manorm/ma_with_P_value_plot
     sd:visualPlugins:
-    - image:
-        tab: Plots
-        Caption: MA-values with P-values
+      - image:
+          tab: Plots
+          Caption: MA-values with P-values
   read_density_on_common_peaks_plot:
     type: File
-    format: http://edamontology.org/format_3603
     label: Read density on common peaks plot
     doc: Read density on common peaks plot
     outputSource: manorm/read_density_on_common_peaks_plot
     sd:visualPlugins:
-    - image:
-        tab: Plots
-        Caption: Read density on common peaks
+      - image:
+          tab: Plots
+          Caption: Read density on common peaks
   manorm_stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: MAnorm stderr log
     doc: MAnorm stderr log
     outputSource: manorm/stderr_log
   manorm_stdout_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: MAnorm stdout log
     doc: MAnorm stdout log
     outputSource: manorm/stdout_log
@@ -291,10 +274,10 @@ steps:
     in:
       peak_file_first:
         source:
-        - peak_file_first
-        - peak_file_second
-        - broad_peak_file_first
-        - broad_peak_file_second
+          - peak_file_first
+          - peak_file_second
+          - broad_peak_file_first
+          - broad_peak_file_second
         valueFrom: |
           ${
             if (self[2] && self[3]){
@@ -306,10 +289,10 @@ steps:
           }
       peak_file_second:
         source:
-        - peak_file_first
-        - peak_file_second
-        - broad_peak_file_first
-        - broad_peak_file_second
+          - peak_file_first
+          - peak_file_second
+          - broad_peak_file_first
+          - broad_peak_file_second
         valueFrom: |
           ${
             if (self[2] && self[3]){
@@ -321,10 +304,10 @@ steps:
           }
       peak_format:
         source:
-        - peak_file_first
-        - peak_file_second
-        - broad_peak_file_first
-        - broad_peak_file_second
+          - peak_file_first
+          - peak_file_second
+          - broad_peak_file_first
+          - broad_peak_file_second
         valueFrom: |
           ${
             if (self[2] && self[3]){
@@ -350,19 +333,19 @@ steps:
       sample_name_second:
         default: sample_2
     out:
-    - ma_values_file
-    - above_m_cutoff_peak_file
-    - below_m_cutoff_peak_file
-    - unbiased_peak_file
-    - m_values_wig_file
-    - a_values_wig_file
-    - p_values_wig_file
-    - ma_before_normalization_plot
-    - ma_after_normalization_plot
-    - ma_with_P_value_plot
-    - read_density_on_common_peaks_plot
-    - stderr_log
-    - stdout_log
+      - ma_values_file
+      - above_m_cutoff_peak_file
+      - below_m_cutoff_peak_file
+      - unbiased_peak_file
+      - m_values_wig_file
+      - a_values_wig_file
+      - p_values_wig_file
+      - ma_before_normalization_plot
+      - ma_after_normalization_plot
+      - ma_with_P_value_plot
+      - read_density_on_common_peaks_plot
+      - stderr_log
+      - stdout_log
   filter_columns:
     run: ../tools/custom-bash.cwl
     in:
@@ -371,7 +354,7 @@ steps:
         default: |
           cat $0 | grep -v "start" | awk 'BEGIN {print "chr\tstart\tend\tlength\tabs_summit\tpileup\t-log10(pvalue)\tfold_enrichment\t-log10(qvalue)\tname"} {print $1"\t"$2"\t"$3"\t"$3-$2+1"\t0\t"NR"\t0\t0\t0\t0"}' > `basename $0`
     out:
-    - output_file
+      - output_file
   assign_genes:
     run: ../tools/iaintersect.cwl
     in:
@@ -380,13 +363,13 @@ steps:
       promoter_bp: promoter_dist
       upstream_bp: upstream_dist
     out:
-    - result_file
+      - result_file
   restore_columns:
     run: ../tools/custom-bash.cwl
     in:
       input_file:
-      - assign_genes/result_file
-      - manorm/ma_values_file
+        - assign_genes/result_file
+        - manorm/ma_values_file
       script:
         default: |
           cat $0 | grep -v "start" | sort -k 11n > sorted_iaintersect_result.tsv
@@ -395,7 +378,7 @@ steps:
           cat sorted_iaintersect_result.tsv | paste - manorm_result.tsv | cut -f 1-9,15,19-25 >> `basename $0`
           rm sorted_iaintersect_result.tsv manorm_result.tsv
     out:
-    - output_file
+      - output_file
 label: MAnorm PE - quantitative comparison of ChIP-Seq paired-end data
 doc: |-
   What is MAnorm?

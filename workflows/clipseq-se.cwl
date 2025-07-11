@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: ScatterFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: ScatterFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:metadata:
-- ../metadata/rnaseq-header.cwl
+  - ../metadata/rnaseq-header.cwl
 sd:upstream:
   genome_indices: genome-indices.cwl
 inputs:
@@ -25,13 +25,11 @@ inputs:
     type: File
     sd:upstreamSource: genome_indices/annotation
     label: Annotation file
-    format: http://edamontology.org/format_3475
     doc: Tab-separated annotation file
   chrom_length_file:
     type: File
     sd:upstreamSource: genome_indices/chrom_length
     label: Chromosomes length file
-    format: http://edamontology.org/format_2330
     doc: Chromosomes length file
   species:
     type: string?
@@ -40,19 +38,18 @@ inputs:
     doc: 'species: one of ce10 ce11 dm3 hg19 GRCh38 mm9 mm10'
   fastq_file:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: FASTQ input file
-    format: http://edamontology.org/format_1930
     doc: Reads data in a FASTQ format, received after single end sequencing
   extract_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - string
-      - regex
+      - 'null'
+      - type: enum
+        symbols:
+          - string
+          - regex
     default: regex
     sd:layout:
       advanced: true
@@ -108,20 +105,18 @@ inputs:
 outputs:
   bigwig:
     type: File
-    format: http://edamontology.org/format_3006
     label: BigWig file
     doc: Generated BigWig file
     outputSource: bam_to_bigwig/bigwig_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: BigWig Track
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: BigWig Track
+          height: 120
   rebosomal_bowtie_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: Bowtie alignment log
     doc: Bowtie alignment log file
     outputSource: ribosomal_bowtie_aligner/log_file
@@ -137,137 +132,128 @@ outputs:
     outputSource: extract_umi/stdout_log
   star_final_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: STAR final log
     doc: STAR Log.final.out
     outputSource: star_aligner/log_final
   star_out_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR log out
     doc: STAR Log.out
     outputSource: star_aligner/log_out
   star_progress_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR progress log
     doc: STAR Log.progress.out
     outputSource: star_aligner/log_progress
   star_stdout_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR stdout log
     doc: STAR Log.std.out
     outputSource: star_aligner/log_std
   star_sj_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR sj log
     doc: STAR SJ.out.tab
     outputSource: star_aligner/log_sj
   fastx_statistics_original:
     type: File
     label: FASTQ statistics
-    format: http://edamontology.org/format_2330
     doc: fastx_quality_stats generated FASTQ file quality statistics file
     outputSource: fastx_quality_stats_original/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: Original Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: Original Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: Original Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: Original Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   fastx_statistics_after:
     type: File
     label: FASTQ statistics
-    format: http://edamontology.org/format_2330
     doc: fastx_quality_stats generated FASTQ file quality statistics file
     outputSource: fastx_quality_stats_after/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: After Clipper Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: After Clipper Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: After Clipper Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: After Clipper Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   trim_report:
     type: File
     label: trimm report
-    format: http://edamontology.org/format_2330
     doc: TrimGalore generated log
     outputSource: trim_fastq/report_file
   bambai_pair:
     type: File
-    format: http://edamontology.org/format_2572
     label: Deduped BAM alignment file
     doc: Coordinate sorted BAM file and BAI index file (+index BAI)
     outputSource: samtools_sort_index2/bam_bai_pair
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        optional: true
-        type: alignment
-        format: bam
-        name: BAM Track
-        displayMode: SQUISHED
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          optional: true
+          type: alignment
+          format: bam
+          name: BAM Track
+          displayMode: SQUISHED
   dedup_output:
     type: File
     label: deduped CLIP file
@@ -291,31 +277,29 @@ outputs:
   get_stat_log:
     type: File?
     label: Old Bowtie, STAR and GEEP combined log
-    format: http://edamontology.org/format_2330
     doc: Processed and combined Bowtie & STAR aligner and GEEP logs
     outputSource: stats_and_transformations/output_file
   get_formatted_stats:
     type: File?
     label: Bowtie, STAR and GEEP mapping stats
-    format: http://edamontology.org/format_2330
     doc: Processed and combined Bowtie & STAR aligner and GEEP logs
     outputSource: stats_and_transformations/formatted_output_file
     sd:visualPlugins:
-    - tableView:
-        vertical: true
+      - tableView:
+          vertical: true
     sd:preview:
       sd:visualPlugins:
-      - pie:
-          colors:
-          - '#b3de69'
-          - '#99c0db'
-          - '#fdc381'
-          - '#fb8072'
-          data:
-          - $2
-          - $3
-          - $4
-          - $5
+        - pie:
+            colors:
+              - '#b3de69'
+              - '#99c0db'
+              - '#fdc381'
+              - '#fb8072'
+            data:
+              - $2
+              - $3
+              - $4
+              - $5
   clipper_bed:
     type: File
     outputSource: clipper/output_bed
@@ -325,18 +309,15 @@ outputs:
   atdp_result:
     type: File
     label: Fake ATDP results for BioWardrobe
-    format: http://edamontology.org/format_3475
     doc: Average Tag Density generated results
     outputSource: stats_and_transformations/fake_atdp_file
   transformed_peaks:
     type: File
     label: Transformed peaks Mimics MACS2
-    format: http://edamontology.org/format_3475
     outputSource: stats_and_transformations/transformed_peaks
   iaintersect_result:
     type: File
     label: Island intersect results
-    format: http://edamontology.org/format_3475
     doc: Iaintersect generated results
     outputSource: island_intersect/result_file
 steps:
@@ -345,13 +326,13 @@ steps:
     in:
       compressed_file: fastq_file
     out:
-    - fastq_file
+      - fastq_file
   fastx_quality_stats_original:
     run: ../tools/fastx-quality-stats.cwl
     in:
       input_file: extract_fastq/fastq_file
     out:
-    - statistics_file
+      - statistics_file
   extract_umi:
     run: ../tools/umi-tools-extract.cwl
     in:
@@ -366,9 +347,9 @@ steps:
             return _f.slice(0,-1).join('.') + '_extracted.' + _f.slice(-1)[0];
           }
     out:
-    - umi_fastq_file_1
-    - stdout_log
-    - stderr_log
+      - umi_fastq_file_1
+      - stdout_log
+      - stderr_log
   trim_fastq:
     run: ../tools/trimgalore.cwl
     in:
@@ -379,14 +360,14 @@ steps:
       length:
         default: 30
     out:
-    - trimmed_file
-    - report_file
+      - trimmed_file
+      - report_file
   fastx_quality_stats_after:
     run: ../tools/fastx-quality-stats.cwl
     in:
       input_file: trim_fastq/trimmed_file
     out:
-    - statistics_file
+      - statistics_file
   star_aligner:
     run: ../tools/star-alignreads.cwl
     in:
@@ -404,13 +385,13 @@ steps:
       clip5pNbases: clip_5p_end
       threads: threads
     out:
-    - aligned_file
-    - log_final
-    - uniquely_mapped_reads_number
-    - log_out
-    - log_progress
-    - log_std
-    - log_sj
+      - aligned_file
+      - log_final
+      - uniquely_mapped_reads_number
+      - log_out
+      - log_progress
+      - log_std
+      - log_sj
   ribosomal_bowtie_aligner:
     run: ../tools/bowtie-alignreads.cwl
     in:
@@ -430,7 +411,7 @@ steps:
         default: true
       threads: threads
     out:
-    - log_file
+      - log_file
   samtools_sort_index1:
     run: ../tools/samtools-sort-index.cwl
     in:
@@ -440,15 +421,15 @@ steps:
         valueFrom: $(self.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+'.bam')
       threads: threads
     out:
-    - bam_bai_pair
+      - bam_bai_pair
   dedup_umi:
     run: ../tools/umi-tools-dedup.cwl
     in:
       bam_file: samtools_sort_index1/bam_bai_pair
     out:
-    - dedup_bam_file
-    - stdout_log
-    - stderr_log
+      - dedup_bam_file
+      - stdout_log
+      - stderr_log
   samtools_sort_index2:
     run: ../tools/samtools-sort-index.cwl
     in:
@@ -458,7 +439,7 @@ steps:
         valueFrom: $(self.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+'.bam')
       threads: threads
     out:
-    - bam_bai_pair
+      - bam_bai_pair
   bam_to_bigwig:
     run: ../tools/bam-bedgraph-bigwig.cwl
     in:
@@ -467,28 +448,29 @@ steps:
       mapped_reads_number: star_aligner/uniquely_mapped_reads_number
       bigwig_filename:
         source: extract_fastq/fastq_file
-        valueFrom: $(self.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+'.bigWig')
+        valueFrom: 
+          $(self.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+'.bigWig')
     out:
-    - bigwig_file
+      - bigwig_file
   bamtobed:
     run: ../tools/bedtools-bamtobed.cwl
     in:
       bam_file: samtools_sort_index2/bam_bai_pair
     out:
-    - bed_file
+      - bed_file
   tagstopeak_transformations:
     in:
       annotation: annotation_file
     out:
-    - transformed_annotation
+      - transformed_annotation
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       requirements:
-      - class: ShellCommandRequirement
+        - class: ShellCommandRequirement
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/scidap:v0.0.3
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/scidap:v0.0.3
       inputs:
         script:
           type: string?
@@ -519,8 +501,8 @@ steps:
           outputBinding:
             glob: transformed_annotation.tsv
       baseCommand:
-      - python
-      - -c
+        - python
+        - -c
   tagstopeak:
     run: ../tools/clip-toolkit-tag2peak.cwl
     in:
@@ -533,16 +515,16 @@ steps:
         default: true
       gene_bed_file: tagstopeak_transformations/transformed_annotation
     out:
-    - peaks_bed
+      - peaks_bed
   clipper:
     run: ../tools/clipper.cwl
     in:
       input_file: samtools_sort_index2/bam_bai_pair
       species: species
     out:
-    - output_tsv
-    - output_bed
-    - output_pickle
+      - output_tsv
+      - output_bed
+      - output_pickle
   stats_and_transformations:
     in:
       star_log: star_aligner/log_final
@@ -550,21 +532,23 @@ steps:
       dedup_log: dedup_umi/stdout_log
       peaks: clipper/output_bed
     out:
-    - output_file
-    - formatted_output_file
-    - fake_atdp_file
-    - transformed_peaks
+      - output_file
+      - formatted_output_file
+      - fake_atdp_file
+      - transformed_peaks
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       requirements:
-      - class: ShellCommandRequirement
-      - class: InlineJavascriptRequirement
-        expressionLib:
-        - var get_output_filename = function() { return inputs.star_log.location.split('/').slice(-1)[0].replace(/_extracted_trimmed\.*Log\.final\.out$/i,''); }
+        - class: ShellCommandRequirement
+        - class: InlineJavascriptRequirement
+          expressionLib:
+            - var get_output_filename = function() { return 
+              inputs.star_log.location.split('/').slice(-1)[0].replace(/_extracted_trimmed\.*Log\.final\.out$/i,'');
+              }
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/scidap:v0.0.3
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/scidap:v0.0.3
       inputs:
         script:
           type: string?
@@ -633,7 +617,7 @@ steps:
             position: 8
         output_filename:
           type:
-          - string?
+            - string?
           inputBinding:
             position: 9
             valueFrom: $(get_output_filename())
@@ -658,8 +642,8 @@ steps:
           outputBinding:
             glob: $(get_output_filename()+"_macs_peaks.tsv")
       baseCommand:
-      - python
-      - -c
+        - python
+        - -c
       stdout: $(get_output_filename()+".stat")
   island_intersect:
     run: ../tools/iaintersect.cwl
@@ -669,8 +653,8 @@ steps:
       promoter_bp:
         default: 1000
     out:
-    - result_file
-    - log_file
+      - result_file
+      - log_file
 label: CLIP-Seq pipeline for single-read experiment NNNNG
 doc: |-
   Cross-Linking ImmunoPrecipitation

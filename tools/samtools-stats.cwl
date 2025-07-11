@@ -1,12 +1,15 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { if (inputs.output_filename == ""){ var root = inputs.bambai_pair.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.bambai_pair.basename+".log":root+".log"; } else { return inputs.output_filename; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { if (inputs.output_filename == ""){
+        var root = inputs.bambai_pair.basename.split('.').slice(0,-1).join('.'); return
+        (root == "")?inputs.bambai_pair.basename+".log":root+".log"; } else { return
+        inputs.output_filename; } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/samtools:v1.4
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/samtools:v1.4
 inputs:
   script:
     type: string?
@@ -25,7 +28,7 @@ inputs:
     inputBinding:
       position: 5
     secondaryFiles:
-    - .bai
+      - .bai
     doc: Coordinate sorted BAM alignment and index BAI files
   output_filename:
     type: string?
@@ -76,8 +79,8 @@ outputs:
         }
     doc: Reads Average Length
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: $(default_output_filename())
 doc: |
   Generates statistics for the input BAM file.

@@ -1,22 +1,24 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      return [
-        {"class": "Directory",
-         "basename": "default",
-         "listing": [inputs.bam_file],
-         "writable": true}
-      ]
-    }
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_folder = function() { if (inputs.output_folder){ return inputs.output_folder.replace(/\t|\s|\[|\]|\>|\<|,|\./g, "_"); } else { return inputs.bam_file.basename.split('.')[0]; } };
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        return [
+          {"class": "Directory",
+           "basename": "default",
+           "listing": [inputs.bam_file],
+           "writable": true}
+        ]
+      }
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_folder = function() { if (inputs.output_folder){ return
+        inputs.output_folder.replace(/\t|\s|\[|\]|\>|\<|,|\./g, "_"); } else { return
+        inputs.bam_file.basename.split('.')[0]; } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/homer:v0.0.2
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/homer:v0.0.2
 inputs:
   bam_file:
     type: File
@@ -26,9 +28,9 @@ inputs:
     doc: Name of the directory to save outputs
   fragment_size:
     type:
-    - 'null'
-    - int
-    - string
+      - 'null'
+      - int
+      - string
     inputBinding:
       position: 5
       prefix: -fragLength
@@ -41,9 +43,9 @@ inputs:
         "pe" - calculate from paired end read coordinates
   total_reads:
     type:
-    - 'null'
-    - int
-    - string
+      - 'null'
+      - int
+      - string
     inputBinding:
       position: 6
       prefix: -totalReads
@@ -74,10 +76,10 @@ outputs:
       glob: $(default_output_folder())
     doc: Tag directory
 baseCommand:
-- makeTagDirectory
+  - makeTagDirectory
 arguments:
-- valueFrom: $(default_output_folder())
-- valueFrom: $("default/" + inputs.bam_file.basename)
+  - valueFrom: $(default_output_folder())
+  - valueFrom: $("default/" + inputs.bam_file.basename)
 doc: |
   Tool runs makeTagDirectory that basically parses through the alignment file and splits the tags into separate
   files based on the chromosomes.

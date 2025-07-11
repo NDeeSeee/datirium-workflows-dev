@@ -1,14 +1,14 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-- class: ResourceRequirement
-  ramMin: 30510
-  coresMin: 8
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ResourceRequirement
+    ramMin: 30510
+    coresMin: 8
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-metaphlan:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-metaphlan:v1.0.0
 inputs:
   script:
     type: string?
@@ -76,8 +76,8 @@ outputs:
     doc: |
       log for stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: log.stdout
 stderr: log.stderr
 doc: |

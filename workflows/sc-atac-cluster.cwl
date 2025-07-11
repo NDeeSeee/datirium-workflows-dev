@@ -1,26 +1,35 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var split_features = function(line) { function get_unique(value, index, self) { return self.indexOf(value) === index && value != ""; } let splitted_line = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
-  - var split_numbers = function(line) { let splitted_line = line?line.split(/[\s,]+/).map(parseFloat):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
-  - var parse_range = function(line) { if (line.includes("-")) { const parts = line.split("-"); const start = parseFloat(parts[0].trim()); let end, step; if (parts[1].includes(":")) { [end, step] = parts[1].split(":").map(Number); } else { end = parseFloat(parts[1].trim()); step = 0.1; } const result = []; for (let i = start; i <= end; i = parseFloat((i + step).toFixed(10))) { result.push(parseFloat(i.toFixed(10))); } return result; } else { return [parseFloat(line)]; } };
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var split_features = function(line) { function get_unique(value, index, self)
+        { return self.indexOf(value) === index && value != ""; } let splitted_line
+        = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line
+        && !!splitted_line.length)?splitted_line:null; };
+      - var split_numbers = function(line) { let splitted_line = line?line.split(/[\s,]+/).map(parseFloat):null;
+        return (splitted_line && !!splitted_line.length)?splitted_line:null; };
+      - var parse_range = function(line) { if (line.includes("-")) { const parts =
+        line.split("-"); const start = parseFloat(parts[0].trim()); let end, step;
+        if (parts[1].includes(":")) { [end, step] = parts[1].split(":").map(Number);
+        } else { end = parseFloat(parts[1].trim()); step = 0.1; } const result = [];
+        for (let i = start; i <= end; i = parseFloat((i + step).toFixed(10))) { result.push(parseFloat(i.toFixed(10)));
+        } return result; } else { return [parseFloat(line)]; } };
 sd:upstream:
   sc_tools_sample:
-  - sc-atac-cluster.cwl
-  - sc-rna-cluster.cwl
-  - sc-rna-reduce.cwl
-  - sc-atac-reduce.cwl
-  - sc-rna-azimuth.cwl
+    - sc-atac-cluster.cwl
+    - sc-rna-cluster.cwl
+    - sc-rna-reduce.cwl
+    - sc-atac-reduce.cwl
+    - sc-rna-azimuth.cwl
   sc_atac_sample:
-  - cellranger-arc-count.cwl
-  - cellranger-arc-aggr.cwl
-  - cellranger-atac-count.cwl
-  - cellranger-atac-aggr.cwl
+    - cellranger-arc-count.cwl
+    - cellranger-arc-aggr.cwl
+    - cellranger-atac-count.cwl
+    - cellranger-atac-aggr.cwl
 inputs:
   alias:
     type: string
@@ -42,7 +51,7 @@ inputs:
   atac_fragments_file:
     type: File?
     secondaryFiles:
-    - .tbi
+      - .tbi
     label: Cell Ranger ATAC or RNA+ATAC Sample (optional)
     doc: |
       Any "Cell Ranger ATAC or RNA+ATAC Sample"
@@ -102,7 +111,7 @@ inputs:
       Default: false
   genes_of_interest:
     type: string?
-    default: null
+    default:
     label: Genes of interest
     doc: |
       Comma or space separated list of genes
@@ -122,17 +131,17 @@ inputs:
       advanced: true
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     default: classic
     label: Plots color theme
     doc: |
@@ -143,15 +152,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Cores/CPUs
     doc: |
@@ -164,9 +173,9 @@ inputs:
 outputs:
   cell_cnts_gr_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_cluster/cell_cnts_gr_clst_res_plot_png
     label: Number of cells per cluster (all cells)
     doc: |
@@ -174,14 +183,14 @@ outputs:
       All cells; all resolutions.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: QC
-        Caption: Number of cells per cluster (all cells)
+      - image:
+          tab: QC
+          Caption: Number of cells per cluster (all cells)
   qc_mtrcs_dnst_gr_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_cluster/qc_mtrcs_dnst_gr_clst_res_plot_png
     label: Distribution of QC metrics per cell colored by cluster (all cells)
     doc: |
@@ -190,16 +199,17 @@ outputs:
       All cells; all resolutions.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: QC
-        Caption: Distribution of QC metrics per cell colored by cluster (all cells)
+      - image:
+          tab: QC
+          Caption: Distribution of QC metrics per cell colored by cluster (all cells)
   tss_frgm_spl_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_cluster/tss_frgm_spl_clst_res_plot_png
-    label: TSS enrichment score vs ATAC fragments in peaks per cell (split by cluster, all cells)
+    label: TSS enrichment score vs ATAC fragments in peaks per cell (split by cluster,
+      all cells)
     doc: |
       TSS enrichment score vs ATAC
       fragments in peaks per cell.
@@ -207,14 +217,15 @@ outputs:
       all resolutions.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: QC
-        Caption: TSS enrichment score vs ATAC fragments in peaks per cell (split by cluster, all cells)
+      - image:
+          tab: QC
+          Caption: TSS enrichment score vs ATAC fragments in peaks per cell (split
+            by cluster, all cells)
   atacdbl_gr_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_cluster/atacdbl_gr_clst_res_plot_png
     label: Percentage of ATAC doublets per cluster (all cells)
     doc: |
@@ -222,14 +233,14 @@ outputs:
       All cells; all resolutions.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: QC
-        Caption: Percentage of ATAC doublets per cluster (all cells)
+      - image:
+          tab: QC
+          Caption: Percentage of ATAC doublets per cluster (all cells)
   umap_gr_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_cluster/umap_gr_clst_res_plot_png
     label: UMAP colored by cluster (all cells)
     doc: |
@@ -237,14 +248,14 @@ outputs:
       All cells.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Split by cluster
-        Caption: UMAP colored by cluster (all cells)
+      - image:
+          tab: Split by cluster
+          Caption: UMAP colored by cluster (all cells)
   slh_gr_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_cluster/slh_gr_clst_res_plot_png
     label: Silhouette scores (all cells)
     doc: |
@@ -252,14 +263,14 @@ outputs:
       All cells.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Split by cluster
-        Caption: Silhouette scores (all cells)
+      - image:
+          tab: Split by cluster
+          Caption: Silhouette scores (all cells)
   umap_gr_clst_spl_idnt_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_cluster/umap_gr_clst_spl_idnt_res_plot_png
     label: UMAP colored by cluster (split by dataset, downsampled)
     doc: |
@@ -268,14 +279,14 @@ outputs:
       to the smallest dataset.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Split by dataset
-        Caption: UMAP colored by cluster (split by dataset, downsampled)
+      - image:
+          tab: Split by dataset
+          Caption: UMAP colored by cluster (split by dataset, downsampled)
   cmp_gr_clst_spl_idnt_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_cluster/cmp_gr_clst_spl_idnt_res_plot_png
     label: Composition plot colored by cluster (split by dataset, downsampled)
     doc: |
@@ -284,14 +295,14 @@ outputs:
       to the smallest dataset.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Split by dataset
-        Caption: Composition plot colored by cluster (split by dataset, downsampled)
+      - image:
+          tab: Split by dataset
+          Caption: Composition plot colored by cluster (split by dataset, downsampled)
   umap_gr_clst_spl_cnd_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_cluster/umap_gr_clst_spl_cnd_res_plot_png
     label: UMAP colored by cluster (split by grouping condition, downsampled)
     doc: |
@@ -301,14 +312,14 @@ outputs:
       the smallest group.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Split by group
-        Caption: UMAP colored by cluster (split by grouping condition, downsampled)
+      - image:
+          tab: Split by group
+          Caption: UMAP colored by cluster (split by grouping condition, downsampled)
   cmp_gr_clst_spl_cnd_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_cluster/cmp_gr_clst_spl_cnd_res_plot_png
     label: Composition plot colored by cluster (split by grouping condition, downsampled)
     doc: |
@@ -318,14 +329,15 @@ outputs:
       the smallest group.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Split by group
-        Caption: Composition plot colored by cluster (split by grouping condition, downsampled)
+      - image:
+          tab: Split by group
+          Caption: Composition plot colored by cluster (split by grouping condition,
+            downsampled)
   cvrg_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: sc_atac_cluster/cvrg_res_plot_png
     label: ATAC fragment coverage (per gene)
     doc: |
@@ -333,9 +345,9 @@ outputs:
       All genes of interest.
       PNG format.
     sd:visualPlugins:
-    - image:
-        tab: Genes of interest (coverage plot)
-        Caption: ATAC fragment coverage (per gene)
+      - image:
+          tab: Genes of interest (coverage plot)
+          Caption: ATAC fragment coverage (per gene)
   peak_markers_tsv:
     type: File?
     outputSource: sc_atac_cluster/peak_markers_tsv
@@ -344,9 +356,9 @@ outputs:
       Peak markers.
       TSV format.
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Peak markers table
-        Title: Peak markers
+      - syncfusiongrid:
+          tab: Peak markers table
+          Title: Peak markers
   ucsc_cb_html_data:
     type: Directory?
     outputSource: sc_atac_cluster/ucsc_cb_html_data
@@ -360,9 +372,9 @@ outputs:
     doc: |
       UCSC Cell Browser html index.
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   seurat_data_rds:
     type: File
     outputSource: sc_atac_cluster/seurat_data_rds
@@ -384,9 +396,9 @@ outputs:
       Tehcnical report.
       HTML format.
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   sc_atac_cluster_stdout_log:
     type: File
     outputSource: sc_atac_cluster/stdout_log
@@ -442,42 +454,42 @@ steps:
         source: threads
         valueFrom: $(parseInt(self))
     out:
-    - cell_cnts_gr_clst_res_plot_png
-    - tss_frgm_spl_clst_res_plot_png
-    - atacdbl_gr_clst_res_plot_png
-    - qc_mtrcs_dnst_gr_clst_res_plot_png
-    - umap_gr_clst_res_plot_png
-    - slh_gr_clst_res_plot_png
-    - umap_gr_clst_spl_idnt_res_plot_png
-    - cmp_gr_clst_spl_idnt_res_plot_png
-    - umap_gr_clst_spl_cnd_res_plot_png
-    - cmp_gr_clst_spl_cnd_res_plot_png
-    - cvrg_res_plot_png
-    - all_plots_pdf
-    - peak_markers_tsv
-    - ucsc_cb_html_data
-    - ucsc_cb_html_file
-    - seurat_data_rds
-    - sc_report_html_file
-    - stdout_log
-    - stderr_log
+      - cell_cnts_gr_clst_res_plot_png
+      - tss_frgm_spl_clst_res_plot_png
+      - atacdbl_gr_clst_res_plot_png
+      - qc_mtrcs_dnst_gr_clst_res_plot_png
+      - umap_gr_clst_res_plot_png
+      - slh_gr_clst_res_plot_png
+      - umap_gr_clst_spl_idnt_res_plot_png
+      - cmp_gr_clst_spl_idnt_res_plot_png
+      - umap_gr_clst_spl_cnd_res_plot_png
+      - cmp_gr_clst_spl_cnd_res_plot_png
+      - cvrg_res_plot_png
+      - all_plots_pdf
+      - peak_markers_tsv
+      - ucsc_cb_html_data
+      - ucsc_cb_html_file
+      - seurat_data_rds
+      - sc_report_html_file
+      - stdout_log
+      - stderr_log
   folder_pdf_plots:
     run: ../tools/files-to-folder.cwl
     in:
       input_files:
         source:
-        - sc_atac_cluster/all_plots_pdf
+          - sc_atac_cluster/all_plots_pdf
         valueFrom: $(self.flat().filter(n => n))
       folder_basename:
         default: pdf_plots
     out:
-    - folder
+      - folder
   compress_pdf_plots:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: folder_pdf_plots/folder
     out:
-    - compressed_folder
+      - compressed_folder
 label: Single-Cell ATAC-Seq Cluster Analysis
 doc: |-
   Single-Cell ATAC-Seq Cluster Analysis

@@ -1,21 +1,23 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/pca:v0.0.9
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/pca:v0.0.9
 inputs:
   expression_files:
     type: File[]
     inputBinding:
       prefix: --input
-    doc: Input CSV/TSV files with RefseqId, GeneId, Chrom, TxStart, TxEnd, Strand, TotalReads, Rpkm columns
+    doc: Input CSV/TSV files with RefseqId, GeneId, Chrom, TxStart, TxEnd, Strand,
+      TotalReads, Rpkm columns
   expression_aliases:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     inputBinding:
       prefix: --name
-    doc: 'Input aliases, the order corresponds to --input order. Default: basename of --input files'
+    doc: 'Input aliases, the order corresponds to --input order. Default: basename
+      of --input files'
   genelist_file:
     type: File?
     inputBinding:
@@ -23,21 +25,22 @@ inputs:
     doc: Filter genes by the list from the file. Headerless, 1 gene per line
   target_column:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - Rpkm
-      - TotalReads
+      - 'null'
+      - type: enum
+        symbols:
+          - Rpkm
+          - TotalReads
     inputBinding:
       prefix: --target
     doc: 'Target column name to be used by PCA. Default: Rpkm'
   combine:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     inputBinding:
       prefix: --combine
-    doc: 'Combine inputs by columns names. Default: RefseqId, GeneId, Chrom, TxStart, TxEnd, Strand'
+    doc: 'Combine inputs by columns names. Default: RefseqId, GeneId, Chrom, TxStart,
+      TxEnd, Strand'
   output_prefix:
     type: string?
     inputBinding:
@@ -94,6 +97,6 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- run_pca.R
+  - run_pca.R
 stderr: pca_stderr.log
 stdout: pca_stdout.log

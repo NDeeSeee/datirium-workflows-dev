@@ -1,24 +1,24 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ResourceRequirement
-  ramMin: 30510
-  coresMin: 8
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      return [
-        {
-          "class": "Directory",
-          "basename": inputs.genome_dir,
-          "listing": [],
-          "writable": true}
-      ]
-    }
+  - class: ResourceRequirement
+    ramMin: 30510
+    coresMin: 8
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        return [
+          {
+            "class": "Directory",
+            "basename": inputs.genome_dir,
+            "listing": [],
+            "writable": true}
+        ]
+      }
 hints:
-- class: DockerRequirement
-  dockerPull: scidap/star:v2.7.5c
+  - class: DockerRequirement
+    dockerPull: scidap/star:v2.7.5c
 inputs:
   parameters_files:
     type: string?
@@ -56,9 +56,9 @@ inputs:
     doc: Directory where genome index files are stored
   genome_fasta_files:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     inputBinding:
       position: 1
       itemSeparator: ' '
@@ -107,10 +107,10 @@ inputs:
       int: maximum length of the suffixes, has to be longer than read length. -1 = infinite.
   genome_chain_files:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       position: 1
       prefix: --genomeChainFiles
@@ -188,10 +188,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- STAR
-- --runMode
-- genomeGenerate
-- --runThreadN 8
+  - STAR
+  - --runMode
+  - genomeGenerate
+  - --runThreadN 8
 stdout: star_build_stdout.log
 stderr: star_build_stderr.log
 doc: |

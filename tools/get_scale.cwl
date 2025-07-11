@@ -1,7 +1,7 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 inputs:
   script_command:
     type: string?
@@ -41,8 +41,8 @@ outputs:
       Text file output of scaling factor. If contents is null, this
       means zero reads were mapped to the spike-in reference genome.
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 doc: |
   Takes as input the *_bam_statistics*.report.txt from `samtools_stat.cwl` tool.
   Returns a float scale factor for normalizing a bam-to-bedgraph, using the

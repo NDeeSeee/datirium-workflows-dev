@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 sd:upstream:
   database: kraken2-databases.cwl
 inputs:
@@ -18,23 +18,21 @@ inputs:
       position: 2
   fastq_file_R1:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: 'Read 1 file:'
     sd:localLabel: true
-    format: http://edamontology.org/format_1930
     doc: Read 1 FASTQ file from a paired-end sequencing run
     sd:preview:
       position: 4
   fastq_file_R2:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: 'Read 2 file:'
     sd:localLabel: true
-    format: http://edamontology.org/format_1930
     doc: Read 2 FASTQ file that pairs with the input R1 file
     sd:preview:
       position: 5
@@ -43,92 +41,92 @@ inputs:
     sd:upstreamSource: database/k2db
     label: 'Reference genome database for metagenomic sequence classification:'
     sd:localLabel: true
-    doc: Pre-built kraken2 reference genome database for taxonomic classification of sequencing reads. A 'database' sample needs to be added to your project that will populate this dropdown.
+    doc: Pre-built kraken2 reference genome database for taxonomic classification
+      of sequencing reads. A 'database' sample needs to be added to your project that
+      will populate this dropdown.
     sd:preview:
       position: 3
 outputs:
   fastx_statistics_upstream:
     type: File
     label: FASTQ 1 statistics
-    format: http://edamontology.org/format_2330
     doc: fastx_quality_stats generated FASTQ 1 quality statistics file
     outputSource: fastx_quality_stats_upstream/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: FASTQ 1 Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: FASTQ 1 Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: FASTQ 1 Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: FASTQ 1 Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   fastx_statistics_downstream:
     type: File
     label: FASTQ 2 statistics
-    format: http://edamontology.org/format_2330
     doc: fastx_quality_stats generated FASTQ 2 quality statistics file
     outputSource: fastx_quality_stats_downstream/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: FASTQ 2 Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: FASTQ 2 Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: FASTQ 2 Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: FASTQ 2 Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   trim_report_upstream:
     type: File
     label: TrimGalore report Upstream
@@ -141,171 +139,153 @@ outputs:
     outputSource: trim_fastq/report_file_pair
   decontaminated_kneaddata_reads_R1:
     type:
-    - 'null'
-    - File
-    format: http://edamontology.org/format_1930
+      - 'null'
+      - File
     label: decontaminated reads using kneaddata r1 FASTQ file
     doc: decontaminated reads using kneaddata r1 FASTQ file
     outputSource: decontaminate_with_kneaddata/kneaddata_cleaned_R1
   decontaminated_kneaddata_reads_R2:
     type:
-    - 'null'
-    - File
-    format: http://edamontology.org/format_1930
+      - 'null'
+      - File
     label: decontaminated reads using kneaddata r2 FASTQ file
     doc: decontaminated reads using kneaddata r2 FASTQ file
     outputSource: decontaminate_with_kneaddata/kneaddata_cleaned_R2
   decontaminate_with_kneaddata_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: tool log file
     doc: captures kneaddata command log file
     outputSource: decontaminate_with_kneaddata/kneaddata_log
   decontaminate_with_kneaddata_stdout:
     type: File
-    format: http://edamontology.org/format_2330
     label: stdout logfile
     doc: captures standard output from wgs-kneaddata-pe.cwl
     outputSource: decontaminate_with_kneaddata/stdout_log
   decontaminate_with_kneaddata_stderr:
     type: File
-    format: http://edamontology.org/format_2330
     label: stderr logfile
     doc: captures standard error from wgs-kneaddata-pe.cwl
     outputSource: decontaminate_with_kneaddata/stderr_log
   k2_output:
     type: File
-    format: http://edamontology.org/format_3475
     label: kraken2 raw output file
     doc: raw per read taxonomic classifications from kraken2
     outputSource: kraken2_classify/k2_output
   k2_report_file:
     type: File
-    format: http://edamontology.org/format_2330
     label: kraken2 report file
     doc: summary of all read taxonomic classifications from kraken2
     outputSource: kraken2_classify/k2_report
   k2_report_tsv:
     type: File
-    format: http://edamontology.org/format_3475
     label: kraken2 report file tsv
-    doc: summary of all read taxonomic classifications from kraken2 formatted as a tsv
+    doc: summary of all read taxonomic classifications from kraken2 formatted as a
+      tsv
     outputSource: kraken2_classify/k2_report_tsv
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Kraken Report
-        Title: Summary of Taxonomic Classifications from Kraken2
+      - syncfusiongrid:
+          tab: Kraken Report
+          Title: Summary of Taxonomic Classifications from Kraken2
   k2_stderr:
     type: File
-    format: http://edamontology.org/format_2330
     label: parsed k2 stderr
-    doc: markdown parsed standard error captured directly from kraken2 classify command in k2-classify-pe.cwl
+    doc: markdown parsed standard error captured directly from kraken2 classify command
+      in k2-classify-pe.cwl
     outputSource: kraken2_classify/k2_stderr
   kraken2_classify_stdout:
     type: File
-    format: http://edamontology.org/format_2330
     label: stdout logfile
     doc: captures standard output from k2-classify-pe.cwl
     outputSource: kraken2_classify/stdout_log
   kraken2_classify_stderr:
     type: File
-    format: http://edamontology.org/format_2330
     label: stderr logfile
     doc: captures standard error from k2-classify-pe.cwl
     outputSource: kraken2_classify/stderr_log
   krona_plot_link:
     type: File
-    format: http://edamontology.org/format_2331
     label: Krona plot - hierarchical visualization of taxonomic classifications
     doc: hierarchical visualization of taxonomic classifications
     outputSource: kraken2_classify/krona_html
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   metaphlan_k2_unclassified_reads_profile:
     type: File
-    format: http://edamontology.org/format_3475
     label: metagenomic abundance profile
-    doc: metagenomic abundance profile of reads that were left unclassified by kraken2 step
+    doc: metagenomic abundance profile of reads that were left unclassified by kraken2
+      step
     outputSource: classify_unclassified_k2_reads_with_metaphlan/abundance_profile
   metaphlan_cleaned_reads_profile:
     type: File
-    format: http://edamontology.org/format_3475
     label: metagenomic abundance profile
     doc: metagenomic abundance profile of kneaddata decontaminated reads
     outputSource: classify_cleaned_reads_with_metaphlan/abundance_profile
   metaphlan_cleaned_reads_profile_scidap_tab:
     type: File
-    format: http://edamontology.org/format_3475
     label: metagenomic abundance profile
-    doc: metagenomic abundance profile of kneaddata decontaminated reads headers cleaned for scidap output tab
+    doc: metagenomic abundance profile of kneaddata decontaminated reads headers cleaned
+      for scidap output tab
     outputSource: classify_cleaned_reads_with_metaphlan/abundance_profile_scidap
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: MetaPhlAn Profile
-        Title: Summary of Taxonomic Classifications from MetaPhlAn
+      - syncfusiongrid:
+          tab: MetaPhlAn Profile
+          Title: Summary of Taxonomic Classifications from MetaPhlAn
   metaphlan_cleaned_reads_table:
     type: File
-    format: http://edamontology.org/format_3475
     label: metagenomic abundance table
     doc: metagenomic abundance table of kneaddata decontaminated reads
     outputSource: classify_cleaned_reads_with_metaphlan/abundance_table
   metaphlan_cleaned_reads_table_species:
     type: File
-    format: http://edamontology.org/format_3475
     label: metagenomic abundance table at species level only
-    doc: metagenomic abundance table at species level only of kneaddata decontaminated reads
+    doc: metagenomic abundance table at species level only of kneaddata decontaminated
+      reads
     outputSource: classify_cleaned_reads_with_metaphlan/abundance_table_species
   metaphlan_cleaned_reads_stdout:
     type: File
-    format: http://edamontology.org/format_3475
     label: stdout logfile
     doc: captures stdout from wgs-metaphlan-pe.cwl
     outputSource: classify_cleaned_reads_with_metaphlan/stdout_log
   metaphlan_cleaned_reads_stderr:
     type: File
-    format: http://edamontology.org/format_3475
     label: stderr logfile
     doc: captures stderr from wgs-metaphlan-pe.cwl
     outputSource: classify_cleaned_reads_with_metaphlan/stderr_log
   humann_cleaned_reads_genefamilies_rpk:
     type: File
-    format: http://edamontology.org/format_3475
     label: gene families profile in rpk units
     doc: gene families profile of kneaddata decontaminated reads in rpk units
     outputSource: functional_assignment_with_humann/genefamilies_rpk
   humann_cleaned_reads_genefamilies_cpm:
     type: File
-    format: http://edamontology.org/format_3475
     label: gene families profile in cpm units
     doc: gene families profile of kneaddata decontaminated reads in cpm units
     outputSource: functional_assignment_with_humann/genefamilies_cpm
   humann_cleaned_reads_regroup_rxn_cpm:
     type: File
-    format: http://edamontology.org/format_3475
     label: regrouped genes to other functional categories in rxn database in cpm units
     doc: regrouped genes to other functional categories in rxn database in cpm units
     outputSource: functional_assignment_with_humann/regroup_to_rxn_cpm
   humann_cleaned_reads_regroup_rxn_cpm_named:
     type: File
-    format: http://edamontology.org/format_3475
-    label: regrouped genes to other functional categories in rxn database in cpm units with human-readable names
-    doc: regrouped genes to other functional categories in rxn database in cpm units with human-readable names
+    label: regrouped genes to other functional categories in rxn database in cpm units
+      with human-readable names
+    doc: regrouped genes to other functional categories in rxn database in cpm units
+      with human-readable names
     outputSource: functional_assignment_with_humann/regroup_to_rxn_cpm_named
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: HUMAnN Functional Catagories
-        Title: Functional Catagories from HUMAnN
+      - syncfusiongrid:
+          tab: HUMAnN Functional Catagories
+          Title: Functional Catagories from HUMAnN
   humannn_cleaned_reads_stdout_log:
     type: File
-    format: http://edamontology.org/format_3475
     label: stdout logfile
     doc: captures stdout from wgs-humann-pe.cwl
     outputSource: functional_assignment_with_humann/stdout_log
   humann_cleaned_reads_stderr_log:
     type: File
-    format: http://edamontology.org/format_3475
     label: stderr logfile
     doc: captures stderr from wgs-humann-pe.cwl
     outputSource: functional_assignment_with_humann/stderr_log
@@ -322,7 +302,7 @@ steps:
       output_prefix:
         default: merged_R1
     out:
-    - fastq_file
+      - fastq_file
   extract_fastq_R2:
     label: Loading unmapped sequence data for read 2
     doc: |
@@ -335,7 +315,7 @@ steps:
       output_prefix:
         default: merged_R2
     out:
-    - fastq_file
+      - fastq_file
   trim_fastq:
     label: Adapter trimming
     doc: |
@@ -357,10 +337,10 @@ steps:
       paired:
         default: true
     out:
-    - trimmed_file
-    - trimmed_file_pair
-    - report_file
-    - report_file_pair
+      - trimmed_file
+      - trimmed_file_pair
+      - report_file
+      - report_file_pair
   bypass_trim:
     run: ../tools/bypass-trimgalore-pe.cwl
     in:
@@ -373,10 +353,10 @@ steps:
       min_reads_count:
         default: 100
     out:
-    - selected_fastq_file_1
-    - selected_report_file_1
-    - selected_fastq_file_2
-    - selected_report_file_2
+      - selected_fastq_file_1
+      - selected_report_file_1
+      - selected_fastq_file_2
+      - selected_report_file_2
   rename_upstream:
     run: ../tools/rename.cwl
     in:
@@ -385,7 +365,7 @@ steps:
         source: extract_fastq_R1/fastq_file
         valueFrom: $(self.basename)
     out:
-    - target_file
+      - target_file
   rename_downstream:
     run: ../tools/rename.cwl
     in:
@@ -394,7 +374,7 @@ steps:
         source: extract_fastq_R2/fastq_file
         valueFrom: $(self.basename)
     out:
-    - target_file
+      - target_file
   fastx_quality_stats_upstream:
     label: Quality control of unmapped sequence data for read 1
     doc: |
@@ -405,7 +385,7 @@ steps:
     in:
       input_file: rename_upstream/target_file
     out:
-    - statistics_file
+      - statistics_file
   fastx_quality_stats_downstream:
     label: Quality control of unmapped sequence data for read 2
     doc: |
@@ -416,7 +396,7 @@ steps:
     in:
       input_file: rename_downstream/target_file
     out:
-    - statistics_file
+      - statistics_file
   decontaminate_with_kneaddata:
     label: Removal of human contamination from read data using kneaddata
     doc: |
@@ -426,13 +406,13 @@ steps:
       read1file: rename_upstream/target_file
       read2file: rename_downstream/target_file
     out:
-    - kneaddata_cleaned_R1
-    - kneaddata_cleaned_R2
-    - kneaddata_contaminated_R1
-    - kneaddata_contaminated_R2
-    - kneaddata_log
-    - stdout_log
-    - stderr_log
+      - kneaddata_cleaned_R1
+      - kneaddata_cleaned_R2
+      - kneaddata_contaminated_R1
+      - kneaddata_contaminated_R2
+      - kneaddata_log
+      - stdout_log
+      - stderr_log
   kraken2_classify:
     label: Kraken2 taxonomic classification of cleaned sequence reads
     doc: |
@@ -444,19 +424,20 @@ steps:
       read1file: decontaminate_with_kneaddata/kneaddata_cleaned_R1
       read2file: decontaminate_with_kneaddata/kneaddata_cleaned_R2
     out:
-    - k2_classified_R1
-    - k2_classified_R2
-    - k2_unclassified_R1
-    - k2_unclassified_R2
-    - k2_output
-    - k2_report
-    - k2_report_tsv
-    - k2_stderr
-    - krona_html
-    - stdout_log
-    - stderr_log
+      - k2_classified_R1
+      - k2_classified_R2
+      - k2_unclassified_R1
+      - k2_unclassified_R2
+      - k2_output
+      - k2_report
+      - k2_report_tsv
+      - k2_stderr
+      - krona_html
+      - stdout_log
+      - stderr_log
   classify_unclassified_k2_reads_with_metaphlan:
-    label: attempt to classify the reads left unclassified by kraken2 with metaphlan latest db
+    label: attempt to classify the reads left unclassified by kraken2 with metaphlan
+      latest db
     doc: |
       Reports abundance tables for input paired end read files. Inputs comes from unclassifed kraken2 output.
     run: ../tools/wgs-metaphlan-pe.cwl
@@ -464,13 +445,13 @@ steps:
       read1file: kraken2_classify/k2_unclassified_R1
       read2file: kraken2_classify/k2_unclassified_R2
     out:
-    - classification_alignments_bowtie2
-    - abundance_profile
-    - abundance_profile_scidap
-    - abundance_table
-    - abundance_table_species
-    - stdout_log
-    - stderr_log
+      - classification_alignments_bowtie2
+      - abundance_profile
+      - abundance_profile_scidap
+      - abundance_table
+      - abundance_table_species
+      - stdout_log
+      - stderr_log
   classify_cleaned_reads_with_metaphlan:
     label: classify all cleaned reads from kneaddata with metaphlan latest db
     doc: |
@@ -480,13 +461,13 @@ steps:
       read1file: decontaminate_with_kneaddata/kneaddata_cleaned_R1
       read2file: decontaminate_with_kneaddata/kneaddata_cleaned_R2
     out:
-    - classification_alignments_bowtie2
-    - abundance_profile
-    - abundance_profile_scidap
-    - abundance_table
-    - abundance_table_species
-    - stdout_log
-    - stderr_log
+      - classification_alignments_bowtie2
+      - abundance_profile
+      - abundance_profile_scidap
+      - abundance_table
+      - abundance_table_species
+      - stdout_log
+      - stderr_log
   functional_assignment_with_humann:
     label: assign gene families and functions to input data set
     doc: |
@@ -496,12 +477,12 @@ steps:
       read1file: decontaminate_with_kneaddata/kneaddata_cleaned_R1
       read2file: decontaminate_with_kneaddata/kneaddata_cleaned_R2
     out:
-    - genefamilies_rpk
-    - genefamilies_cpm
-    - regroup_to_rxn_cpm
-    - regroup_to_rxn_cpm_named
-    - stdout_log
-    - stderr_log
+      - genefamilies_rpk
+      - genefamilies_cpm
+      - regroup_to_rxn_cpm
+      - regroup_to_rxn_cpm_named
+      - stdout_log
+      - stderr_log
 label: WGS Metagenomic pipeline paired-end
 doc: |-
   This workflow taxonomically classifies paired-end sequencing reads in FASTQ format for a SINGLE sample.

@@ -1,14 +1,14 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-- class: ResourceRequirement
-  ramMin: 7024
-  coresMin: 1
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ResourceRequirement
+    ramMin: 7024
+    coresMin: 1
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-kraken2:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-kraken2:v1.0.0
 inputs:
   script_command:
     type: string?
@@ -57,7 +57,8 @@ inputs:
     label: Name of kraken2 database to download
     inputBinding:
       position: 5
-    doc: Name of kraken2 database to download and return path as output for use as an upstream input for kraken2 classify.
+    doc: Name of kraken2 database to download and return path as output for use as
+      an upstream input for kraken2 classify.
 outputs:
   k2db:
     type: Directory
@@ -80,8 +81,8 @@ outputs:
     doc: |
       log for stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: log.stdout
 stderr: log.stderr
 doc: |

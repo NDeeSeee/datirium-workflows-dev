@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   genome_indices: genome-indices.cwl
 inputs:
@@ -15,45 +15,47 @@ inputs:
       position: 1
   fastq_file:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: FASTQ input file(s)
-    format: http://edamontology.org/format_1930
-    doc: WGS or NCATS enriched sequencing library reads data in a FASTQ format (ONT expected but PacBio/Illumina also accepted)
+    doc: WGS or NCATS enriched sequencing library reads data in a FASTQ format (ONT
+      expected but PacBio/Illumina also accepted)
     sd:localLabel: true
   read_type:
     type:
-    - 'null'
-    - type: enum
-      name: read type
-      symbols:
-      - map-ont
-      - map-pb
-      - sr
+      - 'null'
+      - type: enum
+        name: read type
+        symbols:
+          - map-ont
+          - map-pb
+          - sr
     default: map-ont
     label: Sequencing read type
-    doc: 'Sequencing read type for minimap2: map-ont (Oxford Nanopore), map-pb (PacBio), sr (short read/Illumina)'
+    doc: 'Sequencing read type for minimap2: map-ont (Oxford Nanopore), map-pb (PacBio),
+      sr (short read/Illumina)'
   reference_fasta:
     type: File?
-    format: http://edamontology.org/format_1929
     sd:upstreamSource: genome_indices/fasta_output
     label: Reference Genome FASTA
-    doc: Reads will be aligned against this reference. Select from the dropdown if not uploading your own custom reference genome FASTA.
+    doc: Reads will be aligned against this reference. Select from the dropdown if
+      not uploading your own custom reference genome FASTA.
   plasmid_fasta:
     type: File?
-    format: http://edamontology.org/format_1929
-    default: null
+    default:
     label: Vector/Plasmid FASTA
-    doc: Reads will be aligned against this sequence along with the reference genome. File can only contain 2 lines maximum, a standard FASTA header for line 1, and a single unbroken DNA sequence string for line 2.
+    doc: Reads will be aligned against this sequence along with the reference genome.
+      File can only contain 2 lines maximum, a standard FASTA header for line 1, and
+      a single unbroken DNA sequence string for line 2.
   yn_igv_output:
     type:
-    - 'null'
-    - type: enum
-      name: igvoutput
-      symbols:
-      - y
-      - n
+      - 'null'
+      - type: enum
+        name: igvoutput
+        symbols:
+          - y
+          - n
     default: y
     label: Include alignment output for IGV?
     doc: 'Output sorted bam of downselected reads for IGV? Default: y'
@@ -61,12 +63,12 @@ inputs:
       advanced: true
   yn_plot_output:
     type:
-    - 'null'
-    - type: enum
-      name: plot output
-      symbols:
-      - y
-      - n
+      - 'null'
+      - type: enum
+        name: plot output
+        symbols:
+          - y
+          - n
     default: y
     label: Include pileup plots output?
     doc: 'Output read pileup plot per probable insertion site? Default: y'
@@ -82,20 +84,18 @@ inputs:
 outputs:
   tgif_insertions_all:
     type: File
-    format: http://edamontology.org/format_3475
     label: Insertion Sites (all)
     doc: All found insertion sites converted to tsv format for scidap table
     outputSource: run_tgif_ncats/tgif_insertions_all
   tgif_insertions_filtered:
     type: File
-    format: http://edamontology.org/format_3475
     label: Insertion Sites (all)
     doc: All found insertion sites converted to tsv format for scidap table
     outputSource: run_tgif_ncats/tgif_insertions_filtered
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Insertion Sites (filtered)
-        Title: Insertion Sites (filtered)
+      - syncfusiongrid:
+          tab: Insertion Sites (filtered)
+          Title: Insertion Sites (filtered)
   insertion_site_plots:
     type: File
     label: TAR with plots of probable insertion sites
@@ -103,18 +103,18 @@ outputs:
     outputSource: run_tgif_ncats/insertion_site_plots
   alignment_files:
     type: File
-    label: Compressed TAR with sorted bam and bai files against reference and vector sequences
-    doc: Compressed TAR with sorted bam and bai files against reference and vector sequences
+    label: Compressed TAR with sorted bam and bai files against reference and vector
+      sequences
+    doc: Compressed TAR with sorted bam and bai files against reference and vector
+      sequences
     outputSource: run_tgif_ncats/insertion_site_plots
   tgif_stdout_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: stdout log for tgif_ncats tool
     doc: stdout log for tgif_ncats tool
     outputSource: run_tgif_ncats/stdout_log
   tgif_stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: stderr log for tgif_ncats tool
     doc: stderr log for tgif_ncats tool
     outputSource: run_tgif_ncats/stderr_log
@@ -125,34 +125,29 @@ outputs:
     outputSource: run_tgif_primer3/primer3_output
   primer3_stdout_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: stdout log for primer3 tool
     doc: stdout log for primer3 tool
     outputSource: run_tgif_primer3/stdout_log
   primer3_stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: stderr log for primer3 tool
     doc: stderr log for primer3 tool
     outputSource: run_tgif_primer3/stderr_log
   tgif_summary:
     type: File?
     label: Markdown formatted table with summary stats
-    format: http://edamontology.org/format_3835
     doc: Markdown formatted table with summary stats
     outputSource: run_tgif_summary/summary_file
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   summary_stdout_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: stdout log for summary tool
     doc: stdout log for summary tool
     outputSource: run_tgif_summary/stdout_log
   summary_stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: stderr log for summary tool
     doc: stderr log for summary tool
     outputSource: run_tgif_summary/stderr_log
@@ -168,13 +163,13 @@ steps:
       yn_plot_output: yn_plot_output
       threads_count: threads_count
     out:
-    - tgif_insertions_all
-    - tgif_insertions_filtered
-    - insertion_site_plots
-    - alignment_files
-    - script_log_file
-    - stdout_log
-    - stderr_log
+      - tgif_insertions_all
+      - tgif_insertions_filtered
+      - insertion_site_plots
+      - alignment_files
+      - script_log_file
+      - stdout_log
+      - stderr_log
   run_tgif_primer3:
     run: ../tools/tgif-primer3.cwl
     in:
@@ -182,9 +177,9 @@ steps:
       reference_fasta: reference_fasta
       threads_count: threads_count
     out:
-    - primer3_output
-    - stdout_log
-    - stderr_log
+      - primer3_output
+      - stdout_log
+      - stderr_log
   run_tgif_summary:
     run: ../tools/tgif-summary.cwl
     in:
@@ -192,9 +187,9 @@ steps:
       insertions_all: run_tgif_ncats/tgif_insertions_all
       insertions_filtered: run_tgif_ncats/tgif_insertions_filtered
     out:
-    - summary_file
-    - stdout_log
-    - stderr_log
+      - summary_file
+      - stdout_log
+      - stderr_log
 label: TgIF - Transgene Insertion Finder
 doc: |-
   TgIF (trans-gene insertion finder)

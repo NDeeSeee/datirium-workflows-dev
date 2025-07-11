@@ -1,7 +1,7 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
+  - class: StepInputExpressionRequirement
 inputs:
   alias:
     type: string
@@ -13,7 +13,6 @@ inputs:
       position: 1
   reference_fasta:
     type: File
-    format: http://edamontology.org/format_1929
     label: 'Reference genome FASTA file to index:'
     sd:localLabel: true
     doc: |-
@@ -24,10 +23,13 @@ inputs:
       position: 2
   input_annotation_file:
     type: File
-    format: http://edamontology.org/format_3475
     label: 'Annotation file (gff, gtf, tsv):'
     sd:localLabel: true
-    doc: "TSV file containing gene annotations for the reference genome (from kallisto index upstream).\n\n Required columns (include headers as row 1 of TSV):\n \t1. RefseqId\n \t2. GeneId\n \t3. Chrom (gene/transcript id/name)\n \t4. TxStart\n \t5. TxEnd\n \t6. Strand\n\n NOTE: Sequence names (string after the >) in the transcriptome FASTA must match column 3 (Chrom) of the annotation TSV."
+    doc: "TSV file containing gene annotations for the reference genome (from kallisto
+      index upstream).\n\n Required columns (include headers as row 1 of TSV):\n \t
+      1. RefseqId\n \t2. GeneId\n \t3. Chrom (gene/transcript id/name)\n \t4. TxStart\n
+      \t5. TxEnd\n \t6. Strand\n\n NOTE: Sequence names (string after the >) in the
+      transcriptome FASTA must match column 3 (Chrom) of the annotation TSV."
     sd:preview:
       position: 3
   threads:
@@ -44,15 +46,13 @@ outputs:
     outputSource: kallisto_index/kallisto_index
   log_file_stdout:
     type: File
-    format: http://edamontology.org/format_2330
     label: stdout logfile
     outputSource: kallisto_index/log_file_stdout
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   log_file_stderr:
     type: File
-    format: http://edamontology.org/format_2330
     label: stderr logfile
     outputSource: kallisto_index/log_file_stderr
 steps:
@@ -63,9 +63,9 @@ steps:
       annotation_tsv: input_annotation_file
       threads: threads
     out:
-    - kallisto_index
-    - log_file_stdout
-    - log_file_stderr
+      - kallisto_index
+      - log_file_stdout
+      - log_file_stderr
 label: Kallisto index pipeline
 doc: |
   This workflow indexes the input reference FASTA with kallisto, and generates a kallisto index file (.kdx).

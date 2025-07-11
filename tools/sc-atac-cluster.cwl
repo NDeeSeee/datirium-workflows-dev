@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   query_data_rds:
     type: File
@@ -28,13 +28,13 @@ inputs:
       Default: 10
   cluster_metric:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - euclidean
-      - cosine
-      - manhattan
-      - hamming
+      - 'null'
+      - type: enum
+        symbols:
+          - euclidean
+          - cosine
+          - manhattan
+          - hamming
     inputBinding:
       prefix: --ametric
     doc: |
@@ -42,13 +42,13 @@ inputs:
       Default: euclidean
   cluster_algorithm:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - louvain
-      - mult-louvain
-      - slm
-      - leiden
+      - 'null'
+      - type: enum
+        symbols:
+          - louvain
+          - mult-louvain
+          - slm
+          - leiden
     inputBinding:
       prefix: --algorithm
     doc: |
@@ -56,9 +56,9 @@ inputs:
       Default: slm
   resolution:
     type:
-    - 'null'
-    - float
-    - float[]
+      - 'null'
+      - float
+      - float[]
     inputBinding:
       prefix: --resolution
     doc: |
@@ -70,7 +70,7 @@ inputs:
   atac_fragments_file:
     type: File?
     secondaryFiles:
-    - .tbi
+      - .tbi
     inputBinding:
       prefix: --fragments
     doc: |
@@ -78,9 +78,9 @@ inputs:
       object. File should be saved in TSV format with tbi-index file.
   genes_of_interest:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: --genes
     doc: |
@@ -133,18 +133,18 @@ inputs:
       Default: 0.05
   test_to_use:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - wilcox
-      - bimod
-      - roc
-      - t
-      - negbinom
-      - poisson
-      - LR
-      - MAST
-      - DESeq2
+      - 'null'
+      - type: enum
+        symbols:
+          - wilcox
+          - bimod
+          - roc
+          - t
+          - negbinom
+          - poisson
+          - LR
+          - MAST
+          - DESeq2
     inputBinding:
       prefix: --testuse
     doc: |
@@ -160,17 +160,17 @@ inputs:
       Default: false
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     inputBinding:
       prefix: --theme
     doc: |
@@ -249,9 +249,9 @@ inputs:
 outputs:
   cell_cnts_gr_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_cell_cnts_gr_clst_res_*.png'
     doc: |
@@ -260,9 +260,9 @@ outputs:
       PNG format.
   tss_frgm_spl_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_tss_frgm_spl_clst_res_*.png'
     doc: |
@@ -273,9 +273,9 @@ outputs:
       PNG format.
   atacdbl_gr_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_atacdbl_gr_clst_res_*.png'
     doc: |
@@ -284,9 +284,9 @@ outputs:
       PNG format.
   qc_mtrcs_dnst_gr_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_qc_mtrcs_dnst_gr_clst_res_*.png'
     doc: |
@@ -296,9 +296,9 @@ outputs:
       PNG format.
   umap_gr_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_umap_gr_clst_res_*.png'
     doc: |
@@ -307,9 +307,9 @@ outputs:
       PNG format.
   slh_gr_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_slh_gr_clst_res_*.png'
     doc: |
@@ -318,9 +318,9 @@ outputs:
       PNG format.
   umap_gr_clst_spl_idnt_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_umap_gr_clst_spl_idnt_res_*.png'
     doc: |
@@ -330,9 +330,9 @@ outputs:
       PNG format.
   cmp_gr_clst_spl_idnt_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_cmp_gr_clst_spl_idnt_res_*.png'
     doc: |
@@ -342,9 +342,9 @@ outputs:
       PNG format.
   cmp_gr_idnt_spl_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_cmp_gr_idnt_spl_clst_res_*.png'
     doc: |
@@ -354,9 +354,9 @@ outputs:
       PNG format.
   umap_gr_clst_spl_cnd_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_umap_gr_clst_spl_cnd_res_*.png'
     doc: |
@@ -367,9 +367,9 @@ outputs:
       PNG format.
   cmp_gr_clst_spl_cnd_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_cmp_gr_clst_spl_cnd_res_*.png'
     doc: |
@@ -380,9 +380,9 @@ outputs:
       PNG format.
   cmp_gr_cnd_spl_clst_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_cmp_gr_cnd_spl_clst_res_*.png'
     doc: |
@@ -393,9 +393,9 @@ outputs:
       PNG format.
   cvrg_res_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_cvrg_res_*.png'
     doc: |
@@ -404,9 +404,9 @@ outputs:
       PNG format.
   all_plots_pdf:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*.pdf'
     doc: |
@@ -471,9 +471,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_atac_cluster.R"]:"/usr/local/bin/sc_atac_cluster.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_atac_cluster.R"]:"/usr/local/bin/sc_atac_cluster.R")
 stdout: sc_atac_cluster_stdout.log
 stderr: sc_atac_cluster_stderr.log
 label: Single-Cell ATAC-Seq Cluster Analysis

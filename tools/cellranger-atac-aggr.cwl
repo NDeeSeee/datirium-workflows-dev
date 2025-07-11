@@ -1,29 +1,33 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_label = function(i) { var rootname = inputs.barcode_metrics_report[i].basename.split('.').slice(0,-1).join('.'); rootname = (rootname=="")?inputs.barcode_metrics_report[i].basename:rootname; return inputs.gem_well_labels?inputs.gem_well_labels[i].replace(/\t|\s|\[|\]|\>|\<|,|\./g, "_"):rootname; };
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      var entry = "library_id,fragments,cells\n"
-      for (var i=0; i < inputs.barcode_metrics_report.length; i++){
-        entry += get_label(i) + "," + inputs.fragments_file_from_count[i].path + "," + inputs.barcode_metrics_report[i].path + "\n";
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_label = function(i) { var rootname = inputs.barcode_metrics_report[i].basename.split('.').slice(0,-1).join('.');
+        rootname = (rootname=="")?inputs.barcode_metrics_report[i].basename:rootname;
+        return 
+        inputs.gem_well_labels?inputs.gem_well_labels[i].replace(/\t|\s|\[|\]|\>|\<|,|\./g,
+        "_"):rootname; };
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        var entry = "library_id,fragments,cells\n"
+        for (var i=0; i < inputs.barcode_metrics_report.length; i++){
+          entry += get_label(i) + "," + inputs.fragments_file_from_count[i].path + "," + inputs.barcode_metrics_report[i].path + "\n";
+        }
+        return [{
+          "entry": entry,
+          "entryname": "metadata.csv"
+        }];
       }
-      return [{
-        "entry": entry,
-        "entryname": "metadata.csv"
-      }];
-    }
 hints:
-- class: DockerRequirement
-  dockerPull: cumulusprod/cellranger-atac:2.1.0
+  - class: DockerRequirement
+    dockerPull: cumulusprod/cellranger-atac:2.1.0
 inputs:
   fragments_file_from_count:
     type: File[]
     secondaryFiles:
-    - .tbi
+      - .tbi
     doc: |
       Array of files containing count and
       barcode information for every ATAC
@@ -39,8 +43,8 @@ inputs:
       in CSV format.
   gem_well_labels:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     doc: |
       Array of GEM well identifiers to be
       used for labeling purposes only. If
@@ -58,12 +62,12 @@ inputs:
       or "cellranger-arc mkref" commands.
   normalization_mode:
     type:
-    - 'null'
-    - type: enum
-      name: normalization
-      symbols:
-      - none
-      - depth
+      - 'null'
+      - type: enum
+        name: normalization
+        symbols:
+          - none
+          - depth
     inputBinding:
       position: 6
       prefix: --normalize
@@ -132,7 +136,7 @@ outputs:
     outputBinding:
       glob: aggregated/outs/fragments.tsv.gz
     secondaryFiles:
-    - .tbi
+      - .tbi
     doc: |
       Count and barcode information for
       every ATAC fragment observed in
@@ -210,13 +214,13 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- cellranger-atac
-- aggr
-- --disable-ui
-- --id
-- aggregated
-- --csv
-- metadata.csv
+  - cellranger-atac
+  - aggr
+  - --disable-ui
+  - --id
+  - aggregated
+  - --csv
+  - metadata.csv
 stdout: cellranger_atac_aggr_stdout.log
 stderr: cellranger_atac_aggr_stderr.log
 label: Cell Ranger Aggregate (ATAC)

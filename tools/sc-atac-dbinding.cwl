@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   query_data_rds:
     type: File
@@ -22,7 +22,7 @@ inputs:
   atac_fragments_file:
     type: File
     secondaryFiles:
-    - .tbi
+      - .tbi
     inputBinding:
       prefix: --fragments
     doc: |
@@ -69,9 +69,9 @@ inputs:
       subset, include all cells into analysis.
   subset:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: --subset
     doc: |
@@ -107,14 +107,14 @@ inputs:
       cells for differential binding analysis.
   analysis_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - negative-binomial
-      - poisson
-      - logistic-regression
-      - mast
-      - manorm2
+      - 'null'
+      - type: enum
+        symbols:
+          - negative-binomial
+          - poisson
+          - logistic-regression
+          - mast
+          - manorm2
     inputBinding:
       prefix: --test
     doc: |
@@ -125,11 +125,11 @@ inputs:
       parameter. Default: logistic-regression
   genome_type:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - hs
-      - mm
+      - 'null'
+      - type: enum
+        symbols:
+          - hs
+          - mm
     inputBinding:
       prefix: --genome
     doc: |
@@ -207,17 +207,17 @@ inputs:
       Default: false
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     inputBinding:
       prefix: --theme
     doc: |
@@ -332,7 +332,8 @@ outputs:
     type: File?
     outputBinding:
       glob: '*_seurat_peaks.bigBed'
-    doc: "Peaks in bigBed format extracted\nfrom the loaded from provided RDS\nfile Seurat object. \n"
+    doc: "Peaks in bigBed format extracted\nfrom the loaded from provided RDS\nfile
+      Seurat object. \n"
   first_fragments_bigwig_file:
     type: File
     outputBinding:
@@ -492,9 +493,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_atac_dbinding.R"]:"/usr/local/bin/sc_atac_dbinding.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_atac_dbinding.R"]:"/usr/local/bin/sc_atac_dbinding.R")
 stdout: sc_atac_dbinding_stdout.log
 stderr: sc_atac_dbinding_stderr.log
 label: Single-Cell ATAC-Seq Differential Accessibility Analysis

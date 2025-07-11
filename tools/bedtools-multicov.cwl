@@ -1,19 +1,22 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { if (inputs.output_filename == ""){ var root = inputs.intervals_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.intervals_file.basename+".tsv":root+".tsv"; } else { return inputs.output_filename; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { if (inputs.output_filename == ""){
+        var root = inputs.intervals_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.intervals_file.basename+".tsv":root+".tsv"; } else
+        { return inputs.output_filename; } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bedtools2:v2.26.0
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bedtools2:v2.26.0
 inputs:
   alignment_files:
     type:
-    - File
-    - File[]
+      - File
+      - File[]
     secondaryFiles:
-    - .bai
+      - .bai
     inputBinding:
       position: 5
       prefix: -bams
@@ -107,8 +110,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- bedtools
-- multicov
+  - bedtools
+  - multicov
 stdout: $(default_output_filename())
 stderr: bedtools_multicov_stderr.log
 doc: |

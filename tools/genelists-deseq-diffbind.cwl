@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-genelists:v3.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-genelists:v3.0.0
 inputs:
   threads:
     type: int
@@ -116,8 +116,36 @@ outputs:
   log_file_stderr:
     type: stderr
 baseCommand:
-- run_genelists.sh
+  - run_genelists.sh
 stdout: genelists_stdout.log
 stderr: genelists_stderr.log
-doc: "A CWL tool for producing a GCT data file for the morpheus heatmap, and an html heatmap.\nUses both ATAC/ChIP/CRT (NA [nucleic acid] binding) and RNA-Seq data to derive visualization data.\nNA binding data in the form of BAM files per sample is processed to output an average read depth per window +/-5Kbp of each gene's TSS (transcription start site).\nRNA-Seq data in the form of gene expression count matrices are processed to output TotalReads and Rpkm values per gene.\nThese data are then integrated into a single count matrix, a row, and a column metadata file as input to an Rscript that will format the 3 files into GCT format for morpheus heatmap viewer.\nThe HTML heatmap is then produced with preconfigured sorting and grouping settings.\n\n\nPrimary Output files:\n- heatmap.gct, GCT formatted peak and expression data for morpheus viewer\n- heatmap.html, html of morpheus heatmap with preconfigured settings, peak data scaled among all samples\n- heatmap_peaknorm95.html, html of morpheus heatmap with preconfigured settings, peak data scaled per individual sample to 95th percentile\n- heatmap_peaknorm99.html, html of morpheus heatmap with preconfigured settings, peak data scaled per individual sample to 99th percentile\n\nSecondary Output files:\n- master_samplesheet.tsv, contains formatted information of the input data and files\n- output_row_metadata.tsv, row metadata for GCT formatter\n- output_col_metadata.tsv, column metadata for GCT formatter\n- output_counts.tsv, peak average read depth per TSS window and gene expression counts matrix\n\nPARAMS:\n  SECTION 1: general\n  -h\thelp\t\t    show this message\n  -t  INT\t\t\t    number of threads\n  -a\tARRAY\t\t    array of genelist sample names (no commas in names)\n  -b  FILE ARRAY\tarray of associated annotation files for each gene list from (-c), with header\n  -c  FILE ARRAY\tarray of filtered gene list TSVs (must be headerless, columns are: chr, txStart, txEnd, geneID, L2FC, Strand)\n  -d\tARRAY\t\t    array of sample names from NA binding experiments (no commas in names)\n  -e\tARARY\t\t    array of sample names from RNA-Seq experiments (no commas in names)\n  -f\tFILE ARRAY\tarray of BAM files from NA binding experiments\n  -g\tFILE ARARY\tarray of expression table files from RNA-Seq experiments\t\n\n\n____________________________________________________________________________________________________\nReferences:\n- Morpheus, https://software.broadinstitute.org/morpheus\n    "
+doc: "A CWL tool for producing a GCT data file for the morpheus heatmap, and an html
+  heatmap.\nUses both ATAC/ChIP/CRT (NA [nucleic acid] binding) and RNA-Seq data to
+  derive visualization data.\nNA binding data in the form of BAM files per sample
+  is processed to output an average read depth per window +/-5Kbp of each gene's TSS
+  (transcription start site).\nRNA-Seq data in the form of gene expression count matrices
+  are processed to output TotalReads and Rpkm values per gene.\nThese data are then
+  integrated into a single count matrix, a row, and a column metadata file as input
+  to an Rscript that will format the 3 files into GCT format for morpheus heatmap
+  viewer.\nThe HTML heatmap is then produced with preconfigured sorting and grouping
+  settings.\n\n\nPrimary Output files:\n- heatmap.gct, GCT formatted peak and expression
+  data for morpheus viewer\n- heatmap.html, html of morpheus heatmap with preconfigured
+  settings, peak data scaled among all samples\n- heatmap_peaknorm95.html, html of
+  morpheus heatmap with preconfigured settings, peak data scaled per individual sample
+  to 95th percentile\n- heatmap_peaknorm99.html, html of morpheus heatmap with preconfigured
+  settings, peak data scaled per individual sample to 99th percentile\n\nSecondary
+  Output files:\n- master_samplesheet.tsv, contains formatted information of the input
+  data and files\n- output_row_metadata.tsv, row metadata for GCT formatter\n- output_col_metadata.tsv,
+  column metadata for GCT formatter\n- output_counts.tsv, peak average read depth
+  per TSS window and gene expression counts matrix\n\nPARAMS:\n  SECTION 1: general\n\
+  \  -h\thelp\t\t    show this message\n  -t  INT\t\t\t    number of threads\n  -a\t\
+  ARRAY\t\t    array of genelist sample names (no commas in names)\n  -b  FILE ARRAY\t
+  array of associated annotation files for each gene list from (-c), with header\n\
+  \  -c  FILE ARRAY\tarray of filtered gene list TSVs (must be headerless, columns
+  are: chr, txStart, txEnd, geneID, L2FC, Strand)\n  -d\tARRAY\t\t    array of sample
+  names from NA binding experiments (no commas in names)\n  -e\tARARY\t\t    array
+  of sample names from RNA-Seq experiments (no commas in names)\n  -f\tFILE ARRAY\t
+  array of BAM files from NA binding experiments\n  -g\tFILE ARARY\tarray of expression
+  table files from RNA-Seq experiments\t\n\n\n____________________________________________________________________________________________________\n
+  References:\n- Morpheus, https://software.broadinstitute.org/morpheus\n    "
 label: genelists-deseq-diffbind

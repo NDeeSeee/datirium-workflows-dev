@@ -5,8 +5,8 @@ requirements:
   - class: InlineJavascriptRequirement
 
 hints:
-- class: DockerRequirement
-  dockerPull: "biowardrobe2/scidap-deseq:v0.0.72"
+  - class: DockerRequirement
+    dockerPull: "biowardrobe2/scidap-deseq:v0.0.72"
 
 inputs:
 
@@ -91,7 +91,8 @@ inputs:
       prefix: "--use_lfc_thresh"
       valueFrom: "$(self ? 'TRUE' : 'FALSE')"
     default: false
-    doc: "Use lfcthreshold as the null hypothesis value in the results function call. Default: TRUE"
+    doc: "Use lfcthreshold as the null hypothesis value in the results function call.
+      Default: TRUE"
 
   cluster_method:
     type:
@@ -164,14 +165,16 @@ inputs:
     inputBinding:
       prefix: "--k"
     default: 3
-    doc: "Number of levels (depth) for Hopach clustering: min - 1, max - 15. Default: 3."
+    doc: "Number of levels (depth) for Hopach clustering: min - 1, max - 15. Default:
+      3."
 
   kmax_hopach:
     type: int?
     inputBinding:
       prefix: "--kmax"
     default: 5
-    doc: "Maximum number of clusters at each level for Hopach clustering: min - 2, max - 9. Default: 5."
+    doc: "Maximum number of clusters at each level for Hopach clustering: min - 2,
+      max - 9. Default: 5."
 
   threads:
     type: int?
@@ -226,44 +229,7 @@ $namespaces:
 $schemas:
   - https://github.com/schemaorg/schemaorg/raw/main/data/releases/11.01/schemaorg-current-http.rdf
 
-s:name: "DESeq2 (LRT Step 2) - Differential gene expression analysis using contrasts"
 label: "DESeq2 (LRT Step 2) - Differential gene expression analysis using contrasts"
-s:alternateName: "Differential gene expression analysis using DESeq2 contrasts"
-
-s:downloadUrl: https://raw.githubusercontent.com/Barski-lab/workflows/master/tools/deseq-lrt-step-2.cwl
-s:codeRepository: https://github.com/Barski-lab/workflows
-s:license: http://www.apache.org/licenses/LICENSE-2.0
-
-s:isPartOf:
-  class: s:CreativeWork
-  s:name: Common Workflow Language
-  s:url: http://commonwl.org/
-
-s:creator:
-  - class: s:Organization
-    s:legalName: "Cincinnati Children's Hospital Medical Center"
-    s:location:
-      - class: s:PostalAddress
-        s:addressCountry: "USA"
-        s:addressLocality: "Cincinnati"
-        s:addressRegion: "OH"
-        s:postalCode: "45229"
-        s:streetAddress: "3333 Burnet Ave"
-        s:telephone: "+1(513)636-4200"
-    s:logo: "https://www.cincinnatichildrens.org/-/media/cincinnati%20childrens/global%20shared/childrens-logo-new.png"
-    s:department:
-      - class: s:Organization
-        s:legalName: "Allergy and Immunology"
-        s:department:
-          - class: s:Organization
-            s:legalName: "Barski Research Lab"
-            s:member:
-              - class: s:Person
-                s:name: Michael Kotliar
-                s:email: mailto:misha.kotliar@gmail.com
-                s:sameAs:
-                  - id: http://orcid.org/0000-0002-6486-3898
-
 doc: |
   Runs DESeq2 analysis using contrasts from previous LRT step.
 

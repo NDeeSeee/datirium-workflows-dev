@@ -1,13 +1,31 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function(ext) { if (inputs.output_filename != "" && !ext){ return inputs.output_filename; } ext = ext || ".sam"; var root = ""; if (inputs.output_filename != ""){ root = inputs.output_filename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.output_filename+ext:root+ext; } else if (Array.isArray(inputs.upstream_filelist) && inputs.upstream_filelist.length > 0){ root = inputs.upstream_filelist[0].basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.upstream_filelist[0].basename+ext:root+ext; } else if (inputs.upstream_filelist != null){ root = inputs.upstream_filelist.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.upstream_filelist.basename+ext:root+ext; } else if (Array.isArray(inputs.downstream_filelist) && inputs.downstream_filelist.length > 0){ root = inputs.downstream_filelist[0].basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.downstream_filelist[0].basename+ext:root+ext; } else if (inputs.downstream_filelist != null){ root = inputs.downstream_filelist.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.downstream_filelist.basename+ext:root+ext; } else if (Array.isArray(inputs.crossbow_filelist) && inputs.crossbow_filelist.length > 0){ root = inputs.crossbow_filelist[0].basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.crossbow_filelist[0].basename+ext:root+ext; } else if (inputs.crossbow_filelist != null){ root = inputs.crossbow_filelist.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.crossbow_filelist.basename+ext:root+ext; } else { return null; } };
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function(ext) { if (inputs.output_filename !=
+        "" && !ext){ return inputs.output_filename; } ext = ext || ".sam"; var root
+        = ""; if (inputs.output_filename != ""){ root = inputs.output_filename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.output_filename+ext:root+ext; } else if (Array.isArray(inputs.upstream_filelist)
+        && inputs.upstream_filelist.length > 0){ root = inputs.upstream_filelist[0].basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.upstream_filelist[0].basename+ext:root+ext; } else
+        if (inputs.upstream_filelist != null){ root = inputs.upstream_filelist.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.upstream_filelist.basename+ext:root+ext; } else
+        if (Array.isArray(inputs.downstream_filelist) && inputs.downstream_filelist.length
+        > 0){ root = inputs.downstream_filelist[0].basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.downstream_filelist[0].basename+ext:root+ext; }
+        else if (inputs.downstream_filelist != null){ root = inputs.downstream_filelist.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.downstream_filelist.basename+ext:root+ext; } else
+        if (Array.isArray(inputs.crossbow_filelist) && inputs.crossbow_filelist.length
+        > 0){ root = inputs.crossbow_filelist[0].basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.crossbow_filelist[0].basename+ext:root+ext; } else
+        if (inputs.crossbow_filelist != null){ root = inputs.crossbow_filelist.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.crossbow_filelist.basename+ext:root+ext; } else
+        { return null; } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bowtie:v1.2.0
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bowtie:v1.2.0
 inputs:
   indices_folder:
     type: Directory
@@ -27,10 +45,10 @@ inputs:
       Folder with Bowtie indices
   upstream_filelist:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       itemSeparator: ','
       position: 83
@@ -39,10 +57,10 @@ inputs:
       sequences themselves, if -c is set) paired with mates in <m2>
   downstream_filelist:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       itemSeparator: ','
       position: 85
@@ -51,10 +69,10 @@ inputs:
       sequences themselves if -c is set) paired with mates in <m1>
   crossbow_filelist:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       itemSeparator: ','
       position: 86
@@ -64,8 +82,8 @@ inputs:
       Can be a mixture of paired and unpaired.  Specify "-"for stdin.
   output_filename:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 90
       valueFrom: $(default_output_filename())
@@ -74,8 +92,8 @@ inputs:
       Generates default output filename on the base of upstream_filelist/downstream_filelist files
   q:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: -q
@@ -83,8 +101,8 @@ inputs:
       query input files are FASTQ .fq/.fastq (default)
   f:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: -f
@@ -92,8 +110,8 @@ inputs:
       query input files are (multi-)FASTA .fa/.mfa
   r:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: -r
@@ -101,8 +119,8 @@ inputs:
       query input files are raw one-sequence-per-line
   c:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: -c
@@ -110,8 +128,8 @@ inputs:
       query sequences given on cmd line (as <mates>, <singles>)
   C:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: -C
@@ -119,8 +137,8 @@ inputs:
       reads and index are in colorspace
   Q:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       position: 1
       prefix: -Q
@@ -128,8 +146,8 @@ inputs:
       QV file(s) corresponding to CSFASTA inputs; use with -f -C
   Q1:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       position: 1
       prefix: --Q1
@@ -137,8 +155,8 @@ inputs:
       --Q1/--Q2 <file>   same as -Q, but for mate files 1 and 2 respectively
   Q2:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       position: 1
       prefix: --Q2
@@ -146,8 +164,8 @@ inputs:
       --Q1/--Q2 <file>   same as -Q, but for mate files 1 and 2 respectively
   s:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -s
@@ -155,8 +173,8 @@ inputs:
       --skip <int>    skip the first <int> reads/pairs in the input
   u:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -u
@@ -164,8 +182,8 @@ inputs:
       --qupto <int>   stop after first <int> reads/pairs (excl. skipped reads)
   clip_5p_end:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: '-5'
@@ -173,8 +191,8 @@ inputs:
       --trim5 <int>   trim <int> bases from 5' (left) end of reads
   clip_3p_end:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: '-3'
@@ -182,8 +200,8 @@ inputs:
       --trim3 <int>   trim <int> bases from 3' (right) end of reads
   phred33_quals:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --phred33-quals
@@ -191,8 +209,8 @@ inputs:
       input quals are Phred+33 (default)
   phred64_quals:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --phred64-quals
@@ -200,8 +218,8 @@ inputs:
       input quals are Phred+64 (same as --solexa1.3-quals)
   solexa_quals:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --solexa-quals
@@ -209,8 +227,8 @@ inputs:
       input quals are from GA Pipeline ver. < 1.3
   solexa1.3_quals:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --solexa1.3-quals
@@ -218,8 +236,8 @@ inputs:
       input quals are from GA Pipeline ver. >= 1.3
   integer_quals:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --integer-quals
@@ -227,8 +245,8 @@ inputs:
       qualities are given as space-separated integers (not ASCII)
   large_index:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --large-index
@@ -236,8 +254,8 @@ inputs:
       force usage of a 'large' index, even if a small one is present
   v:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -v
@@ -245,8 +263,8 @@ inputs:
       report end-to-end hits w/ <=v mismatches; ignore qualities
   n:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -n
@@ -254,8 +272,8 @@ inputs:
       --seedmms <int> max mismatches in seed (can be 0-3, default: -n 2)
   e:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -e
@@ -263,8 +281,8 @@ inputs:
       --maqerr <int>  max sum of mismatch quals across alignment for -n (def: 70)
   l:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -l
@@ -272,8 +290,8 @@ inputs:
       --seedlen <int> seed length for -n (default: 28)
   nomaqround:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --nomaqround
@@ -281,8 +299,8 @@ inputs:
       disable Maq-like quality rounding for -n (nearest 10 <= 30)
   I:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -I
@@ -290,8 +308,8 @@ inputs:
       --minins <int>  minimum insert size for paired-end alignment (default: 0)
   X:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -X
@@ -299,8 +317,8 @@ inputs:
       --maxins <int>  maximum insert size for paired-end alignment (default: 250)
   fr:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --fr
@@ -308,8 +326,8 @@ inputs:
       --fr/--rf/--ff     -1, -2 mates align fw/rev, rev/fw, fw/fw (default: --fr)
   rf:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --rf
@@ -317,8 +335,8 @@ inputs:
       --fr/--rf/--ff     -1, -2 mates align fw/rev, rev/fw, fw/fw (default: --fr)
   ff:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --ff
@@ -326,8 +344,8 @@ inputs:
       --fr/--rf/--ff     -1, -2 mates align fw/rev, rev/fw, fw/fw (default: --fr)
   nofw:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --nofw
@@ -335,8 +353,8 @@ inputs:
       --norc      do not align to forward/reverse-complement reference strand
   maxbts:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: --maxbts
@@ -344,8 +362,8 @@ inputs:
       <int>     max # backtracks for -n 2/3 (default: 125, 800 for --best)
   pairtries:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: --pairtries
@@ -353,8 +371,8 @@ inputs:
       <int>  max # attempts to find mate for anchor hit (default: 100)
   y:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: -y
@@ -362,8 +380,8 @@ inputs:
       --tryhard try hard to find valid alignments, at the expense of speed
   chunkmbs:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: --chunkmbs
@@ -371,8 +389,8 @@ inputs:
       <int>   max megabytes of RAM for best-first search frames (def: 64)
   reads_per_batch:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: --reads-per-batch
@@ -380,8 +398,8 @@ inputs:
       # of reads to read from input file at once (default: 16)
   k:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -k
@@ -389,8 +407,8 @@ inputs:
       <int>           report up to <int> good alignments per read (default: 1)
   a:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: -a
@@ -398,8 +416,8 @@ inputs:
       --all           report all alignments per read (much slower than low -k)
   m:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -m
@@ -407,8 +425,8 @@ inputs:
       <int>           suppress all alignments if > <int> exist (def: no limit)
   M:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -M
@@ -416,8 +434,8 @@ inputs:
       <int> like -m, but reports 1 random hit (MAPQ=0)
   best:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --best
@@ -425,8 +443,8 @@ inputs:
       hits guaranteed best stratum; ties broken by quality
   strata:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --strata
@@ -434,8 +452,8 @@ inputs:
       hits in sub-optimal strata aren't reported (requires --best)
   t:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: -t
@@ -443,8 +461,8 @@ inputs:
       --time          print wall-clock time taken by search phases
   B:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -B
@@ -452,8 +470,8 @@ inputs:
       --offbase <int> leftmost ref offset = <int> in bowtie output (default: 0)
   quiet:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --quiet
@@ -461,8 +479,8 @@ inputs:
       print nothing but the alignments
   refout:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --refout
@@ -470,8 +488,8 @@ inputs:
       write alignments to files refXXXXX.map, 1 map per reference
   refidx:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --refidx
@@ -479,8 +497,8 @@ inputs:
       refer to ref. seqs by 0-based index rather than name
   aligned_prefix:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 1
       prefix: --al
@@ -489,8 +507,8 @@ inputs:
       <fname>       write aligned reads/pairs to file(s) <fname>
   unaligned_prefix:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 1
       prefix: --un
@@ -499,8 +517,8 @@ inputs:
       <fname>       write unaligned reads/pairs to file(s) <fname>
   multimapped_prefix:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 1
       prefix: --max
@@ -509,8 +527,8 @@ inputs:
       <fname>      write reads/pairs over -m limit to file(s) <fname>
   suppress:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 1
       prefix: --suppress
@@ -518,8 +536,8 @@ inputs:
       <cols>  suppresses given columns (comma-delim'ed) in default output
   fullref:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --fullref
@@ -527,8 +545,8 @@ inputs:
       write entire ref name (default: only up to 1st space)
   snpphred:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: --snpphred
@@ -536,8 +554,8 @@ inputs:
       <int>   Phred penalty for SNP when decoding colorspace (def: 30)
   snpfrac:
     type:
-    - 'null'
-    - float
+      - 'null'
+      - float
     inputBinding:
       position: 1
       prefix: --snpfrac
@@ -545,8 +563,8 @@ inputs:
       <dec>    approx. fraction of SNP bases (e.g. 0.001); sets --snpphred
   col_cseq:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --col-cseq
@@ -554,8 +572,8 @@ inputs:
       print aligned colorspace seqs as colors, not decoded bases
   col_cqual:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --col-cqual
@@ -563,8 +581,8 @@ inputs:
       print original colorspace quals, not decoded quals
   col_keepends:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --col-keepends
@@ -572,8 +590,8 @@ inputs:
       keep nucleotides at extreme ends of decoded alignment
   sam:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: -S
@@ -581,8 +599,8 @@ inputs:
       --sam write hits in SAM format
   mapq:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: --mapq
@@ -590,8 +608,8 @@ inputs:
       <int>       default mapping quality (MAPQ) to print for SAM alignments
   sam_nohead:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --sam-nohead
@@ -599,8 +617,8 @@ inputs:
       supppress header lines (starting with @) for SAM output
   sam_nosq:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --sam-nosq
@@ -608,8 +626,8 @@ inputs:
       supppress @SQ header lines for SAM output
   sam_RG:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 1
       prefix: --sam-RG
@@ -617,8 +635,8 @@ inputs:
       <text>    add <text> (usually "lab=value") to @RG line of SAM header
   o:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -o
@@ -626,8 +644,8 @@ inputs:
       --offrate <int> override offrate of index; must be >= index's offrate
   threads:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: -p
@@ -635,8 +653,8 @@ inputs:
       --threads <int> number of alignment threads to launch (default: 1)
   mm:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --mm
@@ -644,8 +662,8 @@ inputs:
       use memory-mapped I/O for index; many 'bowtie's can share
   shmem:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --shmem
@@ -653,8 +671,8 @@ inputs:
       use shared mem for index
   seed:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 1
       prefix: --seed
@@ -662,8 +680,8 @@ inputs:
       <int>       seed for random number generator
   verbose:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 1
       prefix: --verbose
@@ -680,20 +698,20 @@ outputs:
       glob: '*ref*.map*'
   unaligned_fastq:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     outputBinding:
       glob: $(inputs.unaligned_prefix + "*")
   aligned_fastq:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     outputBinding:
       glob: $(inputs.aligned_prefix + "*")
   multimapped_fastq:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     outputBinding:
       glob: $(inputs.multimapped_prefix + "*")
   log_file:
@@ -731,30 +749,30 @@ outputs:
           return parseInt(self[0].contents.match(totalRegex)[0].split(" ")[1]);
         }
 baseCommand:
-- bowtie
+  - bowtie
 arguments:
-- valueFrom: |
-    ${
-      if (inputs.upstream_filelist && inputs.downstream_filelist){
-        return "-1";
+  - valueFrom: |
+      ${
+        if (inputs.upstream_filelist && inputs.downstream_filelist){
+          return "-1";
+        }
+        return null;
       }
-      return null;
-    }
-  position: 82
-- valueFrom: |
-    ${
-      if (inputs.upstream_filelist && inputs.downstream_filelist){
-        return "-2";
+    position: 82
+  - valueFrom: |
+      ${
+        if (inputs.upstream_filelist && inputs.downstream_filelist){
+          return "-2";
+        }
+        return null;
       }
-      return null;
-    }
-  position: 84
-- valueFrom: |
-    ${
-      return ' 2> ' + default_output_filename(".bw");
-    }
-  position: 100000
-  shellQuote: false
+    position: 84
+  - valueFrom: |
+      ${
+        return ' 2> ' + default_output_filename(".bw");
+      }
+    position: 100000
+    shellQuote: false
 doc: |
   Tool maps input raw reads files to reference genome using Bowtie.
 

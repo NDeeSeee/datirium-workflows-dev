@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bedtools2:v2.26.0
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bedtools2:v2.26.0
 inputs:
   script:
     type: string?
@@ -102,9 +102,12 @@ outputs:
     doc: |
       log for BASH stdout
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stderr: $(inputs.output_prefix + '.fragmentcounts.stderr')
 stdout: $(inputs.output_prefix + '.fragmentcounts.stdout')
-doc: "Tool runs bedtools and custom BASH commands to process and \nformat a paired end bam file into a sorted, fragment-length\nfiltered bed file ready for peak calling. Also outputs a\nspike-in scaled bed file for normalized peak calling.\n\nReference protocol, STEP 14:\nhttps://www.protocols.io/view/cut-amp-tag-data-processing-and-analysis-tutorial-e6nvw93x7gmk/v1?step=14"
+doc: "Tool runs bedtools and custom BASH commands to process and \nformat a paired
+  end bam file into a sorted, fragment-length\nfiltered bed file ready for peak calling.
+  Also outputs a\nspike-in scaled bed file for normalized peak calling.\n\nReference
+  protocol, STEP 14:\nhttps://www.protocols.io/view/cut-amp-tag-data-processing-and-analysis-tutorial-e6nvw93x7gmk/v1?step=14"
 label: bedtools-fragmentcounts

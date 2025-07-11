@@ -1,24 +1,27 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ResourceRequirement
-  ramMin: 7024
-  coresMin: 1
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_log_name = function() { var lognames = {}; lognames["pair"] = (inputs.paired && inputs.input_file_pair) ? inputs.input_file_pair.basename+'_trimming_report.txt':null; lognames["single"] = inputs.input_file.basename+'_trimming_report.txt'; return lognames; }
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      var listing = [inputs.input_file]
-      if (inputs.input_file_pair){
-        listing.push(inputs.input_file_pair);
+  - class: ResourceRequirement
+    ramMin: 7024
+    coresMin: 1
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_log_name = function() { var lognames = {}; lognames["pair"] =
+        (inputs.paired && inputs.input_file_pair) ? inputs.input_file_pair.basename+'_trimming_report.txt':null;
+        lognames["single"] = inputs.input_file.basename+'_trimming_report.txt'; return
+        lognames; }
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        var listing = [inputs.input_file]
+        if (inputs.input_file_pair){
+          listing.push(inputs.input_file_pair);
+        }
+        return listing;
       }
-      return listing;
-    }
 hints:
-- class: DockerRequirement
-  dockerPull: scidap/trimgalore:v0.6.6
+  - class: DockerRequirement
+    dockerPull: scidap/trimgalore:v0.6.6
 inputs:
   bash_script:
     type: string?
@@ -46,15 +49,15 @@ inputs:
       Use valueFrom to return string instead of boolean to make sure that value is printed to command line in both cases
   input_file:
     type:
-    - File
+      - File
     inputBinding:
       position: 100
     doc: |
       Input FASTQ file
   input_file_pair:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       position: 101
       valueFrom: |
@@ -69,8 +72,8 @@ inputs:
       Input FASTQ file, if paired-end data is analysed
   quality:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 5
       prefix: -q
@@ -79,8 +82,8 @@ inputs:
       Default Phred score: 20.
   phred33:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 6
       prefix: --phred33
@@ -90,8 +93,8 @@ inputs:
       Default: ON.
   phred64:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 7
       prefix: --phred64
@@ -100,8 +103,8 @@ inputs:
       (Illumina 1.5 encoding) for quality trimming.
   adapter:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 10
       prefix: -a
@@ -113,8 +116,8 @@ inputs:
       of the first file specified Trim Galore defaults to '--illumina'.
   adapter_pair:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 11
       prefix: -a2
@@ -125,8 +128,8 @@ inputs:
       (GATCGTCGGACT).
   illumina:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 12
       prefix: --illumina
@@ -135,8 +138,8 @@ inputs:
       'AGATCGGAAGAGC' instead of the default auto-detection of adapter sequence.
   nextera:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 13
       prefix: --nextera
@@ -145,8 +148,8 @@ inputs:
       'CTGTCTCTTATA' instead of the default auto-detection of adapter sequence.
   small_rna:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 14
       prefix: --small_rna
@@ -158,8 +161,8 @@ inputs:
       automatically (GATCGTCGGACT) unless -a 2 had been defined explicitly.
   max_length:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 15
       prefix: --max_length
@@ -168,8 +171,8 @@ inputs:
       smallRNA sequencing to remove non-small RNA sequences.
   stringency:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 16
       prefix: --stringency
@@ -179,8 +182,8 @@ inputs:
       will be trimmed off from the 3' end of any read.
   error_rate:
     type:
-    - 'null'
-    - float
+      - 'null'
+      - float
     inputBinding:
       position: 17
       prefix: -e
@@ -189,8 +192,8 @@ inputs:
       Default: 0.1
   gzip:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 18
       prefix: --gzip
@@ -200,8 +203,8 @@ inputs:
       compression will take place on the fly.
   dont_gzip:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 19
       prefix: --dont_gzip
@@ -209,8 +212,8 @@ inputs:
       Output files won't be compressed with GZIP. This option overrides --gzip.
   length:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 20
       prefix: --length
@@ -221,8 +224,8 @@ inputs:
       Default: 20 bp.
   max_n:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 21
       prefix: --max_n
@@ -232,8 +235,8 @@ inputs:
       pair being removed from the trimmed output files.
   trim_n:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 22
       prefix: --trim-n
@@ -241,8 +244,8 @@ inputs:
       Removes Ns from either side of the read. This option does currently not work in RRBS mode.
   no_report_file:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 23
       prefix: --no_report_file
@@ -250,8 +253,8 @@ inputs:
       If specified no report file will be generated.
   suppress_warn:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 24
       prefix: --suppress_warn
@@ -259,8 +262,8 @@ inputs:
       If specified any output to STDOUT or STDERR will be suppressed.
   clip_R1:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 25
       prefix: --clip_R1
@@ -271,8 +274,8 @@ inputs:
       Default: OFF.
   clip_R2:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 26
       prefix: --clip_R2
@@ -286,8 +289,8 @@ inputs:
       Default: OFF.
   three_prime_clip_R1:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 27
       prefix: --three_prime_clip_R1
@@ -298,8 +301,8 @@ inputs:
       Default: OFF.
   three_prime_clip_R2:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 28
       prefix: --three_prime_clip_R2
@@ -310,8 +313,8 @@ inputs:
       Default: OFF.
   rrbs:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 29
       prefix: --rrbs
@@ -327,8 +330,8 @@ inputs:
       kit (see below).
   non_directional:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 30
       prefix: --non_directional
@@ -342,8 +345,8 @@ inputs:
       paired-end mode.
   paired:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 32
       prefix: --paired
@@ -365,8 +368,8 @@ inputs:
       of FastQ files which is required by many aligners.
   trim1:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 33
       prefix: --trim1
@@ -375,8 +378,8 @@ inputs:
       are to be aligned as paired-end data with Bowtie.
   retain_unpaired:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 34
       prefix: --retain_unpaired
@@ -388,8 +391,8 @@ inputs:
       Default: OFF.
   length_1:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 35
       prefix: -r1
@@ -399,8 +402,8 @@ inputs:
       Default: 35 bp.
   length_2:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 36
       prefix: -r2
@@ -450,8 +453,8 @@ outputs:
     outputBinding:
       glob: $(default_log_name()['pair'])
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 doc: |
   Tool runs Trimgalore - the wrapper around Cutadapt and FastQC to consistently apply adapter and quality trimming
   to FastQ files.

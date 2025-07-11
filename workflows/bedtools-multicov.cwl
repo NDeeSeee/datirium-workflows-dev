@@ -1,28 +1,28 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   sample:
-  - chipseq-se.cwl
-  - chipseq-pe.cwl
-  - trim-chipseq-se.cwl
-  - trim-chipseq-pe.cwl
-  - trim-atacseq-se.cwl
-  - trim-atacseq-pe.cwl
-  - rnaseq-se.cwl
-  - rnaseq-pe.cwl
-  - rnaseq-se-dutp.cwl
-  - rnaseq-pe-dutp.cwl
-  - trim-rnaseq-pe.cwl
-  - trim-rnaseq-se.cwl
-  - trim-rnaseq-pe-dutp.cwl
-  - trim-rnaseq-se-dutp.cwl
-  - trim-rnaseq-pe-smarter-dutp.cwl
-  - trim-quantseq-mrnaseq-se-strand-specific.cwl
+    - chipseq-se.cwl
+    - chipseq-pe.cwl
+    - trim-chipseq-se.cwl
+    - trim-chipseq-pe.cwl
+    - trim-atacseq-se.cwl
+    - trim-atacseq-pe.cwl
+    - rnaseq-se.cwl
+    - rnaseq-pe.cwl
+    - rnaseq-se-dutp.cwl
+    - rnaseq-pe-dutp.cwl
+    - trim-rnaseq-pe.cwl
+    - trim-rnaseq-se.cwl
+    - trim-rnaseq-pe-dutp.cwl
+    - trim-rnaseq-se-dutp.cwl
+    - trim-rnaseq-pe-smarter-dutp.cwl
+    - trim-quantseq-mrnaseq-se-strand-specific.cwl
 inputs:
   alias:
     type: string
@@ -31,9 +31,8 @@ inputs:
       position: 1
   alignment_files:
     type: File[]
-    format: http://edamontology.org/format_2572
     secondaryFiles:
-    - .bai
+      - .bai
     label: Sample to produce alignment file
     doc: Coordinate sorted and indexed alignment BAM file(s)
     sd:upstreamSource: sample/bambai_pair
@@ -45,7 +44,6 @@ inputs:
     sd:upstreamSource: sample/alias
   intervals_file:
     type: File
-    format: http://edamontology.org/format_3003
     label: Regions of interest, headerless BED file
     doc: Intervals file defined in a BED/GFF/VCF format
   split:
@@ -78,7 +76,8 @@ inputs:
   min_overlap_fraction:
     type: float?
     default: 1.0e-09
-    label: Minimum overlap required as a fraction. Default value correposponds to 1bp
+    label: Minimum overlap required as a fraction. Default value correposponds to
+      1bp
     doc: |
       Minimum overlap required as a fraction of each A.
       Default is 1E-9 (i.e., 1bp).
@@ -130,17 +129,15 @@ inputs:
 outputs:
   overlap_report_file:
     type: File
-    format: http://edamontology.org/format_3475
     label: Interval overlapping alignments counts
     doc: Interval overlapping alignments counts
     outputSource: add_columns_names/output_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Overlapping counts
-        Title: Interval overlapping alignments counts
+      - syncfusiongrid:
+          tab: Overlapping counts
+          Title: Interval overlapping alignments counts
   overlap_stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: bedtools multicov stderr log
     doc: bedtools multicov stderr log
     outputSource: overlap/stderr_log
@@ -160,17 +157,25 @@ steps:
       include_failed_qc_reads: include_failed_qc_reads
       only_count_proper_pairs: only_count_proper_pairs
     out:
-    - report_file
-    - stderr_log
+      - report_file
+      - stderr_log
   add_columns_names:
     run: ../tools/custom-bash.cwl
     in:
       input_file: overlap/report_file
       param: alignment_names
       script:
-        default: "TOTAL=`awk '{print NF}' \"$0\" | sort -nu | tail -n 1`\nALIASES=$#\nINDICES=`expr $TOTAL - $ALIASES`\necho \"Total number of columns in the file is $TOTAL\" \necho \"Among which $ALIASES last columns should have names $@\"\necho \"And first $INDICES columns should have names as indices\"\nfor (( i=1; i<=$INDICES; ++i)); do\n  echo \"Add $i index\"\n  echo -n -e $i'\\t' >> `basename $0`;\ndone\ncount=1\nfor i in \"$@\"; do\n  echo \"Add $i name\"\n  echo -n -e $i >> `basename $0`;\n  if [ $count != $ALIASES ]; then\n    echo -n -e \"\\t\" >> `basename $0`;\n  fi\n  (( count++ ))\ndone;\necho \"\" >> `basename $0`\ncat \"$0\" >> `basename $0`\n"
+        default: "TOTAL=`awk '{print NF}' \"$0\" | sort -nu | tail -n 1`\nALIASES=$#\n
+          INDICES=`expr $TOTAL - $ALIASES`\necho \"Total number of columns in the
+          file is $TOTAL\" \necho \"Among which $ALIASES last columns should have
+          names $@\"\necho \"And first $INDICES columns should have names as indices\"\
+          \nfor (( i=1; i<=$INDICES; ++i)); do\n  echo \"Add $i index\"\n  echo -n
+          -e $i'\\t' >> `basename $0`;\ndone\ncount=1\nfor i in \"$@\"; do\n  echo
+          \"Add $i name\"\n  echo -n -e $i >> `basename $0`;\n  if [ $count != $ALIASES
+          ]; then\n    echo -n -e \"\\t\" >> `basename $0`;\n  fi\n  (( count++ ))\n
+          done;\necho \"\" >> `basename $0`\ncat \"$0\" >> `basename $0`\n"
     out:
-    - output_file
+      - output_file
 label: Interval overlapping alignments counts
 doc: |-
   Interval overlapping alignments counts

@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-gatk4:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-gatk4:v1.0.0
 inputs:
   script:
     type: string?
@@ -49,8 +49,8 @@ outputs:
     doc: |
       log for stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: log.stdout
 stderr: log.stderr
 doc: |

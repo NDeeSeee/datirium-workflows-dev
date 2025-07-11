@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   query_data_rds:
     type: File
@@ -46,13 +46,13 @@ inputs:
       Default: all cells used, no extra metadata is added
   normalization_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - log-tfidf
-      - tf-logidf
-      - logtf-logidf
-      - idf
+      - 'null'
+      - type: enum
+        symbols:
+          - log-tfidf
+          - tf-logidf
+          - logtf-logidf
+          - idf
     inputBinding:
       prefix: --norm
     doc: |
@@ -63,12 +63,12 @@ inputs:
       Default: log-tfidf
   integration_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - signac
-      - harmony
-      - none
+      - 'null'
+      - type: enum
+        symbols:
+          - signac
+          - harmony
+          - none
     inputBinding:
       prefix: --ntgr
     doc: |
@@ -77,9 +77,9 @@ inputs:
       Default: signac
   integrate_by:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: --ntgrby
     doc: |
@@ -138,32 +138,32 @@ inputs:
       Default: 30
   umap_metric:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - euclidean
-      - manhattan
-      - chebyshev
-      - minkowski
-      - canberra
-      - braycurtis
-      - mahalanobis
-      - wminkowski
-      - seuclidean
-      - cosine
-      - correlation
-      - haversine
-      - hamming
-      - jaccard
-      - dice
-      - russelrao
-      - kulsinski
-      - ll_dirichlet
-      - hellinger
-      - rogerstanimoto
-      - sokalmichener
-      - sokalsneath
-      - yule
+      - 'null'
+      - type: enum
+        symbols:
+          - euclidean
+          - manhattan
+          - chebyshev
+          - minkowski
+          - canberra
+          - braycurtis
+          - mahalanobis
+          - wminkowski
+          - seuclidean
+          - cosine
+          - correlation
+          - haversine
+          - hamming
+          - jaccard
+          - dice
+          - russelrao
+          - kulsinski
+          - ll_dirichlet
+          - hellinger
+          - rogerstanimoto
+          - sokalmichener
+          - sokalsneath
+          - yule
     inputBinding:
       prefix: --umetric
     doc: |
@@ -171,12 +171,12 @@ inputs:
       Default: cosine
   umap_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - uwot
-      - uwot-learn
-      - umap-learn
+      - 'null'
+      - type: enum
+        symbols:
+          - uwot
+          - uwot-learn
+          - umap-learn
     inputBinding:
       prefix: --umethod
     doc: |
@@ -191,17 +191,17 @@ inputs:
       Default: false
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     inputBinding:
       prefix: --theme
     doc: |
@@ -593,9 +593,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_atac_reduce.R"]:"/usr/local/bin/sc_atac_reduce.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_atac_reduce.R"]:"/usr/local/bin/sc_atac_reduce.R")
 stdout: sc_atac_reduce_stdout.log
 stderr: sc_atac_reduce_stderr.log
 label: Single-Cell ATAC-Seq Dimensionality Reduction Analysis

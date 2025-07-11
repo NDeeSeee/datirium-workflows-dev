@@ -1,17 +1,299 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_output_prefix = function() { if (inputs.output_prefix) { return inputs.output_prefix; } var root = inputs.star_alignment_report.basename.split('.').slice(0,-1).join('.'); var suffix = "_collected_statistics_report"; return (root == "")?inputs.star_alignment_report.basename+suffix:root+suffix; };
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_output_prefix = function() { if (inputs.output_prefix) { return inputs.output_prefix;
+        } var root = inputs.star_alignment_report.basename.split('.').slice(0,-1).join('.');
+        var suffix = "_collected_statistics_report"; return (root == "")?inputs.star_alignment_report.basename+suffix:root+suffix;
+        };
 hints:
-- class: DockerRequirement
-  dockerPull: rackspacedot/python37
+  - class: DockerRequirement
+    dockerPull: rackspacedot/python37
 inputs:
   script:
     type: string?
-    default: "#!/usr/bin/env python\nimport os\nimport sys\nimport argparse\nimport yaml\nimport math\nimport re\n\n\ndef cut_int(s):\n    return int(s.strip().split()[0])\n\ndef cut_float(s):\n    return float(s.strip().split()[0])\n\ndef cut_percent(s):\n    return float(s.strip().replace(\"%\", \"\").split()[0])\n\n\nADAPTER_TRIMMING = {\n    \"Trimming mode\": {\n        \"alias\": \"trimming mode\",\n        \"function\": str,\n        \"pair_end_specific\": False\n    },\n    \"Quality Phred score cutoff\": {\n        \"alias\": \"quality phred score cutoff\",\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n    \"Quality encoding type selected\": {\n        \"alias\": \"quality encoding type\",\n        \"function\": str,\n        \"pair_end_specific\": False\n    },\n    \"Adapter sequence\": {\n        \"alias\": \"adapter sequence\",\n        \"function\": str,\n        \"pair_end_specific\": False\n    },\n    \"Minimum required adapter overlap\": {\n        \"alias\": \"minimum required adapter overlap\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"Maximum trimming error rate\": {\n        \"alias\": \"maximum trimming error rate\",\n        \"function\": cut_float,\n        \"pair_end_specific\": False\n    },\n    \"Minimum required sequence length\": {\n        \"alias\": \"minimum required read length\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"Total number of sequences analysed\": {\n        \"alias\": \"number of reads/pairs analysed for length validation\",\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n    \"Number of sequence pairs removed\": {\n        \"alias\": \"reads/pairs removed because of length cutoff\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"Sequences removed because they became shorter\": {\n        \"alias\": \"reads/pairs removed because of length cutoff\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"order\": [\"fastq\",\n            \"trimming mode\",\n            \"adapter sequence\",\n            \"number of reads/pairs analysed for length validation\",\n            \"reads/pairs removed because of length cutoff\",\n            \"minimum required read length\",\n            \"quality phred score cutoff\",\n            \"quality encoding type\",\n            \"minimum required adapter overlap\",\n            \"maximum trimming error rate\"]\n}\n\n\nALIGNMENT = {\n    \"Number of input reads\": {\n        \"alias\": \"total reads/pairs processed\",\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n    \"Uniquely mapped reads number\": {\n        \"alias\": \"uniquely mapped reads/pairs number\",\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n    \"Mismatch rate per base, %\": {\n        \"alias\": \"mismatch rate per base, %\",\n        \"function\": cut_percent,\n        \"pair_end_specific\": False\n    },\n    \"Deletion rate per base\": {\n        \"alias\": \"deletion rate per base, %\",\n        \"function\": cut_percent,\n        \"pair_end_specific\": False\n    },\n    \"Number of reads mapped to multiple loci\": {\n        \"alias\": \"reads/pairs mapped to multiple loci\",\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n    \"Number of reads mapped to too many loci\": {\n        \"alias\": \"reads/pairs suppressed due to mapping to too many loci\",\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n    \"reads unmapped: too many mismatches\": {\n        \"alias\": \"reads/pairs unmapped due to too many mismatches, %\",\n        \"function\": cut_percent,\n        \"pair_end_specific\": False\n    },\n    \"reads unmapped: too short\": {\n        \"alias\": \"reads/pairs unmapped due to too short, %\",\n        \"function\": cut_percent,\n        \"pair_end_specific\": False\n    },\n    \"reads unmapped: other\": {\n        \"alias\": \"reads/pairs unmapped due to other reasons, %\",\n        \"function\": cut_percent,\n        \"pair_end_specific\": False\n    },\n    \"reads with at least one reported alignment\": {\n        \"alias\": \"number of reads/pairs in ribosomal dna\",\n        \"function\": cut_int,\n        \"pair_end_specific\": False\n    },\n    \"order\": [\"total reads/pairs processed\",\n            \"uniquely mapped reads/pairs number\",\n            \"number of reads/pairs in transcriptome\",\n            \"number of reads/pairs in ribosomal dna\",\n            \"reads/pairs mapped to multiple loci\",\n            \"reads/pairs suppressed due to mapping to too many loci\",\n            \"reads/pairs unmapped due to too many mismatches, %\",\n            \"reads/pairs unmapped due to too short, %\",\n            \"reads/pairs unmapped due to other reasons, %\",\n            \"mismatch rate per base, %\",\n            \"deletion rate per base, %\"]\n}\n\n\nBAMSTATS = {\n    \"raw total sequences\": {\n        \"alias\": \"total reads/pairs\",\n        \"function\": int,\n        \"pair_end_specific\": True\n    },\n    \"reads mapped\": {\n        \"alias\": \"reads/pairs mapped\",\n        \"function\": int,\n        \"pair_end_specific\": True\n    },\n    \"reads unmapped\": {\n        \"alias\": \"reads/pairs unmapped\",\n        \"function\": int,\n        \"pair_end_specific\": True\n    },\n    \"average length\": {\n        \"alias\": \"reads average length\",\n        \"function\": float,\n        \"pair_end_specific\": False\n    },\n    \"maximum length\": {\n        \"alias\": \"reads maximum length\",\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n    \"average quality\": {\n        \"alias\": \"reads average quality\",\n        \"function\": float,\n        \"pair_end_specific\": False\n    },\n    \"insert size average\": {\n        \"alias\": \"insert size average\",\n        \"function\": float,\n        \"pair_end_specific\": False\n    },\n    \"insert size standard deviation\": {\n        \"alias\": \"insert size standard deviation\",\n        \"function\": float,\n        \"pair_end_specific\": False\n    },\n    \"order\": [\"total reads/pairs\",\n            \"reads/pairs mapped\",\n            \"reads/pairs unmapped\",\n            \"reads average length\",\n            \"reads maximum length\",\n            \"reads average quality\",\n            \"insert size average\",\n            \"insert size standard deviation\"]\n}\n\n\ndef arg_parser():\n    general_parser = argparse.ArgumentParser()\n    general_parser.add_argument(\"--trim1\",           help=\"Path to Trimgalore report file for FASTQ 1\",           required=False)\n    general_parser.add_argument(\"--trim2\",           help=\"Path to Trimgalore report file for FASTQ 2\",           required=False)\n    general_parser.add_argument(\"--star\",            help=\"Path to STAR report file\",                             required=False)\n    general_parser.add_argument(\"--bowtie\",          help=\"Path to Bowtie report file\",                           required=False)\n    general_parser.add_argument(\"--bamstats\",        help=\"Path to bam statistics report file\",                   required=False)\n    general_parser.add_argument(\"--isoforms\",        help=\"Path to isoforms file\",                                required=False)\n    general_parser.add_argument(\"--paired\",          help=\"Process as paired-end\",                           action=\"store_true\")\n    general_parser.add_argument(\"--output\",          help=\"Output filename prefix\",               default=\"collected_statistics\")\n    return general_parser\n\n\ndef normalize_args(args, skip_list=[]):\n    normalized_args = {}\n    for key,value in args.__dict__.items():\n        if key not in skip_list:\n            normalized_args[key] = value if not value or os.path.isabs(value) else os.path.normpath(os.path.join(os.getcwd(), value))\n        else:\n            normalized_args[key]=value\n    return argparse.Namespace (**normalized_args)\n\n\ndef open_file(filename):\n    lines = []\n    with open(filename, 'r') as infile:\n        for line in infile:\n            if line.strip():\n                lines.append(line.strip())\n    return lines\n\n\ndef split_line(l, delimiter):\n    return [i.strip() for i in l.split(delimiter)]\n\n\ndef get_correspondent_key(data, long_k):\n    for short_k, v in data.items():\n        if short_k in long_k:\n            return v[\"alias\"], v[\"function\"], v[\"pair_end_specific\"]\n    raise Exception\n\n\ndef process_trimgalore_report(filepath, collected_results, header, key_dict, pair_end, delimiter):\n    if not collected_results.get(header, None):\n        collected_results[header] = {\"fastq\": []}\n    fastq = {}\n    for line in open_file(filepath):\n        try:\n            key, value = split_line(line, delimiter)\n            if \"Total reads processed\" in line:\n                fastq[\"total reads processed\"] = int(value.strip().replace(\",\",\"\"))\n            elif \"Reads with adapters\" in line:\n                fastq[\"reads with adapters\"] = int(value.strip().replace(\",\",\"\").split()[0])\n            else:\n                res_key, res_function, pair_end_specific = get_correspondent_key(key_dict, key)\n                if not collected_results[header].get(res_key, None):\n                    collected_results[header][res_key] = res_function(value)\n        except Exception:\n            pass\n    if not pair_end:\n        collected_results[header][\"number of reads/pairs analysed for length validation\"] = fastq[\"total reads processed\"]\n    collected_results[header][\"fastq\"].append(fastq)\n    if key_dict.get(\"order\", None):\n        collected_results[header] = {k: collected_results[header][k] for k in key_dict[\"order\"] if k in collected_results[header]}\n\n\ndef process_custom_report(filepath, collected_results, header, key_dict, pair_end, delimiter):\n    if not collected_results.get(header, None):\n        collected_results[header] = {}\n    for line in open_file(filepath):\n        try:\n            key, value = split_line(line, delimiter)\n            res_key, res_function, pair_end_specific = get_correspondent_key(key_dict, key)\n            if not collected_results[header].get(res_key, None):\n                if pair_end_specific and pair_end:\n                    collected_results[header][res_key] = res_function(res_function(value)/2)\n                else:\n                    collected_results[header][res_key] = res_function(value)\n        except Exception:\n            pass\n    if key_dict.get(\"order\", None):\n        collected_results[header] = {k: collected_results[header][k] for k in key_dict[\"order\"] if k in collected_results[header]}\n    \n\ndef process_isoforms_report(filepath, collected_results, header, key_dict, pair_end):\n    if not collected_results.get(header, None):\n        collected_results[header] = {}\n    total_reads_index = None\n    used_reads = 0\n    for line in open_file(filepath):\n        if re.match ('.*RefseqId.*|.*GeneId.*|.*Chrom.*|.*TotalReads.*', line) and total_reads_index is None:\n            total_reads_index = line.split(',').index('TotalReads')\n            continue\n        line_splitted = line.split(',')\n        used_reads += int(line_splitted[total_reads_index])\n    if pair_end:\n        used_reads = int(used_reads/2)\n    collected_results[header][\"number of reads/pairs in transcriptome\"] = used_reads\n    if key_dict.get(\"order\", None):\n        collected_results[header] = {k: collected_results[header][k] for k in key_dict[\"order\"] if k in collected_results[header]}\n\n\ndef collect_stats(args):\n    collected_results = {}\n    \n    if args.trim1:\n        process_trimgalore_report(filepath=args.trim1,\n                                collected_results=collected_results,\n                                header=\"adapter trimming statistics\",\n                                key_dict=ADAPTER_TRIMMING,\n                                pair_end=args.paired,\n                                delimiter=\":\")\n\n    if args.trim2:\n        process_trimgalore_report(filepath=args.trim2,\n                                collected_results=collected_results,\n                                header=\"adapter trimming statistics\",\n                                key_dict=ADAPTER_TRIMMING,\n                                pair_end=args.paired,\n                                delimiter=\":\")\n\n    if args.star:\n        process_custom_report(filepath=args.star,\n                            collected_results=collected_results,\n                            header=\"alignment statistics\",\n                            key_dict=ALIGNMENT,\n                            pair_end=args.paired,\n                            delimiter=\"|\")\n\n    if args.isoforms:\n        process_isoforms_report(filepath=args.isoforms,\n                                collected_results=collected_results,\n                                header=\"alignment statistics\",\n                                key_dict=ALIGNMENT,\n                                pair_end=args.paired)\n\n    if args.bowtie:\n        process_custom_report(filepath=args.bowtie,\n                            collected_results=collected_results,\n                            header=\"alignment statistics\",\n                            key_dict=ALIGNMENT,\n                            pair_end=args.paired,\n                            delimiter=\":\")\n\n    if args.bamstats:\n        process_custom_report(filepath=args.bamstats,\n                            collected_results=collected_results,\n                            header=\"BAM statistics\",\n                            key_dict=BAMSTATS,\n                            pair_end=args.paired,\n                            delimiter=\":\")\n\n    return (collected_results)\n\n\ndef export_results_yaml(collected_data, filepath):\n    with open(filepath+\".yaml\", 'w') as output_stream:\n        output_stream.write(yaml.dump(collected_data, width=1000, sort_keys=False))\n\n\ndef export_results_markdown(collected_data, filepath):\n    with open(filepath+\".md\", 'w') as output_stream:\n        for line in yaml.dump(collected_data, width=1000, sort_keys=False).split(\"\\n\"):\n            if not line.strip():\n                continue\n            if line.startswith(\"  - \"):\n                output_stream.write(line+\"\\n\")\n            elif line.startswith(\"    \"):\n                output_stream.write(\"<br>\"+line+\"\\n\")\n            elif line.startswith(\"  \"):\n                output_stream.write(\"- \"+line+\"\\n\")\n            else:\n                output_stream.write(\"### \"+line+\"\\n\")\n\n\ndef export_results_table(collected_data, filepath):\n    with open(filepath+\".tsv\", 'w') as output_stream:\n        total_reads= collected_data[\"alignment statistics\"][\"total reads/pairs processed\"]\n        uniquely_mapped_reads = collected_data[\"alignment statistics\"][\"uniquely mapped reads/pairs number\"]\n        transcriptome_reads = collected_data[\"alignment statistics\"][\"number of reads/pairs in transcriptome\"]\n        multimapped_reads = collected_data[\"alignment statistics\"][\"reads/pairs suppressed due to mapping to too many loci\"]\n        not_transcriptome_reads = uniquely_mapped_reads - transcriptome_reads\n        unmapped_reads = total_reads - uniquely_mapped_reads - multimapped_reads\n        ribosomal_reads = collected_data[\"alignment statistics\"][\"number of reads/pairs in ribosomal dna\"]\n\n\n        header = [\n                    \"Tags total\",\n                    \"Transcriptome\",\n                    \"Multi-mapped\",\n                    \"Outside annotation\",\n                    \"Unmapped\",\n                    \"Ribosomal contamination\",\n\n                    \"alignment statistics\",\n                    \"total reads/pairs processed\",\n                    \"uniquely mapped reads/pairs number\",\n                    \"reads/pairs mapped to multiple loci\",\n                    \"reads/pairs suppressed due to mapping to too many loci\",\n                    \"mismatch rate per base, %\",\n                    \"deletion rate per base, %\",\n                    \"reads/pairs unmapped due to too many mismatches, %\",\n                    \"reads/pairs unmapped due to too short, %\",\n                    \"reads/pairs unmapped due to other reasons, %\",\n                    \"number of reads/pairs in transcriptome\",\n                    \"number of reads/pairs in ribosomal dna\",\n\n                    \"BAM statistics\",\n                    \"total reads/pairs\",\n                    \"reads/pairs mapped\",\n                    \"reads/pairs unmapped\",\n                    \"insert size average\",\n                    \"insert size standard deviation\",\n                    \"reads average length\",\n                    \"reads average quality\",\n                    \"reads maximum length\"]\n\n        if collected_data.get(\"adapter trimming statistics\", None):\n            header.extend([\"adapter trimming statistics\",\n                        \"trimming mode\",\n                        \"adapter sequence\",\n                        \"quality phred score cutoff\",\n                        \"minimum required adapter overlap\",\n                        \"maximum trimming error rate\",\n                        \"minimum required read length\",\n                        \"number of reads/pairs analysed for length validation\",\n                        \"reads/pairs removed because of length cutoff\",\n                        \"fastq1: total reads processed\",\n                        \"fastq1: reads with adapters\"])\n            if len(collected_data[\"adapter trimming statistics\"][\"fastq\"]) > 1:\n                header.extend([\"fastq2: total reads processed\", \"fastq2: reads with adapters\"])\n\n        output_stream.write(\"\\t\".join(header)+\"\\n\")\n\n        data = [\n                total_reads,\n                transcriptome_reads,\n                multimapped_reads,\n                not_transcriptome_reads,\n                unmapped_reads,\n                ribosomal_reads,\n\n                \"\",\n                collected_data[\"alignment statistics\"][\"total reads/pairs processed\"],\n                collected_data[\"alignment statistics\"][\"uniquely mapped reads/pairs number\"],\n                collected_data[\"alignment statistics\"][\"reads/pairs mapped to multiple loci\"],\n                collected_data[\"alignment statistics\"][\"reads/pairs suppressed due to mapping to too many loci\"],\n                collected_data[\"alignment statistics\"][\"mismatch rate per base, %\"],\n                collected_data[\"alignment statistics\"][\"deletion rate per base, %\"],\n                collected_data[\"alignment statistics\"][\"reads/pairs unmapped due to too many mismatches, %\"],\n                collected_data[\"alignment statistics\"][\"reads/pairs unmapped due to too short, %\"],\n                collected_data[\"alignment statistics\"][\"reads/pairs unmapped due to other reasons, %\"],\n                collected_data[\"alignment statistics\"][\"number of reads/pairs in transcriptome\"],\n                collected_data[\"alignment statistics\"][\"number of reads/pairs in ribosomal dna\"],\n\n                \"\",\n                collected_data[\"BAM statistics\"][\"total reads/pairs\"],\n                collected_data[\"BAM statistics\"][\"reads/pairs mapped\"],\n                collected_data[\"BAM statistics\"][\"reads/pairs unmapped\"],\n                collected_data[\"BAM statistics\"][\"insert size average\"],\n                collected_data[\"BAM statistics\"][\"insert size standard deviation\"],\n                collected_data[\"BAM statistics\"][\"reads average length\"],\n                collected_data[\"BAM statistics\"][\"reads average quality\"],\n                collected_data[\"BAM statistics\"][\"reads maximum length\"]]\n\n        if collected_data.get(\"adapter trimming statistics\", None):\n            data.extend([\"\",\n                        collected_data[\"adapter trimming statistics\"][\"trimming mode\"],\n                        collected_data[\"adapter trimming statistics\"][\"adapter sequence\"],\n                        collected_data[\"adapter trimming statistics\"][\"quality phred score cutoff\"],\n                        collected_data[\"adapter trimming statistics\"][\"minimum required adapter overlap\"],\n                        collected_data[\"adapter trimming statistics\"][\"maximum trimming error rate\"],\n                        collected_data[\"adapter trimming statistics\"][\"minimum required read length\"],\n                        collected_data[\"adapter trimming statistics\"][\"number of reads/pairs analysed for length validation\"],\n                        collected_data[\"adapter trimming statistics\"][\"reads/pairs removed because of length cutoff\"],\n                        collected_data[\"adapter trimming statistics\"][\"fastq\"][0][\"total reads processed\"],\n                        collected_data[\"adapter trimming statistics\"][\"fastq\"][0][\"reads with adapters\"]])\n            if len(collected_data[\"adapter trimming statistics\"][\"fastq\"]) > 1:\n                data.extend([collected_data[\"adapter trimming statistics\"][\"fastq\"][1][\"total reads processed\"],\n                            collected_data[\"adapter trimming statistics\"][\"fastq\"][1][\"reads with adapters\"]])\n\n        output_stream.write(\"\\t\".join(str(l) for l in data))\n\n\ndef main(argsl=None):\n    if argsl is None:\n        argsl = sys.argv[1:]\n    args,_ = arg_parser().parse_known_args(argsl)\n    args = normalize_args(args, skip_list=[\"paired\"])\n    collected_data = collect_stats(args)\n    export_results_yaml(collected_data, args.output)\n    export_results_table(collected_data, args.output)\n    export_results_markdown(collected_data, args.output)\n\n\nif __name__ == \"__main__\":\n    sys.exit(main(sys.argv[1:]))\n"
+    default: "#!/usr/bin/env python\nimport os\nimport sys\nimport argparse\nimport
+      yaml\nimport math\nimport re\n\n\ndef cut_int(s):\n    return int(s.strip().split()[0])\n
+      \ndef cut_float(s):\n    return float(s.strip().split()[0])\n\ndef cut_percent(s):\n\
+      \    return float(s.strip().replace(\"%\", \"\").split()[0])\n\n\nADAPTER_TRIMMING
+      = {\n    \"Trimming mode\": {\n        \"alias\": \"trimming mode\",\n     \
+      \   \"function\": str,\n        \"pair_end_specific\": False\n    },\n    \"\
+      Quality Phred score cutoff\": {\n        \"alias\": \"quality phred score cutoff\"\
+      ,\n        \"function\": int,\n        \"pair_end_specific\": False\n    },\n\
+      \    \"Quality encoding type selected\": {\n        \"alias\": \"quality encoding
+      type\",\n        \"function\": str,\n        \"pair_end_specific\": False\n\
+      \    },\n    \"Adapter sequence\": {\n        \"alias\": \"adapter sequence\"\
+      ,\n        \"function\": str,\n        \"pair_end_specific\": False\n    },\n\
+      \    \"Minimum required adapter overlap\": {\n        \"alias\": \"minimum required
+      adapter overlap\",\n        \"function\": cut_int,\n        \"pair_end_specific\"\
+      : False\n    },\n    \"Maximum trimming error rate\": {\n        \"alias\":
+      \"maximum trimming error rate\",\n        \"function\": cut_float,\n       \
+      \ \"pair_end_specific\": False\n    },\n    \"Minimum required sequence length\"\
+      : {\n        \"alias\": \"minimum required read length\",\n        \"function\"\
+      : cut_int,\n        \"pair_end_specific\": False\n    },\n    \"Total number
+      of sequences analysed\": {\n        \"alias\": \"number of reads/pairs analysed
+      for length validation\",\n        \"function\": int,\n        \"pair_end_specific\"\
+      : False\n    },\n    \"Number of sequence pairs removed\": {\n        \"alias\"\
+      : \"reads/pairs removed because of length cutoff\",\n        \"function\": cut_int,\n\
+      \        \"pair_end_specific\": False\n    },\n    \"Sequences removed because
+      they became shorter\": {\n        \"alias\": \"reads/pairs removed because of
+      length cutoff\",\n        \"function\": cut_int,\n        \"pair_end_specific\"\
+      : False\n    },\n    \"order\": [\"fastq\",\n            \"trimming mode\",\n\
+      \            \"adapter sequence\",\n            \"number of reads/pairs analysed
+      for length validation\",\n            \"reads/pairs removed because of length
+      cutoff\",\n            \"minimum required read length\",\n            \"quality
+      phred score cutoff\",\n            \"quality encoding type\",\n            \"\
+      minimum required adapter overlap\",\n            \"maximum trimming error rate\"\
+      ]\n}\n\n\nALIGNMENT = {\n    \"Number of input reads\": {\n        \"alias\"\
+      : \"total reads/pairs processed\",\n        \"function\": int,\n        \"pair_end_specific\"\
+      : False\n    },\n    \"Uniquely mapped reads number\": {\n        \"alias\"
+      : \"uniquely mapped reads/pairs number\",\n        \"function\": int,\n    \
+      \    \"pair_end_specific\": False\n    },\n    \"Mismatch rate per base, %\"\
+      : {\n        \"alias\": \"mismatch rate per base, %\",\n        \"function\"\
+      : cut_percent,\n        \"pair_end_specific\": False\n    },\n    \"Deletion
+      rate per base\": {\n        \"alias\": \"deletion rate per base, %\",\n    \
+      \    \"function\": cut_percent,\n        \"pair_end_specific\": False\n    },\n\
+      \    \"Number of reads mapped to multiple loci\": {\n        \"alias\": \"reads/pairs
+      mapped to multiple loci\",\n        \"function\": int,\n        \"pair_end_specific\"\
+      : False\n    },\n    \"Number of reads mapped to too many loci\": {\n      \
+      \  \"alias\": \"reads/pairs suppressed due to mapping to too many loci\",\n\
+      \        \"function\": int,\n        \"pair_end_specific\": False\n    },\n\
+      \    \"reads unmapped: too many mismatches\": {\n        \"alias\": \"reads/pairs
+      unmapped due to too many mismatches, %\",\n        \"function\": cut_percent,\n\
+      \        \"pair_end_specific\": False\n    },\n    \"reads unmapped: too short\"\
+      : {\n        \"alias\": \"reads/pairs unmapped due to too short, %\",\n    \
+      \    \"function\": cut_percent,\n        \"pair_end_specific\": False\n    },\n\
+      \    \"reads unmapped: other\": {\n        \"alias\": \"reads/pairs unmapped
+      due to other reasons, %\",\n        \"function\": cut_percent,\n        \"pair_end_specific\"\
+      : False\n    },\n    \"reads with at least one reported alignment\": {\n   \
+      \     \"alias\": \"number of reads/pairs in ribosomal dna\",\n        \"function\"\
+      : cut_int,\n        \"pair_end_specific\": False\n    },\n    \"order\": [\"\
+      total reads/pairs processed\",\n            \"uniquely mapped reads/pairs number\"\
+      ,\n            \"number of reads/pairs in transcriptome\",\n            \"number
+      of reads/pairs in ribosomal dna\",\n            \"reads/pairs mapped to multiple
+      loci\",\n            \"reads/pairs suppressed due to mapping to too many loci\"\
+      ,\n            \"reads/pairs unmapped due to too many mismatches, %\",\n   \
+      \         \"reads/pairs unmapped due to too short, %\",\n            \"reads/pairs
+      unmapped due to other reasons, %\",\n            \"mismatch rate per base, %\"\
+      ,\n            \"deletion rate per base, %\"]\n}\n\n\nBAMSTATS = {\n    \"raw
+      total sequences\": {\n        \"alias\": \"total reads/pairs\",\n        \"\
+      function\": int,\n        \"pair_end_specific\": True\n    },\n    \"reads mapped\"\
+      : {\n        \"alias\": \"reads/pairs mapped\",\n        \"function\": int,\n\
+      \        \"pair_end_specific\": True\n    },\n    \"reads unmapped\": {\n  \
+      \      \"alias\": \"reads/pairs unmapped\",\n        \"function\": int,\n  \
+      \      \"pair_end_specific\": True\n    },\n    \"average length\": {\n    \
+      \    \"alias\": \"reads average length\",\n        \"function\": float,\n  \
+      \      \"pair_end_specific\": False\n    },\n    \"maximum length\": {\n   \
+      \     \"alias\": \"reads maximum length\",\n        \"function\": int,\n   \
+      \     \"pair_end_specific\": False\n    },\n    \"average quality\": {\n   \
+      \     \"alias\": \"reads average quality\",\n        \"function\": float,\n\
+      \        \"pair_end_specific\": False\n    },\n    \"insert size average\":
+      {\n        \"alias\": \"insert size average\",\n        \"function\": float,\n\
+      \        \"pair_end_specific\": False\n    },\n    \"insert size standard deviation\"\
+      : {\n        \"alias\": \"insert size standard deviation\",\n        \"function\"\
+      : float,\n        \"pair_end_specific\": False\n    },\n    \"order\": [\"total
+      reads/pairs\",\n            \"reads/pairs mapped\",\n            \"reads/pairs
+      unmapped\",\n            \"reads average length\",\n            \"reads maximum
+      length\",\n            \"reads average quality\",\n            \"insert size
+      average\",\n            \"insert size standard deviation\"]\n}\n\n\ndef arg_parser():\n\
+      \    general_parser = argparse.ArgumentParser()\n    general_parser.add_argument(\"\
+      --trim1\",           help=\"Path to Trimgalore report file for FASTQ 1\",  \
+      \         required=False)\n    general_parser.add_argument(\"--trim2\",    \
+      \       help=\"Path to Trimgalore report file for FASTQ 2\",           required=False)\n\
+      \    general_parser.add_argument(\"--star\",            help=\"Path to STAR
+      report file\",                             required=False)\n    general_parser.add_argument(\"\
+      --bowtie\",          help=\"Path to Bowtie report file\",                  \
+      \         required=False)\n    general_parser.add_argument(\"--bamstats\", \
+      \       help=\"Path to bam statistics report file\",                   required=False)\n\
+      \    general_parser.add_argument(\"--isoforms\",        help=\"Path to isoforms
+      file\",                                required=False)\n    general_parser.add_argument(\"\
+      --paired\",          help=\"Process as paired-end\",                       \
+      \    action=\"store_true\")\n    general_parser.add_argument(\"--output\", \
+      \         help=\"Output filename prefix\",               default=\"collected_statistics\"\
+      )\n    return general_parser\n\n\ndef normalize_args(args, skip_list=[]):\n\
+      \    normalized_args = {}\n    for key,value in args.__dict__.items():\n   \
+      \     if key not in skip_list:\n            normalized_args[key] = value if
+      not value or os.path.isabs(value) else os.path.normpath(os.path.join(os.getcwd(),
+      value))\n        else:\n            normalized_args[key]=value\n    return argparse.Namespace
+      (**normalized_args)\n\n\ndef open_file(filename):\n    lines = []\n    with
+      open(filename, 'r') as infile:\n        for line in infile:\n            if
+      line.strip():\n                lines.append(line.strip())\n    return lines\n
+      \n\ndef split_line(l, delimiter):\n    return [i.strip() for i in l.split(delimiter)]\n
+      \n\ndef get_correspondent_key(data, long_k):\n    for short_k, v in data.items():\n\
+      \        if short_k in long_k:\n            return v[\"alias\"], v[\"function\"\
+      ], v[\"pair_end_specific\"]\n    raise Exception\n\n\ndef process_trimgalore_report(filepath,
+      collected_results, header, key_dict, pair_end, delimiter):\n    if not collected_results.get(header,
+      None):\n        collected_results[header] = {\"fastq\": []}\n    fastq = {}\n\
+      \    for line in open_file(filepath):\n        try:\n            key, value
+      = split_line(line, delimiter)\n            if \"Total reads processed\" in line:\n\
+      \                fastq[\"total reads processed\"] = int(value.strip().replace(\"\
+      ,\",\"\"))\n            elif \"Reads with adapters\" in line:\n            \
+      \    fastq[\"reads with adapters\"] = int(value.strip().replace(\",\",\"\").split()[0])\n\
+      \            else:\n                res_key, res_function, pair_end_specific
+      = get_correspondent_key(key_dict, key)\n                if not collected_results[header].get(res_key,
+      None):\n                    collected_results[header][res_key] = res_function(value)\n\
+      \        except Exception:\n            pass\n    if not pair_end:\n       \
+      \ collected_results[header][\"number of reads/pairs analysed for length validation\"\
+      ] = fastq[\"total reads processed\"]\n    collected_results[header][\"fastq\"\
+      ].append(fastq)\n    if key_dict.get(\"order\", None):\n        collected_results[header]
+      = {k: collected_results[header][k] for k in key_dict[\"order\"] if k in collected_results[header]}\n
+      \n\ndef process_custom_report(filepath, collected_results, header, key_dict,
+      pair_end, delimiter):\n    if not collected_results.get(header, None):\n   \
+      \     collected_results[header] = {}\n    for line in open_file(filepath):\n\
+      \        try:\n            key, value = split_line(line, delimiter)\n      \
+      \      res_key, res_function, pair_end_specific = get_correspondent_key(key_dict,
+      key)\n            if not collected_results[header].get(res_key, None):\n   \
+      \             if pair_end_specific and pair_end:\n                    collected_results[header][res_key]
+      = res_function(res_function(value)/2)\n                else:\n             \
+      \       collected_results[header][res_key] = res_function(value)\n        except
+      Exception:\n            pass\n    if key_dict.get(\"order\", None):\n      \
+      \  collected_results[header] = {k: collected_results[header][k] for k in key_dict[\"\
+      order\"] if k in collected_results[header]}\n    \n\ndef process_isoforms_report(filepath,
+      collected_results, header, key_dict, pair_end):\n    if not collected_results.get(header,
+      None):\n        collected_results[header] = {}\n    total_reads_index = None\n\
+      \    used_reads = 0\n    for line in open_file(filepath):\n        if re.match
+      ('.*RefseqId.*|.*GeneId.*|.*Chrom.*|.*TotalReads.*', line) and total_reads_index
+      is None:\n            total_reads_index = line.split(',').index('TotalReads')\n\
+      \            continue\n        line_splitted = line.split(',')\n        used_reads
+      += int(line_splitted[total_reads_index])\n    if pair_end:\n        used_reads
+      = int(used_reads/2)\n    collected_results[header][\"number of reads/pairs in
+      transcriptome\"] = used_reads\n    if key_dict.get(\"order\", None):\n     \
+      \   collected_results[header] = {k: collected_results[header][k] for k in key_dict[\"\
+      order\"] if k in collected_results[header]}\n\n\ndef collect_stats(args):\n\
+      \    collected_results = {}\n    \n    if args.trim1:\n        process_trimgalore_report(filepath=args.trim1,\n\
+      \                                collected_results=collected_results,\n    \
+      \                            header=\"adapter trimming statistics\",\n     \
+      \                           key_dict=ADAPTER_TRIMMING,\n                   \
+      \             pair_end=args.paired,\n                                delimiter=\"\
+      :\")\n\n    if args.trim2:\n        process_trimgalore_report(filepath=args.trim2,\n\
+      \                                collected_results=collected_results,\n    \
+      \                            header=\"adapter trimming statistics\",\n     \
+      \                           key_dict=ADAPTER_TRIMMING,\n                   \
+      \             pair_end=args.paired,\n                                delimiter=\"\
+      :\")\n\n    if args.star:\n        process_custom_report(filepath=args.star,\n\
+      \                            collected_results=collected_results,\n        \
+      \                    header=\"alignment statistics\",\n                    \
+      \        key_dict=ALIGNMENT,\n                            pair_end=args.paired,\n\
+      \                            delimiter=\"|\")\n\n    if args.isoforms:\n   \
+      \     process_isoforms_report(filepath=args.isoforms,\n                    \
+      \            collected_results=collected_results,\n                        \
+      \        header=\"alignment statistics\",\n                                key_dict=ALIGNMENT,\n\
+      \                                pair_end=args.paired)\n\n    if args.bowtie:\n\
+      \        process_custom_report(filepath=args.bowtie,\n                     \
+      \       collected_results=collected_results,\n                            header=\"\
+      alignment statistics\",\n                            key_dict=ALIGNMENT,\n \
+      \                           pair_end=args.paired,\n                        \
+      \    delimiter=\":\")\n\n    if args.bamstats:\n        process_custom_report(filepath=args.bamstats,\n\
+      \                            collected_results=collected_results,\n        \
+      \                    header=\"BAM statistics\",\n                          \
+      \  key_dict=BAMSTATS,\n                            pair_end=args.paired,\n \
+      \                           delimiter=\":\")\n\n    return (collected_results)\n
+      \n\ndef export_results_yaml(collected_data, filepath):\n    with open(filepath+\"\
+      .yaml\", 'w') as output_stream:\n        output_stream.write(yaml.dump(collected_data,
+      width=1000, sort_keys=False))\n\n\ndef export_results_markdown(collected_data,
+      filepath):\n    with open(filepath+\".md\", 'w') as output_stream:\n       \
+      \ for line in yaml.dump(collected_data, width=1000, sort_keys=False).split(\"\
+      \\n\"):\n            if not line.strip():\n                continue\n      \
+      \      if line.startswith(\"  - \"):\n                output_stream.write(line+\"\
+      \\n\")\n            elif line.startswith(\"    \"):\n                output_stream.write(\"\
+      <br>\"+line+\"\\n\")\n            elif line.startswith(\"  \"):\n          \
+      \      output_stream.write(\"- \"+line+\"\\n\")\n            else:\n       \
+      \         output_stream.write(\"### \"+line+\"\\n\")\n\n\ndef export_results_table(collected_data,
+      filepath):\n    with open(filepath+\".tsv\", 'w') as output_stream:\n      \
+      \  total_reads= collected_data[\"alignment statistics\"][\"total reads/pairs
+      processed\"]\n        uniquely_mapped_reads = collected_data[\"alignment statistics\"\
+      ][\"uniquely mapped reads/pairs number\"]\n        transcriptome_reads = collected_data[\"\
+      alignment statistics\"][\"number of reads/pairs in transcriptome\"]\n      \
+      \  multimapped_reads = collected_data[\"alignment statistics\"][\"reads/pairs
+      suppressed due to mapping to too many loci\"]\n        not_transcriptome_reads
+      = uniquely_mapped_reads - transcriptome_reads\n        unmapped_reads = total_reads
+      - uniquely_mapped_reads - multimapped_reads\n        ribosomal_reads = collected_data[\"\
+      alignment statistics\"][\"number of reads/pairs in ribosomal dna\"]\n\n\n  \
+      \      header = [\n                    \"Tags total\",\n                   \
+      \ \"Transcriptome\",\n                    \"Multi-mapped\",\n              \
+      \      \"Outside annotation\",\n                    \"Unmapped\",\n        \
+      \            \"Ribosomal contamination\",\n\n                    \"alignment
+      statistics\",\n                    \"total reads/pairs processed\",\n      \
+      \              \"uniquely mapped reads/pairs number\",\n                   \
+      \ \"reads/pairs mapped to multiple loci\",\n                    \"reads/pairs
+      suppressed due to mapping to too many loci\",\n                    \"mismatch
+      rate per base, %\",\n                    \"deletion rate per base, %\",\n  \
+      \                  \"reads/pairs unmapped due to too many mismatches, %\",\n\
+      \                    \"reads/pairs unmapped due to too short, %\",\n       \
+      \             \"reads/pairs unmapped due to other reasons, %\",\n          \
+      \          \"number of reads/pairs in transcriptome\",\n                   \
+      \ \"number of reads/pairs in ribosomal dna\",\n\n                    \"BAM statistics\"\
+      ,\n                    \"total reads/pairs\",\n                    \"reads/pairs
+      mapped\",\n                    \"reads/pairs unmapped\",\n                 \
+      \   \"insert size average\",\n                    \"insert size standard deviation\"\
+      ,\n                    \"reads average length\",\n                    \"reads
+      average quality\",\n                    \"reads maximum length\"]\n\n      \
+      \  if collected_data.get(\"adapter trimming statistics\", None):\n         \
+      \   header.extend([\"adapter trimming statistics\",\n                      \
+      \  \"trimming mode\",\n                        \"adapter sequence\",\n     \
+      \                   \"quality phred score cutoff\",\n                      \
+      \  \"minimum required adapter overlap\",\n                        \"maximum
+      trimming error rate\",\n                        \"minimum required read length\"\
+      ,\n                        \"number of reads/pairs analysed for length validation\"\
+      ,\n                        \"reads/pairs removed because of length cutoff\"\
+      ,\n                        \"fastq1: total reads processed\",\n            \
+      \            \"fastq1: reads with adapters\"])\n            if len(collected_data[\"\
+      adapter trimming statistics\"][\"fastq\"]) > 1:\n                header.extend([\"\
+      fastq2: total reads processed\", \"fastq2: reads with adapters\"])\n\n     \
+      \   output_stream.write(\"\\t\".join(header)+\"\\n\")\n\n        data = [\n\
+      \                total_reads,\n                transcriptome_reads,\n      \
+      \          multimapped_reads,\n                not_transcriptome_reads,\n  \
+      \              unmapped_reads,\n                ribosomal_reads,\n\n       \
+      \         \"\",\n                collected_data[\"alignment statistics\"][\"\
+      total reads/pairs processed\"],\n                collected_data[\"alignment
+      statistics\"][\"uniquely mapped reads/pairs number\"],\n                collected_data[\"\
+      alignment statistics\"][\"reads/pairs mapped to multiple loci\"],\n        \
+      \        collected_data[\"alignment statistics\"][\"reads/pairs suppressed due
+      to mapping to too many loci\"],\n                collected_data[\"alignment
+      statistics\"][\"mismatch rate per base, %\"],\n                collected_data[\"\
+      alignment statistics\"][\"deletion rate per base, %\"],\n                collected_data[\"\
+      alignment statistics\"][\"reads/pairs unmapped due to too many mismatches, %\"\
+      ],\n                collected_data[\"alignment statistics\"][\"reads/pairs unmapped
+      due to too short, %\"],\n                collected_data[\"alignment statistics\"\
+      ][\"reads/pairs unmapped due to other reasons, %\"],\n                collected_data[\"\
+      alignment statistics\"][\"number of reads/pairs in transcriptome\"],\n     \
+      \           collected_data[\"alignment statistics\"][\"number of reads/pairs
+      in ribosomal dna\"],\n\n                \"\",\n                collected_data[\"\
+      BAM statistics\"][\"total reads/pairs\"],\n                collected_data[\"\
+      BAM statistics\"][\"reads/pairs mapped\"],\n                collected_data[\"\
+      BAM statistics\"][\"reads/pairs unmapped\"],\n                collected_data[\"\
+      BAM statistics\"][\"insert size average\"],\n                collected_data[\"\
+      BAM statistics\"][\"insert size standard deviation\"],\n                collected_data[\"\
+      BAM statistics\"][\"reads average length\"],\n                collected_data[\"\
+      BAM statistics\"][\"reads average quality\"],\n                collected_data[\"\
+      BAM statistics\"][\"reads maximum length\"]]\n\n        if collected_data.get(\"\
+      adapter trimming statistics\", None):\n            data.extend([\"\",\n    \
+      \                    collected_data[\"adapter trimming statistics\"][\"trimming
+      mode\"],\n                        collected_data[\"adapter trimming statistics\"\
+      ][\"adapter sequence\"],\n                        collected_data[\"adapter trimming
+      statistics\"][\"quality phred score cutoff\"],\n                        collected_data[\"\
+      adapter trimming statistics\"][\"minimum required adapter overlap\"],\n    \
+      \                    collected_data[\"adapter trimming statistics\"][\"maximum
+      trimming error rate\"],\n                        collected_data[\"adapter trimming
+      statistics\"][\"minimum required read length\"],\n                        collected_data[\"\
+      adapter trimming statistics\"][\"number of reads/pairs analysed for length validation\"\
+      ],\n                        collected_data[\"adapter trimming statistics\"][\"\
+      reads/pairs removed because of length cutoff\"],\n                        collected_data[\"\
+      adapter trimming statistics\"][\"fastq\"][0][\"total reads processed\"],\n \
+      \                       collected_data[\"adapter trimming statistics\"][\"fastq\"\
+      ][0][\"reads with adapters\"]])\n            if len(collected_data[\"adapter
+      trimming statistics\"][\"fastq\"]) > 1:\n                data.extend([collected_data[\"\
+      adapter trimming statistics\"][\"fastq\"][1][\"total reads processed\"],\n \
+      \                           collected_data[\"adapter trimming statistics\"][\"\
+      fastq\"][1][\"reads with adapters\"]])\n\n        output_stream.write(\"\\t\"\
+      .join(str(l) for l in data))\n\n\ndef main(argsl=None):\n    if argsl is None:\n\
+      \        argsl = sys.argv[1:]\n    args,_ = arg_parser().parse_known_args(argsl)\n\
+      \    args = normalize_args(args, skip_list=[\"paired\"])\n    collected_data
+      = collect_stats(args)\n    export_results_yaml(collected_data, args.output)\n\
+      \    export_results_table(collected_data, args.output)\n    export_results_markdown(collected_data,
+      args.output)\n\n\nif __name__ == \"__main__\":\n    sys.exit(main(sys.argv[1:]))\n"
     inputBinding:
       position: 5
   trimgalore_report_fastq_1:
@@ -70,8 +352,8 @@ outputs:
     outputBinding:
       glob: $(get_output_prefix()+".md")
 baseCommand:
-- python
-- -c
+  - python
+  - -c
 doc: |
   Tool processes and combines log files generated by Trimgalore, Bowtie, Samtools and MACS2.
 

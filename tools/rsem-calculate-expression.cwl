@@ -1,20 +1,27 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { if (Array.isArray(inputs.upstream_read_file) && inputs.upstream_read_file.length | 0){ return inputs.upstream_read_file[0].basename.split('.').slice(0,-1).join('.'); } else if (inputs.upstream_read_file != null){ return inputs.upstream_read_file.basename.split('.').slice(0,-1).join('.'); } else if (Array.isArray(inputs.downstream_read_file) && inputs.downstream_read_file.length | 0){ return inputs.downstream_read_file[0].basename.split('.').slice(0,-1).join('.'); } else if (inputs.downstream_read_file != null){ return inputs.downstream_read_file.basename.split('.').slice(0,-1).join('.'); } else if (inputs.input_aligned != null){ return inputs.input_aligned.basename.split('.').slice(0,-1).join('.'); } else { return null; } };
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { if (Array.isArray(inputs.upstream_read_file)
+        && inputs.upstream_read_file.length | 0){ return inputs.upstream_read_file[0].basename.split('.').slice(0,-1).join('.');
+        } else if (inputs.upstream_read_file != null){ return inputs.upstream_read_file.basename.split('.').slice(0,-1).join('.');
+        } else if (Array.isArray(inputs.downstream_read_file) && inputs.downstream_read_file.length
+        | 0){ return inputs.downstream_read_file[0].basename.split('.').slice(0,-1).join('.');
+        } else if (inputs.downstream_read_file != null){ return inputs.downstream_read_file.basename.split('.').slice(0,-1).join('.');
+        } else if (inputs.input_aligned != null){ return inputs.input_aligned.basename.split('.').slice(0,-1).join('.');
+        } else { return null; } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/rsem:v1.3.0
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/rsem:v1.3.0
 inputs:
   upstream_read_file:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       position: 100
     doc: |
@@ -25,10 +32,10 @@ inputs:
       then FASTA format is expected.
   downstream_read_file:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       position: 101
       itemSeparator: ','
@@ -40,8 +47,8 @@ inputs:
       then FASTA format is expected.
   input_aligned:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       position: 102
       prefix: --alignments
@@ -57,8 +64,8 @@ inputs:
       Path to the folder where all rsem reference files are saved
   output_filename:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 104
       valueFrom: |
@@ -76,8 +83,8 @@ inputs:
       (e.g., sample_name.genes.results)
   paired_end:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 99
       prefix: --paired-end
@@ -89,8 +96,8 @@ inputs:
       (Default: off)
   no_qualities:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 97
       prefix: --no-qualities
@@ -99,13 +106,13 @@ inputs:
       (Default: off)
   strandedness:
     type:
-    - 'null'
-    - type: enum
-      name: strandedness
-      symbols:
-      - none
-      - forward
-      - reverse
+      - 'null'
+      - type: enum
+        name: strandedness
+        symbols:
+          - none
+          - forward
+          - reverse
     inputBinding:
       position: 96
       prefix: --strandedness
@@ -121,8 +128,8 @@ inputs:
       (Default: 'none')
   threads:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 95
       prefix: --num-threads
@@ -131,8 +138,8 @@ inputs:
       (Default: 1)
   fai_file:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       position: 94
       prefix: --fai
@@ -143,8 +150,8 @@ inputs:
       (Default: off)
   bowtie2:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 93
       prefix: --bowtie2
@@ -158,8 +165,8 @@ inputs:
       (Default: off)
   star:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 92
       prefix: --star
@@ -170,8 +177,8 @@ inputs:
       Each STAR job will have its own private copy of the genome in memory. (Default: off)
   append_names:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 91
       prefix: --append-names
@@ -181,8 +188,8 @@ inputs:
       (Default: off)
   seed:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 90
       prefix: --seed
@@ -192,8 +199,8 @@ inputs:
       (Default: off)
   single_cell_prior:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 89
       prefix: --single-cell-prior
@@ -206,8 +213,8 @@ inputs:
       (Default: off)
   calc_pme:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 88
       prefix: --calc-pme
@@ -216,8 +223,8 @@ inputs:
       (Default: off)
   calc_ci:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 87
       prefix: --calc-ci
@@ -227,8 +234,8 @@ inputs:
       (Default: off)
   quiet:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 86
       prefix: --quiet
@@ -237,8 +244,8 @@ inputs:
       (Default: off)
   sort_bam_by_read_name:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 85
       prefix: --sort-bam-by-read-name
@@ -249,8 +256,8 @@ inputs:
       (Default: off)
   no_bam_output:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 84
       prefix: --no-bam-output
@@ -259,8 +266,8 @@ inputs:
       (Default: off)
   sampling_for_bam:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 83
       prefix: --sampling-for-bam
@@ -273,8 +280,8 @@ inputs:
       (Default: off)
   output_genome_bam:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 82
       prefix: --output-genome-bam
@@ -285,8 +292,8 @@ inputs:
       (Default: off)
   sort_bam_by_coordinate:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 81
       prefix: --sort-bam-by-coordinate
@@ -295,8 +302,8 @@ inputs:
       (Default: off)
   sort_bam_memory_per_thread:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 80
       prefix: --sort-bam-memory-per-thread
@@ -307,8 +314,8 @@ inputs:
       (Default: 1G)
   seed_length:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 79
       prefix: --seed-length
@@ -321,8 +328,8 @@ inputs:
       (Default: 25)
   phred33_quals:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 78
       prefix: --phred33-quals
@@ -331,8 +338,8 @@ inputs:
       (Default: on)
   phred64_quals:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 77
       prefix: --phred64-quals
@@ -341,8 +348,8 @@ inputs:
       (Default: off)
   solexa_quals:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 76
       prefix: --solexa-quals
@@ -351,8 +358,8 @@ inputs:
       (Default: off)
   bowtie_n:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 74
       prefix: --bowtie-n
@@ -361,8 +368,8 @@ inputs:
       (Range: 0-3, Default: 2))
   bowtie_e:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 73
       prefix: --bowtie-e
@@ -371,8 +378,8 @@ inputs:
       (Default: 99999999)
   bowtie_m:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 72
       prefix: --bowtie-m
@@ -381,8 +388,8 @@ inputs:
       (Default: 200)
   bowtie_chunkmbs:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 71
       prefix: --bowtie-chunkmbs
@@ -391,8 +398,8 @@ inputs:
       (Default: 0 - use Bowtie's default)
   bowtie2_mismatch_rate:
     type:
-    - 'null'
-    - double
+      - 'null'
+      - double
     inputBinding:
       position: 69
       prefix: --bowtie2-mismatch-rate
@@ -401,8 +408,8 @@ inputs:
       (Default: 0.1)
   bowtie2_k:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 68
       prefix: --bowtie2-k
@@ -411,14 +418,14 @@ inputs:
       (Default: 200)
   bowtie2_sensitivity_level:
     type:
-    - 'null'
-    - type: enum
-      name: bowtie2_sensitivity
-      symbols:
-      - very_fast
-      - fast
-      - sensitive
-      - very_sensitive
+      - 'null'
+      - type: enum
+        name: bowtie2_sensitivity
+        symbols:
+          - very_fast
+          - fast
+          - sensitive
+          - very_sensitive
     inputBinding:
       position: 67
       prefix: --bowtie2-sensitivity-level
@@ -430,8 +437,8 @@ inputs:
       (Default: "sensitive" - use Bowtie 2's default)
   star_gzipped_read_file:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 65
       prefix: --star-gzipped-read-file
@@ -440,8 +447,8 @@ inputs:
       (Default: off)
   star_bzipped_read_file:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 64
       prefix: --star-bzipped-read-file
@@ -450,8 +457,8 @@ inputs:
       (Default: off)
   star_output_genome_bam:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 63
       prefix: --star-output-genome-bam
@@ -462,8 +469,8 @@ inputs:
       (Default: off)
   tag:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 62
       prefix: --tag
@@ -473,8 +480,8 @@ inputs:
       (Default: "")
   fragment_length_min:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 61
       prefix: --fragment-length-min
@@ -483,8 +490,8 @@ inputs:
       (Default: 1)
   fragment_length_max:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 60
       prefix: --fragment-length-max
@@ -493,8 +500,8 @@ inputs:
       (Default: 1000)
   fragment_length_mean:
     type:
-    - 'null'
-    - double
+      - 'null'
+      - double
     inputBinding:
       position: 59
       prefix: --fragment-length-mean
@@ -503,8 +510,8 @@ inputs:
       (Default: -1, which disables use of the fragment length distribution)
   fragment_length_sd:
     type:
-    - 'null'
-    - double
+      - 'null'
+      - double
     inputBinding:
       position: 58
       prefix: --fragment-length-sd
@@ -513,8 +520,8 @@ inputs:
       (Default: 0, which assumes that all fragments are of the same length, given by the rounded value of --fragment-length-mean)
   estimate_rspd:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 57
       prefix: --estimate-rspd
@@ -523,8 +530,8 @@ inputs:
       (Default: off)
   num_rspd_bins:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 56
       prefix: --num-rspd-bins
@@ -533,8 +540,8 @@ inputs:
       (Default: 20)
   gibbs_burnin:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 55
       prefix: --gibbs-burnin
@@ -544,8 +551,8 @@ inputs:
       (Default: 200)
   gibbs_number_of_samples:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 54
       prefix: --gibbs-number-of-samples
@@ -554,8 +561,8 @@ inputs:
       (Default: 1000)
   gibbs_sampling_gap:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 53
       prefix: --gibbs-sampling-gap
@@ -565,8 +572,8 @@ inputs:
       (Default: 1)
   ci_credibility_level:
     type:
-    - 'null'
-    - double
+      - 'null'
+      - double
     inputBinding:
       position: 52
       prefix: --ci-credibility-level
@@ -575,8 +582,8 @@ inputs:
       (Default: 0.95)
   ci_memory:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 51
       prefix: --ci-memory
@@ -585,8 +592,8 @@ inputs:
       (Default: 1024)
   ci_number_of_samples_per_count_vector:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 50
       prefix: --ci-number-of-samples-per-count-vector
@@ -597,8 +604,8 @@ inputs:
       (Default: 50)
   keep_intermediate_files:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 49
       prefix: --keep-intermediate-files
@@ -610,8 +617,8 @@ inputs:
       (Default: off)
   temporary_folder:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 48
       prefix: --temporary-folder
@@ -621,8 +628,8 @@ inputs:
       (Default: sample_name.temp)
   time:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 47
       prefix: --time
@@ -631,8 +638,8 @@ inputs:
       (Default: off)
   run_prsem:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 46
       prefix: --run-pRSEM
@@ -647,8 +654,8 @@ inputs:
       (Default: off)
   chipseq_peak_file:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 45
       prefix: --chipseq-peak-file
@@ -661,10 +668,10 @@ inputs:
       (Default: "")
   chipseq_target_read_files:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       position: 44
       itemSeparator: ','
@@ -677,10 +684,10 @@ inputs:
       (Default: "")
   chipseq_control_read_files:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       position: 43
       itemSeparator: ','
@@ -693,10 +700,10 @@ inputs:
       (Default: "")
   chipseq_read_files_multi_targets:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       position: 42
       itemSeparator: ','
@@ -711,10 +718,10 @@ inputs:
       (Default: "")
   chipseq_bed_files_multi_targets:
     type:
-    - 'null'
-    - File
-    - type: array
-      items: File
+      - 'null'
+      - File
+      - type: array
+        items: File
     inputBinding:
       position: 41
       itemSeparator: ','
@@ -729,8 +736,8 @@ inputs:
       (Default: "")
   cap_stacked_chipseq_reads:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 40
       prefix: --cap-stacked-chipseq-reads
@@ -742,8 +749,8 @@ inputs:
       (Default: off)
   n_max_stacked_chipseq_reads:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 39
       prefix: --n-max-stacked-chipseq-reads
@@ -754,25 +761,25 @@ inputs:
       (Default: 5)
   partition_model:
     type:
-    - 'null'
-    - type: enum
-      name: partition_model
-      symbols:
-      - pk
-      - pk_lgtnopk
-      - lm3
-      - lm4
-      - lm5
-      - lm6
-      - nopk_lm2pk
-      - nopk_lm3pk
-      - nopk_lm4pk
-      - nopk_lm5pk
-      - pk_lm2nopk
-      - pk_lm3nopk
-      - pk_lm4nopk
-      - pk_lm5nopk
-      - cmb_lgt
+      - 'null'
+      - type: enum
+        name: partition_model
+        symbols:
+          - pk
+          - pk_lgtnopk
+          - lm3
+          - lm4
+          - lm5
+          - lm6
+          - nopk_lm2pk
+          - nopk_lm3pk
+          - nopk_lm4pk
+          - nopk_lm5pk
+          - pk_lm2nopk
+          - pk_lm3nopk
+          - pk_lm4nopk
+          - pk_lm5nopk
+          - cmb_lgt
     inputBinding:
       position: 38
       prefix: --partition-model
@@ -803,8 +810,8 @@ inputs:
 outputs:
   isoform_results_file:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: |
         ${
@@ -816,8 +823,8 @@ outputs:
         }
   gene_results_file:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: |
         ${
@@ -829,8 +836,8 @@ outputs:
         }
   alleles_results_file:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: |
         ${
@@ -842,8 +849,8 @@ outputs:
         }
   genome_bam_file:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: |
         ${
@@ -855,8 +862,8 @@ outputs:
         }
   transcript_bam_file:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: |
         ${
@@ -868,8 +875,8 @@ outputs:
         }
   transcript_sorted_bam_bai_pair:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: |
         ${
@@ -880,11 +887,11 @@ outputs:
             }
         }
     secondaryFiles:
-    - .bai
+      - .bai
   genome_sorted_bam_bai_pair:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: |
         ${
@@ -895,11 +902,11 @@ outputs:
             }
         }
     secondaryFiles:
-    - .bai
+      - .bai
   align_time_file:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     outputBinding:
       glob: |
         ${
@@ -985,27 +992,27 @@ outputs:
           return parseInt(self[0].contents.split(/\r?\n/)[0].split(" ")[3]);
         }
 baseCommand:
-- rsem-calculate-expression
+  - rsem-calculate-expression
 arguments:
-- valueFrom: |
-    ${
-      if (inputs.upstream_read_file && inputs.downstream_read_file && !inputs.paired_end){
-        return "--paired-end";
-      }
-      return null;
-    }
-  position: 99
-- valueFrom: |
-    ${
-        for (var i = 0; i < inputs.indices_folder.listing.length; i++) {
-            if (inputs.indices_folder.listing[i].basename.split('.').slice(-1)[0] == 'grp'){
-              var name = inputs.indices_folder.listing[i].basename.split('.').slice(0,-1).join('.');
-              return inputs.indices_folder.listing[i].path.split('/').slice(0,-1).join('/') + '/' + name;
-            }
+  - valueFrom: |
+      ${
+        if (inputs.upstream_read_file && inputs.downstream_read_file && !inputs.paired_end){
+          return "--paired-end";
         }
         return null;
-    }
-  position: 103
+      }
+    position: 99
+  - valueFrom: |
+      ${
+          for (var i = 0; i < inputs.indices_folder.listing.length; i++) {
+              if (inputs.indices_folder.listing[i].basename.split('.').slice(-1)[0] == 'grp'){
+                var name = inputs.indices_folder.listing[i].basename.split('.').slice(0,-1).join('.');
+                return inputs.indices_folder.listing[i].path.split('/').slice(0,-1).join('/') + '/' + name;
+              }
+          }
+          return null;
+      }
+    position: 103
 doc: |
   Tool runs rsem-calculate-expression.
 

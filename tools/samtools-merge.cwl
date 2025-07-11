@@ -1,12 +1,15 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function(ext) { var ext = inputs.alignment_files[0].basename.split('.').slice(-1)[0]; var root = inputs.alignment_files[0].basename.split('.').slice(0,-1).join('.'); return inputs.output_filename?inputs.output_filename:root+"_merged."+ext; };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function(ext) { var ext = inputs.alignment_files[0].basename.split('.').slice(-1)[0];
+        var root = inputs.alignment_files[0].basename.split('.').slice(0,-1).join('.');
+        return inputs.output_filename?inputs.output_filename:root+"_merged."+ext;
+        };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/samtools:v1.4
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/samtools:v1.4
 inputs:
   fastcompression:
     type: boolean?
@@ -72,8 +75,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- samtools
-- merge
+  - samtools
+  - merge
 stdout: samtools_merge_stdout.log
 stderr: samtools_merge_stderr.log
 doc: |

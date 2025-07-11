@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bedops:v2.4.34
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bedops:v2.4.34
 inputs:
   script:
     type: string?
@@ -12,14 +12,14 @@ inputs:
       position: 1
   input_file:
     type:
-    - File
-    - File[]
+      - File
+      - File[]
     inputBinding:
       position: 2
   param:
     type:
-    - string?
-    - string[]
+      - string?
+      - string[]
     inputBinding:
       position: 3
 outputs:
@@ -28,8 +28,8 @@ outputs:
     outputBinding:
       glob: '*'
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 doc: |
   Tool to run custom script set as `script`
   input with arguments from `param`. Based

@@ -1,41 +1,41 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      var listing = [
-        {
-          "entry": inputs.fastq_file_r1,
-          "entryname": "sample_S1_L001_R1_001.fastq",
-          "writable": true
-        },
-        {
-          "entry": inputs.fastq_file_r2,
-          "entryname": "sample_S1_L001_R2_001.fastq",
-          "writable": true
-        },
-        {
-          "entry": inputs.fastq_file_r3,
-          "entryname": "sample_S1_L001_R3_001.fastq",
-          "writable": true
-        }
-      ];
-      if (inputs.fastq_file_i1){
-        listing.push(
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        var listing = [
           {
-            "entry": inputs.fastq_file_i1,
-            "entryname": "sample_S1_L001_I1_001.fastq",
+            "entry": inputs.fastq_file_r1,
+            "entryname": "sample_S1_L001_R1_001.fastq",
+            "writable": true
+          },
+          {
+            "entry": inputs.fastq_file_r2,
+            "entryname": "sample_S1_L001_R2_001.fastq",
+            "writable": true
+          },
+          {
+            "entry": inputs.fastq_file_r3,
+            "entryname": "sample_S1_L001_R3_001.fastq",
             "writable": true
           }
-        );
-      };
-      return listing;
-    }
+        ];
+        if (inputs.fastq_file_i1){
+          listing.push(
+            {
+              "entry": inputs.fastq_file_i1,
+              "entryname": "sample_S1_L001_I1_001.fastq",
+              "writable": true
+            }
+          );
+        };
+        return listing;
+      }
 hints:
-- class: DockerRequirement
-  dockerPull: cumulusprod/cellranger-atac:2.1.0
+  - class: DockerRequirement
+    dockerPull: cumulusprod/cellranger-atac:2.1.0
 inputs:
   fastq_file_r1:
     type: File
@@ -155,7 +155,7 @@ outputs:
     outputBinding:
       glob: sample/outs/possorted_bam.bam
     secondaryFiles:
-    - .bai
+      - .bai
     doc: |
       Indexed position-sorted reads
       aligned to the genome annotated
@@ -166,7 +166,7 @@ outputs:
     outputBinding:
       glob: sample/outs/fragments.tsv.gz
     secondaryFiles:
-    - .tbi
+      - .tbi
     doc: |
       Count and barcode information for
       every ATAC fragment observed
@@ -265,15 +265,15 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- cellranger-atac
-- count
-- --disable-ui
-- --fastqs
-- .
-- --sample
-- sample
-- --id
-- sample
+  - cellranger-atac
+  - count
+  - --disable-ui
+  - --fastqs
+  - .
+  - --sample
+  - sample
+  - --id
+  - sample
 stdout: cellranger_atac_count_stdout.log
 stderr: cellranger_atac_count_stderr.log
 label: Cell Ranger Count (ATAC)

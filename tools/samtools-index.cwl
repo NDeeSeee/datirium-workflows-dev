@@ -1,13 +1,18 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var ext = function() { return inputs.bai?'.bai':(inputs.csi?'.csi':'.bai'); };
-  - var default_output_filename = function() { if (inputs.output_filename){ return inputs.output_filename; } else if (inputs.input_file.location.split('/').slice(-1)[0].split('.').slice(-1)[0] == 'cram'){ return inputs.input_file.location.split('/').slice(-1)[0]+'.crai'; } else { return inputs.input_file.location.split('/').slice(-1)[0] + ext(); } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var ext = function() { return inputs.bai?'.bai':(inputs.csi?'.csi':'.bai');
+        };
+      - var default_output_filename = function() { if (inputs.output_filename){ return
+        inputs.output_filename; } else if (inputs.input_file.location.split('/').slice(-1)[0].split('.').slice(-1)[0]
+        == 'cram'){ return inputs.input_file.location.split('/').slice(-1)[0]+'.crai';
+        } else { return inputs.input_file.location.split('/').slice(-1)[0] + ext();
+        } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/samtools:v1.4
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/samtools:v1.4
 inputs:
   input_file:
     type: File
@@ -48,13 +53,13 @@ outputs:
       glob: $(default_output_filename())
     doc: Index file
 baseCommand:
-- samtools
-- index
+  - samtools
+  - index
 arguments:
-- valueFrom: $(inputs.bai?'-b':(inputs.csi?'-c':'-b'))
-  position: 5
-- valueFrom: $(default_output_filename())
-  position: 9
+  - valueFrom: $(inputs.bai?'-b':(inputs.csi?'-c':'-b'))
+    position: 5
+  - valueFrom: $(default_output_filename())
+    position: 9
 doc: |
   Tool to index input BAM/CRAM file set as `input_file`.
 

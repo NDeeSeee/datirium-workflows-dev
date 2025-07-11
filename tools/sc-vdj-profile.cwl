@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   query_data_rds:
     type: File
@@ -57,13 +57,13 @@ inputs:
       extra metadata is added
   cloneby:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gene
-      - nt
-      - aa
-      - strict
+      - 'null'
+      - type: enum
+        symbols:
+          - gene
+          - nt
+          - aa
+          - strict
     inputBinding:
       prefix: --cloneby
     doc: |
@@ -81,11 +81,11 @@ inputs:
       Default: 3
   filterby:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cells
-      - chains
+      - 'null'
+      - type: enum
+        symbols:
+          - cells
+          - chains
     inputBinding:
       prefix: --filter
     doc: |
@@ -109,17 +109,17 @@ inputs:
       Default: false
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     inputBinding:
       prefix: --theme
     doc: |
@@ -417,9 +417,9 @@ outputs:
       PNG format.
   all_plots_pdf:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*.pdf'
     doc: |
@@ -500,9 +500,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_vdj_profile.R"]:"/usr/local/bin/sc_vdj_profile.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_vdj_profile.R"]:"/usr/local/bin/sc_vdj_profile.R")
 stdout: sc_vdj_profile_stdout.log
 stderr: sc_vdj_profile_stderr.log
 label: Single-Cell Immune Profiling Analysis

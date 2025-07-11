@@ -1,12 +1,15 @@
 cwlVersion: v1.0
 class: CommandLineTool
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/ucscuserapps:v358_2
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/ucscuserapps:v358_2
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { if (inputs.output_filename == ""){ var root = inputs.annotation_tsv_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.annotation_tsv_file.basename+".gtf":root+".gtf"; } else { return inputs.output_filename; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { if (inputs.output_filename == ""){
+        var root = inputs.annotation_tsv_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.annotation_tsv_file.basename+".gtf":root+".gtf";
+        } else { return inputs.output_filename; } };
 inputs:
   script:
     type: string?
@@ -42,8 +45,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: genepredtogtf_stdout.log
 stderr: genepredtogtf_stderr.log
 doc: |

@@ -1,97 +1,97 @@
 cwlVersion: v1.0
 class: CommandLineTool
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 requirements:
-- class: EnvVarRequirement
-  envDef:
-    CBDATAROOT: $(runtime.outdir)
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing:
-  - entryname: cellbrowser_rna.conf
-    entry: |
-      name = "RNA"
-      shortLabel = "RNA"
-      priority = 1
-      geneIdType = "auto"
-      exprMatrix = "exprMatrix.tsv.gz"
-      meta = "meta.csv"
-      coords = [
-          {
-              "file": "tsne.coords.csv",
-              "shortLabel": "t-SNE"
-          },
-          {
-              "file": "umap.coords.csv",
-              "shortLabel": "UMAP"
-          }
-      ]
-      markers = [
-          {
-              "file": "markers.tsv",
-              "shortLabel": "Cluster-specific genes"
-          }
-      ]
-      geneLabel = "Feature"
-      radius = 3
-      alpha = 0.5
-      clusterField = "Cluster"
-      labelField = "Cluster"
-      dataRoot = "../"
-  - entryname: cellbrowser_atac.conf
-    entry: |
-      name = "ATAC"
-      shortLabel = "ATAC"
-      priority = 1
-      geneIdType = "auto"
-      exprMatrix = "exprMatrix.tsv.gz"
-      meta = "meta.csv"
-      coords = [
-          {
-              "file": "tsne.coords.csv",
-              "shortLabel": "t-SNE"
-          },
-          {
-              "file": "umap.coords.csv",
-              "shortLabel": "UMAP"
-          },
-          {
-              "file": "lsa.coords.csv",
-              "shortLabel": "LSA"
-          }
-      ]
-      markers = [
-          {
-              "file": "markers.tsv",
-              "shortLabel": "Cluster-specific peaks"
-          }
-      ]
-      geneLabel = "Feature"
-      radius = 3
-      alpha = 0.5
-      clusterField = "Cluster"
-      labelField = "Cluster"
-      dataRoot = "../"
-      atacSearch = "genome.current"
-  - entryname: cellbrowser.conf
-    entry: |
-      shortLabel = "Multiple datasets"
-  - entryname: desc_rna.conf
-    entry: |
-      title = "RNA"
-      abstract = ""
-      methods = ""
-      biorxiv_url = ""
-      custom = {}
-  - entryname: desc_atac.conf
-    entry: |
-      title = "ATAC"
-      abstract = ""
-      methods = ""
-      biorxiv_url = ""
-      custom = {}
+  - class: EnvVarRequirement
+    envDef:
+      CBDATAROOT: $(runtime.outdir)
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing:
+      - entryname: cellbrowser_rna.conf
+        entry: |
+          name = "RNA"
+          shortLabel = "RNA"
+          priority = 1
+          geneIdType = "auto"
+          exprMatrix = "exprMatrix.tsv.gz"
+          meta = "meta.csv"
+          coords = [
+              {
+                  "file": "tsne.coords.csv",
+                  "shortLabel": "t-SNE"
+              },
+              {
+                  "file": "umap.coords.csv",
+                  "shortLabel": "UMAP"
+              }
+          ]
+          markers = [
+              {
+                  "file": "markers.tsv",
+                  "shortLabel": "Cluster-specific genes"
+              }
+          ]
+          geneLabel = "Feature"
+          radius = 3
+          alpha = 0.5
+          clusterField = "Cluster"
+          labelField = "Cluster"
+          dataRoot = "../"
+      - entryname: cellbrowser_atac.conf
+        entry: |
+          name = "ATAC"
+          shortLabel = "ATAC"
+          priority = 1
+          geneIdType = "auto"
+          exprMatrix = "exprMatrix.tsv.gz"
+          meta = "meta.csv"
+          coords = [
+              {
+                  "file": "tsne.coords.csv",
+                  "shortLabel": "t-SNE"
+              },
+              {
+                  "file": "umap.coords.csv",
+                  "shortLabel": "UMAP"
+              },
+              {
+                  "file": "lsa.coords.csv",
+                  "shortLabel": "LSA"
+              }
+          ]
+          markers = [
+              {
+                  "file": "markers.tsv",
+                  "shortLabel": "Cluster-specific peaks"
+              }
+          ]
+          geneLabel = "Feature"
+          radius = 3
+          alpha = 0.5
+          clusterField = "Cluster"
+          labelField = "Cluster"
+          dataRoot = "../"
+          atacSearch = "genome.current"
+      - entryname: cellbrowser.conf
+        entry: |
+          shortLabel = "Multiple datasets"
+      - entryname: desc_rna.conf
+        entry: |
+          title = "RNA"
+          abstract = ""
+          methods = ""
+          biorxiv_url = ""
+          custom = {}
+      - entryname: desc_atac.conf
+        entry: |
+          title = "ATAC"
+          abstract = ""
+          methods = ""
+          biorxiv_url = ""
+          custom = {}
 inputs:
   bash_script:
     type: string?
@@ -221,8 +221,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: cbbuild_stdout.log
 stderr: cbbuild_stderr.log
 label: Cell Ranger ARC Count/Aggregate to UCSC Cell Browser

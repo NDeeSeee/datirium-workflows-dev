@@ -1,9 +1,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: DockerRequirement
-  dockerPull: biowardrobe2/samtools:v1.11
+  - class: InlineJavascriptRequirement
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/samtools:v1.11
 inputs:
   script:
     type: string?
@@ -31,7 +31,7 @@ inputs:
     inputBinding:
       position: 6
     secondaryFiles:
-    - .bai
+      - .bai
     doc: Indexed BAM+BAI files
   exclude_chromosome:
     type: string
@@ -49,7 +49,8 @@ inputs:
     inputBinding:
       position: 9
     default: 0
-    doc: Do not output alignments with any bits set in INT present in the FLAG field. Default 0
+    doc: Do not output alignments with any bits set in INT present in the FLAG field.
+      Default 0
   output_filename:
     type: string?
     inputBinding:
@@ -66,11 +67,11 @@ outputs:
     outputBinding:
       glob: '*.bam'
     secondaryFiles:
-    - .bai
+      - .bai
     doc: Filtered BAM+BAI files
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 doc: |
   Excludes chromosomes from the input BAM file.
   Optionally filters reads by quality and flags

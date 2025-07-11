@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: scrowley1/scidap-deseq:v0.1.0
+  - class: DockerRequirement
+    dockerPull: scrowley1/scidap-deseq:v0.1.0
 inputs:
   isoforms_file:
     type: File
@@ -36,7 +36,7 @@ outputs:
       glob: $(inputs.common_tss_file?inputs.common_tss_file:"*common_tss.tsv")
     doc: Output TSV common tss expression file
 baseCommand:
-- get_gene_n_tss.R
+  - get_gene_n_tss.R
 doc: |
   Tool runs get_gene_n_tss.R script to group isoforms by gene and common TSS
 label: group-isoforms

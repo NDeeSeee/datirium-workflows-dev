@@ -11,31 +11,31 @@ requirements:
 
 'sd:upstream':
   rnaseq_cond_1:
-  - "trim-rnaseq-pe.cwl"
-  - "trim-rnaseq-se.cwl"
-  - "trim-rnaseq-pe-dutp.cwl"
-  - "trim-rnaseq-pe-smarter-dutp.cwl"
-  - "trim-rnaseq-se-dutp.cwl"
-  - "trim-quantseq-mrnaseq-se-strand-specific.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-rnaseq-se.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe-dutp.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe-smarter-dutp.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-rnaseq-se-dutp.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-quantseq-mrnaseq-se-strand-specific.cwl"
+    - "trim-rnaseq-pe.cwl"
+    - "trim-rnaseq-se.cwl"
+    - "trim-rnaseq-pe-dutp.cwl"
+    - "trim-rnaseq-pe-smarter-dutp.cwl"
+    - "trim-rnaseq-se-dutp.cwl"
+    - "trim-quantseq-mrnaseq-se-strand-specific.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-rnaseq-se.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe-dutp.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe-smarter-dutp.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-rnaseq-se-dutp.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-quantseq-mrnaseq-se-strand-specific.cwl"
   rnaseq_cond_2:
-  - "trim-rnaseq-pe.cwl"
-  - "trim-rnaseq-se.cwl"
-  - "trim-rnaseq-pe-dutp.cwl"
-  - "trim-rnaseq-pe-smarter-dutp.cwl"
-  - "trim-rnaseq-se-dutp.cwl"
-  - "trim-quantseq-mrnaseq-se-strand-specific.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-rnaseq-se.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe-dutp.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe-smarter-dutp.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-rnaseq-se-dutp.cwl"
-  - "https://github.com/datirium/workflows/workflows/trim-quantseq-mrnaseq-se-strand-specific.cwl"
+    - "trim-rnaseq-pe.cwl"
+    - "trim-rnaseq-se.cwl"
+    - "trim-rnaseq-pe-dutp.cwl"
+    - "trim-rnaseq-pe-smarter-dutp.cwl"
+    - "trim-rnaseq-se-dutp.cwl"
+    - "trim-quantseq-mrnaseq-se-strand-specific.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-rnaseq-se.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe-dutp.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-rnaseq-pe-smarter-dutp.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-rnaseq-se-dutp.cwl"
+    - "https://github.com/datirium/workflows/workflows/trim-quantseq-mrnaseq-se-strand-specific.cwl"
 
 
 inputs:
@@ -48,10 +48,9 @@ inputs:
 
   rpkm_isoforms_cond_1:
     type:
-    - "null"
-    - File[]
-    default: null
-    format: "http://edamontology.org/format_3752"
+      - "null"
+      - File[]
+    default:
     label: "RNA-Seq experiments (condition 1, aka 'untreated')"
     doc: "CSV/TSV input files grouped by isoforms (condition 1, aka 'untreated')"
     'sd:upstreamSource': "rnaseq_cond_1/rpkm_isoforms"
@@ -59,30 +58,27 @@ inputs:
 
   rpkm_genes_cond_1:
     type:
-    - "null"
-    - File[]
-    default: null
-    format: "http://edamontology.org/format_3752"
+      - "null"
+      - File[]
+    default:
     label: "RNA-Seq experiments (condition 1, aka 'untreated')"
     doc: "CSV/TSV input files grouped by genes (condition 1, aka 'untreated')"
     'sd:upstreamSource': "rnaseq_cond_1/rpkm_genes"
 
   rpkm_common_tss_cond_1:
     type:
-    - "null"
-    - File[]
-    default: null
-    format: "http://edamontology.org/format_3752"
+      - "null"
+      - File[]
+    default:
     label: "RNA-Seq experiments (condition 1, aka 'untreated')"
     doc: "CSV/TSV input files grouped by common TSS (condition 1, aka 'untreated')"
     'sd:upstreamSource': "rnaseq_cond_1/rpkm_common_tss"
 
   rpkm_isoforms_cond_2:
     type:
-    - "null"
-    - File[]
-    default: null
-    format: "http://edamontology.org/format_3752"
+      - "null"
+      - File[]
+    default:
     label: "RNA-Seq experiments (condition 2, aka 'treated')"
     doc: "CSV/TSV input files grouped by isoforms (condition 2, aka 'treated')"
     'sd:upstreamSource': "rnaseq_cond_2/rpkm_isoforms"
@@ -90,20 +86,18 @@ inputs:
 
   rpkm_genes_cond_2:
     type:
-    - "null"
-    - File[]
-    default: null
-    format: "http://edamontology.org/format_3752"
+      - "null"
+      - File[]
+    default:
     label: "RNA-Seq experiments (condition 2, aka 'treated')"
     doc: "CSV/TSV input files grouped by genes (condition 2, aka 'treated')"
     'sd:upstreamSource': "rnaseq_cond_2/rpkm_genes"
 
   rpkm_common_tss_cond_2:
     type:
-    - "null"
-    - File[]
-    default: null
-    format: "http://edamontology.org/format_3752"
+      - "null"
+      - File[]
+    default:
     label: "RNA-Seq experiments (condition 2, aka 'treated')"
     doc: "CSV/TSV input files grouped by common TSS (condition 2, aka 'treated')"
     'sd:upstreamSource': "rnaseq_cond_2/rpkm_common_tss"
@@ -119,9 +113,9 @@ inputs:
 
   batch_file:
     type: File?
-    default: null
-    label: "Headerless TSV/CSV file for multi-factor analysis. First column - experiments' names from condition 1 and 2, second column - batch name"
-    format: "http://edamontology.org/format_2330"
+    default:
+    label: "Headerless TSV/CSV file for multi-factor analysis. First column - experiments'
+      names from condition 1 and 2, second column - batch name"
     doc: |
       Metadata file for multi-factor analysis. Headerless TSV/CSV file.
       First column - names from --ua and --ta, second column - batch name.
@@ -131,7 +125,8 @@ inputs:
     type: string?
     default: "untreated"
     label: "Alias for condition 1, aka 'untreated' (letters and numbers only)"
-    doc: "Name to be displayed for condition 1, aka 'untreated' (letters and numbers only)"
+    doc: "Name to be displayed for condition 1, aka 'untreated' (letters and numbers
+      only)"
     'sd:layout':
       advanced: true
 
@@ -139,19 +134,20 @@ inputs:
     type: string?
     default: "treated"
     label: "Alias for condition 2, aka 'treated' (letters and numbers only)"
-    doc: "Name to be displayed for condition 2, aka 'treated' (letters and numbers only)"
+    doc: "Name to be displayed for condition 2, aka 'treated' (letters and numbers
+      only)"
     'sd:layout':
       advanced: true
 
   cluster_method:
     type:
-    - "null"
-    - type: enum
-      symbols:
-      - "row"
-      - "column"
-      - "both"
-      - "none"
+      - "null"
+      - type: enum
+        symbols:
+          - "row"
+          - "column"
+          - "both"
+          - "none"
     default: "none"
     label: "Hopach clustering method to be run on normalized read counts"
     doc: |
@@ -164,7 +160,8 @@ inputs:
     type: int?
     default: 3
     label: "Number of levels for HOPACH clustering"
-    doc: "Number of levels (depth) for Hopach clustering: min - 1, max - 15. Default: 3."
+    doc: "Number of levels (depth) for Hopach clustering: min - 1, max - 15. Default:
+      3."
     'sd:layout':
       advanced: true
 
@@ -172,20 +169,21 @@ inputs:
     type: int?
     default: 5
     label: "Maximum number of clusters at each level for HOPACH clustering"
-    doc: "Maximum number of clusters at each level for Hopach clustering: min - 2, max - 9. Default: 5."
+    doc: "Maximum number of clusters at each level for Hopach clustering: min - 2,
+      max - 9. Default: 5."
     'sd:layout':
       advanced: true
 
   row_distance:
     type:
-    - "null"
-    - type: enum
-      symbols:
-      - "cosangle"
-      - "abscosangle"
-      - "euclid"
-      - "cor"
-      - "abscor"
+      - "null"
+      - type: enum
+        symbols:
+          - "cosangle"
+          - "abscosangle"
+          - "euclid"
+          - "cor"
+          - "abscor"
     default: "cosangle"
     label: "Distance metric for HOPACH row clustering"
     doc: |
@@ -196,14 +194,14 @@ inputs:
 
   column_distance:
     type:
-    - "null"
-    - type: enum
-      symbols:
-      - "cosangle"
-      - "abscosangle"
-      - "euclid"
-      - "cor"
-      - "abscor"
+      - "null"
+      - type: enum
+        symbols:
+          - "cosangle"
+          - "abscosangle"
+          - "euclid"
+          - "cor"
+          - "abscor"
     default: "euclid"
     label: "Distance metric for HOPACH column clustering"
     doc: |
@@ -214,7 +212,7 @@ inputs:
 
   rpkm_cutoff:
     type: int?
-    default: null
+    default:
     label: "RPKM cutoff for filtering expression data"
     doc: |
       Integer cutoff for filtering rows in the expression data.
@@ -223,7 +221,7 @@ inputs:
       Recommended values are: 3, 5.
     'sd:layout':
       advanced: true
-      
+
   regulation:
     type:
       - "null"
@@ -243,7 +241,7 @@ inputs:
       - 'down' for downregulated genes (β < -lfcThreshold in condition2 compared to condition1). This identifies genes that are less expressed in condition2.
       Default: both
     'sd:layout':
-      advanced: true   
+      advanced: true
 
   fdr:
     type: float?
@@ -255,7 +253,7 @@ inputs:
       cutoff used for optimizing the independent filtering. Default: 0.1.
     'sd:layout':
       advanced: true
-      
+
   lfcthreshold:
     type: float?
     default: 0.59
@@ -266,17 +264,19 @@ inputs:
       Log2 fold change threshold for determining significant differential expression.
       Genes with absolute log2 fold change greater than this threshold will be considered.
       Default: 0.59 (about 1.5 fold change)
-    'sd:layout':  
+    'sd:layout':
       advanced: true
-  
+
   use_lfc_thresh:
     type: boolean
     default: true
-    label: "Use lfcthreshold as the null hypothesis value in the results function call"
-    doc: "Use lfcthreshold as the null hypothesis value in the results function call. Default: TRUE"
+    label: "Use lfcthreshold as the null hypothesis value in the results function
+      call"
+    doc: "Use lfcthreshold as the null hypothesis value in the results function call.
+      Default: TRUE"
     'sd:layout':
       advanced: true
-      
+
   batchcorrection:
     type:
       - "null"
@@ -318,7 +318,7 @@ inputs:
     type:
       - "null"
       - string[]
-    default: null
+    default:
     label: "Sample names for RNA-Seq experiments (condition 1, aka 'untreated')"
     doc: |
       Aliases for RNA-Seq experiments (condition 1, aka 'untreated') to make the
@@ -329,7 +329,7 @@ inputs:
     type:
       - "null"
       - string[]
-    default: null 
+    default:
     label: "Sample names for RNA-Seq experiments (condition 2, aka 'treated')"
     doc: |
       Aliases for RNA-Seq experiments (condition 2, aka 'treated') to make the
@@ -359,23 +359,23 @@ outputs:
 
   diff_expr_file:
     type: File
-    label: "Differentially expressed features grouped by isoforms, genes or common TSS"
-    format: "http://edamontology.org/format_3475"
-    doc: "DESeq generated file of differentially expressed features grouped by isoforms, genes or common TSS in TSV format"
+    label: "Differentially expressed features grouped by isoforms, genes or common
+      TSS"
+    doc: "DESeq generated file of differentially expressed features grouped by isoforms,
+      genes or common TSS in TSV format"
     outputSource: deseq/diff_expr_file
     'sd:visualPlugins':
-    - syncfusiongrid:
-        tab: 'Differential Expression Analysis'
-        Title: 'Combined DESeq results'
-    - scatter:
-        tab: 'Volcano Plot'
-        Title: 'Volcano'
-        xAxisTitle: 'log fold change'
-        yAxisTitle: '-log10(pAdj)'
-        colors: ["#b3de69"]
-        height: 600
-        data: [$2, $9, $13]
-  
+      - syncfusiongrid:
+          tab: 'Differential Expression Analysis'
+          Title: 'Combined DESeq results'
+      - scatter:
+          tab: 'Volcano Plot'
+          Title: 'Volcano'
+          xAxisTitle: 'log fold change'
+          yAxisTitle: '-log10(pAdj)'
+          colors: ["#b3de69"]
+          height: 600
+          data: [$2, $9, $13]
   deseq_summary_md:
     type: File
     label: "DESeq2 Results Summary"
@@ -386,27 +386,28 @@ outputs:
       with non-zero read count, log fold changes (LFC), outliers, and low count genes.
     outputSource: deseq/deseq_summary_md
     "sd:visualPlugins":
-    - markdownView:
-        tab: "Overview"
+      - markdownView:
+          tab: "Overview"
 
   read_counts_file:
     type: File
-    label: "Normalized read counts in GCT format no padj filtering. Compatible with GSEA"
-    format: "http://edamontology.org/format_3709"
-    doc: "DESeq generated file of all normalized read counts in GCT format. Compatible with GSEA"
+    label: "Normalized read counts in GCT format no padj filtering. Compatible with
+      GSEA"
+    doc: "DESeq generated file of all normalized read counts in GCT format. Compatible
+      with GSEA"
     outputSource: deseq/read_counts_file_all
 
   read_counts_file_filtered:
     type: File?
-    label: "Normalized read counts in GCT format filtered by padj. Compatible with Morpheus heatmap"
-    format: "http://edamontology.org/format_3709"
-    doc: "DESeq generated file of padjfiltered normalized read counts in GCT format. Compatible with Morpheus heatmap"
+    label: "Normalized read counts in GCT format filtered by padj. Compatible with
+      Morpheus heatmap"
+    doc: "DESeq generated file of padjfiltered normalized read counts in GCT format.
+      Compatible with Morpheus heatmap"
     outputSource: deseq/read_counts_file_filtered
 
   phenotypes_file:
     type: File
     label: "Phenotype data file in CLS format. Compatible with GSEA"
-    format: "http://edamontology.org/format_2330"
     doc: "DESeq generated file with phenotypes in CLS format. Compatible with GSEA"
     outputSource: deseq/phenotypes_file
 
@@ -418,53 +419,49 @@ outputs:
       MDS plot of normalized counts
       HTML format
     'sd:visualPlugins':
-    - linkList:
-        tab: 'Overview'
-        target: "_blank"
+      - linkList:
+          tab: 'Overview'
+          target: "_blank"
 
   plot_lfc_vs_mean:
     type: File?
     label: "Plot of normalised mean versus log2 fold change"
-    format: "http://edamontology.org/format_3603"
     doc: |
       Plot of the log2 fold changes attributable to a given variable
       over the mean of normalized counts for all the samples
     outputSource: deseq/plot_lfc_vs_mean
     'sd:visualPlugins':
-    - image:
-        tab: 'Other Plots'
-        Caption: 'LFC vs mean'
+      - image:
+          tab: 'Other Plots'
+          Caption: 'LFC vs mean'
 
   gene_expr_heatmap:
     type: File?
     label: "Heatmap of the 30 most highly expressed features"
-    format: "http://edamontology.org/format_3603"
     doc: |
       Heatmap showing the expression data of the 30 most highly expressed features grouped by
       isoforms, genes or common TSS, based on the variance stabilisation transformed data
     outputSource: deseq/gene_expr_heatmap
     'sd:visualPlugins':
-    - image:
-        tab: 'Other Plots'
-        Caption: 'The 30 most highly expressed features'
+      - image:
+          tab: 'Other Plots'
+          Caption: 'The 30 most highly expressed features'
 
   plot_pca:
     type: File?
     label: "PCA plot for variance stabilized count data"
-    format: "http://edamontology.org/format_3603"
     doc: |
       PCA plot for variance stabilized count data. Values are now approximately
       homoskedastic (have constant variance along the range of mean values)
     outputSource: deseq/plot_pca
     'sd:visualPlugins':
-    - image:
-        tab: 'Other Plots'
-        Caption: 'PCA plot for variance stabilized count data'
+      - image:
+          tab: 'Other Plots'
+          Caption: 'PCA plot for variance stabilized count data'
 
   plot_lfc_vs_mean_pdf:
     type: File?
     label: "Plot of normalised mean versus log2 fold change"
-    format: "http://edamontology.org/format_3508"
     doc: |
       Plot of the log2 fold changes attributable to a given variable
       over the mean of normalized counts for all the samples
@@ -473,7 +470,6 @@ outputs:
   gene_expr_heatmap_pdf:
     type: File?
     label: "Heatmap of the 30 most highly expressed features"
-    format: "http://edamontology.org/format_3508"
     doc: |
       Heatmap showing the expression data of the 30 most highly expressed features grouped by
       isoforms, genes or common TSS, based on the variance stabilisation transformed data
@@ -482,7 +478,6 @@ outputs:
   plot_pca_pdf:
     type: File?
     label: "PCA plot for variance stabilized count data"
-    format: "http://edamontology.org/format_3508"
     doc: |
       PCA plot for variance stabilized count data. Values are now approximately
       homoskedastic (have constant variance along the range of mean values)
@@ -495,9 +490,9 @@ outputs:
     doc: |
       HTML index file for Volcano Plot
     'sd:visualPlugins':
-    - linkList:
-        tab: 'Overview'
-        target: "_blank"
+      - linkList:
+          tab: 'Overview'
+          target: "_blank"
 
   volcano_plot_html_data:
     type: Directory
@@ -513,9 +508,9 @@ outputs:
     doc: |
       HTML index file for MA-plot
     'sd:visualPlugins':
-    - linkList:
-        tab: 'Overview'
-        target: "_blank"
+      - linkList:
+          tab: 'Overview'
+          target: "_blank"
 
   ma_plot_html_data:
     type: Directory
@@ -531,20 +526,18 @@ outputs:
     doc: |
       Morpheus heatmap in HTML format
     'sd:visualPlugins':
-    - linkList:
-        tab: 'Overview'
-        target: "_blank"
+      - linkList:
+          tab: 'Overview'
+          target: "_blank"
 
   deseq_stdout_log:
     type: File
-    format: "http://edamontology.org/format_2330"
     label: "DESeq stdout log"
     doc: "DESeq stdout log"
     outputSource: deseq/stdout_log
 
   deseq_stderr_log:
     type: File
-    format: "http://edamontology.org/format_2330"
     label: "DESeq stderr log"
     doc: "DESeq stderr log"
     outputSource: deseq/stderr_log
@@ -649,8 +642,8 @@ steps:
               }
           }
     out:
-    - html_data
-    - html_file
+      - html_data
+      - html_file
 
   make_ma_plot:
     run: ../tools/ma-plot.cwl
@@ -673,57 +666,27 @@ steps:
               }
           }
     out:
-    - html_data
-    - html_file
+      - html_data
+      - html_file
 
   morpheus_heatmap:
     run: ../tools/morpheus-heatmap.cwl
     in:
-     read_counts_gct: deseq/read_counts_file_filtered
+      read_counts_gct: deseq/read_counts_file_filtered
     out:
-    - heatmap_html
-    - stdout_log
-    - stderr_log
+      - heatmap_html
+      - stdout_log
+      - stderr_log
 
 
 $namespaces:
   s: http://schema.org/
 
 $schemas:
-- https://github.com/schemaorg/schemaorg/raw/main/data/releases/11.01/schemaorg-current-http.rdf
+  - https://github.com/schemaorg/schemaorg/raw/main/data/releases/11.01/schemaorg-current-http.rdf
 
-s:name: "DESeq2 Wald test - differential gene expression analysis"
 label: "DESeq2 Wald test - differential gene expression analysis"
-s:alternateName: "Differential gene expression analysis based on the negative binomial distribution"
-
-s:downloadUrl: https://raw.githubusercontent.com/datirium/workflows/master/workflows/deseq.cwl
-s:codeRepository: https://github.com/datirium/workflows
-s:license: http://www.apache.org/licenses/LICENSE-2.0
-
-s:isPartOf:
-  class: s:CreativeWork
-  s:name: Common Workflow Language
-  s:url: http://commonwl.org/
-
-s:creator:
-  - class: s:Organization
-    s:legalName: "Datirium, LLC"
-    s:member:
-      - class: s:Person
-        s:name: Artem BArski
-        s:email: mailto:Artem.Barski@datirum.com
-      - class: s:Person
-        s:name: Andrey Kartashov
-        s:email: mailto:Andrey.Kartashov@datirium.com
-        s:sameAs:
-          - id: http://orcid.org/0000-0001-9102-5681
-
-
-# doc:
-#   $include: ../descriptions/deseq.md
-
-
-doc: |
+doc: |-
   Differential gene expression analysis
   =====================================
 
@@ -741,3 +704,4 @@ doc: |
   a method for differential analysis of count data,
   using shrinkage estimation for dispersions and fold changes to improve stability and interpretability of estimates.
   This enables a more quantitative analysis focused on the strength rather than the mere presence of differential expression.
+sd:version: 100

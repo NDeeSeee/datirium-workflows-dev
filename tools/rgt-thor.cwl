@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/rgt:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/rgt:v0.0.1
 inputs:
   script:
     type: string?
@@ -31,7 +31,7 @@ inputs:
       position: 6
       itemSeparator: ','
     secondaryFiles:
-    - .bai
+      - .bai
     doc: Alignment and index files for the first biological condition
   bambai_pair_cond_2:
     type: File[]
@@ -39,7 +39,7 @@ inputs:
       position: 7
       itemSeparator: ','
     secondaryFiles:
-    - .bai
+      - .bai
     doc: Alignment and index files for the second biological condition
   chrom_length_file:
     type: File
@@ -57,7 +57,8 @@ inputs:
     inputBinding:
       prefix: --merge
       position: 10
-    doc: Merge peaks which have a distance less than the estimated mean fragment size (recommended for histone data)
+    doc: Merge peaks which have a distance less than the estimated mean fragment size
+      (recommended for histone data)
   no_merge_bin:
     type: boolean?
     inputBinding:
@@ -87,12 +88,13 @@ inputs:
     inputBinding:
       prefix: --pvalue
       position: 16
-    doc: 'P-value cutoff for peak detection. Call only peaks with p-value lower than cutoff. [default: 0.1]'
+    doc: 'P-value cutoff for peak detection. Call only peaks with p-value lower than
+      cutoff. [default: 0.1]'
   extension_size:
     type:
-    - 'null'
-    - string
-    - int[]
+      - 'null'
+      - string
+      - int[]
     inputBinding:
       prefix: --exts
       position: 17
@@ -102,8 +104,8 @@ inputs:
       If option is not chosen, estimate extension sizes
   normalization_factor:
     type:
-    - 'null'
-    - float[]
+      - 'null'
+      - float[]
     inputBinding:
       prefix: --factors-inputs
       position: 18
@@ -113,8 +115,8 @@ inputs:
       If option is not chosen, estimate factors
   scaling_factor:
     type:
-    - 'null'
-    - float[]
+      - 'null'
+      - float[]
     inputBinding:
       prefix: --scaling-factors
       position: 19
@@ -127,7 +129,8 @@ inputs:
     inputBinding:
       prefix: --regions
       position: 20
-    doc: Define regions (BED format) to restrict the analysis, that is, where to train the HMM and search for DPs
+    doc: Define regions (BED format) to restrict the analysis, that is, where to train
+      the HMM and search for DPs
   bin_size:
     type: int?
     inputBinding:
@@ -139,7 +142,8 @@ inputs:
     inputBinding:
       prefix: --step
       position: 22
-    doc: 'Stepsize with which the window consecutively slides across the genome to create the signal. [default: 50]'
+    doc: 'Stepsize with which the window consecutively slides across the genome to
+      create the signal. [default: 50]'
   no_gc_content:
     type: boolean?
     inputBinding:
@@ -157,13 +161,15 @@ inputs:
     inputBinding:
       prefix: --foldchange
       position: 25
-    doc: 'Fold change parameter to define training set (t_1, see paper). [default: 1.6]'
+    doc: 'Fold change parameter to define training set (t_1, see paper). [default:
+      1.6]'
   threshold:
     type: int?
     inputBinding:
       prefix: --threshold
       position: 26
-    doc: 'Minimum signal support for differential peaks to define training set as percentage (t_2, see paper). [default: 95]'
+    doc: 'Minimum signal support for differential peaks to define training set as
+      percentage (t_2, see paper). [default: 95]'
   bin_count:
     type: int?
     inputBinding:
@@ -225,14 +231,14 @@ outputs:
       glob: '*-uncor-diffpeaks.narrowPeak'
   cond_1_bigwig_file:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     outputBinding:
       glob: '*-s1-rep*.bw'
   cond_2_bigwig_file:
     type:
-    - 'null'
-    - File[]
+      - 'null'
+      - File[]
     outputBinding:
       glob: '*-s2-rep*.bw'
   setup_info_file:
@@ -244,8 +250,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stderr: thor_stderr.log
 stdout: thor_stdout.log
 label: THOR - differential peak calling of ChIP-seq signals with replicates

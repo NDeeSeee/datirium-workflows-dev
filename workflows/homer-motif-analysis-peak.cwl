@@ -1,26 +1,26 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   genome_indices:
-  - genome-indices.cwl
+    - genome-indices.cwl
   regions_a:
-  - chipseq-se.cwl
-  - chipseq-pe.cwl
-  - trim-chipseq-se.cwl
-  - trim-chipseq-pe.cwl
-  - trim-atacseq-se.cwl
-  - trim-atacseq-pe.cwl
+    - chipseq-se.cwl
+    - chipseq-pe.cwl
+    - trim-chipseq-se.cwl
+    - trim-chipseq-pe.cwl
+    - trim-atacseq-se.cwl
+    - trim-atacseq-pe.cwl
   regions_b:
-  - chipseq-se.cwl
-  - chipseq-pe.cwl
-  - trim-chipseq-se.cwl
-  - trim-chipseq-pe.cwl
-  - trim-atacseq-se.cwl
-  - trim-atacseq-pe.cwl
+    - chipseq-se.cwl
+    - chipseq-pe.cwl
+    - trim-chipseq-se.cwl
+    - trim-chipseq-pe.cwl
+    - trim-atacseq-se.cwl
+    - trim-atacseq-pe.cwl
 inputs:
   alias:
     type: string
@@ -29,45 +29,44 @@ inputs:
       position: 1
   regions_files_a:
     type: File[]
-    format: http://edamontology.org/format_3613
     label: Samples to select target regions from
     doc: Narrow peak files to select target regions from
     sd:upstreamSource: regions_a/macs2_narrow_peaks
     sd:localLabel: true
   regions_files_b:
     type: File[]
-    format: http://edamontology.org/format_3613
     label: Samples to select background regions from
     doc: Narrow peak files to select background regions from
     sd:upstreamSource: regions_b/macs2_narrow_peaks
     sd:localLabel: true
   diff_regions_file_a:
     type: File
-    format: http://edamontology.org/format_3003
-    label: Target regions ranges. Headerless BED file with minimum [chrom start end name dummy strand] columns. Optionally, CSV
-    doc: Target regions ranges. Headerless BED file with minimum [chrom start end unique_id dummy strand] columns. Optionally, CSV
+    label: Target regions ranges. Headerless BED file with minimum [chrom start end
+      name dummy strand] columns. Optionally, CSV
+    doc: Target regions ranges. Headerless BED file with minimum [chrom start end
+      unique_id dummy strand] columns. Optionally, CSV
   diff_regions_file_b:
     type: File
-    format: http://edamontology.org/format_3003
-    label: Background regions ranges. Headerless BED file with minimum [chrom start end name dummy strand] columns. Optionally, CSV
-    doc: Background regions ranges. Headerless BED file with minimum [chrom start end unique_id dummy strand] columns. Optionally, CSV
+    label: Background regions ranges. Headerless BED file with minimum [chrom start
+      end name dummy strand] columns. Optionally, CSV
+    doc: Background regions ranges. Headerless BED file with minimum [chrom start
+      end unique_id dummy strand] columns. Optionally, CSV
   genome_fasta_file:
     type: File
-    format: http://edamontology.org/format_1929
     label: Reference genome FASTA file
     doc: Reference genome FASTA file. Includes all chromosomes in a single file
     sd:upstreamSource: genome_indices/fasta_output
   motifs_db:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - vertebrates
-      - insects
-      - worms
-      - plants
-      - yeast
-      - all
+      - 'null'
+      - type: enum
+        symbols:
+          - vertebrates
+          - insects
+          - worms
+          - plants
+          - yeast
+          - all
     default: vertebrates
     label: Set motifs DB to check against
     doc: Set motifs DB to check against
@@ -75,14 +74,16 @@ inputs:
     type: string?
     default: '0'
     label: Min signalValue for peaks selected as target regions
-    doc: Discard all peaks from narrowPeak file of target regions with signalValue smaller than this threshold
+    doc: Discard all peaks from narrowPeak file of target regions with signalValue
+      smaller than this threshold
     sd:layout:
       advanced: true
   min_signal_regions_b:
     type: string?
     default: '0'
     label: Min signalValue for peaks selected as background regions
-    doc: Discard all peaks from narrowPeak file of background regions with signalValue smaller than this threshold
+    doc: Discard all peaks from narrowPeak file of background regions with signalValue
+      smaller than this threshold
     sd:layout:
       advanced: true
   chopify_background_regions:
@@ -116,8 +117,10 @@ inputs:
   use_hypergeometric:
     type: boolean?
     default: false
-    label: Use hypergeometric for p-values, instead of default binomial. Usefull if the number of background sequences is smaller than target sequences
-    doc: Use hypergeometric for p-values, instead of default binomial. Usefull if the number of background sequences is smaller than target sequences
+    label: Use hypergeometric for p-values, instead of default binomial. Usefull if
+      the number of background sequences is smaller than target sequences
+    doc: Use hypergeometric for p-values, instead of default binomial. Usefull if
+      the number of background sequences is smaller than target sequences
     sd:layout:
       advanced: true
   search_size:
@@ -154,33 +157,29 @@ outputs:
     doc: Homer motifs
   homer_stdout_log_file:
     type: File
-    format: http://edamontology.org/format_2330
     outputSource: find_motifs/stdout_log
     label: Homer stdout log
     doc: Homer stdout log
   homer_known_motifs:
     type: File?
-    format: http://edamontology.org/format_2331
     outputSource: find_motifs/known_motifs
     label: Known motifs
     doc: Known motifs html file
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   homer_denovo_motifs:
     type: File?
-    format: http://edamontology.org/format_2331
     outputSource: find_motifs/denovo_motifs
     label: de novo motifs
     doc: de novo motifs html file
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   homer_stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     outputSource: find_motifs/stderr_log
     label: Homer stderr log
     doc: Homer stderr log
@@ -193,7 +192,7 @@ steps:
         default: |
           cat "$0" | tr -d '\r' | tr "," "\t" | awk NF | sort -u -k1,1 -k2,2n -k3,3n | awk '{print $1"\t"$2"\t"$3"\tp"NR"\t"$5"\t"$6}' > sorted_unique_diff_regions_from_a.bed
     out:
-    - output_file
+      - output_file
   dedup_and_sort_diff_regions_b:
     run: ../tools/custom-bash.cwl
     in:
@@ -202,7 +201,7 @@ steps:
         default: |
           cat "$0" | tr -d '\r' | tr "," "\t" | awk NF | sort -u -k1,1 -k2,2n -k3,3n | awk '{print $1"\t"$2"\t"$3"\tp"NR"\t"$5"\t"$6}' > sorted_unique_diff_regions_from_b.bed
     out:
-    - output_file
+      - output_file
   concat_dedup_and_sort_regions_a:
     run: ../tools/custom-bash.cwl
     in:
@@ -216,7 +215,7 @@ steps:
           echo "Threashold" "$TH"
           cat "${@:1:$#-1}" | tr -d '\r' | tr "," "\t" | awk NF | awk -v th=$TH '{if ($7 >= th) print $0}' | sort -u -k1,1 -k2,2n -k3,3n | awk '{print $1"\t"$2"\t"$3"\tp"NR"\t"$5"\t"$6}' > concatenated_sorted_unique_regions_from_a.bed
     out:
-    - output_file
+      - output_file
   concat_dedup_and_sort_regions_b:
     run: ../tools/custom-bash.cwl
     in:
@@ -230,7 +229,7 @@ steps:
           echo "Threashold" "$TH"
           cat "${@:1:$#-1}" | tr -d '\r' | tr "," "\t" | awk NF | awk -v th=$TH '{if ($7 >= th) print $0}' | sort -u -k1,1 -k2,2n -k3,3n | awk '{print $1"\t"$2"\t"$3"\tp"NR"\t"$5"\t"$6}' > concatenated_sorted_unique_regions_from_b.bed
     out:
-    - output_file
+      - output_file
   get_overlapped_with_diff_regions_a:
     run: ../tools/bedtools-intersect.cwl
     in:
@@ -241,7 +240,7 @@ steps:
       output_filename:
         default: concatenated_sorted_unique_regions_from_a_overlapped_with_diff.bed
     out:
-    - intersected_file
+      - intersected_file
   get_overlapped_with_diff_regions_b:
     run: ../tools/bedtools-intersect.cwl
     in:
@@ -252,7 +251,7 @@ steps:
       output_filename:
         default: concatenated_sorted_unique_regions_from_b_overlapped_with_diff.bed
     out:
-    - intersected_file
+      - intersected_file
   merge_overlapped_with_diff_regions_a:
     run: ../tools/bedtools-merge.cwl
     in:
@@ -260,7 +259,7 @@ steps:
       output_filename:
         default: merged_overlapped_with_diff_concatenated_sorted_unique_regions_from_a.bed
     out:
-    - merged_bed_file
+      - merged_bed_file
   merge_overlapped_with_diff_regions_b:
     run: ../tools/bedtools-merge.cwl
     in:
@@ -268,7 +267,7 @@ steps:
       output_filename:
         default: merged_overlapped_with_diff_concatenated_sorted_unique_regions_from_b.bed
     out:
-    - merged_bed_file
+      - merged_bed_file
   find_motifs:
     run: ../tools/homer-find-motifs-genome.cwl
     in:
@@ -285,12 +284,13 @@ steps:
       motifs_db: motifs_db
       threads: threads
     out:
-    - compressed_results_folder
-    - known_motifs
-    - denovo_motifs
-    - stdout_log
-    - stderr_log
-label: DEPRECATED - Motif Finding with HOMER with target and background regions from peaks
+      - compressed_results_folder
+      - known_motifs
+      - denovo_motifs
+      - stdout_log
+      - stderr_log
+label: DEPRECATED - Motif Finding with HOMER with target and background regions from
+  peaks
 doc: |-
   Motif Finding with HOMER with target and background regions from peaks
   ---------------------------------------------------

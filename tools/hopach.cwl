@@ -1,21 +1,23 @@
 cwlVersion: v1.0
 class: CommandLineTool
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/hopach:v0.0.10
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/hopach:v0.0.10
 inputs:
   expression_files:
     type: File[]
     inputBinding:
       prefix: --input
-    doc: Input CSV/TSV files with RefseqId, GeneId, Chrom, TxStart, TxEnd, Strand, TotalReads, Rpkm columns
+    doc: Input CSV/TSV files with RefseqId, GeneId, Chrom, TxStart, TxEnd, Strand,
+      TotalReads, Rpkm columns
   expression_aliases:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     inputBinding:
       prefix: --name
-    doc: 'Input aliases, the order corresponds to --input order. Default: basename of --input files'
+    doc: 'Input aliases, the order corresponds to --input order. Default: basename
+      of --input files'
   genelist_file:
     type: File?
     inputBinding:
@@ -28,47 +30,48 @@ inputs:
     doc: 'Target column to be used by hopach clustering. Default: Rpkm'
   combine:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     inputBinding:
       prefix: --combine
-    doc: 'Combine inputs by columns names. Default: RefseqId, GeneId, Chrom, TxStart, TxEnd, Strand'
+    doc: 'Combine inputs by columns names. Default: RefseqId, GeneId, Chrom, TxStart,
+      TxEnd, Strand'
   cluster_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - row
-      - column
-      - both
+      - 'null'
+      - type: enum
+        symbols:
+          - row
+          - column
+          - both
     inputBinding:
       prefix: --method
     doc: 'Cluster method. Default: both'
   row_dist_metric:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     inputBinding:
       prefix: --rowdist
     doc: 'Distance metric for row clustering. Default: cosangle'
   col_dist_metric:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - cosangle
-      - abscosangle
-      - euclid
-      - abseuclid
-      - cor
-      - abscor
+      - 'null'
+      - type: enum
+        symbols:
+          - cosangle
+          - abscosangle
+          - euclid
+          - abseuclid
+          - cor
+          - abscor
     inputBinding:
       prefix: --coldist
     doc: 'Distance metric for column clustering. Default: euclid'
@@ -84,21 +87,21 @@ inputs:
     doc: 'Log2 transform input data prior to running column clustering. Default: false'
   row_center:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - mean
-      - median
+      - 'null'
+      - type: enum
+        symbols:
+          - mean
+          - median
     inputBinding:
       prefix: --rowcenter
     doc: 'Center rows prior to running row clustering. Default: not centered'
   col_center:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - mean
-      - median
+      - 'null'
+      - type: enum
+        symbols:
+          - mean
+          - median
     inputBinding:
       prefix: --colcenter
     doc: 'Center columns prior to running column clustering. Default: not centered'
@@ -116,16 +119,18 @@ inputs:
     type: float?
     inputBinding:
       prefix: --rowmin
-    doc: 'Exclude rows from clustering by the min value of a target column. Default: 0'
+    doc: 'Exclude rows from clustering by the min value of a target column. Default:
+      0'
   keep_discarded:
     type: boolean?
     inputBinding:
       prefix: --rowkeep
-    doc: 'Append excluded rows to the output table after clustering is finished. Default: false'
+    doc: 'Append excluded rows to the output table after clustering is finished. Default:
+      false'
   palette:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     inputBinding:
       prefix: --palette
     doc: 'Palette color names. Default: red, black, green'
@@ -180,7 +185,7 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- hopach_order.R
+  - hopach_order.R
 stderr: hopach_stderr.log
 stdout: hopach_stdout.log
 label: HOPACH - Hierarchical Ordered Partitioning and Collapsing Hybrid

@@ -1,29 +1,29 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/fastqc:v0.11.5
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/fastqc:v0.11.5
 inputs:
   reads_file:
     type:
-    - File
+      - File
     inputBinding:
       position: 50
     doc: |
       Input bam,sam,bam_mapped,sam_mapped or fastq file
   format_enum:
     type:
-    - 'null'
-    - type: enum
-      name: format
-      symbols:
-      - bam
-      - sam
-      - bam_mapped
-      - sam_mapped
-      - fastq
+      - 'null'
+      - type: enum
+        name: format
+        symbols:
+          - bam
+          - sam
+          - bam_mapped
+          - sam_mapped
+          - fastq
     inputBinding:
       position: 6
       prefix: --format
@@ -33,8 +33,8 @@ inputs:
       formats are bam,sam,bam_mapped,sam_mapped and fastq
   threads:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 7
       prefix: --threads
@@ -46,8 +46,8 @@ inputs:
       6 threads on a 32 bit machine
   contaminants:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       position: 8
       prefix: --contaminants
@@ -59,8 +59,8 @@ inputs:
       be ignored.
   adapters:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       position: 9
       prefix: --adapters
@@ -72,8 +72,8 @@ inputs:
       will be ignored.
   limits:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       position: 10
       prefix: --limits
@@ -86,8 +86,8 @@ inputs:
       Configuration folder.
   kmers:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 11
       prefix: --kmers
@@ -97,8 +97,8 @@ inputs:
       length is 7 if not specified.
   casava:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 13
       prefix: --casava
@@ -112,8 +112,8 @@ inputs:
       won't be grouped together correctly.
   nofilter:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 14
       prefix: --nofilter
@@ -122,8 +122,8 @@ inputs:
       casava as poor quality when performing the QC analysis.
   hide_group:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 15
       prefix: --nogroup
@@ -136,27 +136,27 @@ inputs:
 outputs:
   zipped_file:
     type:
-    - File
+      - File
     outputBinding:
       glob: '*.zip'
   html_file:
     type:
-    - File
+      - File
     outputBinding:
       glob: '*.html'
   summary_file:
     type:
-    - File
+      - File
     outputBinding:
       glob: |
         ${
           return "*/summary.txt";
         }
 baseCommand:
-- fastqc
-- --extract
-- --outdir
-- .
+  - fastqc
+  - --extract
+  - --outdir
+  - .
 doc: |
   Tool runs FastQC from Babraham Bioinformatics
 label: fastqc

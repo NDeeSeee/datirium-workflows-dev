@@ -1,16 +1,16 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   filtered_experiment_a:
-  - filter-peaks-for-heatmap.cwl
+    - filter-peaks-for-heatmap.cwl
   filtered_experiment_b:
-  - filter-peaks-for-heatmap.cwl
+    - filter-peaks-for-heatmap.cwl
   genome_indices:
-  - genome-indices.cwl
+    - genome-indices.cwl
 inputs:
   alias:
     type: string
@@ -19,7 +19,6 @@ inputs:
       position: 1
   intervals_file_a:
     type: File
-    format: http://edamontology.org/format_3003
     label: Filtered ChIP/ATAC experiment A
     doc: |
       Filtered peaks file from ChIP/ATAC experiment formatted
@@ -28,7 +27,6 @@ inputs:
     sd:localLabel: true
   intervals_file_b:
     type: File
-    format: http://edamontology.org/format_3003
     label: Filtered ChIP/ATAC experiment B
     doc: |
       Filtered peaks file from ChIP/ATAC experiment formatted
@@ -37,7 +35,6 @@ inputs:
     sd:localLabel: true
   annotation_file:
     type: File
-    format: http://edamontology.org/format_3475
     label: Genome type for intervals annotation
     doc: Tab-separated annotation file to assign the nearest genes
     sd:upstreamSource: genome_indices/annotation
@@ -54,7 +51,8 @@ inputs:
   upstream_dist:
     type: int?
     default: 20000
-    label: Max distance from promoter (only in upstream direction) to assign interval to upstream
+    label: Max distance from promoter (only in upstream direction) to assign interval
+      to upstream
     doc: |
       Max distance from the promoter (only in upstream direction)
       overlapping which the interval will be assigned to the
@@ -64,131 +62,120 @@ inputs:
 outputs:
   annotated_unique_from_a:
     type: File
-    format: http://edamontology.org/format_3475
     outputSource: groom_unique_from_a/output_file
     label: Annotated intervals unique for experiment A
     doc: Annotated intervals unique for experiment A
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Unique from A
-        Title: Unique intervals from experiment A
+      - syncfusiongrid:
+          tab: Unique from A
+          Title: Unique intervals from experiment A
   unique_from_a_bed:
     type: File
-    format: http://edamontology.org/format_3003
     outputSource: sort_unique_from_a/sorted_file
     label: BED file with unique for experiment A intervals
     doc: BED file with unique for experiment A intervals
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Unique from A
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Unique from A
+          displayMode: COLLAPSE
+          height: 40
   annotated_unique_from_b:
     type: File
-    format: http://edamontology.org/format_3475
     outputSource: groom_unique_from_b/output_file
     label: Annotated intervals unique for experiment B
     doc: Annotated intervals unique for experiment B
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Unique from B
-        Title: Unique intervals from experiment B
+      - syncfusiongrid:
+          tab: Unique from B
+          Title: Unique intervals from experiment B
   unique_from_b_bed:
     type: File
-    format: http://edamontology.org/format_3003
     outputSource: sort_unique_from_b/sorted_file
     label: BED file with unique for experiment B intervals
     doc: BED file with unique for experiment B intervals
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Unique from B
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Unique from B
+          displayMode: COLLAPSE
+          height: 40
   annotated_overlapped_from_a:
     type: File
-    format: http://edamontology.org/format_3475
     outputSource: groom_overlapped_from_a/output_file
     label: Annotated intervals from experiment A overlapped with experiment B
     doc: Annotated intervals from experiment A overlapped with experiment B
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Overlapped from A
-        Title: Overlapped intervals from experiment A
+      - syncfusiongrid:
+          tab: Overlapped from A
+          Title: Overlapped intervals from experiment A
   overlapped_from_a_bed:
     type: File
-    format: http://edamontology.org/format_3003
     outputSource: sort_overlapped_from_a/sorted_file
     label: BED file with intervals from experiment A overlapped with experiment B
     doc: BED file with intervals from experiment A overlapped with experiment B
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Overlapped from A
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Overlapped from A
+          displayMode: COLLAPSE
+          height: 40
   annotated_overlapped_from_b:
     type: File
-    format: http://edamontology.org/format_3475
     outputSource: groom_overlapped_from_b/output_file
     label: Annotated intervals from experiment B overlapped with experiment A
     doc: Annotated intervals from experiment B overlapped with experiment A
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Overlapped from B
-        Title: Overlapped intervals from experiment B
+      - syncfusiongrid:
+          tab: Overlapped from B
+          Title: Overlapped intervals from experiment B
   overlapped_from_b_bed:
     type: File
-    format: http://edamontology.org/format_3003
     outputSource: sort_overlapped_from_b/sorted_file
     label: BED file with intervals from experiment B overlapped with experiment A
     doc: BED file with intervals from experiment B overlapped with experiment A
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Overlapped from B
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Overlapped from B
+          displayMode: COLLAPSE
+          height: 40
   annotated_merged_overlapped_from_a_and_b:
     type: File
-    format: http://edamontology.org/format_3475
     outputSource: groom_merged_overlapped_from_a_and_b/output_file
     label: Annotated merged overlapped intervals for experiments A and B
     doc: Annotated merged overlapped intervals for experiments A and B
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Merged overlapped from A and B
-        Title: Merged overlapped intervals from experiments A and B
+      - syncfusiongrid:
+          tab: Merged overlapped from A and B
+          Title: Merged overlapped intervals from experiments A and B
   merged_overlapped_from_a_and_b_bed:
     type: File
-    format: http://edamontology.org/format_3003
     outputSource: sort_merged_overlapped_from_a_and_b/sorted_file
     label: BED file with merged overlapped intervals for experiments A and B
     doc: BED file with merged overlapped intervals for experiments A and B
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Merged overlapped from A and B
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Merged overlapped from A and B
+          displayMode: COLLAPSE
+          height: 40
   collected_statistics:
     type: File
-    format: http://edamontology.org/format_3835
     outputSource: collect_statistics/output_file
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
     label: Overlap statistics
     doc: Overlap statistics
 steps:
@@ -200,7 +187,7 @@ steps:
         default: |
           cat "$0" | tr -d '\r' | tr "," "\t" | awk NF | sort -u -k1,1 -k2,2n -k3,3n > unique_from_a.bed
     out:
-    - output_file
+      - output_file
   dedup_and_sort_b:
     run: ../tools/custom-bash.cwl
     in:
@@ -209,7 +196,7 @@ steps:
         default: |
           cat "$0" | tr -d '\r' | tr "," "\t" | awk NF | sort -u -k1,1 -k2,2n -k3,3n > unique_from_b.bed
     out:
-    - output_file
+      - output_file
   get_unique_from_a:
     run: ../tools/bedtools-intersect.cwl
     in:
@@ -218,18 +205,18 @@ steps:
       no_overlaps:
         default: true
     out:
-    - intersected_file
+      - intersected_file
   sort_unique_from_a:
     run: ../tools/linux-sort.cwl
     in:
       unsorted_file: get_unique_from_a/intersected_file
       key:
         default:
-        - 1,1
-        - 2,2n
-        - 3,3n
+          - 1,1
+          - 2,2n
+          - 3,3n
     out:
-    - sorted_file
+      - sorted_file
   convert_to_xls_unique_from_a:
     run: ../tools/custom-bash.cwl
     in:
@@ -238,7 +225,7 @@ steps:
         default: |
           cat $0 | awk 'BEGIN {print "chr\tstart\tend\tlength\tabs_summit\tpileup\t-log10(pvalue)\tfold_enrichment\t-log10(qvalue)\tname"} {print $1"\t"$2"\t"$3"\t"$3-$2+1"\t0\t0\t0\t0\t0\t0"}' > `basename $0`
     out:
-    - output_file
+      - output_file
   annotate_unique_from_a:
     run: ../tools/iaintersect.cwl
     in:
@@ -249,7 +236,7 @@ steps:
       output_filename:
         default: annotated_unique_from_a.tsv
     out:
-    - result_file
+      - result_file
   groom_unique_from_a:
     run: ../tools/custom-bash.cwl
     in:
@@ -258,7 +245,7 @@ steps:
         default: |
           cat $0 | cut -f 1-9,15 > `basename $0`
     out:
-    - output_file
+      - output_file
   get_unique_from_b:
     run: ../tools/bedtools-intersect.cwl
     in:
@@ -267,18 +254,18 @@ steps:
       no_overlaps:
         default: true
     out:
-    - intersected_file
+      - intersected_file
   sort_unique_from_b:
     run: ../tools/linux-sort.cwl
     in:
       unsorted_file: get_unique_from_b/intersected_file
       key:
         default:
-        - 1,1
-        - 2,2n
-        - 3,3n
+          - 1,1
+          - 2,2n
+          - 3,3n
     out:
-    - sorted_file
+      - sorted_file
   convert_to_xls_unique_from_b:
     run: ../tools/custom-bash.cwl
     in:
@@ -287,7 +274,7 @@ steps:
         default: |
           cat $0 | awk 'BEGIN {print "chr\tstart\tend\tlength\tabs_summit\tpileup\t-log10(pvalue)\tfold_enrichment\t-log10(qvalue)\tname"} {print $1"\t"$2"\t"$3"\t"$3-$2+1"\t0\t0\t0\t0\t0\t0"}' > `basename $0`
     out:
-    - output_file
+      - output_file
   annotate_unique_from_b:
     run: ../tools/iaintersect.cwl
     in:
@@ -298,7 +285,7 @@ steps:
       output_filename:
         default: annotated_unique_from_b.tsv
     out:
-    - result_file
+      - result_file
   groom_unique_from_b:
     run: ../tools/custom-bash.cwl
     in:
@@ -307,7 +294,7 @@ steps:
         default: |
           cat $0 | cut -f 1-9,15 > `basename $0`
     out:
-    - output_file
+      - output_file
   get_overlapped_from_a:
     run: ../tools/bedtools-intersect.cwl
     in:
@@ -316,20 +303,20 @@ steps:
       report_from_a_once:
         default: true
     out:
-    - intersected_file
+      - intersected_file
   sort_overlapped_from_a:
     run: ../tools/linux-sort.cwl
     in:
       unsorted_file: get_overlapped_from_a/intersected_file
       key:
         default:
-        - 1,1
-        - 2,2n
-        - 3,3n
+          - 1,1
+          - 2,2n
+          - 3,3n
       output_filename:
         default: overlapped_from_a.bed
     out:
-    - sorted_file
+      - sorted_file
   convert_to_xls_overlapped_from_a:
     run: ../tools/custom-bash.cwl
     in:
@@ -338,7 +325,7 @@ steps:
         default: |
           cat $0 | awk 'BEGIN {print "chr\tstart\tend\tlength\tabs_summit\tpileup\t-log10(pvalue)\tfold_enrichment\t-log10(qvalue)\tname"} {print $1"\t"$2"\t"$3"\t"$3-$2+1"\t0\t0\t0\t0\t0\t0"}' > `basename $0`
     out:
-    - output_file
+      - output_file
   annotate_overlapped_from_a:
     run: ../tools/iaintersect.cwl
     in:
@@ -349,7 +336,7 @@ steps:
       output_filename:
         default: annotated_overlapped_from_a.tsv
     out:
-    - result_file
+      - result_file
   groom_overlapped_from_a:
     run: ../tools/custom-bash.cwl
     in:
@@ -358,7 +345,7 @@ steps:
         default: |
           cat $0 | cut -f 1-9,15 > `basename $0`
     out:
-    - output_file
+      - output_file
   get_overlapped_from_b:
     run: ../tools/bedtools-intersect.cwl
     in:
@@ -367,20 +354,20 @@ steps:
       report_from_a_once:
         default: true
     out:
-    - intersected_file
+      - intersected_file
   sort_overlapped_from_b:
     run: ../tools/linux-sort.cwl
     in:
       unsorted_file: get_overlapped_from_b/intersected_file
       key:
         default:
-        - 1,1
-        - 2,2n
-        - 3,3n
+          - 1,1
+          - 2,2n
+          - 3,3n
       output_filename:
         default: overlapped_from_b.bed
     out:
-    - sorted_file
+      - sorted_file
   convert_to_xls_overlapped_from_b:
     run: ../tools/custom-bash.cwl
     in:
@@ -389,7 +376,7 @@ steps:
         default: |
           cat $0 | awk 'BEGIN {print "chr\tstart\tend\tlength\tabs_summit\tpileup\t-log10(pvalue)\tfold_enrichment\t-log10(qvalue)\tname"} {print $1"\t"$2"\t"$3"\t"$3-$2+1"\t0\t0\t0\t0\t0\t0"}' > `basename $0`
     out:
-    - output_file
+      - output_file
   annotate_overlapped_from_b:
     run: ../tools/iaintersect.cwl
     in:
@@ -400,7 +387,7 @@ steps:
       output_filename:
         default: annotated_overlapped_from_b.tsv
     out:
-    - result_file
+      - result_file
   groom_overlapped_from_b:
     run: ../tools/custom-bash.cwl
     in:
@@ -409,13 +396,13 @@ steps:
         default: |
           cat $0 | cut -f 1-9,15 > `basename $0`
     out:
-    - output_file
+      - output_file
   combine_overlapped_from_a_and_b:
     run: ../tools/custom-bash.cwl
     in:
       input_file:
-      - get_overlapped_from_a/intersected_file
-      - get_overlapped_from_b/intersected_file
+        - get_overlapped_from_a/intersected_file
+        - get_overlapped_from_b/intersected_file
       script:
         default: |
           cat "$0" > temp.tsv
@@ -423,24 +410,24 @@ steps:
           cat temp.tsv | sort -u -k1,1 -k2,2n -k3,3n > merged_overlapped_from_a_and_b.bed
           rm temp.tsv
     out:
-    - output_file
+      - output_file
   merge_overlapped_from_a_and_b:
     run: ../tools/bedtools-merge.cwl
     in:
       bed_file: combine_overlapped_from_a_and_b/output_file
     out:
-    - merged_bed_file
+      - merged_bed_file
   sort_merged_overlapped_from_a_and_b:
     run: ../tools/linux-sort.cwl
     in:
       unsorted_file: merge_overlapped_from_a_and_b/merged_bed_file
       key:
         default:
-        - 1,1
-        - 2,2n
-        - 3,3n
+          - 1,1
+          - 2,2n
+          - 3,3n
     out:
-    - sorted_file
+      - sorted_file
   convert_to_xls_merged_overlapped_from_a_and_b:
     run: ../tools/custom-bash.cwl
     in:
@@ -449,7 +436,7 @@ steps:
         default: |
           cat $0 | awk 'BEGIN {print "chr\tstart\tend\tlength\tabs_summit\tpileup\t-log10(pvalue)\tfold_enrichment\t-log10(qvalue)\tname"} {print $1"\t"$2"\t"$3"\t"$3-$2+1"\t0\t0\t0\t0\t0\t0"}' > `basename $0`
     out:
-    - output_file
+      - output_file
   annotate_merged_overlapped_from_a_and_b:
     run: ../tools/iaintersect.cwl
     in:
@@ -460,7 +447,7 @@ steps:
       output_filename:
         default: annotated_merged_overlapped_from_a_and_b.tsv
     out:
-    - result_file
+      - result_file
   groom_merged_overlapped_from_a_and_b:
     run: ../tools/custom-bash.cwl
     in:
@@ -469,16 +456,16 @@ steps:
         default: |
           cat $0 | cut -f 1-9,15 > `basename $0`
     out:
-    - output_file
+      - output_file
   collect_statistics:
     run: ../tools/custom-bash.cwl
     in:
       input_file:
-      - groom_unique_from_a/output_file
-      - groom_unique_from_b/output_file
-      - groom_overlapped_from_a/output_file
-      - groom_overlapped_from_b/output_file
-      - groom_merged_overlapped_from_a_and_b/output_file
+        - groom_unique_from_a/output_file
+        - groom_unique_from_b/output_file
+        - groom_overlapped_from_a/output_file
+        - groom_overlapped_from_b/output_file
+        - groom_merged_overlapped_from_a_and_b/output_file
       script:
         default: |
           UNIQUE_A=$(($(cat $0 | wc -l)-1))
@@ -494,7 +481,7 @@ steps:
           echo "| Overlapped from B              | ${OVERLAPPED_B}           |" >> statistics.md
           echo "| Merged overlapped from A and B | ${MERGED_OVERLAPPED_A_B}  |" >> statistics.md
     out:
-    - output_file
+      - output_file
 label: Pairwise genomic regions intersection
 doc: |-
   Pairwise genomic regions intersection

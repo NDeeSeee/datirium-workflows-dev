@@ -1,12 +1,14 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { var basename = inputs.bigwig_file.location.split('/').slice(-1)[0]; var root = basename.split('.').slice(0,-1).join('.'); var ext = ".wig"; return (root == "")?basename+ext:root+ext; };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { var basename = inputs.bigwig_file.location.split('/').slice(-1)[0];
+        var root = basename.split('.').slice(0,-1).join('.'); var ext = ".wig"; return
+        (root == "")?basename+ext:root+ext; };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/ucscuserapps:v358
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/ucscuserapps:v358
 inputs:
   bigwig_file:
     type: File
@@ -67,7 +69,7 @@ outputs:
             }
         }
 baseCommand:
-- bigWigToWig
+  - bigWigToWig
 doc: |
   Tool converts bigWig to Wig file. If input bigWig file was generated from bedGraph, the tool will
   return output in bedGraph format.

@@ -1,23 +1,24 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function(ext) { var root = inputs.input_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.input_file.basename+ext:root+ext; };
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      return  [
-                {
-                  "entry": inputs.annotation_filename,
-                  "entryname": inputs.annotation_filename.basename,
-                  "writable": true
-                }
-              ]
-    }
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function(ext) { var root = inputs.input_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.input_file.basename+ext:root+ext; };
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        return  [
+                  {
+                    "entry": inputs.annotation_filename,
+                    "entryname": inputs.annotation_filename.basename,
+                    "writable": true
+                  }
+                ]
+      }
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/atdp:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/atdp:v0.0.1
 inputs:
   script:
     type: string?
@@ -41,7 +42,7 @@ inputs:
       Bash function to run refgene-sort and atdp
   input_file:
     type:
-    - File
+      - File
     inputBinding:
       position: 2
       prefix: --in=
@@ -50,7 +51,7 @@ inputs:
       Input indexed BAM file (optionally +BAI index file in secondaryFiles)
   annotation_filename:
     type:
-    - File
+      - File
     inputBinding:
       position: 3
       prefix: --a=
@@ -59,8 +60,8 @@ inputs:
       Annotation file, tsv
   output_filename:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 4
       prefix: --out=
@@ -78,8 +79,8 @@ inputs:
       Base output file name, tsv
   log_filename:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 5
       prefix: --log=
@@ -97,8 +98,8 @@ inputs:
       Log filename
   fragmentsize_bp:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 6
       prefix: --f=
@@ -107,8 +108,8 @@ inputs:
       Fragmentsize, int [150]
   avd_window_bp:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 7
       prefix: --avd_window=
@@ -117,8 +118,8 @@ inputs:
       Average tag density window, int [5000]
   avd_smooth_bp:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 8
       prefix: --avd_smooth=
@@ -127,8 +128,8 @@ inputs:
       Average smooth window (odd), int [0]
   ignore_chr:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 9
       prefix: --sam_ignorechr=
@@ -137,8 +138,8 @@ inputs:
       The chromosomes to be ignored, string
   double_chr:
     type:
-    - 'null'
-    - string
+      - 'null'
+      - string
     inputBinding:
       position: 10
       prefix: --sam_twicechr=
@@ -147,8 +148,8 @@ inputs:
       The chromosomes to be doubled, string
   avd_heat_window_bp:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 11
       prefix: --avd_heat_window=
@@ -157,8 +158,8 @@ inputs:
       Average tag density window for heatmap
   mapped_reads:
     type:
-    - 'null'
-    - int
+      - 'null'
+      - int
     inputBinding:
       position: 12
       prefix: --m=
@@ -167,8 +168,8 @@ inputs:
       Mapped reads number
   index_file:
     type:
-    - 'null'
-    - File
+      - 'null'
+      - File
     inputBinding:
       position: 13
       prefix: --index=
@@ -199,8 +200,8 @@ outputs:
           }
         }
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 doc: |
   Tool calculates average tag density profile around all annotated TSS.
 

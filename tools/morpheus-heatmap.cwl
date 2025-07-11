@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/morpheus:v0.0.2
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/morpheus:v0.0.2
 inputs:
   read_counts_gct:
     type: File
@@ -30,7 +30,7 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- run_morpheus.R
+  - run_morpheus.R
 stdout: morpheus_stdout.log
 stderr: morpheus_stderr.log
 label: Morpheus Heatmap

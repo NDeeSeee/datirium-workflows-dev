@@ -1,15 +1,15 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/deeptools:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/deeptools:v0.0.1
 inputs:
   score_files:
     type:
-    - File
-    - File[]
+      - File
+      - File[]
     inputBinding:
       position: 5
       prefix: --scoreFileName
@@ -17,8 +17,8 @@ inputs:
       BigWig file(s) containing the scores to be plotted
   regions_files:
     type:
-    - File
-    - File[]
+      - File
+      - File[]
     inputBinding:
       position: 6
       prefix: --regionsFileName
@@ -26,13 +26,13 @@ inputs:
       File name or names, in BED format, containing the regions to plot
   reference_point:
     type:
-    - 'null'
-    - type: enum
-      name: reference
-      symbols:
-      - TSS
-      - TES
-      - center
+      - 'null'
+      - type: enum
+        name: reference
+        symbols:
+          - TSS
+          - TES
+          - center
     inputBinding:
       position: 7
       prefix: --referencePoint
@@ -77,14 +77,14 @@ inputs:
       Default: 10
   sort_regions:
     type:
-    - 'null'
-    - type: enum
-      name: sort
-      symbols:
-      - descend
-      - ascend
-      - 'no'
-      - keep
+      - 'null'
+      - type: enum
+        name: sort
+        symbols:
+          - descend
+          - ascend
+          - 'no'
+          - keep
     inputBinding:
       position: 12
       prefix: --sortRegions
@@ -99,16 +99,16 @@ inputs:
       Default: keep
   sort_using:
     type:
-    - 'null'
-    - type: enum
-      name: sort_type
-      symbols:
-      - mean
-      - median
-      - max
-      - min
-      - sum
-      - region_length
+      - 'null'
+      - type: enum
+        name: sort_type
+        symbols:
+          - mean
+          - median
+          - max
+          - min
+          - sum
+          - region_length
     inputBinding:
       position: 13
       prefix: --sortUsing
@@ -119,16 +119,16 @@ inputs:
       Default: mean
   average_type_bins:
     type:
-    - 'null'
-    - type: enum
-      name: average
-      symbols:
-      - mean
-      - median
-      - min
-      - max
-      - std
-      - sum
+      - 'null'
+      - type: enum
+        name: average
+        symbols:
+          - mean
+          - median
+          - min
+          - max
+          - std
+          - sum
     inputBinding:
       position: 14
       prefix: --averageTypeBins
@@ -175,9 +175,9 @@ inputs:
       Default: None
   samples_label:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       position: 19
       prefix: --samplesLabel
@@ -223,12 +223,13 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- computeMatrix
-- reference-point
-- --verbose
+  - computeMatrix
+  - reference-point
+  - --verbose
 stdout: compute_matrix_stdout.log
 stderr: compute_matrix_stderr.log
-label: computeMatrix - prepares an intermediate file that can be used with plotHeatmap and plotProfiles
+label: computeMatrix - prepares an intermediate file that can be used with plotHeatmap
+  and plotProfiles
 doc: |
   Tool calculates scores per genome regions and prepares an intermediate file that can be used
   with plotHeatmap and plotProfiles. Typically, the genome regions are genes, but any other

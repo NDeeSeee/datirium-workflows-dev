@@ -1,41 +1,41 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      return  [
-                {
-                  "entry": inputs.input_file,
-                  "entryname": inputs.input_file.basename,
-                  "writable": true
-                }
-              ]
-    }
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        return  [
+                  {
+                    "entry": inputs.input_file,
+                    "entryname": inputs.input_file.basename,
+                    "writable": true
+                  }
+                ]
+      }
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/scidap:v0.0.2
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/scidap:v0.0.2
 inputs:
   input_file:
     type:
-    - File
+      - File
     inputBinding:
       position: 1
     doc: |
       File to be compressed
   fast:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 2
     doc: |
       Set block size to 100k
   best:
     type:
-    - 'null'
-    - boolean
+      - 'null'
+      - boolean
     inputBinding:
       position: 3
     doc: |
@@ -43,14 +43,14 @@ inputs:
 outputs:
   output_file:
     type:
-    - File
+      - File
     outputBinding:
       glob: |
         ${
           return inputs.input_file.basename + '.bz2';
         }
 baseCommand:
-- bzip2
+  - bzip2
 doc: |
   Tool compresses `input_file` to `*.bz2`.
   Output file has the same basename, as input file, but with updated `.bz2` extension. `bzip2` exports compressed

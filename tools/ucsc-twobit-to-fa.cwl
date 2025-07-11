@@ -1,24 +1,24 @@
 cwlVersion: v1.0
 class: CommandLineTool
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/ucscuserapps:v358_2
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/ucscuserapps:v358_2
 requirements:
-- class: ResourceRequirement
-  ramMin: 7620
-  coresMin: 1
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      return  [
-                {
-                  "entry": inputs.reference_file,
-                  "entryname": inputs.reference_file.basename,
-                  "writable": true
-                }
-              ]
-    }
+  - class: ResourceRequirement
+    ramMin: 7620
+    coresMin: 1
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        return  [
+                  {
+                    "entry": inputs.reference_file,
+                    "entryname": inputs.reference_file.basename,
+                    "writable": true
+                  }
+                ]
+      }
 inputs:
   script:
     type: string?
@@ -54,12 +54,13 @@ inputs:
     doc: Reference genome *.2bit, *.fasta, *.fa, *.fa.gz, *.fasta.gz file
   chr_list:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       position: 8
-    doc: List of the chromosomes to be included into the output file. If pass as string, should be comma-separated
+    doc: List of the chromosomes to be included into the output file. If pass as string,
+      should be comma-separated
 outputs:
   fasta_file:
     type: File
@@ -67,8 +68,8 @@ outputs:
       glob: '*'
     doc: Reference genome FASTA file
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 doc: |
   twoBitToFa - Convert all or part of .2bit file to fasta.
   Outputs only those chromosomes that are set in chr_list intput.

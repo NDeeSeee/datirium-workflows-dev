@@ -1,9 +1,9 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: ScatterFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
+  - class: ScatterFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 inputs:
   isoforms_file:
     type: File[]
@@ -23,10 +23,10 @@ steps:
     in:
       isoforms_file: isoforms_file
     scatter:
-    - isoforms_file
+      - isoforms_file
     out:
-    - genes_file
-    - common_tss_file
+      - genes_file
+      - common_tss_file
 doc: |
   Workflow runs group-isoforms.cwl tool using scatter for isoforms_file input. genes_filename and common_tss_filename inputs are ignored.
 sd:version: 100

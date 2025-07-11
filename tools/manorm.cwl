@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/manorm:v0.0.4
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/manorm:v0.0.4
 inputs:
   peak_file_first:
     type: File
@@ -16,16 +16,16 @@ inputs:
     doc: Peaks file of sample 2
   peak_format:
     type:
-    - 'null'
-    - type: enum
-      name: peak_format
-      symbols:
-      - bed
-      - bed3-summit
-      - macs
-      - macs2
-      - narrowpeak
-      - broadpeak
+      - 'null'
+      - type: enum
+        name: peak_format
+        symbols:
+          - bed
+          - bed3-summit
+          - macs
+          - macs2
+          - narrowpeak
+          - broadpeak
     inputBinding:
       prefix: --pf
     doc: |
@@ -43,14 +43,14 @@ inputs:
     doc: Reads file of sample 2
   read_format:
     type:
-    - 'null'
-    - type: enum
-      name: read_format
-      symbols:
-      - bed
-      - bedpe
-      - sam
-      - bam
+      - 'null'
+      - type: enum
+        name: read_format
+        symbols:
+          - bed
+          - bedpe
+          - sam
+          - bam
     inputBinding:
       prefix: --rf
     doc: |
@@ -76,7 +76,8 @@ inputs:
     type: string?
     inputBinding:
       prefix: --n1
-    doc: "\"Name of sample 1, which is used in output files. If not specified, \n the name of the peak file will be used as the sample name\"\n"
+    doc: "\"Name of sample 1, which is used in output files. If not specified, \n
+      the name of the peak file will be used as the sample name\"\n"
   sample_name_second:
     type: string?
     inputBinding:
@@ -193,7 +194,7 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- manorm
+  - manorm
 stderr: manorm_stderr.log
 stdout: manorm_stdout.log
 label: MAnorm - quantitative comparison of ChIP-Seq data

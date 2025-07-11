@@ -1,14 +1,15 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_root = function(basename) { return basename.split('.').slice(0,1).join('.'); };
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_root = function(basename) { return basename.split('.').slice(0,1).join('.');
+        };
 sd:metadata:
-- ../metadata/rnaseq-header.cwl
+  - ../metadata/rnaseq-header.cwl
 sd:upstream:
   genome_indices: genome-indices.cwl
 inputs:
@@ -30,21 +31,16 @@ inputs:
   chrom_length_file:
     type: File
     label: Chromosome length file
-    format: http://edamontology.org/format_2330
     sd:upstreamSource: genome_indices/chrom_length
     doc: Chromosome length file
   annotation_file:
     type: File
     label: Annotation file
-    format:
-    - http://edamontology.org/format_2306
-    - http://edamontology.org/format_3475
     sd:upstreamSource: genome_indices/annotation
     doc: GTF or TAB-separated annotation file
   fastq_file:
     type: File
     label: FASTQ input file
-    format: http://edamontology.org/format_1930
     doc: Reads data in a FASTQ format
   exclude_chr:
     type: string?
@@ -76,204 +72,184 @@ inputs:
 outputs:
   bigwig_upstream:
     type: File
-    format: http://edamontology.org/format_3006
     label: BigWig file
     doc: Generated BigWig file for (+)strand reads
     outputSource: bam_to_bigwig_upstream/bigwig_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: (+)strand BigWig
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: (+)strand BigWig
+          height: 120
   bigwig_downstream:
     type: File
-    format: http://edamontology.org/format_3006
     label: BigWig file
     doc: Generated BigWig file for (-)strand reads
     outputSource: bam_to_bigwig_downstream/bigwig_file
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: (-)strand BigWig
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: (-)strand BigWig
+          height: 120
   star_final_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: STAR final log
     doc: STAR Log.final.out
     outputSource: star_aligner/log_final
   star_out_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR log out
     doc: STAR Log.out
     outputSource: star_aligner/log_out
   star_progress_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR progress log
     doc: STAR Log.progress.out
     outputSource: star_aligner/log_progress
   star_stdout_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR stdout log
     doc: STAR Log.std.out
     outputSource: star_aligner/log_std
   star_sj_log:
     type: File?
-    format: http://edamontology.org/format_2330
     label: STAR sj log
     doc: STAR SJ.out.tab
     outputSource: star_aligner/log_sj
   fastx_statistics:
     type: File
-    format: http://edamontology.org/format_2330
     label: FASTQ statistics
     doc: fastx_quality_stats generated FASTQ file quality statistics file
     outputSource: fastx_quality_stats/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   bam_merged_index:
     type: File
-    format: http://edamontology.org/format_2572
     label: Coordinate sorted BAM alignment file (+index BAI)
     doc: Coordinate sorted BAM file and BAI index file
     outputSource: merge_original_and_mitochondrial_index/bam_bai_pair
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        optional: true
-        type: alignment
-        format: bam
-        name: BAM Track
-        displayMode: SQUISHED
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          optional: true
+          type: alignment
+          format: bam
+          name: BAM Track
+          displayMode: SQUISHED
   bowtie_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: Bowtie alignment log
     doc: Bowtie alignment log file
     outputSource: bowtie_aligner/log_file
   rpkm_isoforms:
     type: File
-    format: http://edamontology.org/format_3752
     label: RPKM, grouped by isoforms
     doc: Calculated rpkm values, grouped by isoforms
     outputSource: rpkm_calculation/isoforms_file
   rpkm_genes:
     type: File
-    format: http://edamontology.org/format_3475
     label: RPKM, grouped by gene name
     doc: Calculated rpkm values, grouped by gene name
     outputSource: group_isoforms/genes_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Gene Expression
-        Title: RPKM, grouped by gene name
+      - syncfusiongrid:
+          tab: Gene Expression
+          Title: RPKM, grouped by gene name
   rpkm_common_tss:
     type: File
-    format: http://edamontology.org/format_3475
     label: RPKM, grouped by common TSS
     doc: Calculated rpkm values, grouped by common TSS
     outputSource: group_isoforms/common_tss_file
   htseq_count_gene_expression_file:
     type: File
-    format: http://edamontology.org/format_3475
     label: 'HTSeq: read counts grouped by gene_id'
     doc: 'HTSeq: read counts grouped by gene_id'
     outputSource: htseq_count_gene_expression/feature_counts_report_file
   htseq_count_stdout_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: 'HTSeq: stdout log'
     doc: 'HTSeq: stdout log'
     outputSource: htseq_count_gene_expression/stdout_log
   htseq_count_stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: 'HTSeq: stderr log'
     doc: 'HTSeq: stderr log'
     outputSource: htseq_count_gene_expression/stderr_log
   get_stat_log:
     type: File?
     label: YAML formatted combined log
-    format: http://edamontology.org/format_3750
     doc: YAML formatted combined log
     outputSource: get_stat/collected_statistics_yaml
   get_stat_markdown:
     type: File?
     label: Markdown formatted combined log
-    format: http://edamontology.org/format_3835
     doc: Markdown formatted combined log
     outputSource: get_stat/collected_statistics_md
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   get_formatted_stats:
     type: File?
     label: Bowtie, STAR and GEEP mapping stats
-    format: http://edamontology.org/format_2330
     doc: Processed and combined Bowtie & STAR aligner and GEEP logs
     outputSource: get_stat/collected_statistics_tsv
     sd:visualPlugins:
-    - tableView:
-        vertical: true
-        tab: Overview
+      - tableView:
+          vertical: true
+          tab: Overview
     sd:preview:
       sd:visualPlugins:
-      - pie:
-          colors:
-          - '#b3de69'
-          - '#99c0db'
-          - '#fdc381'
-          - '#fb8072'
-          data:
-          - $2
-          - $3
-          - $4
-          - $5
+        - pie:
+            colors:
+              - '#b3de69'
+              - '#99c0db'
+              - '#fdc381'
+              - '#fb8072'
+            data:
+              - $2
+              - $3
+              - $4
+              - $5
   bam_statistics_report:
     type: File
     label: BAM statistics report
-    format: http://edamontology.org/format_2330
     doc: BAM statistics report (right after alignment and sorting)
     outputSource: get_bam_statistics/log_file
 steps:
@@ -282,7 +258,7 @@ steps:
     in:
       compressed_file: fastq_file
     out:
-    - fastq_file
+      - fastq_file
   star_aligner:
     run: ../tools/star-alignreads.cwl
     in:
@@ -302,14 +278,14 @@ steps:
       clip5pNbases: clip_5p_end
       threads: threads
     out:
-    - aligned_file
-    - unmapped_mate_1_file
-    - log_final
-    - uniquely_mapped_reads_number
-    - log_out
-    - log_progress
-    - log_std
-    - log_sj
+      - aligned_file
+      - unmapped_mate_1_file
+      - log_final
+      - uniquely_mapped_reads_number
+      - log_out
+      - log_progress
+      - log_std
+      - log_sj
   star_aligner_mitochondrial:
     run: ../tools/star-alignreads.cwl
     in:
@@ -327,50 +303,53 @@ steps:
       clip5pNbases: clip_5p_end
       threads: threads
     out:
-    - aligned_file
-    - log_final
-    - uniquely_mapped_reads_number
-    - log_out
-    - log_progress
-    - log_std
-    - log_sj
+      - aligned_file
+      - log_final
+      - uniquely_mapped_reads_number
+      - log_out
+      - log_progress
+      - log_std
+      - log_sj
   fastx_quality_stats:
     run: ../tools/fastx-quality-stats.cwl
     in:
       input_file: extract_fastq/fastq_file
     out:
-    - statistics_file
+      - statistics_file
   samtools_sort_index_mitochondrial:
     run: ../tools/samtools-sort-index.cwl
     in:
       sort_input: star_aligner_mitochondrial/aligned_file
       sort_output_filename:
         source: extract_fastq/fastq_file
-        valueFrom: $(self.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+'_mitochondrial.bam')
+        valueFrom: 
+          $(self.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+'_mitochondrial.bam')
       threads: threads
     out:
-    - bam_bai_pair
+      - bam_bai_pair
   samtools_sort_index:
     run: ../tools/samtools-sort-index.cwl
     in:
       sort_input: star_aligner/aligned_file
       sort_output_filename:
         source: extract_fastq/fastq_file
-        valueFrom: $(self.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+'_sorted.bam')
+        valueFrom: 
+          $(self.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+'_sorted.bam')
       threads: threads
     out:
-    - bam_bai_pair
+      - bam_bai_pair
   merge_original_and_mitochondrial:
     run: ../tools/samtools-merge.cwl
     in:
       output_filename:
         source: extract_fastq/fastq_file
-        valueFrom: $(self.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+'_merged.bam')
+        valueFrom: 
+          $(self.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+'_merged.bam')
       alignment_files:
-      - samtools_sort_index/bam_bai_pair
-      - samtools_sort_index_mitochondrial/bam_bai_pair
+        - samtools_sort_index/bam_bai_pair
+        - samtools_sort_index_mitochondrial/bam_bai_pair
     out:
-    - merged_alignment_file
+      - merged_alignment_file
   merge_original_and_mitochondrial_index:
     run: ../tools/samtools-sort-index.cwl
     in:
@@ -380,7 +359,7 @@ steps:
         valueFrom: $(self.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')+'.bam')
       threads: threads
     out:
-    - bam_bai_pair
+      - bam_bai_pair
   bam_to_bigwig_upstream:
     run: ../tools/bam-bedgraph-bigwig.cwl
     in:
@@ -398,7 +377,7 @@ steps:
       strand:
         default: +
     out:
-    - bigwig_file
+      - bigwig_file
   bam_to_bigwig_downstream:
     run: ../tools/bam-bedgraph-bigwig.cwl
     in:
@@ -418,7 +397,7 @@ steps:
       strand:
         default: '-'
     out:
-    - bigwig_file
+      - bigwig_file
   bowtie_aligner:
     run: ../tools/bowtie-alignreads.cwl
     in:
@@ -438,7 +417,7 @@ steps:
         default: true
       threads: threads
     out:
-    - log_file
+      - log_file
   rpkm_calculation:
     run: ../tools/geep.cwl
     in:
@@ -451,20 +430,20 @@ steps:
       exclude_chr: exclude_chr
       threads: threads
     out:
-    - isoforms_file
+      - isoforms_file
   group_isoforms:
     run: ../tools/group-isoforms.cwl
     in:
       isoforms_file: rpkm_calculation/isoforms_file
     out:
-    - genes_file
-    - common_tss_file
+      - genes_file
+      - common_tss_file
   get_annotation_gtf:
     run: ../tools/ucsc-genepredtogtf.cwl
     in:
       annotation_tsv_file: annotation_file
     out:
-    - annotation_gtf_file
+      - annotation_gtf_file
   htseq_count_gene_expression:
     run: ../tools/htseq-count.cwl
     in:
@@ -477,9 +456,9 @@ steps:
       feature_id:
         default: gene_id
     out:
-    - feature_counts_report_file
-    - stdout_log
-    - stderr_log
+      - feature_counts_report_file
+      - stdout_log
+      - stderr_log
   get_bam_statistics:
     run: ../tools/samtools-stats.cwl
     in:
@@ -488,7 +467,7 @@ steps:
         source: samtools_sort_index/bam_bai_pair
         valueFrom: $(get_root(self.basename)+"_bam_statistics_report.txt")
     out:
-    - log_file
+      - log_file
   get_stat:
     run: ../tools/collect-statistics-rna-seq.cwl
     in:
@@ -497,9 +476,9 @@ steps:
       bam_statistics_report: get_bam_statistics/log_file
       isoforms_file: rpkm_calculation/isoforms_file
     out:
-    - collected_statistics_yaml
-    - collected_statistics_tsv
-    - collected_statistics_md
+      - collected_statistics_yaml
+      - collected_statistics_tsv
+      - collected_statistics_md
 label: RNA-Seq pipeline single-read stranded mitochondrial
 doc: |
   Slightly changed original [BioWardrobe's](https://biowardrobe.com) [PubMed ID:26248465](https://www.ncbi.nlm.nih.gov/pubmed/26248465)

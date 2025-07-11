@@ -1,25 +1,30 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      return  [
-                {
-                  "entry": inputs.sort_input,
-                  "entryname": inputs.sort_input.basename,
-                  "writable": true
-                }
-              ]
-    }
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var ext = function() { if (inputs.out_format && inputs.out_format == 'SAM'){ return '.sam'; } else if (inputs.out_format && inputs.out_format == 'CRAM') { return '.cram'; } else { return '.bam'; } };
-  - var default_output_name = function() { if (inputs.trigger == true){ return inputs.sort_input.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.') + ext(); } else { return inputs.sort_input.location.split('/').slice(-1)[0]; } };
+  - class: ShellCommandRequirement
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        return  [
+                  {
+                    "entry": inputs.sort_input,
+                    "entryname": inputs.sort_input.basename,
+                    "writable": true
+                  }
+                ]
+      }
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var ext = function() { if (inputs.out_format && inputs.out_format == 'SAM'){
+        return '.sam'; } else if (inputs.out_format && inputs.out_format == 'CRAM')
+        { return '.cram'; } else { return '.bam'; } };
+      - var default_output_name = function() { if (inputs.trigger == true){ return
+        inputs.sort_input.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')
+        + ext(); } else { return inputs.sort_input.location.split('/').slice(-1)[0];
+        } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/samtools:v1.4
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/samtools:v1.4
 inputs:
   bash_script_sort:
     type: string?
@@ -110,8 +115,8 @@ outputs:
             }
         }
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 doc: |
   Tool to sort BAM/SAM file (set as input `sort_input`).
   If input `trigger` is set to `true` or isn't set at all (`true` is used by default), run `samtools sort`, return

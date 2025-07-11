@@ -1,12 +1,14 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { var basename = inputs.bedgraph_file.location.split('/').slice(-1)[0]; var root = basename.split('.').slice(0,-1).join('.'); var ext = ".bigWig"; return (root == "")?basename+ext:root+ext; };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { var basename = inputs.bedgraph_file.location.split('/').slice(-1)[0];
+        var root = basename.split('.').slice(0,-1).join('.'); var ext = ".bigWig";
+        return (root == "")?basename+ext:root+ext; };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/ucscuserapps:v358
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/ucscuserapps:v358
 inputs:
   bedgraph_file:
     type: File
@@ -72,7 +74,7 @@ outputs:
             }
         }
 baseCommand:
-- bedGraphToBigWig
+  - bedGraphToBigWig
 doc: |
   Tool converts bedGraph to bigWig file.
 

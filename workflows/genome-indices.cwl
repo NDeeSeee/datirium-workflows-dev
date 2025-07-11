@@ -1,9 +1,9 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 inputs:
   genome:
     type: string
@@ -26,44 +26,43 @@ inputs:
       position: 3
   genome_file:
     type: File
-    format: http://edamontology.org/format_3009
     label: Reference genome file (*.2bit, *.fasta, *.fa, *.fa.gz, *.fasta.gz)
-    doc: Reference genome file (*.2bit, *.fasta, *.fa, *.fa.gz, *.fasta.gz). All chromosomes are included
+    doc: Reference genome file (*.2bit, *.fasta, *.fa, *.fa.gz, *.fasta.gz). All chromosomes
+      are included
   fasta_ribosomal:
     type: File?
-    format: http://edamontology.org/format_1929
     label: Ribosomal DNA file (*.fasta, *.fa)
     doc: 'Ribosomal DNA file (*.fasta, *.fa). Default: hg19'
   chromosome_list:
     type:
-    - 'null'
-    - string[]
+      - 'null'
+      - string[]
     default:
-    - chr1
-    - chr2
-    - chr3
-    - chr4
-    - chr5
-    - chr6
-    - chr7
-    - chr8
-    - chr9
-    - chr10
-    - chr11
-    - chr12
-    - chr13
-    - chr14
-    - chr15
-    - chr16
-    - chr17
-    - chr18
-    - chr19
-    - chr20
-    - chr21
-    - chr22
-    - chrX
-    - chrY
-    - chrM
+      - chr1
+      - chr2
+      - chr3
+      - chr4
+      - chr5
+      - chr6
+      - chr7
+      - chr8
+      - chr9
+      - chr10
+      - chr11
+      - chr12
+      - chr13
+      - chr14
+      - chr15
+      - chr16
+      - chr17
+      - chr18
+      - chr19
+      - chr20
+      - chr21
+      - chr22
+      - chrX
+      - chrY
+      - chrM
     label: Chromosome list to be included into the reference genome FASTA file
     doc: Filter chromosomes while extracting FASTA from 2bit
   effective_genome_size:
@@ -72,7 +71,6 @@ inputs:
     doc: 'MACS2 effective genome sizes: hs, mm, ce, dm or number, for example 2.7e9'
   gtf_annotation:
     type: File?
-    format: http://edamontology.org/format_2306
     label: GTF annotation file (gzip compressed, from Gencode)
     doc: |
       GTF genome annotation file. Primary assembly with
@@ -98,7 +96,6 @@ inputs:
       the GTF file.
   annotation_tab:
     type: File?
-    format: http://edamontology.org/format_3475
     label: Compressed tsv.gz annotation file
     doc: |
       Compressed tab-separated annotation file.
@@ -107,7 +104,6 @@ inputs:
       from the GTF file.
   mitochondrial_annotation_tab:
     type: File?
-    format: http://edamontology.org/format_3475
     label: Compressed tsv.gz mitochondrial DNA annotation file
     doc: |
       Compressed mitochondrial DNA tab-separated
@@ -117,7 +113,6 @@ inputs:
       GTF file.
   cytoband:
     type: File
-    format: http://edamontology.org/format_3475
     label: Compressed cytoBand file for IGV browser
     doc: Compressed tab-separated cytoBand file for IGV browser
   genome_sa_index_n_bases:
@@ -229,43 +224,37 @@ outputs:
     doc: STAR generated stderr log for mitochondrial DNA indices
   annotation_gtf:
     type: File
-    format: http://edamontology.org/format_2306
     outputSource: prepare_annotation/annotation_gtf_file
     label: GTF annotation file
     doc: GTF annotation file. Includes reference genome and mitochondrial DNA annotations
   annotation:
     type: File
-    format: http://edamontology.org/format_3475
     outputSource: prepare_annotation/annotation_tsv_file
     label: TSV annotation file
-    doc: Tab-separated annotation file. Includes reference genome and mitochondrial DNA annotations
+    doc: Tab-separated annotation file. Includes reference genome and mitochondrial
+      DNA annotations
   fasta_output:
     type: File
-    format: http://edamontology.org/format_1929
     outputSource: extract_fasta/fasta_file
     label: Reference genome FASTA file
     doc: Reference genome FASTA file. Includes only selected chromosomes
   fasta_fai_output:
     type: File
-    format: http://edamontology.org/format_3475
     outputSource: index_fasta/fai_file
     label: FAI index for genome FASTA file
     doc: Tab-separated FAI index file
   cytoband_output:
     type: File
-    format: http://edamontology.org/format_3475
     outputSource: extract_cytoband/output_file
     label: CytoBand file for IGV browser
     doc: Tab-separated cytoBand file for IGV browser
   annotation_bed:
     type: File
-    format: http://edamontology.org/format_3003
     outputSource: sort_annotation_bed/sorted_file
     label: Sorted BED annotation file
     doc: Sorted BED annotation file
   annotation_bed_tbi:
     type: File
-    format: http://edamontology.org/format_3004
     outputSource: annotation_bed_to_bigbed/bigbed_file
     label: Sorted bigBed annotation file
     doc: Sorted bigBed annotation file
@@ -276,7 +265,6 @@ outputs:
     doc: 'MACS2 effective genome sizes: hs, mm, ce, dm or number, for example 2.7e9'
   chrom_length:
     type: File
-    format: http://edamontology.org/format_2330
     outputSource: star_generate_indices/chrom_length
     label: Genome chromosome length file
     doc: Genome chromosome length file
@@ -287,38 +275,38 @@ steps:
       reference_file: genome_file
       chr_list: chromosome_list
     out:
-    - fasta_file
+      - fasta_file
   extract_mitochondrial_fasta:
     run: ../tools/ucsc-twobit-to-fa.cwl
     in:
       reference_file: genome_file
       chr_list:
         default:
-        - chrM
+          - chrM
     out:
-    - fasta_file
+      - fasta_file
   extract_cytoband:
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       requirements:
-      - class: ResourceRequirement
-        ramMin: 7620
-        coresMin: 1
-      - class: InitialWorkDirRequirement
-        listing: |
-          ${
-            return  [
-                      {
-                        "entry": inputs.input_file,
-                        "entryname": inputs.input_file.basename,
-                        "writable": true
-                      }
-                    ]
-          }
+        - class: ResourceRequirement
+          ramMin: 7620
+          coresMin: 1
+        - class: InitialWorkDirRequirement
+          listing: |
+            ${
+              return  [
+                        {
+                          "entry": inputs.input_file,
+                          "entryname": inputs.input_file.basename,
+                          "writable": true
+                        }
+                      ]
+            }
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/scidap:v0.0.3
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/scidap:v0.0.3
       inputs:
         input_file:
           type: File
@@ -330,22 +318,22 @@ steps:
           outputBinding:
             glob: '*'
       baseCommand:
-      - gunzip
+        - gunzip
     in:
       input_file: cytoband
     out:
-    - output_file
+      - output_file
   prepare_annotation:
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       requirements:
-      - class: ResourceRequirement
-        ramMin: 7620
-        coresMin: 1
+        - class: ResourceRequirement
+          ramMin: 7620
+          coresMin: 1
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/ucscuserapps:v358
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/ucscuserapps:v358
       inputs:
         script:
           type: string?
@@ -481,9 +469,9 @@ steps:
             prefix: --rmpar
         chromosome_list:
           type:
-          - 'null'
-          - string
-          - string[]
+            - 'null'
+            - string
+            - string[]
           inputBinding:
             position: 10
       outputs:
@@ -496,8 +484,8 @@ steps:
           outputBinding:
             glob: refgene.gtf
       baseCommand:
-      - bash
-      - -c
+        - bash
+        - -c
     in:
       genome_annotation: annotation_tab
       mitochondrial_annotation: mitochondrial_annotation_tab
@@ -505,8 +493,8 @@ steps:
       remove_par_y_genes: remove_par_y_genes
       chromosome_list: chromosome_list
     out:
-    - annotation_tsv_file
-    - annotation_gtf_file
+      - annotation_tsv_file
+      - annotation_gtf_file
   star_generate_indices:
     run: ../tools/star-genomegenerate.cwl
     in:
@@ -520,10 +508,10 @@ steps:
         source: genome
         valueFrom: $(self + "_star_genome")
     out:
-    - indices_folder
-    - chrom_length
-    - stdout_log
-    - stderr_log
+      - indices_folder
+      - chrom_length
+      - stdout_log
+      - stderr_log
   mitochondrial_generate_indices:
     run: ../tools/star-genomegenerate.cwl
     in:
@@ -535,10 +523,10 @@ steps:
         source: genome
         valueFrom: $(self + "_star_mitochondrial")
     out:
-    - indices_folder
-    - chrom_length
-    - stdout_log
-    - stderr_log
+      - indices_folder
+      - chrom_length
+      - stdout_log
+      - stderr_log
   bowtie_generate_indices:
     run: ../tools/bowtie-build.cwl
     in:
@@ -547,9 +535,9 @@ steps:
         source: genome
         valueFrom: $(self + "_bowtie_genome")
     out:
-    - indices_folder
-    - stdout_log
-    - stderr_log
+      - indices_folder
+      - stdout_log
+      - stderr_log
   ribosomal_generate_indices:
     run: ../tools/bowtie-build.cwl
     in:
@@ -1186,33 +1174,46 @@ steps:
         source: genome
         valueFrom: $(self + "_bowtie_ribosomal")
     out:
-    - indices_folder
-    - stdout_log
-    - stderr_log
+      - indices_folder
+      - stdout_log
+      - stderr_log
   index_fasta:
     run: ../tools/samtools-faidx.cwl
     in:
       fasta_file: extract_fasta/fasta_file
     out:
-    - fai_file
+      - fai_file
   convert_annotation_to_bed:
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       requirements:
-      - class: ResourceRequirement
-        ramMin: 7620
-        coresMin: 1
-      - class: InlineJavascriptRequirement
-        expressionLib:
-        - var default_output_filename = function() { var root = inputs.annotation_tsv_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.annotation_tsv_file.basename+".bed":root+".bed"; };
+        - class: ResourceRequirement
+          ramMin: 7620
+          coresMin: 1
+        - class: InlineJavascriptRequirement
+          expressionLib:
+            - var default_output_filename = function() { var root = inputs.annotation_tsv_file.basename.split('.').slice(0,-1).join('.');
+              return (root == "")?inputs.annotation_tsv_file.basename+".bed":root+".bed";
+              };
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/scidap:v0.0.3
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/scidap:v0.0.3
       inputs:
         script:
           type: string?
-          default: "import fileinput\nfor line in fileinput.input():\n    if \"txStart\" in line:\n      continue\n    cols = line.split(\"\\t\")\n    refName = cols[1]\n    chrom = cols[2]\n    txStart = cols[4]\n    txEnd = cols[5]\n    txStart1 = cols[6]\n    txEnd1 = cols[7]\n    try: \n        name = cols[12]\n    except Exception:\n        name = cols[11]\n        pass\n    strand = cols[3]\n    exonCount = cols[8]\n    cdsStart = cols[9].split(',')[0:-1]\n    cdsEnd = cols[10].split(',')[0:-1]\n    startEndPairs = zip(cdsStart, cdsEnd)\n    sizes =  ','.join(map(lambda pair: str(int(pair[1])-int(pair[0])), startEndPairs))\n    deltas = ','.join(map(lambda offset: str(int(offset)-int(txStart)), cdsStart))\n    if 'fix' in chrom or '_' in chrom:\n        continue\n    output = [chrom, txStart, txEnd, name, '1000', strand, txStart1, txEnd1, '.', exonCount, sizes, deltas]\n    print \"\\t\".join(output)\n"
+          default: "import fileinput\nfor line in fileinput.input():\n    if \"txStart\"\
+            \ in line:\n      continue\n    cols = line.split(\"\\t\")\n    refName
+            = cols[1]\n    chrom = cols[2]\n    txStart = cols[4]\n    txEnd = cols[5]\n\
+            \    txStart1 = cols[6]\n    txEnd1 = cols[7]\n    try: \n        name
+            = cols[12]\n    except Exception:\n        name = cols[11]\n        pass\n\
+            \    strand = cols[3]\n    exonCount = cols[8]\n    cdsStart = cols[9].split(',')[0:-1]\n\
+            \    cdsEnd = cols[10].split(',')[0:-1]\n    startEndPairs = zip(cdsStart,
+            cdsEnd)\n    sizes =  ','.join(map(lambda pair: str(int(pair[1])-int(pair[0])),
+            startEndPairs))\n    deltas = ','.join(map(lambda offset: str(int(offset)-int(txStart)),
+            cdsStart))\n    if 'fix' in chrom or '_' in chrom:\n        continue\n\
+            \    output = [chrom, txStart, txEnd, name, '1000', strand, txStart1,
+            txEnd1, '.', exonCount, sizes, deltas]\n    print \"\\t\".join(output)\n"
           inputBinding:
             position: 5
           doc: Python script to get convert TSV annotation file to BED
@@ -1227,23 +1228,23 @@ steps:
           outputBinding:
             glob: '*'
       baseCommand:
-      - python
-      - -c
+        - python
+        - -c
       stdout: $(default_output_filename())
     in:
       annotation_tsv_file: prepare_annotation/annotation_tsv_file
     out:
-    - annotation_bed_file
+      - annotation_bed_file
   sort_annotation_bed:
     run: ../tools/linux-sort.cwl
     in:
       unsorted_file: convert_annotation_to_bed/annotation_bed_file
       key:
         default:
-        - 1,1
-        - 2,2n
+          - 1,1
+          - 2,2n
     out:
-    - sorted_file
+      - sorted_file
   annotation_bed_to_bigbed:
     run: ../tools/ucsc-bedtobigbed.cwl
     in:
@@ -1255,7 +1256,7 @@ steps:
         source: sort_annotation_bed/sorted_file
         valueFrom: $(self.basename + ".tbi")
     out:
-    - bigbed_file
+      - bigbed_file
 label: Generate genome indices for STAR & bowtie
 doc: |-
   Creates indices for:

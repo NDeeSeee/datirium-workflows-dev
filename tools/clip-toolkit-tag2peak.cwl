@@ -1,13 +1,14 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { return inputs.output_filename == "" ? inputs.bed_file.nameroot+".peaks.bed":inputs.output_filename; };
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { return inputs.output_filename ==
+        "" ? inputs.bed_file.nameroot+".peaks.bed":inputs.output_filename; };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/clip-toolkit:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/clip-toolkit:v0.0.1
 inputs:
   big:
     type: boolean?
@@ -66,11 +67,11 @@ inputs:
     doc: Prefix of peak id (Peak)
   default_gene_bed:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - mm10
-      - hg19
+      - 'null'
+      - type: enum
+        symbols:
+          - mm10
+          - hg19
     inputBinding:
       prefix: --dbkey
     doc: Species to retrieve the default gene bed file (mm10|hg19)
@@ -83,7 +84,8 @@ inputs:
     type: boolean?
     inputBinding:
       prefix: --use-expr
-    doc: Use expression levels given in the score column in the custom gene bed file for normalization
+    doc: Use expression levels given in the score column in the custom gene bed file
+      for normalization
   p_value_threshold:
     type: float?
     inputBinding:
@@ -117,7 +119,7 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- tag2peak.pl
+  - tag2peak.pl
 stdout: tag2peak_stdout.log
 stderr: tag2peak_stderr.log
 doc: |

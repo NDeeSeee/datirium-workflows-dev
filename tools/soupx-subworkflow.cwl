@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 inputs:
   raw_feature_bc_matrices_folder:
     type: File
@@ -18,7 +18,8 @@ inputs:
     doc: Target genes list. Headerless text file with 1 gene per line
   expression_threshold:
     type: float?
-    doc: Expression threshold for displaying target genes on a plot (expression > threshold)
+    doc: Expression threshold for displaying target genes on a plot (expression >
+      threshold)
   fdr:
     type: float?
     doc: FDR cutoff for expression ratio plots
@@ -27,13 +28,14 @@ inputs:
     doc: Round adjusted counts to integers
   matrix_format_version:
     type:
-    - 'null'
-    - type: enum
-      name: matrix_format_version
-      symbols:
-      - '2'
-      - '3'
-    doc: Output matrix format version. Corresponds to the latest Cell Ranger matrix format
+      - 'null'
+      - type: enum
+        name: matrix_format_version
+        symbols:
+          - '2'
+          - '3'
+    doc: Output matrix format version. Corresponds to the latest Cell Ranger matrix
+      format
   output_prefix:
     type: string?
     doc: Output prefix
@@ -80,8 +82,8 @@ steps:
       cwlVersion: v1.0
       class: CommandLineTool
       hints:
-      - class: DockerRequirement
-        dockerPull: scidap/scidap:v0.0.4
+        - class: DockerRequirement
+          dockerPull: scidap/scidap:v0.0.4
       inputs:
         script:
           type: string?
@@ -103,16 +105,16 @@ steps:
           outputBinding:
             glob: counts
       baseCommand:
-      - bash
-      - -c
+        - bash
+        - -c
     in:
       compressed_files:
         source:
-        - raw_feature_bc_matrices_folder
-        - filtered_feature_bc_matrix_folder
-        - secondary_analysis_report_folder
+          - raw_feature_bc_matrices_folder
+          - filtered_feature_bc_matrix_folder
+          - secondary_analysis_report_folder
     out:
-    - output_folder
+      - output_folder
   estimate_contamination:
     run: soupx.cwl
     in:
@@ -124,22 +126,23 @@ steps:
       matrix_format_version: matrix_format_version
       output_prefix: output_prefix
     out:
-    - adjusted_feature_bc_matrices_folder
-    - adjusted_feature_bc_matrices_h5
-    - contamination_estimation_plot
-    - raw_gene_expression_plots
-    - adjusted_gene_expression_plots
-    - raw_gene_expression_to_pure_soup_ratio_plots
-    - raw_to_adjusted_gene_expression_ratio_plots
-    - stdout_log
-    - stderr_log
+      - adjusted_feature_bc_matrices_folder
+      - adjusted_feature_bc_matrices_h5
+      - contamination_estimation_plot
+      - raw_gene_expression_plots
+      - adjusted_gene_expression_plots
+      - raw_gene_expression_to_pure_soup_ratio_plots
+      - raw_to_adjusted_gene_expression_ratio_plots
+      - stdout_log
+      - stderr_log
   compress_adjusted_feature_bc_matrices_folder:
     run: tar-compress.cwl
     in:
       folder_to_compress: estimate_contamination/adjusted_feature_bc_matrices_folder
     out:
-    - compressed_folder
-label: SoupX (workflow) - an R package for the estimation and removal of cell free mRNA contamination
+      - compressed_folder
+label: SoupX (workflow) - an R package for the estimation and removal of cell free
+  mRNA contamination
 doc: |
   Wrapped in a workflow SoupX tool for easy access to Cell Ranger pipeline compressed outputs.
 sd:version: 100

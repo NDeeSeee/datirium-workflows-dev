@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
+  - class: InlineJavascriptRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/deeptools:v0.0.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/deeptools:v0.0.1
 inputs:
   scores_matrix:
     type: File
@@ -23,15 +23,15 @@ inputs:
       The available options are: “png”, “eps”, “pdf” and “svg”, e.g., MyHeatmap.png
   interpolation_method:
     type:
-    - 'null'
-    - type: enum
-      name: interpolation_method
-      symbols:
-      - auto
-      - nearest
-      - bilinear
-      - bicubic
-      - gaussian
+      - 'null'
+      - type: enum
+        name: interpolation_method
+        symbols:
+          - auto
+          - nearest
+          - bilinear
+          - bicubic
+          - gaussian
     inputBinding:
       position: 7
       prefix: --interpolationMethod
@@ -49,14 +49,14 @@ inputs:
     doc: Set the DPI to save the figure.
   plot_type:
     type:
-    - 'null'
-    - type: enum
-      name: plot_type
-      symbols:
-      - lines
-      - fill
-      - se
-      - std
+      - 'null'
+      - type: enum
+        name: plot_type
+        symbols:
+          - lines
+          - fill
+          - se
+          - std
     inputBinding:
       position: 9
       prefix: --plotType
@@ -68,14 +68,14 @@ inputs:
       or standard deviation of the data.
   sort_regions:
     type:
-    - 'null'
-    - type: enum
-      name: sort_regions
-      symbols:
-      - descend
-      - ascend
-      - 'no'
-      - keep
+      - 'null'
+      - type: enum
+        name: sort_regions
+        symbols:
+          - descend
+          - ascend
+          - 'no'
+          - keep
     inputBinding:
       position: 10
       prefix: --sortRegions
@@ -85,16 +85,16 @@ inputs:
       the same thing.
   sort_using:
     type:
-    - 'null'
-    - type: enum
-      name: sort_using
-      symbols:
-      - mean
-      - median
-      - max
-      - min
-      - sum
-      - region_length
+      - 'null'
+      - type: enum
+        name: sort_using
+        symbols:
+          - mean
+          - median
+          - max
+          - min
+          - sum
+          - region_length
     inputBinding:
       position: 11
       prefix: --sortUsing
@@ -104,16 +104,16 @@ inputs:
       and center) or the beginning of the region (reference point TES) as appropriate.
   average_type_summary_plot:
     type:
-    - 'null'
-    - type: enum
-      name: average_type_summary_plot
-      symbols:
-      - mean
-      - median
-      - min
-      - max
-      - std
-      - sum
+      - 'null'
+      - type: enum
+        name: average_type_summary_plot
+        symbols:
+          - mean
+          - median
+          - min
+          - max
+          - std
+          - sum
     inputBinding:
       position: 12
       prefix: --averageTypeSummaryPlot
@@ -122,14 +122,14 @@ inputs:
       The options are: “mean”, “median”, “min”, “max”, “sum” and “std”.
   what_to_show:
     type:
-    - 'null'
-    - type: enum
-      name: what_to_show
-      symbols:
-      - plot, heatmap and colorbar
-      - plot and heatmap
-      - heatmap only
-      - heatmap and colorbar
+      - 'null'
+      - type: enum
+        name: what_to_show
+        symbols:
+          - plot, heatmap and colorbar
+          - plot and heatmap
+          - heatmap only
+          - heatmap and colorbar
     inputBinding:
       position: 13
       prefix: --whatToShow
@@ -166,7 +166,9 @@ inputs:
     inputBinding:
       position: 17
       prefix: --refPointLabel
-    doc: "[only for reference-point mode] Label shown in the plot for the reference-point.\nDefault is the same as the reference point selected (e.g. TSS), but could be anything,\ne.g. “peak start”.  \n"
+    doc: "[only for reference-point mode] Label shown in the plot for the reference-point.\n
+      Default is the same as the reference point selected (e.g. TSS), but could be
+      anything,\ne.g. “peak start”.  \n"
   label_rotation_angle:
     type: int?
     inputBinding:
@@ -177,9 +179,9 @@ inputs:
       The default is 0, positive values denote a counter-clockwise rotation.
   regions_label:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       position: 19
       prefix: --regionsLabel
@@ -189,9 +191,9 @@ inputs:
       For example, –regionsLabel label_1, “label 2”.
   samples_label:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       position: 20
       prefix: --samplesLabel
@@ -216,9 +218,9 @@ inputs:
       Y-axis label for the top panel.
   y_min:
     type:
-    - 'null'
-    - int
-    - int[]
+      - 'null'
+      - int
+      - int[]
     inputBinding:
       position: 23
       prefix: --yMin
@@ -227,9 +229,9 @@ inputs:
       If the number of yMin values is smaller thanthe number of plots, the values are recycled.
   y_max:
     type:
-    - 'null'
-    - int
-    - int[]
+      - 'null'
+      - int
+      - int[]
     inputBinding:
       position: 24
       prefix: --yMax
@@ -238,21 +240,21 @@ inputs:
       If the number of yMin values is smaller thanthe number of plots, the values are recycled.
   legend_location:
     type:
-    - 'null'
-    - type: enum
-      name: legend_location
-      symbols:
-      - best
-      - upper-right
-      - upper-left
-      - upper-center
-      - lower-left
-      - lower-right
-      - lower-center
-      - center
-      - center-left
-      - center-right
-      - none
+      - 'null'
+      - type: enum
+        name: legend_location
+        symbols:
+          - best
+          - upper-right
+          - upper-left
+          - upper-center
+          - lower-left
+          - lower-right
+          - lower-center
+          - center
+          - center-left
+          - center-right
+          - none
     inputBinding:
       position: 25
       prefix: --legendLocation
@@ -269,15 +271,15 @@ inputs:
       regions by sample rather than group.
   plot_file_format:
     type:
-    - 'null'
-    - type: enum
-      name: plot_file_format
-      symbols:
-      - png
-      - pdf
-      - svg
-      - eps
-      - plotly
+      - 'null'
+      - type: enum
+        name: plot_file_format
+        symbols:
+          - png
+          - pdf
+          - svg
+          - eps
+          - plotly
     inputBinding:
       position: 27
       prefix: --plotFileFormat
@@ -295,8 +297,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- plotHeatmap
-- --verbose
+  - plotHeatmap
+  - --verbose
 stdout: plot_heatmap_stdout.log
 stderr: plot_heatmap_stderr.log
 label: plotHeatmap - tool creates a heatmap for scores associated with genomic regions

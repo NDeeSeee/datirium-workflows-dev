@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   query_data_rds:
     type: File
@@ -86,7 +86,9 @@ inputs:
     type: boolean?
     inputBinding:
       prefix: --diffpeaks
-    doc: "Identify differentially accessible peaks for the\npredicted cell types. Ignored if the query Seurat\nobject doesn't include chromatin accessibility\ninformation stored in the ATAC assay. \nDefault: false\n"
+    doc: "Identify differentially accessible peaks for the\npredicted cell types.
+      Ignored if the query Seurat\nobject doesn't include chromatin accessibility\n
+      information stored in the ATAC assay. \nDefault: false\n"
   rna_minimum_logfc:
     type: float?
     inputBinding:
@@ -118,18 +120,18 @@ inputs:
       set. Default: false
   rna_test_to_use:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - wilcox
-      - bimod
-      - roc
-      - t
-      - negbinom
-      - poisson
-      - LR
-      - MAST
-      - DESeq2
+      - 'null'
+      - type: enum
+        symbols:
+          - wilcox
+          - bimod
+          - roc
+          - t
+          - negbinom
+          - poisson
+          - LR
+          - MAST
+          - DESeq2
     inputBinding:
       prefix: --rnatestuse
     doc: |
@@ -161,18 +163,18 @@ inputs:
       Default: 0.05
   atac_test_to_use:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - wilcox
-      - bimod
-      - roc
-      - t
-      - negbinom
-      - poisson
-      - LR
-      - MAST
-      - DESeq2
+      - 'null'
+      - type: enum
+        symbols:
+          - wilcox
+          - bimod
+          - roc
+          - t
+          - negbinom
+          - poisson
+          - LR
+          - MAST
+          - DESeq2
     inputBinding:
       prefix: --atactestuse
     doc: |
@@ -183,7 +185,7 @@ inputs:
   atac_fragments_file:
     type: File?
     secondaryFiles:
-    - .tbi
+      - .tbi
     inputBinding:
       prefix: --fragments
     doc: |
@@ -193,9 +195,9 @@ inputs:
       query Seurat object doesn't include ATAC assay.
   genes_of_interest:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: --genes
     doc: |
@@ -244,17 +246,17 @@ inputs:
       Default: false
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     inputBinding:
       prefix: --theme
     doc: |
@@ -670,9 +672,9 @@ outputs:
       PNG format.
   xpr_per_cell_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_xpr_per_cell_[!sgnl_]*.png'
     doc: |
@@ -681,9 +683,9 @@ outputs:
       PNG format.
   xpr_per_cell_sgnl_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_xpr_per_cell_sgnl_*.png'
     doc: |
@@ -703,9 +705,9 @@ outputs:
       PNG format.
   cvrg_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*_cvrg_*.png'
     doc: |
@@ -715,9 +717,9 @@ outputs:
       PNG format.
   all_plots_pdf:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputBinding:
       glob: '*.pdf'
     doc: |
@@ -824,9 +826,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_rna_azimuth.R"]:"/usr/local/bin/sc_rna_azimuth.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_rna_azimuth.R"]:"/usr/local/bin/sc_rna_azimuth.R")
 stdout: sc_rna_azimuth_stdout.log
 stderr: sc_rna_azimuth_stderr.log
 label: Single-Cell RNA-Seq Reference Mapping

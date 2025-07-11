@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-tgif:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-tgif:v1.0.0
 inputs:
   script:
     type: string?
@@ -66,9 +66,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: tgif-summary_stdout.log
 stderr: tgif-summary_stderr.log
-doc: Tool runs simple bash commands to format a report tsv file for translation to md with kableExtra in R.
+doc: Tool runs simple bash commands to format a report tsv file for translation to
+  md with kableExtra in R.
 label: tgif-summary

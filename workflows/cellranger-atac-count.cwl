@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   genome_indices:
-  - cellranger-mkref.cwl
+    - cellranger-mkref.cwl
 inputs:
   alias:
     type: string
@@ -44,29 +44,30 @@ inputs:
       experiment.
   fastq_file_r1:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: FASTQ file(s) R1 (optionally compressed)
     doc: FASTQ file(s) R1 (optionally compressed)
   fastq_file_r2:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: FASTQ file(s) R2 (optionally compressed)
     doc: FASTQ file(s) R2 (optionally compressed)
   fastq_file_r3:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: FASTQ file(s) R3 (optionally compressed)
     doc: FASTQ file(s) R3 (optionally compressed)
   force_cells:
     type: int?
-    default: null
-    label: Define the top N barcodes with the most ATAC fragments overlapping peaks as cells
+    default:
+    label: Define the top N barcodes with the most ATAC fragments overlapping peaks
+      as cells
     doc: |
       Define the top N barcodes with the most ATAC fragments overlapping
       peaks as cells. N must be a positive integer <= 20,000. Please
@@ -75,15 +76,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Cores/CPUs
     doc: |
@@ -101,9 +102,9 @@ outputs:
     doc: |
       Run summary metrics and charts in HTML format
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   metrics_summary_report_json:
     type: File
     outputSource: generate_counts_matrix/metrics_summary_report_json
@@ -134,13 +135,13 @@ outputs:
       and mapping information stored in TAG
       fields.
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: alignment
-        format: bam
-        name: ATAC reads
-        displayMode: SQUISHED
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: alignment
+          format: bam
+          name: ATAC reads
+          displayMode: SQUISHED
   atac_fragments_file:
     type: File
     outputSource: generate_counts_matrix/fragments_file
@@ -156,13 +157,13 @@ outputs:
       Genome track of open-chromatin
       regions identified as peaks.
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: ATAC peaks
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: ATAC peaks
+          displayMode: COLLAPSE
+          height: 40
   peak_annotation_file:
     type: File
     outputSource: generate_counts_matrix/peak_annotation_file
@@ -178,12 +179,12 @@ outputs:
       sites in the experiment smoothed at a
       resolution of 400 bases.
     sd:visualPlugins:
-    - igvbrowser:
-        tab: IGV Genome Browser
-        id: igvbrowser
-        type: wig
-        name: ATAC transposition counts
-        height: 120
+      - igvbrowser:
+          tab: IGV Genome Browser
+          id: igvbrowser
+          type: wig
+          name: ATAC transposition counts
+          height: 120
   filtered_feature_bc_matrix_folder:
     type: File
     outputSource: compress_filtered_feature_bc_matrix_folder/compressed_folder
@@ -247,17 +248,17 @@ outputs:
     label: Collected statistics in Markdown format
     doc: Collected statistics in Markdown format
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   collected_statistics_tsv:
     type: File
     outputSource: collect_statistics/collected_statistics_tsv
     label: Collected statistics in TSV format
     doc: Collected statistics in TSV format
     sd:visualPlugins:
-    - tableView:
-        vertical: true
-        tab: Overview
+      - tableView:
+          vertical: true
+          tab: Overview
   html_data_folder:
     type: Directory
     outputSource: cellbrowser_build/html_data
@@ -271,9 +272,9 @@ outputs:
     doc: |
       CellBrowser formatted Cellranger report
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
 steps:
   extract_fastq_r1:
     run: ../tools/extract-fastq.cwl
@@ -282,7 +283,7 @@ steps:
       output_prefix:
         default: read_1
     out:
-    - fastq_file
+      - fastq_file
   extract_fastq_r2:
     run: ../tools/extract-fastq.cwl
     in:
@@ -290,7 +291,7 @@ steps:
       output_prefix:
         default: read_2
     out:
-    - fastq_file
+      - fastq_file
   extract_fastq_r3:
     run: ../tools/extract-fastq.cwl
     in:
@@ -298,7 +299,7 @@ steps:
       output_prefix:
         default: read_3
     out:
-    - fastq_file
+      - fastq_file
   generate_counts_matrix:
     run: ../tools/cellranger-atac-count.cwl
     in:
@@ -316,49 +317,49 @@ steps:
       memory_limit: memory_limit
       virt_memory_limit: memory_limit
     out:
-    - web_summary_report
-    - metrics_summary_report_json
-    - metrics_summary_report_csv
-    - barcode_metrics_report
-    - possorted_genome_bam_bai
-    - fragments_file
-    - peaks_bed_file
-    - peak_annotation_file
-    - cut_sites_bigwig_file
-    - filtered_feature_bc_matrix_folder
-    - filtered_feature_bc_matrix_h5
-    - raw_feature_bc_matrices_folder
-    - raw_feature_bc_matrices_h5
-    - secondary_analysis_report_folder
-    - loupe_browser_track
-    - stdout_log
-    - stderr_log
+      - web_summary_report
+      - metrics_summary_report_json
+      - metrics_summary_report_csv
+      - barcode_metrics_report
+      - possorted_genome_bam_bai
+      - fragments_file
+      - peaks_bed_file
+      - peak_annotation_file
+      - cut_sites_bigwig_file
+      - filtered_feature_bc_matrix_folder
+      - filtered_feature_bc_matrix_h5
+      - raw_feature_bc_matrices_folder
+      - raw_feature_bc_matrices_h5
+      - secondary_analysis_report_folder
+      - loupe_browser_track
+      - stdout_log
+      - stderr_log
   compress_filtered_feature_bc_matrix_folder:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: generate_counts_matrix/filtered_feature_bc_matrix_folder
     out:
-    - compressed_folder
+      - compressed_folder
   compress_raw_feature_bc_matrices_folder:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: generate_counts_matrix/raw_feature_bc_matrices_folder
     out:
-    - compressed_folder
+      - compressed_folder
   compress_secondary_analysis_report_folder:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: generate_counts_matrix/secondary_analysis_report_folder
     out:
-    - compressed_folder
+      - compressed_folder
   collect_statistics:
     run: ../tools/collect-stats-sc-atac-count.cwl
     in:
       metrics_summary_report: generate_counts_matrix/metrics_summary_report_csv
     out:
-    - collected_statistics_yaml
-    - collected_statistics_tsv
-    - collected_statistics_md
+      - collected_statistics_yaml
+      - collected_statistics_tsv
+      - collected_statistics_md
   cellbrowser_build:
     run: ../tools/cellbrowser-build-cellranger-atac.cwl
     in:
@@ -366,8 +367,8 @@ steps:
       filtered_feature_bc_matrix_folder: generate_counts_matrix/filtered_feature_bc_matrix_folder
       annotation_gtf_file: annotation_gtf_file
     out:
-    - html_data
-    - index_html_file
+      - html_data
+      - index_html_file
 label: Cell Ranger Count (ATAC)
 doc: |-
   Cell Ranger Count (ATAC)

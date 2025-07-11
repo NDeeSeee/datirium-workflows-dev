@@ -1,13 +1,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: EnvVarRequirement
-  envDef:
-    R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
+  - class: InlineJavascriptRequirement
+  - class: EnvVarRequirement
+    envDef:
+      R_MAX_VSIZE: $((inputs.vector_memory_limit * 1000000000).toString())
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 inputs:
   query_data_rds:
     type: File
@@ -43,13 +43,13 @@ inputs:
       Default: all cells used, no extra metadata is added
   cell_cycle_data:
     type:
-    - 'null'
-    - File
-    - type: enum
-      symbols:
-      - hg19
-      - hg38
-      - mm10
+      - 'null'
+      - File
+      - type: enum
+        symbols:
+          - hg19
+          - hg38
+          - mm10
     inputBinding:
       prefix: --cellcycle
       valueFrom: |
@@ -75,12 +75,12 @@ inputs:
       Default: skip cell cycle score assignment.
   normalization_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - sct
-      - log
-      - sctglm
+      - 'null'
+      - type: enum
+        symbols:
+          - sct
+          - log
+          - sctglm
     inputBinding:
       prefix: --norm
     doc: |
@@ -90,12 +90,12 @@ inputs:
       Default: sctglm
   integration_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - seurat
-      - harmony
-      - none
+      - 'null'
+      - type: enum
+        symbols:
+          - seurat
+          - harmony
+          - none
     inputBinding:
       prefix: --ntgr
     doc: |
@@ -104,9 +104,9 @@ inputs:
       Default: seurat
   integrate_by:
     type:
-    - 'null'
-    - string
-    - string[]
+      - 'null'
+      - string
+      - string[]
     inputBinding:
       prefix: --ntgrby
     doc: |
@@ -196,32 +196,32 @@ inputs:
       Default: 30
   umap_metric:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - euclidean
-      - manhattan
-      - chebyshev
-      - minkowski
-      - canberra
-      - braycurtis
-      - mahalanobis
-      - wminkowski
-      - seuclidean
-      - cosine
-      - correlation
-      - haversine
-      - hamming
-      - jaccard
-      - dice
-      - russelrao
-      - kulsinski
-      - ll_dirichlet
-      - hellinger
-      - rogerstanimoto
-      - sokalmichener
-      - sokalsneath
-      - yule
+      - 'null'
+      - type: enum
+        symbols:
+          - euclidean
+          - manhattan
+          - chebyshev
+          - minkowski
+          - canberra
+          - braycurtis
+          - mahalanobis
+          - wminkowski
+          - seuclidean
+          - cosine
+          - correlation
+          - haversine
+          - hamming
+          - jaccard
+          - dice
+          - russelrao
+          - kulsinski
+          - ll_dirichlet
+          - hellinger
+          - rogerstanimoto
+          - sokalmichener
+          - sokalsneath
+          - yule
     inputBinding:
       prefix: --umetric
     doc: |
@@ -229,12 +229,12 @@ inputs:
       Default: cosine
   umap_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - uwot
-      - uwot-learn
-      - umap-learn
+      - 'null'
+      - type: enum
+        symbols:
+          - uwot
+          - uwot-learn
+          - umap-learn
     inputBinding:
       prefix: --umethod
     doc: |
@@ -249,17 +249,17 @@ inputs:
       Default: false
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     inputBinding:
       prefix: --theme
     doc: |
@@ -688,9 +688,10 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- Rscript
+  - Rscript
 arguments:
-- valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R", "/usr/local/bin/sc_rna_reduce.R"]:"/usr/local/bin/sc_rna_reduce.R")
+  - valueFrom: $(inputs.export_html_report?["/usr/local/bin/sc_report_wrapper.R",
+      "/usr/local/bin/sc_rna_reduce.R"]:"/usr/local/bin/sc_rna_reduce.R")
 stdout: sc_rna_reduce_stdout.log
 stderr: sc_rna_reduce_stderr.log
 label: Single-Cell RNA-Seq Dimensionality Reduction Analysis

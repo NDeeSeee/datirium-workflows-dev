@@ -1,20 +1,26 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var split_features = function(line) { function get_unique(value, index, self) { return self.indexOf(value) === index && value != ""; } var splitted_line = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
-  - var split_by_comma = function(line) { function get_unique(value, index, self) { return self.indexOf(value) === index && value != ""; } var splitted_line = line?line.split(/,+/).filter(get_unique):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var split_features = function(line) { function get_unique(value, index, self)
+        { return self.indexOf(value) === index && value != ""; } var splitted_line
+        = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line
+        && !!splitted_line.length)?splitted_line:null; };
+      - var split_by_comma = function(line) { function get_unique(value, index, self)
+        { return self.indexOf(value) === index && value != ""; } var splitted_line
+        = line?line.split(/,+/).filter(get_unique):null; return (splitted_line &&
+        !!splitted_line.length)?splitted_line:null; };
 sd:upstream:
   sc_tools_sample:
-  - sc-rna-cluster.cwl
-  - sc-ctype-assign.cwl
-  - sc-wnn-cluster.cwl
-  - sc-rna-da-cells.cwl
-  - sc-rna-azimuth.cwl
+    - sc-rna-cluster.cwl
+    - sc-ctype-assign.cwl
+    - sc-wnn-cluster.cwl
+    - sc-rna-da-cells.cwl
+    - sc-rna-azimuth.cwl
 inputs:
   alias:
     type: string
@@ -37,7 +43,7 @@ inputs:
     sd:localLabel: true
   groupby:
     type: string?
-    default: null
+    default:
     label: Subsetting category (optional)
     doc: |
       Single cell metadata column to group
@@ -51,7 +57,7 @@ inputs:
       inputs. Default: do not subset cells
   subset:
     type: string?
-    default: null
+    default:
     label: Subsetting values (optional)
     doc: |
       Comma separated list of values from
@@ -93,18 +99,18 @@ inputs:
       for differential expression analysis.
   analysis_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - wilcoxon
-      - likelihood-ratio
-      - t-test
-      - negative-binomial (batch correction)
-      - poisson (batch correction)
-      - logistic-regression (batch correction)
-      - mast (batch correction)
-      - deseq (pseudo bulk, batch correction)
-      - deseq-lrt (pseudo bulk, batch correction)
+      - 'null'
+      - type: enum
+        symbols:
+          - wilcoxon
+          - likelihood-ratio
+          - t-test
+          - negative-binomial (batch correction)
+          - poisson (batch correction)
+          - logistic-regression (batch correction)
+          - mast (batch correction)
+          - deseq (pseudo bulk, batch correction)
+          - deseq-lrt (pseudo bulk, batch correction)
     default: wilcoxon
     label: Statistical test
     doc: |
@@ -124,7 +130,7 @@ inputs:
       correction (if supported)" input.
   batchby:
     type: string?
-    default: null
+    default:
     label: Batch correction (if supported)
     doc: |
       Value from the single cell metadata
@@ -142,7 +148,7 @@ inputs:
       function.
   exclude_pattern:
     type: string?
-    default: null
+    default:
     label: Exclude genes
     doc: |
       Regex pattern to identify and exclude
@@ -186,7 +192,7 @@ inputs:
       Default: clustering not enabled
   genes_of_interest:
     type: string?
-    default: null
+    default:
     label: Genes of interest
     doc: |
       Comma or space separated list of genes
@@ -234,17 +240,17 @@ inputs:
       advanced: true
   color_theme:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - gray
-      - bw
-      - linedraw
-      - light
-      - dark
-      - minimal
-      - classic
-      - void
+      - 'null'
+      - type: enum
+        symbols:
+          - gray
+          - bw
+          - linedraw
+          - light
+          - dark
+          - minimal
+          - classic
+          - void
     default: classic
     label: Plots color theme
     doc: |
@@ -255,15 +261,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Cores/CPUs
     doc: |
@@ -283,9 +289,9 @@ outputs:
       not filtered normalized reads counts
       in HTML format
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   heatmap_html:
     type: File
     outputSource: morpheus_heatmap/heatmap_html
@@ -293,9 +299,9 @@ outputs:
     doc: |
       Morpheus heatmap in HTML format
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   pca_1_2_plot_png:
     type: File?
     outputSource: de_pseudobulk/pca_1_2_plot_png
@@ -304,9 +310,9 @@ outputs:
       Gene expression PCA (1,2)
       in PNG format
     sd:visualPlugins:
-    - image:
-        tab: QC
-        Caption: Gene expression PCA (1,2)
+      - image:
+          tab: QC
+          Caption: Gene expression PCA (1,2)
   pca_2_3_plot_png:
     type: File?
     outputSource: de_pseudobulk/pca_2_3_plot_png
@@ -315,9 +321,9 @@ outputs:
       Gene expression PCA (2,3)
       in PNG format
     sd:visualPlugins:
-    - image:
-        tab: QC
-        Caption: Gene expression PCA (2,3)
+      - image:
+          tab: QC
+          Caption: Gene expression PCA (2,3)
   umap_rd_rnaumap_plot_png:
     type: File?
     outputSource: de_pseudobulk/umap_rd_rnaumap_plot_png
@@ -330,9 +336,9 @@ outputs:
       the "Subsetting category (optional)", RNA
       PNG format
     sd:visualPlugins:
-    - image:
-        tab: QC
-        Caption: UMAP, split by comparison category, RNA
+      - image:
+          tab: QC
+          Caption: UMAP, split by comparison category, RNA
   umap_rd_atacumap_plot_png:
     type: File?
     outputSource: de_pseudobulk/umap_rd_atacumap_plot_png
@@ -345,9 +351,9 @@ outputs:
       the "Subsetting category (optional)", ATAC
       PNG format
     sd:visualPlugins:
-    - image:
-        tab: QC
-        Caption: UMAP, split by comparison category, ATAC
+      - image:
+          tab: QC
+          Caption: UMAP, split by comparison category, ATAC
   umap_rd_wnnumap_plot_png:
     type: File?
     outputSource: de_pseudobulk/umap_rd_wnnumap_plot_png
@@ -360,9 +366,9 @@ outputs:
       the "Subsetting category (optional)", WNN
       PNG format
     sd:visualPlugins:
-    - image:
-        tab: QC
-        Caption: UMAP, split by comparison category, WNN
+      - image:
+          tab: QC
+          Caption: UMAP, split by comparison category, WNN
   dxpr_vlcn_plot_png:
     type: File?
     outputSource: de_pseudobulk/dxpr_vlcn_plot_png
@@ -373,9 +379,9 @@ outputs:
       by user or top 10 genes with the highest
       log2FoldChange values. PNG format
     sd:visualPlugins:
-    - image:
-        tab: Genes of interest
-        Caption: Volcano plot of differentially expressed genes
+      - image:
+          tab: Genes of interest
+          Caption: Volcano plot of differentially expressed genes
   xpr_dnst_plot_png:
     type: File?
     outputSource: de_pseudobulk/xpr_dnst_plot_png
@@ -387,9 +393,9 @@ outputs:
       with the highest log2FoldChange
       values in PNG format
     sd:visualPlugins:
-    - image:
-        tab: Genes of interest
-        Caption: Gene expression violin plot
+      - image:
+          tab: Genes of interest
+          Caption: Gene expression violin plot
   xpr_htmp_plot_png:
     type: File?
     outputSource: de_pseudobulk/xpr_htmp_plot_png
@@ -400,14 +406,14 @@ outputs:
       subsetted to the specific groups
       of cells in PNG format
     sd:visualPlugins:
-    - image:
-        tab: Heatmap
-        Caption: Gene expression heatmap
+      - image:
+          tab: Heatmap
+          Caption: Gene expression heatmap
   xpr_per_cell_rd_rnaumap_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: de_pseudobulk/xpr_per_cell_rd_rnaumap_plot_png
     label: UMAP, gene expression, RNA
     doc: |
@@ -415,14 +421,14 @@ outputs:
       criteria, optionally subsetted to the
       specific group, RNA, PNG format
     sd:visualPlugins:
-    - image:
-        tab: Gene expression, RNA
-        Caption: UMAP, gene expression, RNA
+      - image:
+          tab: Gene expression, RNA
+          Caption: UMAP, gene expression, RNA
   xpr_per_cell_rd_atacumap_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: de_pseudobulk/xpr_per_cell_rd_atacumap_plot_png
     label: UMAP, gene expression, ATAC
     doc: |
@@ -430,14 +436,14 @@ outputs:
       criteria, optionally subsetted to the
       specific group, ATAC, PNG format
     sd:visualPlugins:
-    - image:
-        tab: Gene expression, ATAC
-        Caption: UMAP, gene expression, ATAC
+      - image:
+          tab: Gene expression, ATAC
+          Caption: UMAP, gene expression, ATAC
   xpr_per_cell_rd_wnnumap_plot_png:
     type:
-    - 'null'
-    - type: array
-      items: File
+      - 'null'
+      - type: array
+        items: File
     outputSource: de_pseudobulk/xpr_per_cell_rd_wnnumap_plot_png
     label: UMAP, gene expression, WNN
     doc: |
@@ -445,9 +451,9 @@ outputs:
       criteria, optionally subsetted to the
       specific group, WNN, PNG format
     sd:visualPlugins:
-    - image:
-        tab: Gene expression, WNN
-        Caption: UMAP, gene expression, WNN
+      - image:
+          tab: Gene expression, WNN
+          Caption: UMAP, gene expression, WNN
   diff_expr_genes:
     type: File
     outputSource: de_pseudobulk/diff_expr_genes
@@ -457,14 +463,14 @@ outputs:
       differentially expressed genes in
       TSV format
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Diff. expressed genes
-        Title: Differentially expressed genes
-    - queryRedirect:
-        tab: Overview
-        label: Volcano Plot
-        url: https://scidap.com/vp/volcano
-        query_eval_string: '`data_file=${this.getSampleValue(''outputs'', ''diff_expr_genes'')}&data_col=gene&x_col=log2FoldChange&y_col=padj`'
+      - syncfusiongrid:
+          tab: Diff. expressed genes
+          Title: Differentially expressed genes
+      - queryRedirect:
+          tab: Overview
+          label: Volcano Plot
+          url: https://scidap.com/vp/volcano
+          query_eval_string: '`data_file=${this.getSampleValue(''outputs'', ''diff_expr_genes'')}&data_col=gene&x_col=log2FoldChange&y_col=padj`'
   read_counts_file:
     type: File?
     outputSource: de_pseudobulk/bulk_read_counts_gct
@@ -501,9 +507,9 @@ outputs:
       Tehcnical report.
       HTML format.
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   de_pseudobulk_stdout_log:
     type: File
     outputSource: de_pseudobulk/stdout_log
@@ -566,8 +572,8 @@ steps:
         valueFrom: $(self==""?null:self)
       cluster_method:
         source:
-        - enable_clustering
-        - analysis_method
+          - enable_clustering
+          - analysis_method
         valueFrom: |
           ${
             if (self[0]) {
@@ -600,70 +606,70 @@ steps:
         source: threads
         valueFrom: $(parseInt(self))
     out:
-    - umap_rd_rnaumap_plot_png
-    - umap_rd_atacumap_plot_png
-    - umap_rd_wnnumap_plot_png
-    - pca_1_2_plot_png
-    - pca_2_3_plot_png
-    - dxpr_vlcn_plot_png
-    - xpr_dnst_plot_png
-    - xpr_per_cell_rd_rnaumap_plot_png
-    - xpr_per_cell_rd_atacumap_plot_png
-    - xpr_per_cell_rd_wnnumap_plot_png
-    - xpr_htmp_plot_png
-    - umap_rd_rnaumap_plot_pdf
-    - umap_rd_atacumap_plot_pdf
-    - umap_rd_wnnumap_plot_pdf
-    - mds_plot_html
-    - pca_1_2_plot_pdf
-    - pca_2_3_plot_pdf
-    - dxpr_vlcn_plot_pdf
-    - xpr_dnst_plot_pdf
-    - xpr_per_cell_rd_rnaumap_plot_pdf
-    - xpr_per_cell_rd_atacumap_plot_pdf
-    - xpr_per_cell_rd_wnnumap_plot_pdf
-    - xpr_htmp_plot_pdf
-    - diff_expr_genes
-    - bulk_read_counts_gct
-    - bulk_phenotypes_cls
-    - cell_read_counts_gct
-    - sc_report_html_file
-    - stdout_log
-    - stderr_log
+      - umap_rd_rnaumap_plot_png
+      - umap_rd_atacumap_plot_png
+      - umap_rd_wnnumap_plot_png
+      - pca_1_2_plot_png
+      - pca_2_3_plot_png
+      - dxpr_vlcn_plot_png
+      - xpr_dnst_plot_png
+      - xpr_per_cell_rd_rnaumap_plot_png
+      - xpr_per_cell_rd_atacumap_plot_png
+      - xpr_per_cell_rd_wnnumap_plot_png
+      - xpr_htmp_plot_png
+      - umap_rd_rnaumap_plot_pdf
+      - umap_rd_atacumap_plot_pdf
+      - umap_rd_wnnumap_plot_pdf
+      - mds_plot_html
+      - pca_1_2_plot_pdf
+      - pca_2_3_plot_pdf
+      - dxpr_vlcn_plot_pdf
+      - xpr_dnst_plot_pdf
+      - xpr_per_cell_rd_rnaumap_plot_pdf
+      - xpr_per_cell_rd_atacumap_plot_pdf
+      - xpr_per_cell_rd_wnnumap_plot_pdf
+      - xpr_htmp_plot_pdf
+      - diff_expr_genes
+      - bulk_read_counts_gct
+      - bulk_phenotypes_cls
+      - cell_read_counts_gct
+      - sc_report_html_file
+      - stdout_log
+      - stderr_log
   folder_pdf_plots:
     run: ../tools/files-to-folder.cwl
     in:
       input_files:
         source:
-        - de_pseudobulk/umap_rd_rnaumap_plot_pdf
-        - de_pseudobulk/umap_rd_atacumap_plot_pdf
-        - de_pseudobulk/umap_rd_wnnumap_plot_pdf
-        - de_pseudobulk/mds_plot_html
-        - de_pseudobulk/pca_1_2_plot_pdf
-        - de_pseudobulk/pca_2_3_plot_pdf
-        - de_pseudobulk/dxpr_vlcn_plot_pdf
-        - de_pseudobulk/xpr_dnst_plot_pdf
-        - de_pseudobulk/xpr_per_cell_rd_rnaumap_plot_pdf
-        - de_pseudobulk/xpr_per_cell_rd_atacumap_plot_pdf
-        - de_pseudobulk/xpr_per_cell_rd_wnnumap_plot_pdf
-        - de_pseudobulk/xpr_htmp_plot_pdf
+          - de_pseudobulk/umap_rd_rnaumap_plot_pdf
+          - de_pseudobulk/umap_rd_atacumap_plot_pdf
+          - de_pseudobulk/umap_rd_wnnumap_plot_pdf
+          - de_pseudobulk/mds_plot_html
+          - de_pseudobulk/pca_1_2_plot_pdf
+          - de_pseudobulk/pca_2_3_plot_pdf
+          - de_pseudobulk/dxpr_vlcn_plot_pdf
+          - de_pseudobulk/xpr_dnst_plot_pdf
+          - de_pseudobulk/xpr_per_cell_rd_rnaumap_plot_pdf
+          - de_pseudobulk/xpr_per_cell_rd_atacumap_plot_pdf
+          - de_pseudobulk/xpr_per_cell_rd_wnnumap_plot_pdf
+          - de_pseudobulk/xpr_htmp_plot_pdf
         valueFrom: $(self.flat().filter(n => n))
       folder_basename:
         default: pdf_plots
     out:
-    - folder
+      - folder
   compress_pdf_plots:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: folder_pdf_plots/folder
     out:
-    - compressed_folder
+      - compressed_folder
   morpheus_heatmap:
     run: ../tools/morpheus-heatmap.cwl
     in:
       read_counts_gct: de_pseudobulk/cell_read_counts_gct
     out:
-    - heatmap_html
+      - heatmap_html
 label: Single-Cell RNA-Seq Differential Expression Analysis
 doc: |-
   Single-Cell RNA-Seq Differential Expression Analysis

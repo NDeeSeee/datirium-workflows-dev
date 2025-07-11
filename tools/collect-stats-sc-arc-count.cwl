@@ -1,13 +1,16 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ShellCommandRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_output_prefix = function() { if (inputs.output_prefix) { return inputs.output_prefix; } var root = inputs.metrics_summary_report.basename.split('.').slice(0,-1).join('.'); var suffix = "_stats"; return (root == "")?inputs.metrics_summary_report.basename+suffix:root+suffix; };
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_output_prefix = function() { if (inputs.output_prefix) { return inputs.output_prefix;
+        } var root = inputs.metrics_summary_report.basename.split('.').slice(0,-1).join('.');
+        var suffix = "_stats"; return (root == "")?inputs.metrics_summary_report.basename+suffix:root+suffix;
+        };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/scstats:v0.0.2
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/scstats:v0.0.2
 inputs:
   metrics_summary_report:
     type: File
@@ -35,7 +38,7 @@ outputs:
     outputBinding:
       glob: $(get_output_prefix()+".md")
 baseCommand:
-- cell_ranger_arc_count_stats.py
+  - cell_ranger_arc_count_stats.py
 label: Cell Ranger ARC Count Statistics
 doc: |
   Cell Ranger ARC Count Statistics

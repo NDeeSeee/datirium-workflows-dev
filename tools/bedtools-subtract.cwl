@@ -1,12 +1,14 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { if (inputs.output_filename == ""){ return inputs.reduced_bed_file.basename; } else { return inputs.output_filename; } };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { if (inputs.output_filename == ""){
+        return inputs.reduced_bed_file.basename; } else { return inputs.output_filename;
+        } };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bedtools2:v2.26.0
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bedtools2:v2.26.0
 inputs:
   reduced_bed_file:
     type: File
@@ -35,8 +37,8 @@ outputs:
     doc: |
       Difference BED file
 baseCommand:
-- bedtools
-- subtract
+  - bedtools
+  - subtract
 stdout: $(default_output_filename())
 doc: |
   Searches for features in B that overlap A by at least 1 base pair.

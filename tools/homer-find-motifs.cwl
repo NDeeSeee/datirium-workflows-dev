@@ -1,28 +1,31 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_output_filename = function() { if (inputs.output_filename == ""){ var ext = ".tar.gz"; var root = inputs.target_fasta_file.basename.split('.').slice(0,-1).join('.'); return (root == "")?inputs.target_fasta_file.basename+ext:root+ext; } else { return inputs.output_filename; } };
-- class: InitialWorkDirRequirement
-  listing: |
-    ${
-      return  [
-                {
-                  "entry": inputs.target_fasta_file,
-                  "entryname": "target.fa",
-                  "writable": true
-                },
-                {
-                  "entry": inputs.background_fasta_file,
-                  "entryname": "background.fa",
-                  "writable": true
-                }
-              ]
-    }
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_output_filename = function() { if (inputs.output_filename == ""){
+        var ext = ".tar.gz"; var root = inputs.target_fasta_file.basename.split('.').slice(0,-1).join('.');
+        return (root == "")?inputs.target_fasta_file.basename+ext:root+ext; } else
+        { return inputs.output_filename; } };
+  - class: InitialWorkDirRequirement
+    listing: |
+      ${
+        return  [
+                  {
+                    "entry": inputs.target_fasta_file,
+                    "entryname": "target.fa",
+                    "writable": true
+                  },
+                  {
+                    "entry": inputs.background_fasta_file,
+                    "entryname": "background.fa",
+                    "writable": true
+                  }
+                ]
+      }
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/homer:v0.0.2
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/homer:v0.0.2
 inputs:
   script:
     type: string?
@@ -85,16 +88,16 @@ inputs:
       Use binomial distribution to calculate p-values (default is hypergeometric)
   motifs_db:
     type:
-    - 'null'
-    - type: enum
-      name: motifs
-      symbols:
-      - vertebrates
-      - insects
-      - worms
-      - plants
-      - yeast
-      - all
+      - 'null'
+      - type: enum
+        name: motifs
+        symbols:
+          - vertebrates
+          - insects
+          - worms
+          - plants
+          - yeast
+          - all
     default: vertebrates
     inputBinding:
       position: 12
@@ -132,8 +135,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: homer_find_motifs_stdout.log
 stderr: homer_find_motifs_stderr.log
 doc: |

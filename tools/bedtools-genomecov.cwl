@@ -1,12 +1,15 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() { var ext = (inputs.depth == "-bg" || inputs.depth == "-bga")?".bedGraph":".tab"; return inputs.input_file.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.') + ext; };
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var default_output_filename = function() { var ext = (inputs.depth == "-bg"
+        || inputs.depth == "-bga")?".bedGraph":".tab"; return 
+        inputs.input_file.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')
+        + ext; };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bedtools2:v2.26.0
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bedtools2:v2.26.0
 inputs:
   input_file:
     type: File
@@ -29,14 +32,14 @@ inputs:
       Input genome file. Needed only when -i flag. The genome file is tab delimited <chromName><TAB><chromSize>
   depth:
     type:
-    - 'null'
-    - type: enum
-      name: depth
-      symbols:
-      - -bg
-      - -bga
-      - -d
-      - -dz
+      - 'null'
+      - type: enum
+        name: depth
+        symbols:
+          - -bg
+          - -bga
+          - -d
+          - -dz
     inputBinding:
       position: 5
     doc: |
@@ -151,8 +154,8 @@ stdout: |
       return inputs.output_filename ? inputs.output_filename : default_output_filename();
   }
 baseCommand:
-- bedtools
-- genomecov
+  - bedtools
+  - genomecov
 doc: |
   Tool calculates genome coverage from input bam/bed/gff/vcf using `bedtools genomecov`
 

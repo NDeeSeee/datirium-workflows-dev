@@ -1,9 +1,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: DockerRequirement
-  dockerPull: biowardrobe2/scidap:v0.0.3
+  - class: InlineJavascriptRequirement
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/scidap:v0.0.3
 inputs:
   script:
     type: string?
@@ -66,8 +66,8 @@ outputs:
       outputEval: $(parseInt(self[0].contents.split('\n')[1].split('\t')[1]))
 stdout: collected_report_formatted.tsv
 baseCommand:
-- python
-- -c
+  - python
+  - -c
 doc: |
   Tool refactores Bismark alignment report to be displayed as Pie Chart
 label: python-get-stat-bismark

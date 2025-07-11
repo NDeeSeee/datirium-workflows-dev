@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 inputs:
   alias:
     type: string
@@ -13,22 +13,22 @@ inputs:
       position: 1
   segment_file:
     type: File
-    format: http://edamontology.org/format_3003
-    label: 'Segments of interest (headerless TSV/CSV file with at least three columns: chr start end)'
+    label: 'Segments of interest (headerless TSV/CSV file with at least three columns:
+      chr start end)'
     doc: |
       Headerless TSV/CSV file (at least 3 columns: chr start end) with sets of intervals whose association
       will be tested with annotation_file
   annotation_file:
     type: File
-    format: http://edamontology.org/format_3003
-    label: 'Annotations (headerless TSV/CSV file with at least three columns: chr start end)'
+    label: 'Annotations (headerless TSV/CSV file with at least three columns: chr
+      start end)'
     doc: |
       Headerless TSV/CSV file (at least 3 columns: chr start end) with sets of intervals that are used
       for testing association of segment_file
   workspace_file:
     type: File
-    format: http://edamontology.org/format_3003
-    label: 'Workspace (headerless TSV/CSV file with at least three columns: chr start end)'
+    label: 'Workspace (headerless TSV/CSV file with at least three columns: chr start
+      end)'
     doc: |
       Headerless TSV/CSV file (at least 3 columns: chr start end) with genomic regions
       accessible for simulation
@@ -41,16 +41,16 @@ inputs:
       advanced: true
   counter:
     type:
-    - 'null'
-    - type: enum
-      name: counter
-      symbols:
-      - nucleotide-overlap
-      - nucleotide-density
-      - segment-overlap
-      - annotation-overlap
-      - segment-midoverlap
-      - annotation-midoverlap
+      - 'null'
+      - type: enum
+        name: counter
+        symbols:
+          - nucleotide-overlap
+          - nucleotide-density
+          - segment-overlap
+          - annotation-overlap
+          - segment-midoverlap
+          - annotation-midoverlap
     default: nucleotide-overlap
     label: Set the measure of association to be tested
     doc: |
@@ -74,23 +74,20 @@ inputs:
 outputs:
   gat_report:
     type: File
-    format: http://edamontology.org/format_3475
     label: Interval overlap statistics report
     doc: Interval overlap statistics report
     outputSource: prepare_report_file/output_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Interval overlap statistics
-        Title: Interval overlap statistics
+      - syncfusiongrid:
+          tab: Interval overlap statistics
+          Title: Interval overlap statistics
   gat_stdout_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: GAT stdout log
     doc: GAT stdout log
     outputSource: run_gat/stdout_log
   gat_stderr_log:
     type: File
-    format: http://edamontology.org/format_2330
     label: GAT stderr log
     doc: GAT stderr log
     outputSource: run_gat/stderr_log
@@ -103,7 +100,7 @@ steps:
         default: |
           cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | awk NF | sort -u -k1,1 -k2,2n -k3,3n > `basename $0`
     out:
-    - output_file
+      - output_file
   prepare_annotation_file:
     run: ../tools/custom-bash.cwl
     in:
@@ -112,7 +109,7 @@ steps:
         default: |
           cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | awk NF | sort -u -k1,1 -k2,2n -k3,3n > `basename $0`
     out:
-    - output_file
+      - output_file
   prepare_workspace_file:
     run: ../tools/custom-bash.cwl
     in:
@@ -121,7 +118,7 @@ steps:
         default: |
           cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | awk NF | sort -u -k1,1 -k2,2n -k3,3n > `basename $0`
     out:
-    - output_file
+      - output_file
   run_gat:
     run: ../tools/gat-run.cwl
     in:
@@ -133,9 +130,9 @@ steps:
       seed: seed
       threads: threads
     out:
-    - report_file
-    - stdout_log
-    - stderr_log
+      - report_file
+      - stdout_log
+      - stderr_log
   prepare_report_file:
     run: ../tools/custom-bash.cwl
     in:
@@ -144,7 +141,7 @@ steps:
         default: |
           cat "$0" | cut -f 3-  > `basename $0`
     out:
-    - output_file
+      - output_file
 label: GAT - Genomic Association Tester
 doc: |-
   GAT: Genomic Association Tester

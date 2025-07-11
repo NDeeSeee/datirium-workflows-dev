@@ -1,26 +1,32 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: MultipleInputFeatureRequirement
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var split_features = function(line) { function get_unique(value, index, self) { return self.indexOf(value) === index && value != ""; } let splitted_line = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
-  - var split_by_comma = function(line) { function get_unique(value, index, self) { return self.indexOf(value) === index && value != ""; } var splitted_line = line?line.split(/,+/).filter(get_unique):null; return (splitted_line && !!splitted_line.length)?splitted_line:null; };
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var split_features = function(line) { function get_unique(value, index, self)
+        { return self.indexOf(value) === index && value != ""; } let splitted_line
+        = line?line.split(/[\s,]+/).filter(get_unique):null; return (splitted_line
+        && !!splitted_line.length)?splitted_line:null; };
+      - var split_by_comma = function(line) { function get_unique(value, index, self)
+        { return self.indexOf(value) === index && value != ""; } var splitted_line
+        = line?line.split(/,+/).filter(get_unique):null; return (splitted_line &&
+        !!splitted_line.length)?splitted_line:null; };
 sd:upstream:
   sc_tools_sample:
-  - sc-atac-cluster.cwl
-  - sc-wnn-cluster.cwl
-  - sc-ctype-assign.cwl
-  - sc-rna-azimuth.cwl
+    - sc-atac-cluster.cwl
+    - sc-wnn-cluster.cwl
+    - sc-ctype-assign.cwl
+    - sc-rna-azimuth.cwl
   sc_atac_sample:
-  - cellranger-arc-count.cwl
-  - cellranger-arc-aggr.cwl
-  - cellranger-atac-count.cwl
-  - cellranger-atac-aggr.cwl
+    - cellranger-arc-count.cwl
+    - cellranger-arc-aggr.cwl
+    - cellranger-atac-count.cwl
+    - cellranger-atac-aggr.cwl
   genome_indices:
-  - genome-indices.cwl
+    - genome-indices.cwl
 inputs:
   alias:
     type: string
@@ -41,7 +47,7 @@ inputs:
   atac_fragments_file:
     type: File
     secondaryFiles:
-    - .tbi
+      - .tbi
     label: Cell Ranger ATAC or RNA+ATAC Sample
     doc: |
       Any "Cell Ranger ATAC or RNA+ATAC Sample"
@@ -76,7 +82,8 @@ inputs:
       be applied. Default: no extra metadata is added
   barcodes_data:
     type: File?
-    label: Optional TSV/CSV file to prefilter and extend metadata by barcodes. First column should be named as 'barcode'
+    label: Optional TSV/CSV file to prefilter and extend metadata by barcodes. First
+      column should be named as 'barcode'
     doc: |
       Path to the TSV/CSV file to optionally prefilter and
       extend Seurat object metadata by selected barcodes.
@@ -87,7 +94,7 @@ inputs:
       metadata is added
   groupby:
     type: string?
-    default: null
+    default:
     label: Category to group cells for optional subsetting
     doc: |
       Column from the Seurat object metadata to group cells
@@ -98,7 +105,7 @@ inputs:
       subset, include all cells into analysis.
   subset:
     type: string?
-    default: null
+    default:
     label: List of values to subset cells from the selected category
     doc: |
       Values from the column set with --groupby parameter to
@@ -130,14 +137,14 @@ inputs:
       cells for differential binding analysis.
   analysis_method:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - negative-binomial
-      - poisson
-      - logistic-regression
-      - mast
-      - manorm2
+      - 'null'
+      - type: enum
+        symbols:
+          - negative-binomial
+          - poisson
+          - logistic-regression
+          - mast
+          - manorm2
     default: logistic-regression
     label: Test type to use in differential binding analysis
     doc: |
@@ -206,7 +213,8 @@ inputs:
   maximum_peaks:
     type: int?
     default: 0
-    label: The maximum number of the most significant peaks to keep, 0 - keep all (for manorm2)
+    label: The maximum number of the most significant peaks to keep, 0 - keep all
+      (for manorm2)
     doc: |
       The maximum number of the most significant (based on
       qvalue) peaks to keep from each group of cells when
@@ -225,15 +233,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Number of cores/cpus to use
     doc: |
@@ -254,9 +262,9 @@ outputs:
       group (rnaumap dim. reduction).
       PNG format
     sd:visualPlugins:
-    - image:
-        tab: Overall
-        Caption: Cells RNA UMAP split by selected criteria
+      - image:
+          tab: Overall
+          Caption: Cells RNA UMAP split by selected criteria
   umap_rd_atacumap_plot_png:
     type: File?
     outputSource: sc_atac_dbinding/umap_rd_atacumap_plot_png
@@ -267,9 +275,9 @@ outputs:
       group (atacumap dim. reduction).
       PNG format
     sd:visualPlugins:
-    - image:
-        tab: Overall
-        Caption: Cells ATAC UMAP split by selected criteria
+      - image:
+          tab: Overall
+          Caption: Cells ATAC UMAP split by selected criteria
   umap_rd_wnnumap_plot_png:
     type: File?
     outputSource: sc_atac_dbinding/umap_rd_wnnumap_plot_png
@@ -280,9 +288,9 @@ outputs:
       group (atacumap dim. reduction).
       PNG format
     sd:visualPlugins:
-    - image:
-        tab: Overall
-        Caption: Cells WNN UMAP split by selected criteria
+      - image:
+          tab: Overall
+          Caption: Cells WNN UMAP split by selected criteria
   dbnd_vlcn_plot_png:
     type: File?
     outputSource: sc_atac_dbinding/dbnd_vlcn_plot_png
@@ -291,22 +299,23 @@ outputs:
       Volcano plot of differentially accessible regions.
       PNG format
     sd:visualPlugins:
-    - image:
-        tab: Overall
-        Caption: Volcano plot of differentially accessible regions
+      - image:
+          tab: Overall
+          Caption: Volcano plot of differentially accessible regions
   seurat_peaks_bigbed_file:
     type: File
     outputSource: sc_atac_dbinding/seurat_peaks_bigbed_file
     label: Peaks from the provided Seurat object
-    doc: "Peaks in bigBed format extracted\nfrom the loaded from provided RDS\nfile Seurat object. \n"
+    doc: "Peaks in bigBed format extracted\nfrom the loaded from provided RDS\nfile
+      Seurat object. \n"
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        format: bigbed
-        name: Seurat peaks
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          format: bigbed
+          name: Seurat peaks
+          height: 40
   first_fragments_bigwig_file:
     type: File
     outputSource: sc_atac_dbinding/first_fragments_bigwig_file
@@ -317,12 +326,12 @@ outputs:
       the group defined by the --first and
       --groupby parameters.
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: wig
-        name: ATAC fragments coverage (first)
-        height: 120
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: wig
+          name: ATAC fragments coverage (first)
+          height: 120
   second_fragments_bigwig_file:
     type: File
     outputSource: sc_atac_dbinding/second_fragments_bigwig_file
@@ -333,12 +342,12 @@ outputs:
       the group defined by the --second and
       --groupby parameters.
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: wig
-        name: ATAC fragments coverage (second)
-        height: 120
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: wig
+          name: ATAC fragments coverage (second)
+          height: 120
   first_tn5ct_bigwig_file:
     type: File?
     outputSource: sc_atac_dbinding/first_tn5ct_bigwig_file
@@ -349,12 +358,12 @@ outputs:
       to the group defined by the --first and
       --groupby parameters.
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: wig
-        name: Tn5 coverage (first)
-        height: 120
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: wig
+          name: Tn5 coverage (first)
+          height: 120
   second_tn5ct_bigwig_file:
     type: File?
     outputSource: sc_atac_dbinding/second_tn5ct_bigwig_file
@@ -365,12 +374,12 @@ outputs:
       to the group defined by the --second and
       --groupby parameters.
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: wig
-        name: Tn5 coverage (second)
-        height: 120
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: wig
+          name: Tn5 coverage (second)
+          height: 120
   first_peaks_xls_file:
     type: File?
     outputSource: sc_atac_dbinding/first_peaks_xls_file
@@ -399,13 +408,13 @@ outputs:
       belong to the group defined by the --first
       and --groupby parameters.
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Called peaks (first)
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Called peaks (first)
+          displayMode: COLLAPSE
+          height: 40
   second_peaks_bed_file:
     type: File?
     outputSource: sc_atac_dbinding/second_peaks_bed_file
@@ -416,13 +425,13 @@ outputs:
       belong to the group defined by the --second
       and --groupby parameters.
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        name: Called peaks (second)
-        displayMode: COLLAPSE
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          name: Called peaks (second)
+          displayMode: COLLAPSE
+          height: 40
   first_summits_bed_file:
     type: File?
     outputSource: sc_atac_dbinding/first_summits_bed_file
@@ -449,9 +458,9 @@ outputs:
       Not filtered differentially accessible regions
       in TSV format
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Diff. accessible regions
-        Title: Differentially accessible regions. Not filtered
+      - syncfusiongrid:
+          tab: Diff. accessible regions
+          Title: Differentially accessible regions. Not filtered
   diff_bound_sites_with_labels:
     type: File
     outputSource: add_label_column/output_file
@@ -460,11 +469,11 @@ outputs:
       Not filtered differentially accessible regions
       with labels in TSV format
     sd:visualPlugins:
-    - queryRedirect:
-        tab: Overview
-        label: Volcano Plot
-        url: https://scidap.com/vp/volcano
-        query_eval_string: '`data_file=${this.getSampleValue(''outputs'', ''diff_bound_sites_with_labels'')}&data_col=label&x_col=log2FoldChange&y_col=padj`'
+      - queryRedirect:
+          tab: Overview
+          label: Volcano Plot
+          url: https://scidap.com/vp/volcano
+          query_eval_string: '`data_file=${this.getSampleValue(''outputs'', ''diff_bound_sites_with_labels'')}&data_col=label&x_col=log2FoldChange&y_col=padj`'
   first_enrch_bigbed_file:
     type: File?
     outputSource: sc_atac_dbinding/first_enrch_bigbed_file
@@ -475,13 +484,13 @@ outputs:
       in the group of cells defined by the
       --first and --groupby parameters.
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        format: bigbed
-        name: Diff. accessible regions (first)
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          format: bigbed
+          name: Diff. accessible regions (first)
+          height: 40
   second_enrch_bigbed_file:
     type: File?
     outputSource: sc_atac_dbinding/second_enrch_bigbed_file
@@ -492,13 +501,13 @@ outputs:
       in the group of cells defined by the
       --second and --groupby parameters.
     sd:visualPlugins:
-    - igvbrowser:
-        tab: Genome Browser
-        id: igvbrowser
-        type: annotation
-        format: bigbed
-        name: Diff. accessible regions (second)
-        height: 40
+      - igvbrowser:
+          tab: Genome Browser
+          id: igvbrowser
+          type: annotation
+          format: bigbed
+          name: Diff. accessible regions (second)
+          height: 40
   first_enrch_bed_file:
     type: File?
     outputSource: sc_atac_dbinding/first_enrch_bed_file
@@ -535,9 +544,9 @@ outputs:
       of differentially accessible regions in
       PNG format
     sd:visualPlugins:
-    - image:
-        tab: Overall
-        Caption: Tag density heatmap around centers of diff. accessible regions
+      - image:
+          tab: Overall
+          Caption: Tag density heatmap around centers of diff. accessible regions
   pdf_plots:
     type: File
     outputSource: compress_pdf_plots/compressed_folder
@@ -552,9 +561,9 @@ outputs:
       Tehcnical report.
       HTML format.
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   sc_atac_dbinding_stdout_log:
     type: File
     outputSource: sc_atac_dbinding/stdout_log
@@ -610,53 +619,53 @@ steps:
         source: threads
         valueFrom: $(parseInt(self))
     out:
-    - umap_rd_rnaumap_plot_png
-    - umap_rd_atacumap_plot_png
-    - umap_rd_wnnumap_plot_png
-    - seurat_peaks_bigbed_file
-    - first_fragments_bigwig_file
-    - second_fragments_bigwig_file
-    - first_tn5ct_bigwig_file
-    - second_tn5ct_bigwig_file
-    - first_peaks_xls_file
-    - second_peaks_xls_file
-    - first_peaks_bed_file
-    - second_peaks_bed_file
-    - first_summits_bed_file
-    - second_summits_bed_file
-    - diff_bound_sites
-    - dbnd_vlcn_plot_png
-    - first_enrch_bigbed_file
-    - second_enrch_bigbed_file
-    - first_enrch_bed_file
-    - second_enrch_bed_file
-    - umap_rd_rnaumap_plot_pdf
-    - umap_rd_atacumap_plot_pdf
-    - umap_rd_wnnumap_plot_pdf
-    - dbnd_vlcn_plot_pdf
-    - sc_report_html_file
-    - stdout_log
-    - stderr_log
+      - umap_rd_rnaumap_plot_png
+      - umap_rd_atacumap_plot_png
+      - umap_rd_wnnumap_plot_png
+      - seurat_peaks_bigbed_file
+      - first_fragments_bigwig_file
+      - second_fragments_bigwig_file
+      - first_tn5ct_bigwig_file
+      - second_tn5ct_bigwig_file
+      - first_peaks_xls_file
+      - second_peaks_xls_file
+      - first_peaks_bed_file
+      - second_peaks_bed_file
+      - first_summits_bed_file
+      - second_summits_bed_file
+      - diff_bound_sites
+      - dbnd_vlcn_plot_png
+      - first_enrch_bigbed_file
+      - second_enrch_bigbed_file
+      - first_enrch_bed_file
+      - second_enrch_bed_file
+      - umap_rd_rnaumap_plot_pdf
+      - umap_rd_atacumap_plot_pdf
+      - umap_rd_wnnumap_plot_pdf
+      - dbnd_vlcn_plot_pdf
+      - sc_report_html_file
+      - stdout_log
+      - stderr_log
   folder_pdf_plots:
     run: ../tools/files-to-folder.cwl
     in:
       input_files:
         source:
-        - sc_atac_dbinding/umap_rd_rnaumap_plot_pdf
-        - sc_atac_dbinding/umap_rd_atacumap_plot_pdf
-        - sc_atac_dbinding/umap_rd_wnnumap_plot_pdf
-        - sc_atac_dbinding/dbnd_vlcn_plot_pdf
+          - sc_atac_dbinding/umap_rd_rnaumap_plot_pdf
+          - sc_atac_dbinding/umap_rd_atacumap_plot_pdf
+          - sc_atac_dbinding/umap_rd_wnnumap_plot_pdf
+          - sc_atac_dbinding/dbnd_vlcn_plot_pdf
         valueFrom: $(self.flat().filter(n => n))
       folder_basename:
         default: pdf_plots
     out:
-    - folder
+      - folder
   compress_pdf_plots:
     run: ../tools/tar-compress.cwl
     in:
       folder_to_compress: folder_pdf_plots/folder
     out:
-    - compressed_folder
+      - compressed_folder
   add_label_column:
     run: ../tools/custom-bash.cwl
     in:
@@ -667,20 +676,20 @@ steps:
           echo -e "label\t${HEADER}" > diff_sts_labeled.tsv;
           cat "$0" | grep -v "start" | awk -F "\t" '{print $1":"$2"-"$3"-"$NF"\t"$0}' >> diff_sts_labeled.tsv
     out:
-    - output_file
+      - output_file
   recenter_first_enrch_bed:
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/scidap:v0.0.3
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/scidap:v0.0.3
       requirements:
-      - class: InitialWorkDirRequirement
-        listing:
-        - entryname: dummy.csv
-          entry: |
-            chr1,1,10
+        - class: InitialWorkDirRequirement
+          listing:
+            - entryname: dummy.csv
+              entry: |
+                chr1,1,10
       inputs:
         script:
           type: string?
@@ -691,9 +700,9 @@ steps:
             position: 1
         regions_file:
           type:
-          - 'null'
-          - string
-          - File
+            - 'null'
+            - string
+            - File
           inputBinding:
             position: 5
             valueFrom: $(self==""?"dummy.csv":self)
@@ -704,25 +713,25 @@ steps:
           outputBinding:
             glob: first_recentered.bed
       baseCommand:
-      - bash
-      - -c
+        - bash
+        - -c
     in:
       regions_file: sc_atac_dbinding/first_enrch_bed_file
     out:
-    - recentered_regions_file
+      - recentered_regions_file
   recenter_second_enrch_bed:
     run:
       cwlVersion: v1.0
       class: CommandLineTool
       hints:
-      - class: DockerRequirement
-        dockerPull: biowardrobe2/scidap:v0.0.3
+        - class: DockerRequirement
+          dockerPull: biowardrobe2/scidap:v0.0.3
       requirements:
-      - class: InitialWorkDirRequirement
-        listing:
-        - entryname: dummy.csv
-          entry: |
-            chr1,1,10
+        - class: InitialWorkDirRequirement
+          listing:
+            - entryname: dummy.csv
+              entry: |
+                chr1,1,10
       inputs:
         script:
           type: string?
@@ -733,9 +742,9 @@ steps:
             position: 1
         regions_file:
           type:
-          - 'null'
-          - string
-          - File
+            - 'null'
+            - string
+            - File
           inputBinding:
             position: 5
             valueFrom: $(self==""?"dummy.csv":self)
@@ -746,22 +755,22 @@ steps:
           outputBinding:
             glob: second_recentered.bed
       baseCommand:
-      - bash
-      - -c
+        - bash
+        - -c
     in:
       regions_file: sc_atac_dbinding/second_enrch_bed_file
     out:
-    - recentered_regions_file
+      - recentered_regions_file
   compute_score_matrix:
     run: ../tools/deeptools-computematrix-referencepoint.cwl
     in:
       score_files:
         source:
-        - analysis_method
-        - sc_atac_dbinding/first_fragments_bigwig_file
-        - sc_atac_dbinding/second_fragments_bigwig_file
-        - sc_atac_dbinding/first_tn5ct_bigwig_file
-        - sc_atac_dbinding/second_tn5ct_bigwig_file
+          - analysis_method
+          - sc_atac_dbinding/first_fragments_bigwig_file
+          - sc_atac_dbinding/second_fragments_bigwig_file
+          - sc_atac_dbinding/first_tn5ct_bigwig_file
+          - sc_atac_dbinding/second_tn5ct_bigwig_file
         valueFrom: |
           ${
               if (self[0].analysis_method != "manorm2" ) {
@@ -771,8 +780,8 @@ steps:
               }
           }
       regions_files:
-      - recenter_first_enrch_bed/recentered_regions_file
-      - recenter_second_enrch_bed/recentered_regions_file
+        - recenter_first_enrch_bed/recentered_regions_file
+        - recenter_second_enrch_bed/recentered_regions_file
       reference_point:
         default: TSS
       before_region_start_length:
@@ -785,8 +794,8 @@ steps:
         default: descend
       samples_label:
         source:
-        - first_cond
-        - second_cond
+          - first_cond
+          - second_cond
         valueFrom: $(["Reads " + self[0], "Reads " + self[1]])
       output_filename:
         default: score_matrix.gz
@@ -796,9 +805,9 @@ steps:
         source: threads
         valueFrom: $(parseInt(self))
     out:
-    - scores_matrix
-    - stdout_log
-    - stderr_log
+      - scores_matrix
+      - stdout_log
+      - stderr_log
   make_heatmap:
     run: ../tools/deeptools-plotheatmap.cwl
     in:
@@ -819,13 +828,13 @@ steps:
         default: Peak Center
       regions_label:
         source:
-        - first_cond
-        - second_cond
+          - first_cond
+          - second_cond
         valueFrom: $(["Peaks " + self[0], "Peaks " + self[1]])
       samples_label:
         source:
-        - first_cond
-        - second_cond
+          - first_cond
+          - second_cond
         valueFrom: $(["Reads " + self[0], "Reads " + self[1]])
       x_axis_label:
         default: distance (bp)
@@ -838,9 +847,9 @@ steps:
       legend_location:
         default: upper-left
     out:
-    - heatmap_file
-    - stdout_log
-    - stderr_log
+      - heatmap_file
+      - stdout_log
+      - stderr_log
 label: Single-Cell ATAC-Seq Differential Accessibility Analysis
 doc: |-
   Single-Cell ATAC-Seq Differential Accessibility Analysis

@@ -1,10 +1,10 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: SubworkflowFeatureRequirement
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 inputs:
   alias:
     type: string
@@ -35,15 +35,15 @@ inputs:
       advanced: true
   threads:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - '1'
-      - '2'
-      - '3'
-      - '4'
-      - '5'
-      - '6'
+      - 'null'
+      - type: enum
+        symbols:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
     default: '4'
     label: Cores/CPUs
     doc: |
@@ -81,7 +81,7 @@ steps:
       output_filename:
         default: annotation.fasta
     out:
-    - extracted_file
+      - extracted_file
   extract_gtf:
     run: ../tools/extract-7z.cwl
     in:
@@ -89,7 +89,7 @@ steps:
       output_filename:
         default: annotation.gtf
     out:
-    - extracted_file
+      - extracted_file
   cellranger_mkvdjref:
     run: ../tools/cellranger-mkvdjref.cwl
     in:
@@ -102,9 +102,9 @@ steps:
       output_folder_name:
         default: cellranger_vdj_ref
     out:
-    - indices_folder
-    - stdout_log
-    - stderr_log
+      - indices_folder
+      - stdout_log
+      - stderr_log
 label: Cell Ranger Reference (VDJ)
 doc: |-
   Cell Ranger Reference (VDJ)

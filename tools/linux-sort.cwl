@@ -1,15 +1,17 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: ResourceRequirement
-  ramMin: 7620
-  coresMin: 1
-- class: InlineJavascriptRequirement
-  expressionLib:
-  - var get_output_filename = function() { if (inputs.output_filename) { return inputs.output_filename; } return inputs.unsorted_file.location.split('/').slice(-1)[0]; };
+  - class: ResourceRequirement
+    ramMin: 7620
+    coresMin: 1
+  - class: InlineJavascriptRequirement
+    expressionLib:
+      - var get_output_filename = function() { if (inputs.output_filename) { return
+        inputs.output_filename; } return inputs.unsorted_file.location.split('/').slice(-1)[0];
+        };
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/scidap:v0.0.2
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/scidap:v0.0.2
 inputs:
   unsorted_file:
     type: File
@@ -35,7 +37,7 @@ outputs:
     type: stdout
 stdout: $(get_output_filename())
 baseCommand:
-- sort
+  - sort
 doc: |
   Tool sorts data from `unsorted_file` by key
 

@@ -1,15 +1,15 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/bamtools:v2.4.1
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/bamtools:v2.4.1
 inputs:
   bam_file:
     type:
-    - File
+      - File
     inputBinding:
       position: 2
       prefix: -in
@@ -98,12 +98,12 @@ outputs:
           return pairedendreads;
         }
 baseCommand:
-- bamtools
-- stats
+  - bamtools
+  - stats
 arguments:
-- valueFrom: $('> ' + 'stats.log')
-  position: 1000
-  shellQuote: false
+  - valueFrom: $('> ' + 'stats.log')
+    position: 1000
+    shellQuote: false
 doc: |
   Tool runs `bamtools stats' to calculate general alignment statistics from the input BAM file
 

@@ -1,15 +1,14 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
+  - class: StepInputExpressionRequirement
 sd:metadata:
-- ../metadata/rnaseq-header.cwl
+  - ../metadata/rnaseq-header.cwl
 sd:upstream:
   kallisto_index: kallisto-index.cwl
 inputs:
   kallisto_index:
     type: File
-    format: http://edamontology.org/format_1929
     label: 'Kallisto index sample to use for pseudo-alignment:'
     sd:upstreamSource: kallisto_index/index_file
     sd:localLabel: true
@@ -17,30 +16,31 @@ inputs:
       Kallisto index sample to use for pseudo-alignment, generated from the 'Kallisto index pipeline'.
   input_annotation_file:
     type: File
-    format: http://edamontology.org/format_3475
     label: 'Annotation file (tsv):'
     sd:upstreamSource: kallisto_index/input_annotation_file
-    doc: "TSV file containing gene annotations for the reference genome (from kallisto index upstream).\n\n Required columns (include headers as row 1 of TSV):\n \t1. RefseqId \t2. GeneId \t3. Chrom (gene/transcript id/name) \t4. TxStart \t5. TxEnd \t6. Strand\n\n NOTE: Sequence names (string after the '>') in the transcriptome FASTA must match column 3 (Chrom) of the annotation TSV."
+    doc: "TSV file containing gene annotations for the reference genome (from kallisto
+      index upstream).\n\n Required columns (include headers as row 1 of TSV):\n \t
+      1. RefseqId \t2. GeneId \t3. Chrom (gene/transcript id/name) \t4. TxStart \t
+      5. TxEnd \t6. Strand\n\n NOTE: Sequence names (string after the '>') in the
+      transcriptome FASTA must match column 3 (Chrom) of the annotation TSV."
   fastq_file_R1:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: 'Read 1 FASTQ file:'
     sd:localLabel: true
-    format: http://edamontology.org/format_1930
     doc: |
       Read 1 FASTQ file from a paired-end sequencing run.
     sd:preview:
       position: 5
   fastq_file_R2:
     type:
-    - File
-    - type: array
-      items: File
+      - File
+      - type: array
+        items: File
     label: 'Read 2 FASTQ file:'
     sd:localLabel: true
-    format: http://edamontology.org/format_1930
     doc: |
       Read 2 FASTQ file that pairs with the input R1 file.
     sd:preview:
@@ -58,147 +58,146 @@ outputs:
   fastx_statistics_R1:
     type: File
     label: FASTQ R1 statistics
-    format: http://edamontology.org/format_2330
     doc: fastx_quality_stats generated quality statistics file for R1
     outputSource: fastx_quality_stats_R1/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: FASTQ R1 Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: FASTQ R1 Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: FASTQ R1 Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: FASTQ R1 Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   fastx_statistics_R2:
     type: File
     label: FASTQ R2 statistics
-    format: http://edamontology.org/format_2330
     doc: fastx_quality_stats generated quality statistics file for R2
     outputSource: fastx_quality_stats_R2/statistics_file
     sd:visualPlugins:
-    - line:
-        tab: QC Plots
-        Title: FASTQ R2 Base frequency plot
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Frequency
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $13
-        - $14
-        - $15
-        - $16
-        - $17
-    - boxplot:
-        tab: QC Plots
-        Title: FASTQ R2 Quality Control
-        xAxisTitle: Nucleotide position
-        yAxisTitle: Quality score
-        colors:
-        - '#b3de69'
-        - '#888888'
-        - '#fb8072'
-        - '#fdc381'
-        - '#99c0db'
-        data:
-        - $11
-        - $7
-        - $8
-        - $9
-        - $12
+      - line:
+          tab: QC Plots
+          Title: FASTQ R2 Base frequency plot
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Frequency
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $13
+            - $14
+            - $15
+            - $16
+            - $17
+      - boxplot:
+          tab: QC Plots
+          Title: FASTQ R2 Quality Control
+          xAxisTitle: Nucleotide position
+          yAxisTitle: Quality score
+          colors:
+            - '#b3de69'
+            - '#888888'
+            - '#fb8072'
+            - '#fdc381'
+            - '#99c0db'
+          data:
+            - $11
+            - $7
+            - $8
+            - $9
+            - $12
   rpkm_isoforms:
     type: File
-    format: http://edamontology.org/format_3752
     label: kallisto estimated counts per transcript
-    doc: Quantitation by isoform. NOT ACTUALLY RPKM, output name required for DESeq compatibility, these are kallisto esimate counts per transcript. The na values for unannotated genes have been removed.
+    doc: Quantitation by isoform. NOT ACTUALLY RPKM, output name required for DESeq
+      compatibility, these are kallisto esimate counts per transcript. The na values
+      for unannotated genes have been removed.
     outputSource: kallisto_quant/transcript_counts
   rpkm_genes:
     type: File
-    format: http://edamontology.org/format_3475
     label: Quantitation by gene name
-    doc: Quantitation by gene name. NOT ACTUALLY RPKM, output name required for DESeq compatibility, these are derived from kallisto esimate counts per transcript. The na values for unannotated genes have been removed.
+    doc: Quantitation by gene name. NOT ACTUALLY RPKM, output name required for DESeq
+      compatibility, these are derived from kallisto esimate counts per transcript.
+      The na values for unannotated genes have been removed.
     outputSource: group_isoforms/genes_file
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Gene Expression
-        Title: RPKM, grouped by gene name
+      - syncfusiongrid:
+          tab: Gene Expression
+          Title: RPKM, grouped by gene name
   rpkm_common_tss:
     type: File
-    format: http://edamontology.org/format_3475
     label: Quantitation by common TSS
-    doc: Quantitation by common TSS. NOT ACTUALLY RPKM, output name required for DESeq compatibility, these are derived from kallisto esimate counts per transcript. The na values for unannotated genes have been removed.
+    doc: Quantitation by common TSS. NOT ACTUALLY RPKM, output name required for DESeq
+      compatibility, these are derived from kallisto esimate counts per transcript.
+      The na values for unannotated genes have been removed.
     outputSource: group_isoforms/common_tss_file
   transcript_counts_all:
     type: File
-    format: http://edamontology.org/format_3475
     label: kallisto estimated counts per transcript, with na for unannotated genes
-    doc: These are kallisto esimate counts per transcript. This file contains na where annotations not available.
+    doc: These are kallisto esimate counts per transcript. This file contains na where
+      annotations not available.
     outputSource: kallisto_quant/transcript_counts_standard
     sd:visualPlugins:
-    - syncfusiongrid:
-        tab: Transcript Counts
+      - syncfusiongrid:
+          tab: Transcript Counts
   overview_file:
     type: File
-    format: http://edamontology.org/format_3835
     label: summary of inputs
     doc: summary of inputs
     outputSource: kallisto_quant/overview
     sd:visualPlugins:
-    - markdownView:
-        tab: Overview
+      - markdownView:
+          tab: Overview
   pie_chart_data:
     type: File?
     label: aligned transcript metrics
-    format: http://edamontology.org/format_2330
-    doc: tsv file containing transcript read statistics for sample level pie chart alignment summary
+    doc: tsv file containing transcript read statistics for sample level pie chart
+      alignment summary
     outputSource: kallisto_quant/pie_stats
     sd:preview:
       sd:visualPlugins:
-      - pie:
-          colors:
-          - '#b3de69'
-          - '#99c0db'
-          - '#fdc381'
-          - '#fb8072'
-          data:
-          - $2
-          - $3
-          - $4
-          - $5
+        - pie:
+            colors:
+              - '#b3de69'
+              - '#99c0db'
+              - '#fdc381'
+              - '#fb8072'
+            data:
+              - $2
+              - $3
+              - $4
+              - $5
   kallisto_abundance_tsv:
     type: File
-    format: http://edamontology.org/format_3475
     label: raw kallisto count estimates file
     doc: raw kallisto count estimates file
     outputSource: kallisto_quant/kallisto_abundance_file
@@ -215,7 +214,7 @@ steps:
       output_prefix:
         default: extracted_R1
     out:
-    - fastq_file
+      - fastq_file
   extract_fastq_R2:
     label: Loading unmapped sequence data for read 2
     doc: |
@@ -228,7 +227,7 @@ steps:
       output_prefix:
         default: extracted_R2
     out:
-    - fastq_file
+      - fastq_file
   trim_fastq:
     label: Adapter trimming
     doc: |
@@ -250,10 +249,10 @@ steps:
       paired:
         default: true
     out:
-    - trimmed_file
-    - trimmed_file_pair
-    - report_file
-    - report_file_pair
+      - trimmed_file
+      - trimmed_file_pair
+      - report_file
+      - report_file_pair
   bypass_trim:
     run: ../tools/bypass-trimgalore-pe.cwl
     in:
@@ -266,10 +265,10 @@ steps:
       min_reads_count:
         default: 100
     out:
-    - selected_fastq_file_1
-    - selected_report_file_1
-    - selected_fastq_file_2
-    - selected_report_file_2
+      - selected_fastq_file_1
+      - selected_report_file_1
+      - selected_fastq_file_2
+      - selected_report_file_2
   rename_R1:
     run: ../tools/rename.cwl
     in:
@@ -278,7 +277,7 @@ steps:
         source: extract_fastq_R1/fastq_file
         valueFrom: $(self.basename)
     out:
-    - target_file
+      - target_file
   rename_R2:
     run: ../tools/rename.cwl
     in:
@@ -287,7 +286,7 @@ steps:
         source: extract_fastq_R2/fastq_file
         valueFrom: $(self.basename)
     out:
-    - target_file
+      - target_file
   fastx_quality_stats_R1:
     label: Quality control of unmapped sequence data for read 1
     doc: |
@@ -298,7 +297,7 @@ steps:
     in:
       input_file: rename_R1/target_file
     out:
-    - statistics_file
+      - statistics_file
   fastx_quality_stats_R2:
     label: Quality control of unmapped sequence data for read 2
     doc: |
@@ -309,7 +308,7 @@ steps:
     in:
       input_file: rename_R2/target_file
     out:
-    - statistics_file
+      - statistics_file
   kallisto_quant:
     run: ../tools/kallisto-quant-pe.cwl
     in:
@@ -319,21 +318,21 @@ steps:
       fastq_R2: rename_R2/target_file
       threads: threads
     out:
-    - overview
-    - pie_stats
-    - kallisto_abundance_file
-    - kallisto_runinfo_file
-    - transcript_counts
-    - transcript_counts_standard
-    - log_file_stdout
-    - log_file_stderr
+      - overview
+      - pie_stats
+      - kallisto_abundance_file
+      - kallisto_runinfo_file
+      - transcript_counts
+      - transcript_counts_standard
+      - log_file_stdout
+      - log_file_stderr
   group_isoforms:
     run: ../tools/group-isoforms.cwl
     in:
       isoforms_file: kallisto_quant/transcript_counts
     out:
-    - genes_file
-    - common_tss_file
+      - genes_file
+      - common_tss_file
 label: Kallisto transcript quant pipeline paired end
 doc: |
   This workflow runs paired end RNA-Seq reads using the kallisto quant tool against a kallisto index reference genome (see "Kallisto index pipeline").

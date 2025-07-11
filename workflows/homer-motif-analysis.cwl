@@ -1,17 +1,17 @@
 cwlVersion: v1.0
 class: Workflow
 requirements:
-- class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
-- class: MultipleInputFeatureRequirement
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
 sd:upstream:
   genome_indices:
-  - genome-indices.cwl
+    - genome-indices.cwl
   peaklist:
-  - filter-diffbind-for-heatmap.cwl
-  - filter-peaks-for-heatmap.cwl
-  - filter-peaks-by-overlap.cwl
-  - genelists-sets.cwl
+    - filter-diffbind-for-heatmap.cwl
+    - filter-peaks-for-heatmap.cwl
+    - filter-peaks-by-overlap.cwl
+    - genelists-sets.cwl
 inputs:
   alias:
     type: string
@@ -20,36 +20,35 @@ inputs:
       position: 1
   regions_file:
     type: File
-    format: http://edamontology.org/format_3003
-    label: Regions file. Headerless BED file with minimum [chrom start end] columns. Optionally, CSV
-    doc: Regions of interest. Formatted as headerless BED file with minimum [chrom start end] columns. Optionally, CSV
+    label: Regions file. Headerless BED file with minimum [chrom start end] columns.
+      Optionally, CSV
+    doc: Regions of interest. Formatted as headerless BED file with minimum [chrom
+      start end] columns. Optionally, CSV
     sd:upstreamSource: peaklist/filtered_file
     sd:localLabel: true
   motifs_db:
     type:
-    - 'null'
-    - type: enum
-      symbols:
-      - vertebrates
-      - insects
-      - worms
-      - plants
-      - yeast
-      - all
+      - 'null'
+      - type: enum
+        symbols:
+          - vertebrates
+          - insects
+          - worms
+          - plants
+          - yeast
+          - all
     default: vertebrates
     label: Set motifs DB to check against
     doc: Set motifs DB to check against
   chrom_length_file:
     type: File
-    format: http://edamontology.org/format_2330
     label: Chromosome length file
     doc: Chromosome length file
     sd:upstreamSource: genome_indices/chrom_length
   genome_fasta_file:
     type: File
     secondaryFiles:
-    - .fai
-    format: http://edamontology.org/format_1929
+      - .fai
     label: Reference genome FASTA file
     doc: Reference genome FASTA file. Includes all chromosomes in a single file
     sd:upstreamSource: genome_indices/fasta_output
@@ -89,33 +88,29 @@ outputs:
     doc: Homer motifs
   homer_known_motifs:
     type: File?
-    format: http://edamontology.org/format_2331
     outputSource: find_motifs/known_motifs
     label: Known motifs
     doc: Known motifs html file
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   homer_denovo_motifs:
     type: File?
-    format: http://edamontology.org/format_2331
     outputSource: find_motifs/denovo_motifs
     label: de novo motifs
     doc: de novo motifs html file
     sd:visualPlugins:
-    - linkList:
-        tab: Overview
-        target: _blank
+      - linkList:
+          tab: Overview
+          target: _blank
   stdout_log_file:
     type: File
-    format: http://edamontology.org/format_2330
     outputSource: find_motifs/stdout_log
     label: Homer stdout log
     doc: Homer stdout log
   stderr_log_file:
     type: File
-    format: http://edamontology.org/format_2330
     outputSource: find_motifs/stderr_log
     label: Homer stderr log
     doc: Homer stderr log
@@ -128,7 +123,7 @@ steps:
         default: |
           cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | awk NF | sort -u -k1,1 -k2,2n -k3,3n > `basename $0`
     out:
-    - output_file
+      - output_file
   bedtools_slop:
     run: ../tools/bedtools-slop.cwl
     in:
@@ -137,30 +132,30 @@ steps:
       bi_direction:
         default: 20000
     out:
-    - extended_bed_file
+      - extended_bed_file
   bedtools_sort:
     run: ../tools/linux-sort.cwl
     in:
       unsorted_file: bedtools_slop/extended_bed_file
       key:
         default:
-        - 1,1
-        - 2,2n
+          - 1,1
+          - 2,2n
     out:
-    - sorted_file
+      - sorted_file
   bedtools_merge:
     run: ../tools/bedtools-merge.cwl
     in:
       bed_file: bedtools_sort/sorted_file
     out:
-    - merged_bed_file
+      - merged_bed_file
   bedtools_subtract:
     run: ../tools/bedtools-subtract.cwl
     in:
       reduced_bed_file: bedtools_merge/merged_bed_file
       subtracted_bed_file: make_unique/output_file
     out:
-    - difference_bed_file
+      - difference_bed_file
   bedtools_shuffle:
     run: ../tools/bedtools-shuffle.cwl
     in:
@@ -174,7 +169,7 @@ steps:
       seed:
         default: 123456789
     out:
-    - shuffled_bed_file
+      - shuffled_bed_file
   bedtools_get_fasta_target:
     run: ../tools/bedtools-getfasta.cwl
     in:
@@ -183,7 +178,7 @@ steps:
       output_filename:
         default: target.fa
     out:
-    - sequences_file
+      - sequences_file
   bedtools_get_fasta_background:
     run: ../tools/bedtools-getfasta.cwl
     in:
@@ -192,7 +187,7 @@ steps:
       output_filename:
         default: background.fa
     out:
-    - sequences_file
+      - sequences_file
   find_motifs:
     run: ../tools/homer-find-motifs.cwl
     in:
@@ -204,11 +199,11 @@ steps:
       motifs_db: motifs_db
       threads: threads
     out:
-    - compressed_results_folder
-    - known_motifs
-    - denovo_motifs
-    - stdout_log
-    - stderr_log
+      - compressed_results_folder
+      - known_motifs
+      - denovo_motifs
+      - stdout_log
+      - stderr_log
 label: Motif Finding with HOMER with random background regions
 doc: |-
   Motif Finding with HOMER with random background regions

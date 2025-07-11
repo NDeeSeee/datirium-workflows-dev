@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-bedops:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-bedops:v1.0.0
 inputs:
   script_command:
     type: string?
@@ -130,9 +130,13 @@ outputs:
   log_file_stderr:
     type: stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: filter-peaks_stdout.log
 stderr: filter-peaks_stderr.log
-doc: "This tool takes as input multiple peak list TSV files (the `iaintersect_result.tsv` output under the\n\"Files\" output tab) from the ChIP, ATAC, C&R, or diffbind workflows and performs the user-selected set\noperation on the group. Set operations include intersection, union, difference, and complement. See the\ntooltip for the `set_operator` input for more details.\n    "
+doc: "This tool takes as input multiple peak list TSV files (the `iaintersect_result.tsv`
+  output under the\n\"Files\" output tab) from the ChIP, ATAC, C&R, or diffbind workflows
+  and performs the user-selected set\noperation on the group. Set operations include
+  intersection, union, difference, and complement. See the\ntooltip for the `set_operator`
+  input for more details.\n    "
 label: Set Operations for Called Peaks (ChIP/ATAC/C&R/diffbind) tool

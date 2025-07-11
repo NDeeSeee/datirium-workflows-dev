@@ -1,11 +1,11 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
-- class: InlineJavascriptRequirement
-- class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: ShellCommandRequirement
 hints:
-- class: DockerRequirement
-  dockerPull: robertplayer/scidap-gatk4:v1.0.0
+  - class: DockerRequirement
+    dockerPull: robertplayer/scidap-gatk4:v1.0.0
 inputs:
   threads:
     type: int
@@ -221,8 +221,31 @@ outputs:
   log_file_stderr:
     type: stderr
 baseCommand:
-- run_vc_germlinepe.sh
+  - run_vc_germlinepe.sh
 stdout: vc-germline_stdout.log
 stderr: vc-germline_stderr.log
-doc: "Shell wrapper for the Broad Institute's best practices gatk4 germline variant calling pipeline.\n\nPrimary Output files:\n- bqsr2_indels.vcf, filtered and recalibrated indels\n- bqsr2_snps.ann.vcf, filtered and recalibrated snps with effect annotations\nSecondary Output files:\n- raw_indels.vcf, first pass indel calls\n- raw_snps.vcf, first pass snp calls\nReports:\n- overview.md (input list, alignment metrics, variant counts)\n- insert_size_histogram.pdf\n- recalibration_plots.pdf\n- snpEff_summary.html\n\nPARAMS:\n  SECTION 1: general\n  -h  help\tshow this message\n  -t  INT\tnumber of threads\n  -r  DIR   path to bwa indices folder of genome reference\n  -p  INT    ploidy, number of copies per chromosome (default should be 2)\n  -s  DIR    path to SNPEFF database (see SNPEFFDB section below)\n  -a  FILE   path to read1 fastq file\n  -b  FILE   path to read2 fastq file\n  SECTION 2: SNP filters (see Step 6 Notes: https://gencore.bio.nyu.edu/variant-calling-pipeline-gatk4/)\n  -c  FLOAT  QD\n  -d  FLOAT  FS\n  -e  FLOAT  MQ\n  -f  FLOAT  SOR\n  -g  FLOAT  MQRankSum\n  -i  FLOAT  ReadPosRankSum\n  SECTION 3: Indel filters (see Step 7 Notes: https://gencore.bio.nyu.edu/variant-calling-pipeline-gatk4/)\n  -j  FLOAT  QD\n  -k  FLOAT  FS\n  -l  FLOAT  SOR\n\nSNPEFFDB:\n  # snpeff databases\n  docker run --rm -ti gatk4-dev /bin/bash\n  java -jar $SNPEFF_JAR databases\n  # use first column as SNPEFF -v input (e.g. \"hg38\")\n  hg38, Homo_sapiens (USCS), http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_hg38.zip\n  mm10, Mus_musculus, http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_mm10.zip\n  dm6.03, Drosophila_melanogaster, http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_dm6.03.zip\n  Rnor_6.0.86, Rattus_norvegicus, http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_Rnor_6.0.86.zip\n  R64-1-1.86, Saccharomyces_cerevisiae, http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_R64-1-1.86.zip\n\n\n____________________________________________________________________________________________________\nReferences:\n  https://gencore.bio.nyu.edu/variant-calling-pipeline-gatk4/\n  https://gatk.broadinstitute.org/hc/en-us/articles/360035535932-Germline-short-variant-discovery-SNPs-Indels-\n"
+doc: "Shell wrapper for the Broad Institute's best practices gatk4 germline variant
+  calling pipeline.\n\nPrimary Output files:\n- bqsr2_indels.vcf, filtered and recalibrated
+  indels\n- bqsr2_snps.ann.vcf, filtered and recalibrated snps with effect annotations\n
+  Secondary Output files:\n- raw_indels.vcf, first pass indel calls\n- raw_snps.vcf,
+  first pass snp calls\nReports:\n- overview.md (input list, alignment metrics, variant
+  counts)\n- insert_size_histogram.pdf\n- recalibration_plots.pdf\n- snpEff_summary.html\n\
+  \nPARAMS:\n  SECTION 1: general\n  -h  help\tshow this message\n  -t  INT\tnumber
+  of threads\n  -r  DIR   path to bwa indices folder of genome reference\n  -p  INT\
+  \    ploidy, number of copies per chromosome (default should be 2)\n  -s  DIR  \
+  \  path to SNPEFF database (see SNPEFFDB section below)\n  -a  FILE   path to read1
+  fastq file\n  -b  FILE   path to read2 fastq file\n  SECTION 2: SNP filters (see
+  Step 6 Notes: https://gencore.bio.nyu.edu/variant-calling-pipeline-gatk4/)\n  -c\
+  \  FLOAT  QD\n  -d  FLOAT  FS\n  -e  FLOAT  MQ\n  -f  FLOAT  SOR\n  -g  FLOAT  MQRankSum\n\
+  \  -i  FLOAT  ReadPosRankSum\n  SECTION 3: Indel filters (see Step 7 Notes: https://gencore.bio.nyu.edu/variant-calling-pipeline-gatk4/)\n\
+  \  -j  FLOAT  QD\n  -k  FLOAT  FS\n  -l  FLOAT  SOR\n\nSNPEFFDB:\n  # snpeff databases\n\
+  \  docker run --rm -ti gatk4-dev /bin/bash\n  java -jar $SNPEFF_JAR databases\n\
+  \  # use first column as SNPEFF -v input (e.g. \"hg38\")\n  hg38, Homo_sapiens (USCS),
+  http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_hg38.zip\n\
+  \  mm10, Mus_musculus, http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_mm10.zip\n\
+  \  dm6.03, Drosophila_melanogaster, http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_dm6.03.zip\n\
+  \  Rnor_6.0.86, Rattus_norvegicus, http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_Rnor_6.0.86.zip\n\
+  \  R64-1-1.86, Saccharomyces_cerevisiae, http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_R64-1-1.86.zip\n\
+  \n\n____________________________________________________________________________________________________\n\
+  References:\n  https://gencore.bio.nyu.edu/variant-calling-pipeline-gatk4/\n  https://gatk.broadinstitute.org/hc/en-us/articles/360035535932-Germline-short-variant-discovery-SNPs-Indels-\n"
 label: vc-germline

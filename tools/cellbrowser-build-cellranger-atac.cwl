@@ -1,53 +1,53 @@
 cwlVersion: v1.0
 class: CommandLineTool
 hints:
-- class: DockerRequirement
-  dockerPull: biowardrobe2/sc-tools:v0.0.41
+  - class: DockerRequirement
+    dockerPull: biowardrobe2/sc-tools:v0.0.41
 requirements:
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing:
-  - entryname: cellbrowser.conf
-    entry: |
-      name = "ATAC"
-      shortLabel = "ATAC"
-      priority = 1
-      geneIdType = "auto"
-      exprMatrix = "exprMatrix.tsv.gz"
-      meta = "meta.csv"
-      coords = [
-          {
-              "file": "tsne.coords.csv",
-              "shortLabel": "t-SNE"
-          },
-          {
-              "file": "umap.coords.csv",
-              "shortLabel": "UMAP"
-          },
-          {
-              "file": "lsa.coords.csv",
-              "shortLabel": "LSA"
-          }
-      ]
-      markers=[
-          {
-              "file": "markers.tsv",
-              "shortLabel": "Cluster-specific peaks"
-          }
-      ]
-      geneLabel = "Feature"
-      radius = 3
-      alpha = 0.5
-      clusterField = "Cluster"
-      labelField = "Cluster"
-      atacSearch = "genome.current"
-  - entryname: desc.conf
-    entry: |
-      title = "ATAC"
-      abstract = ""
-      methods = ""
-      biorxiv_url = ""
-      custom = {}
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing:
+      - entryname: cellbrowser.conf
+        entry: |
+          name = "ATAC"
+          shortLabel = "ATAC"
+          priority = 1
+          geneIdType = "auto"
+          exprMatrix = "exprMatrix.tsv.gz"
+          meta = "meta.csv"
+          coords = [
+              {
+                  "file": "tsne.coords.csv",
+                  "shortLabel": "t-SNE"
+              },
+              {
+                  "file": "umap.coords.csv",
+                  "shortLabel": "UMAP"
+              },
+              {
+                  "file": "lsa.coords.csv",
+                  "shortLabel": "LSA"
+              }
+          ]
+          markers=[
+              {
+                  "file": "markers.tsv",
+                  "shortLabel": "Cluster-specific peaks"
+              }
+          ]
+          geneLabel = "Feature"
+          radius = 3
+          alpha = 0.5
+          clusterField = "Cluster"
+          labelField = "Cluster"
+          atacSearch = "genome.current"
+      - entryname: desc.conf
+        entry: |
+          title = "ATAC"
+          abstract = ""
+          methods = ""
+          biorxiv_url = ""
+          custom = {}
 inputs:
   bash_script:
     type: string?
@@ -141,8 +141,8 @@ outputs:
   stderr_log:
     type: stderr
 baseCommand:
-- bash
-- -c
+  - bash
+  - -c
 stdout: cbbuild_stdout.log
 stderr: cbbuild_stderr.log
 label: Cell Ranger ATAC Count/Aggregate to UCSC Cell Browser
