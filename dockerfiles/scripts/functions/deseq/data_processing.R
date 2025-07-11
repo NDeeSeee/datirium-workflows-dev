@@ -34,16 +34,20 @@ get_file_type <- function(filename) {
 #' @return Filtered data frame
 filter_rpkm <- function(expression_df, n) {
   log_message(paste("Filtering expression data with RPKM cutoff:", n))
-  
+
   if (!requireNamespace("dplyr", quietly = TRUE)) {
     stop("Package 'dplyr' is required for RPKM filtering")
   }
-  
+
   filtered_df <- expression_df %>%
-    dplyr::filter(dplyr::if_any(dplyr::contains("Rpkm"), ~. > n))
-  
-  log_message(paste("Filtered", nrow(expression_df) - nrow(filtered_df), "rows by RPKM cutoff"))
-  
+    dplyr::filter(dplyr::if_any(dplyr::contains("Rpkm"), ~ . > n))
+
+  log_message(paste(
+    "Filtered",
+    nrow(expression_df) - nrow(filtered_df),
+    "rows by RPKM cutoff"
+  ))
+
   return(filtered_df)
 }
 
@@ -53,29 +57,52 @@ filter_rpkm <- function(expression_df, n) {
 #' @param max_genes Maximum number of genes to keep in test mode
 #' @return Filtered data frame with reduced size
 apply_test_mode <- function(expression_df, max_genes = 1000) {
-  log_message(paste("Applying test mode - reducing data to", max_genes, "genes for faster processing"))
-  
+  log_message(paste(
+    "Applying test mode - reducing data to",
+    max_genes,
+    "genes for faster processing"
+  ))
+
   original_rows <- nrow(expression_df)
-  
+
   if (original_rows <= max_genes) {
-    log_message(paste("Data already has", original_rows, "genes, no reduction needed"))
+    log_message(paste(
+      "Data already has",
+      original_rows,
+      "genes, no reduction needed"
+    ))
     return(expression_df)
   }
-  
+
   # Sort by average expression across all samples and take top genes
-  read_cols <- grep("TotalReads|_treated|_untreated", colnames(expression_df), value = TRUE)
+  read_cols <- grep(
+    "TotalReads|_treated|_untreated",
+    colnames(expression_df),
+    value = TRUE
+  )
   if (length(read_cols) > 0) {
-    expression_df$avg_expression <- rowMeans(expression_df[read_cols], na.rm = TRUE)
-    expression_df <- expression_df[order(expression_df$avg_expression, decreasing = TRUE), ]
+    expression_df$avg_expression <- rowMeans(
+      expression_df[read_cols],
+      na.rm = TRUE
+    )
+    expression_df <- expression_df[
+      order(expression_df$avg_expression, decreasing = TRUE),
+    ]
     expression_df <- expression_df[1:min(max_genes, nrow(expression_df)), ]
     expression_df$avg_expression <- NULL
   } else {
     # Fallback: just take the first N genes
     expression_df <- expression_df[1:min(max_genes, nrow(expression_df)), ]
   }
-  
-  log_message(paste("Test mode: Reduced from", original_rows, "to", nrow(expression_df), "genes"))
-  
+
+  log_message(paste(
+    "Test mode: Reduced from",
+    original_rows,
+    "to",
+    nrow(expression_df),
+    "genes"
+  ))
+
   return(expression_df)
 }
 
@@ -92,145 +119,244 @@ apply_test_mode <- function(expression_df, max_genes = 1000) {
 #' @param batch_data Batch metadata for multi-factor analysis
 #' @param prev_data Previously collected data (optional)
 #' @return List containing merged expression data and metadata
-load_isoform_set <- function(input_files, sample_aliases, read_column, rpkm_column, rpkm_alias, condition_name, intersect_by, digits = NULL, batch_data = NULL, prev_data = NULL) {
+load_isoform_set <- function(
+  input_files,
+  sample_aliases,
+  read_column,
+  rpkm_column,
+  rpkm_alias,
+  condition_name,
+  intersect_by,
+  digits = NULL,
+  batch_data = NULL,
+  prev_data = NULL
+) {
   log_message(paste("Loading isoform set for condition:", condition_name))
-  
+
   # Check and validate inputs
   if (is.null(input_files) || length(input_files) == 0) {
     stop("No input files provided")
   }
-  
+
   # Validate sample aliases
   if (is.null(sample_aliases) || length(sample_aliases) == 0) {
     log_warning("No sample aliases provided. Using input file basenames")
     sample_aliases <- basename(input_files)
     # Remove extensions from filenames
-    sample_aliases <- gsub("\\.(csv|tsv)$", "", sample_aliases, ignore.case = TRUE)
+    sample_aliases <- gsub(
+      "\\.(csv|tsv)$",
+      "",
+      sample_aliases,
+      ignore.case = TRUE
+    )
   }
-  
+
   # Check for mismatched file and alias counts
   if (length(input_files) != length(sample_aliases)) {
-    log_warning(paste("Mismatch between input files count (", length(input_files), ") and sample aliases count (", length(sample_aliases), ")"))
-    
+    log_warning(paste(
+      "Mismatch between input files count (",
+      length(input_files),
+      ") and sample aliases count (",
+      length(sample_aliases),
+      ")"
+    ))
+
     # Handle two specific cases:
     # 1. More files than aliases: generate aliases from file basenames
     # 2. More aliases than files: truncate aliases to match files
-    
+
     if (length(input_files) > length(sample_aliases)) {
-      log_message("More input files than sample aliases. Using file basenames for missing aliases.")
-      
+      log_message(
+        "More input files than sample aliases. Using file basenames for missing aliases."
+      )
+
       # Generate aliases from file paths for the missing slots
       missing_aliases_count <- length(input_files) - length(sample_aliases)
-      file_basenames <- basename(input_files[(length(sample_aliases)+1):length(input_files)])
-      file_basenames <- gsub("\\.(csv|tsv)$", "", file_basenames, ignore.case = TRUE)
-      
+      file_basenames <- basename(input_files[
+        (length(sample_aliases) + 1):length(input_files)
+      ])
+      file_basenames <- gsub(
+        "\\.(csv|tsv)$",
+        "",
+        file_basenames,
+        ignore.case = TRUE
+      )
+
       # Append the generated aliases
       sample_aliases <- c(sample_aliases, file_basenames)
-      log_message(sprintf("Added %d aliases from file basenames. Now have %d aliases.", 
-                      missing_aliases_count, length(sample_aliases)))
+      log_message(sprintf(
+        "Added %d aliases from file basenames. Now have %d aliases.",
+        missing_aliases_count,
+        length(sample_aliases)
+      ))
     } else if (length(sample_aliases) > length(input_files)) {
-      log_message("More sample aliases than input files. Truncating aliases list.")
+      log_message(
+        "More sample aliases than input files. Truncating aliases list."
+      )
       sample_aliases <- sample_aliases[1:length(input_files)]
     }
   }
-  
+
   # Clean sample aliases - replace spaces, quotes, etc. with underscores
   sample_aliases <- gsub("'|\"| ", "_", sample_aliases)
-  
-  # Initialize the result container
-  result <- list()
-  result$collected_isoforms <- NULL
-  
-  for (i in 1:length(input_files)) {
+
+  # ------------------------------------------------------------------
+  # Initialise result object *once* and then add every new file to it.
+  # If prev_data is supplied (i.e. we are processing the second condition),
+  # start with a deep copy so that we do NOT modify prev_data in-place.
+  # ------------------------------------------------------------------
+  if (!is.null(prev_data)) {
+    # Deep copy of lists / data.frames so original prev_data is untouched
+    result <- list(
+      collected_isoforms = prev_data$collected_isoforms,
+      read_colnames = prev_data$read_colnames,
+      column_data = prev_data$column_data,
+      rpkm_colnames = prev_data$rpkm_colnames
+    )
+  } else {
+    result <- list(
+      collected_isoforms = NULL,
+      read_colnames = character(0),
+      column_data = data.frame(),
+      rpkm_colnames = character(0)
+    )
+  }
+
+  # ------------------------------------------------------------------
+  # Iterate over every expression file for this condition and merge.
+  # ------------------------------------------------------------------
+  for (i in seq_along(input_files)) {
     # Log processing
-    log_message(paste("Loading file", i, "of", length(input_files), ":", input_files[i]))
-    
+    log_message(paste(
+      "Loading file",
+      i,
+      "of",
+      length(input_files),
+      ":",
+      input_files[i]
+    ))
+
     # Get file type based on extension
     file_type <- get_file_type(input_files[i])
-    
+
     # Read file with appropriate delimiter
-    current_data <- tryCatch({
-      read.table(
-        input_files[i],
-        sep = file_type,
-        header = TRUE,
-        check.names = FALSE,
-        stringsAsFactors = FALSE
-      )
-    }, error = function(e) {
-      log_error(paste("Error reading file:", input_files[i], "-", e$message))
-      return(NULL)
-    })
-    
+    current_data <- tryCatch(
+      {
+        read.table(
+          input_files[i],
+          sep = file_type,
+          header = TRUE,
+          check.names = FALSE,
+          stringsAsFactors = FALSE
+        )
+      },
+      error = function(e) {
+        log_error(paste("Error reading file:", input_files[i], "-", e$message))
+        return(NULL)
+      }
+    )
+
     # Skip if file couldn't be read
     if (is.null(current_data)) {
       log_warning(paste("Skipping file due to read error:", input_files[i]))
       next
     }
-    
-    # Rename columns
+
+    # Rename read & RPKM columns so they are unique per sample
     new_read_colname <- paste(sample_aliases[i], condition_name, sep = "_")
-    colnames(current_data)[colnames(current_data) == read_column] <- new_read_colname
-    colnames(current_data)[colnames(current_data) == rpkm_column] <- paste(condition_name, i, rpkm_column, sep = " ")
-    
-    # Create column data
+    colnames(current_data)[
+      colnames(current_data) == read_column
+    ] <- new_read_colname
+    colnames(current_data)[colnames(current_data) == rpkm_column] <- paste(
+      condition_name,
+      i,
+      rpkm_column,
+      sep = " "
+    )
+
+    # Build column_data entry for the current sample
     if (!is.null(batch_data)) {
       batch <- batch_data[sample_aliases[i], "batch"]
-      log_message(
-        paste0(
-          "Loaded ", nrow(current_data),
-          " rows from '", input_files[i],
-          "' as '", new_read_colname,
-          "', batch '", batch, "'"
-        )
+      column_data_frame <- data.frame(
+        conditions = condition_name,
+        batch = batch,
+        row.names = c(new_read_colname)
       )
-      column_data_frame <- data.frame(conditions = condition_name, batch = batch, row.names = c(new_read_colname))
+      log_message(paste0(
+        "Loaded ",
+        nrow(current_data),
+        " rows from '",
+        input_files[i],
+        "' as '",
+        new_read_colname,
+        "', batch '",
+        batch,
+        "'"
+      ))
     } else {
-      log_message(
-        paste0(
-          "Loaded ", nrow(current_data),
-          " rows from '", input_files[i],
-          "' as '", new_read_colname, "'"
-        )
+      column_data_frame <- data.frame(
+        conditions = condition_name,
+        row.names = c(new_read_colname)
       )
-      column_data_frame <- data.frame(conditions = condition_name, row.names = c(new_read_colname))
+      log_message(paste0(
+        "Loaded ",
+        nrow(current_data),
+        " rows from '",
+        input_files[i],
+        "' as '",
+        new_read_colname,
+        "'"
+      ))
     }
-    
-    # Initialize or update collected data
-    if (is.null(prev_data)) {
+
+    # ----------------------------------------------------------------
+    # Merge logic:
+    #   * If this is the very first file for the entire analysis, just
+    #     take it as is.
+    #   * Otherwise, merge the *current* collected_isoforms with the new
+    #     file so that we accumulate columns from every replicate.
+    # ----------------------------------------------------------------
+    if (is.null(result$collected_isoforms)) {
       result$collected_isoforms <- current_data
-      result$read_colnames <- c(new_read_colname)
-      result$column_data <- column_data_frame
-      result$rpkm_colnames <- character(0)
     } else {
       result$collected_isoforms <- merge(
-        prev_data$collected_isoforms,
+        result$collected_isoforms,
         current_data,
         by = intersect_by,
         sort = FALSE
       )
-      result$read_colnames <- c(prev_data$read_colnames, new_read_colname)
-      result$column_data <- rbind(prev_data$column_data, column_data_frame)
     }
+
+    # Track read column names & column metadata
+    result$read_colnames <- c(result$read_colnames, new_read_colname)
+    result$column_data <- rbind(result$column_data, column_data_frame)
   }
-  
-  # Calculate average RPKM for the condition
+
+  # ------------------------------------------------------------------
+  # After all files for this condition are processed, compute the mean
+  # RPKM across the replicates and clean up temporary RPKM columns.
+  # ------------------------------------------------------------------
   rpkm_columns <- grep(
     paste("^", condition_name, " [0-9]+ ", rpkm_column, sep = ""),
     colnames(result$collected_isoforms),
     value = TRUE,
     ignore.case = TRUE
   )
-  
-  result$collected_isoforms[rpkm_alias] <- format(
-    rowSums(result$collected_isoforms[, rpkm_columns, drop = FALSE]) / length(input_files),
-    digits = digits
-  )
-  
-  # Update RPKM column names and remove individual RPKM columns
-  result$rpkm_colnames <- c(result$rpkm_colnames, rpkm_alias)
-  result$collected_isoforms <- result$collected_isoforms[, !colnames(result$collected_isoforms) %in% rpkm_columns]
-  
+
+  if (length(rpkm_columns) > 0) {
+    result$collected_isoforms[[rpkm_alias]] <- format(
+      rowSums(result$collected_isoforms[, rpkm_columns, drop = FALSE]) /
+        length(rpkm_columns),
+      digits = digits
+    )
+    # Record for downstream usage
+    result$rpkm_colnames <- c(result$rpkm_colnames, rpkm_alias)
+    # Drop the individual RPKM columns now that we've averaged them
+    result$collected_isoforms <- result$collected_isoforms[,
+      !colnames(result$collected_isoforms) %in% rpkm_columns
+    ]
+  }
+
   return(result)
 }
 
@@ -241,19 +367,28 @@ load_isoform_set <- function(input_files, sample_aliases, read_column, rpkm_colu
 #' @param deseq_results Results from DESeq/DESeq2 analysis
 #' @param output_file Path to the output markdown file
 #' @return None
-generate_md <- function(batchcorrection, batchfile, deseq_results, output_file) {
+generate_md <- function(
+  batchcorrection,
+  batchfile,
+  deseq_results,
+  output_file
+) {
   # Initialize the markdown content
   md_lines <- c("# DESeq2 Summary\n")
 
   # Add warning message if applicable
-  if (!is.null(batchcorrection) && (batchcorrection == "combatseq" || batchcorrection == "model") && is.null(batchfile)) {
+  if (
+    !is.null(batchcorrection) &&
+      (batchcorrection == "combatseq" || batchcorrection == "model") &&
+      is.null(batchfile)
+  ) {
     warning_lines <- c(
       "# Warning!\n",
       "---\n",
       "**You provided a batch-correction method, but not a batch-file.**\n",
       "The chosen parameter was ignored.\n",
       "Please ensure that you provide a batch file when using the following batch correction methods:\n",
-      "- **combatseq**", 
+      "- **combatseq**",
       "- **model**\n",
       "If you do not need batch correction, set the method to 'none'.\n",
       "---\n"
@@ -264,15 +399,27 @@ generate_md <- function(batchcorrection, batchfile, deseq_results, output_file) 
   # Add DESeq results summary if provided
   if (!is.null(deseq_results)) {
     # Extract total genes with non-zero read count
-    total_genes <- sum(!is.na(deseq_results$baseMean) & deseq_results$baseMean > 0)
+    total_genes <- sum(
+      !is.na(deseq_results$baseMean) & deseq_results$baseMean > 0
+    )
 
     # Get thresholds from deseq_results metadata
     metadata_res <- metadata(deseq_results)
-    lfc_threshold <- ifelse(!is.null(metadata_res$lfcThreshold), metadata_res$lfcThreshold, 0)
-    p_adj_threshold <- ifelse(!is.null(metadata_res$alpha), metadata_res$alpha, 0.1)
+    lfc_threshold <- ifelse(
+      !is.null(metadata_res$lfcThreshold),
+      metadata_res$lfcThreshold,
+      0
+    )
+    p_adj_threshold <- ifelse(
+      !is.null(metadata_res$alpha),
+      metadata_res$alpha,
+      0.1
+    )
 
     # Extract counts
-    res_nonzero <- deseq_results[!is.na(deseq_results$baseMean) & deseq_results$baseMean > 0,]
+    res_nonzero <- deseq_results[
+      !is.na(deseq_results$baseMean) & deseq_results$baseMean > 0,
+    ]
 
     # Calculate stats
     lfc_up <- sum(
@@ -300,23 +447,46 @@ generate_md <- function(batchcorrection, batchfile, deseq_results, output_file) 
     }
 
     # Add results summary
-    md_lines <- c(md_lines, 
+    md_lines <- c(
+      md_lines,
       "\n## Analysis Results\n",
       paste("* Total genes with non-zero counts:", total_genes),
-      paste("* Significant genes (FDR <", p_adj_threshold, "):", lfc_up + lfc_down),
-      paste("* Up-regulated genes (LFC >", lfc_threshold, "):", lfc_up, 
-            sprintf("(%.1f%%)", ifelse(total_genes > 0, (lfc_up / total_genes) * 100, 0))),
-      paste("* Down-regulated genes (LFC < -", lfc_threshold, "):", lfc_down,
-            sprintf("(%.1f%%)", ifelse(total_genes > 0, (lfc_down / total_genes) * 100, 0))),
+      paste(
+        "* Significant genes (FDR <",
+        p_adj_threshold,
+        "):",
+        lfc_up + lfc_down
+      ),
+      paste(
+        "* Up-regulated genes (LFC >",
+        lfc_threshold,
+        "):",
+        lfc_up,
+        sprintf(
+          "(%.1f%%)",
+          ifelse(total_genes > 0, (lfc_up / total_genes) * 100, 0)
+        )
+      ),
+      paste(
+        "* Down-regulated genes (LFC < -",
+        lfc_threshold,
+        "):",
+        lfc_down,
+        sprintf(
+          "(%.1f%%)",
+          ifelse(total_genes > 0, (lfc_down / total_genes) * 100, 0)
+        )
+      ),
       paste("* Outliers with high Cook's distance:", outliers),
       paste("* Genes filtered due to low counts:", low_counts),
       if (mean_count != "-") {
         paste("* Mean count threshold:", mean_count)
       }
     )
-    
+
     # Add footnotes
-    md_lines <- c(md_lines,
+    md_lines <- c(
+      md_lines,
       "\n## Notes\n",
       "1. Outliers are genes with high Cook's distance (see [cooksCutoff](https://www.bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#outlier)).",
       "2. Low counts are genes filtered out due to low mean counts (see [independentFiltering](https://www.bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#independent-filtering-of-results))."
@@ -325,4 +495,4 @@ generate_md <- function(batchcorrection, batchfile, deseq_results, output_file) 
 
   # Write the content to the output file using our consolidated function
   write_markdown_summary(md_lines, output_file)
-} 
+}
