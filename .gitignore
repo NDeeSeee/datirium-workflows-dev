@@ -86,3 +86,9 @@ npm-debug.log
 
 # R debris
 .Rhistory
+
+# VSCode workspace files
+*.code-workspace
+
+# VSCode local history files
+*.history/

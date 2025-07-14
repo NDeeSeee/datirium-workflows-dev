@@ -21,22 +21,8 @@ $namespaces:
 $schemas:
   - https://github.com/schemaorg/schemaorg/raw/main/data/releases/11.01/schemaorg-current-http.rdf
 
-s:name: "ATAC-Seq LRT (step 1) – differential peak analysis using likelihood ratio test"
-label: "ATAC-Seq LRT (step 1) – differential peak analysis using likelihood ratio test"
-s:alternateName: "ATAC-Seq differential accessibility analysis based on LRT"
-
-s:downloadUrl: https://raw.githubusercontent.com/datirium/workflows/master/workflows/atac-lrt-step-1.cwl
-s:codeRepository: https://github.com/datirium/workflows
-s:license: http://www.apache.org/licenses/LICENSE-2.0
-
-s:isPartOf:
-  class: s:CreativeWork
-  s:name: Common Workflow Language
-  s:url: http://commonwl.org/
-
-# -----------------------------------------------------------------------------
-#                                 INPUTS
-# -----------------------------------------------------------------------------
+label: "ATAC-Seq LRT (step 1) – differential peak analysis using likelihood ratio
+  test"
 inputs:
   test_peak_files:
     type: File[]
@@ -105,7 +91,7 @@ inputs:
 
   rpkm_cutoff:
     type: int?
-    default: null
+    default:
     label: "RPKM cutoff"
 
   cluster_method:
@@ -287,7 +273,7 @@ steps:
 #                                 DOCUMENTATION
 # -----------------------------------------------------------------------------
 
-doc: |
+doc: |-
   Runs ATAC-Seq differential accessibility analysis using DESeq2 LRT
   ==================================================================
   The workflow wraps the `atac-lrt-step-1.cwl` CommandLineTool and adds a
@@ -296,3 +282,4 @@ doc: |
 
   * At least two biological replicates are required per experimental group.
   * The metadata file must include sample IDs matching **Peak file names**. 
+sd:version: 100

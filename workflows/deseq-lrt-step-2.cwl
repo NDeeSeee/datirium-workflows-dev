@@ -52,8 +52,10 @@ inputs:
   use_lfc_thresh:
     type: boolean
     default: false
-    label: "Use lfcthreshold as the null hypothesis value in the results function call"
-    doc: "Use lfcthreshold as the null hypothesis value in the results function call. Default: TRUE"
+    label: "Use lfcthreshold as the null hypothesis value in the results function
+      call"
+    doc: "Use lfcthreshold as the null hypothesis value in the results function call.
+      Default: TRUE"
     'sd:layout':
       advanced: true
 
@@ -131,7 +133,8 @@ inputs:
     type: int?
     default: 3
     label: "Number of levels for Hopach clustering"
-    doc: "Number of levels (depth) for Hopach clustering: min - 1, max - 15. Default: 3."
+    doc: "Number of levels (depth) for Hopach clustering: min - 1, max - 15. Default:
+      3."
     'sd:layout':
       advanced: true
 
@@ -139,7 +142,8 @@ inputs:
     type: int?
     default: 5
     label: "Maximum number of clusters at each level for Hopach clustering"
-    doc: "Maximum number of clusters at each level for Hopach clustering: min - 2, max - 9. Default: 5."
+    doc: "Maximum number of clusters at each level for Hopach clustering: min - 2,
+      max - 9. Default: 5."
     'sd:layout':
       advanced: true
 
@@ -182,7 +186,7 @@ inputs:
     type:
       - "null"
       - type: enum
-        symbols: [ "isoforms", "genes", "common tss" ]
+        symbols: ["isoforms", "genes", "common tss"]
     default: "genes"
     label: "Group by"
     doc: "Grouping method for features: isoforms, genes or common tss"
@@ -216,9 +220,10 @@ outputs:
 
   diff_expr_files:
     type: File[]
-    label: "Differentially expressed features grouped by isoforms, genes or common TSS"
-    format: "http://edamontology.org/format_3475"
-    doc: "DESeq2 generated files of differentially expressed features for each contrast in TSV format"
+    label: "Differentially expressed features grouped by isoforms, genes or common
+      TSS"
+    doc: "DESeq2 generated files of differentially expressed features for each contrast
+      in TSV format"
     outputSource: deseq/diff_expr_files
     'sd:visualPlugins':
       - syncfusiongrid:
@@ -228,15 +233,15 @@ outputs:
   read_counts_file_all:
     type: File
     label: "Normalized read counts in GCT format without padj filtering"
-    format: "http://edamontology.org/format_3709"
-    doc: "DESeq generated files of all normalized read counts in GCT format. Compatible with GSEA"
+    doc: "DESeq generated files of all normalized read counts in GCT format. Compatible
+      with GSEA"
     outputSource: deseq/counts_all_gct
 
   read_counts_file_filtered:
     type: File
     label: "Normalized read counts in GCT format filtered by padj"
-    format: "http://edamontology.org/format_3709"
-    doc: "DESeq generated files of padj-filtered normalized read counts in GCT format. Compatible with Morpheus heatmap"
+    doc: "DESeq generated files of padj-filtered normalized read counts in GCT format.
+      Compatible with Morpheus heatmap"
     outputSource: deseq/counts_filtered_gct
 
   mds_plots_html:
@@ -282,14 +287,12 @@ outputs:
 
   deseq_stdout_log:
     type: File
-    format: "http://edamontology.org/format_2330"
     label: "DESeq2 LRT Step 2 stdout log"
     doc: "DESeq2 LRT Step 2 stdout log"
     outputSource: deseq/stdout_log
 
   deseq_stderr_log:
     type: File
-    format: "http://edamontology.org/format_2330"
     label: "DESeq2 LRT Step 2 stderr log"
     doc: "DESeq2 LRT Step 2 stderr log"
     outputSource: deseq/stderr_log
@@ -380,44 +383,8 @@ $namespaces:
 $schemas:
   - https://github.com/schemaorg/schemaorg/raw/main/data/releases/11.01/schemaorg-current-http.rdf
 
-s:name: "DESeq2 (LRT, step 2) - Differential gene expression analysis using likelihood ratio test"
-label: "DESeq2 (LRT, step 2) - Differential gene expression analysis using likelihood ratio test"
-s:alternateName: "Differential gene expression analysis based on the LRT (likelihood ratio test)"
-
-s:downloadUrl: https://raw.githubusercontent.com/datirium/workflows/master/workflows/deseq-lrt-step-2.cwl
-s:codeRepository: https://github.com/datirium/workflows
-s:license: http://www.apache.org/licenses/LICENSE-2.0
-
-s:isPartOf:
-  class: s:CreativeWork
-  s:name: Common Workflow Language
-  s:url: http://commonwl.org/
-
-s:creator:
-  - class: s:Organization
-    s:legalName: "Cincinnati Children's Hospital Medical Center"
-    s:location:
-      - class: s:PostalAddress
-        s:addressCountry: "USA"
-        s:addressLocality: "Cincinnati"
-        s:addressRegion: "OH"
-        s:postalCode: "45229"
-        s:streetAddress: "3333 Burnet Ave"
-        s:telephone: "+1(513)636-4200"
-    s:logo: "https://www.cincinnatichildrens.org/-/media/cincinnati%20childrens/global%20shared/childrens-logo-new.png"
-    s:department:
-      - class: s:Organization
-        s:legalName: "Allergy and Immunology"
-        s:department:
-          - class: s:Organization
-            s:legalName: "Barski Research Lab"
-        s:member:
-          - class: s:Person
-            s:name: Michael Kotliar
-            s:email: mailto:misha.kotliar@gmail.com
-            s:sameAs:
-              - id: http://orcid.org/0000-0002-6486-3898
-
+label: "DESeq2 (LRT, step 2) - Differential gene expression analysis using likelihood
+  ratio test"
 doc: |
   Runs DESeq2 using LRT (Likelihood Ratio Test)
   =============================================
@@ -446,3 +413,4 @@ doc: |
      where `time`, `condition`, `day5`, `day7`, `WT`, `KO` should be single words (without spaces), and `DH1`, `DH2`, `DH3`, `DH4`, `DH5` correspond to the experiment aliases set in **RNA-Seq experiments** input.
   3. Design and reduced formulas should start with `~` and include categories or, optionally, their interactions from the metadata file header. See details in the DESeq2 manual [here](https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#interactions) and [here](https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#likelihood-ratio-test).
   4. Contrast indices should correspond to the contrasts generated in the first step, allowing for specific comparisons in the differential expression analysis.
+sd:version: 100

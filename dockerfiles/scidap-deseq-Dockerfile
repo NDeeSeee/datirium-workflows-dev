@@ -2,7 +2,7 @@
 # Dockerfile - DESeq/DESeq2 Analysis Container
 #
 # Software:         BioWardrobe DESeq/DESeq2 script
-# Software Version: v0.0.66
+# Software Version: v0.0.72
 # Description:      Dockerized version of DESeq/DESeq2 script from BioWardrobe
 # Website:          https://github.com/Barski-lab/workflows
 #
@@ -37,14 +37,20 @@
 # 
 # Build Commands:
 # ------------------
-# Full build: docker build --no-cache --platform linux/amd64 --rm -t biowardrobe2/scidap-deseq:v0.0.54 -f scidap-deseq-Dockerfile .
-# Pull:       docker pull biowardrobe2/scidap-deseq:v0.0.54
-# Run:        docker run --rm -ti biowardrobe2/scidap-deseq:v0.0.54 /bin/bash
+# Full build: docker build --no-cache --platform linux/amd64 --rm -t biowardrobe2/scidap-deseq:v0.0.72 -f scidap-deseq-Dockerfile .
+# Pull:       docker pull biowardrobe2/scidap-deseq:v0.0.72
+# Run:        docker run --rm -ti biowardrobe2/scidap-deseq:v0.0.72 /bin/bash
 #################################################################
 
 #################################################################
 # VERSION HISTORY
 #################################################################
+#
+# v0.0.72
+# - CRITICAL FIX: Updated functions/deseq/data_processing.R to preserve all replicates in `load_isoform_set`.
+#   This prevents unintended down-sampling to a single sample and ensures DESeq2 (not EdgeR) is run when
+#   multiple replicates are supplied to the pair-wise workflow.
+#   Updated script paths in Dockerfile from tools/dockerfiles/scripts/ to dockerfiles/scripts/
 #
 # v0.0.66
 # - CRITICAL FIXES: Fixed missing summary.md output files for pairwise workflows
@@ -115,7 +121,7 @@
 # BASE IMAGE SELECTION
 #############################################
 # Incremental build from previous version
-FROM biowardrobe2/scidap-deseq:v0.0.65
+FROM biowardrobe2/scidap-deseq:v0.0.72
 LABEL maintainer="pavlvalera3301@gmail.com"
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -123,13 +129,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 # SCRIPT UPDATES
 #############################################
 # Copy updated script files with the fixed argument parsing
-COPY tools/dockerfiles/scripts/run_deseq_lrt_step_1.R /usr/local/bin/run_deseq_lrt_step_1.R
-COPY tools/dockerfiles/scripts/run_deseq_lrt_step_2.R /usr/local/bin/run_deseq_lrt_step_2.R
-COPY tools/dockerfiles/scripts/get_gene_n_tss.R /usr/local/bin/get_gene_n_tss.R
-COPY tools/dockerfiles/scripts/run_deseq_pairwise.R /usr/local/bin/run_deseq_pairwise.R
+COPY dockerfiles/scripts/run_deseq_lrt_step_1.R /usr/local/bin/run_deseq_lrt_step_1.R
+COPY dockerfiles/scripts/run_deseq_lrt_step_2.R /usr/local/bin/run_deseq_lrt_step_2.R
+COPY dockerfiles/scripts/get_gene_n_tss.R /usr/local/bin/get_gene_n_tss.R
+COPY dockerfiles/scripts/run_deseq_pairwise.R /usr/local/bin/run_deseq_pairwise.R
 
 # Copy function directories with updated cli_args.R
-COPY tools/dockerfiles/scripts/functions/ /usr/local/bin/functions/
+COPY dockerfiles/scripts/functions/ /usr/local/bin/functions/
 
 #############################################
 # FINALIZE IMAGE
