@@ -1,0 +1,30 @@
+# ATAC Pairwise Test with real MACS2 .xls files
+untreated_files:
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1_macs_peaks.xls"
+  - class: File  
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1_macs_peaks.xls"
+
+treated_files:
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1_macs_peaks.xls"
+
+untreated_name: "Control"
+treated_name: "Treatment"
+
+untreated_sample_names: ["D4N_0H_GFP", "D0N_5H_GFP"]
+treated_sample_names: ["D4N_5H_GFP", "D4TCM_0H_GFP"]
+
+fdr: 0.05
+lfcthreshold: 0.5
+use_lfc_thresh: true
+regulation: "both"
+threads: 2
+test_mode: true
+cluster_method: "row"
+scaling_type: "zscore"
+k_hopach: 3
+kmax_hopach: 5
+output_prefix: "atac_pairwise_real_test"

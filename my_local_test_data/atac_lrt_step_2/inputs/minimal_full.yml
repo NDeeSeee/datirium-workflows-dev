@@ -1,0 +1,11 @@
+dsq_obj_data:
+  class: File
+  path: "../../atac_lrt_step_1/outputs/comprehensive_test/atac_lrt_step_1_contrasts.rds"
+
+contrasts_table:
+  class: File
+  path: "../../core_data/contrasts_table_example.csv"
+
+contrast_indices: "1"
+
+output_prefix: "minimal_test"

@@ -1,0 +1,10 @@
+dsq_obj_data:
+  class: File
+  path: "../../atac_lrt_step_1/outputs/comprehensive_test/atac_lrt_step_1_contrasts.rds"
+
+contrasts_table:
+  class: File
+  path: "../../atac_lrt_step_1/outputs/comprehensive_test/atac_lrt_step_1_contrasts_table.tsv"
+
+contrast_indices: "1"
+output_prefix: "atac_lrt_step2_full" 

@@ -1,0 +1,11 @@
+dsq_obj_data:
+  class: File
+  path: "/users/pavb5f/git_projects/barskilab-workflows/my_local_test_data/deseq_lrt_step_1_contrasts.rds"
+
+contrasts_table:
+  class: File  
+  path: "/users/pavb5f/git_projects/barskilab-workflows/my_local_test_data/deseq_lrt_step_1_contrasts_table.tsv"
+
+contrast_indices: "1"
+test_mode: false
+output_prefix: "atac_lrt_step2_from_step1"

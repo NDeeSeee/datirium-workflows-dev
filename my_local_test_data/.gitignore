@@ -1,0 +1,14 @@
+*.sif
+# Test output files
+*.gct
+*.tsv
+*.png
+*.pdf
+*.html
+*.cls
+*_test_*.md
+*_summary.md
+*_report.tsv
+test_working_configs.sh
+final_test_results.md
+test_results_summary.md

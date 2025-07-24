@@ -1,0 +1,17 @@
+alias_trigger: "deseq_lrt_step2_test_mode"
+use_lfc_thresh: true
+threads: 1
+k_hopach: 3
+kmax_hopach: 5
+regulation: both
+lfcthreshold: 0.59
+fdr: 0.1
+contrast_indices: "1,2"
+batchcorrection: "none"
+cluster_method: "none"
+dsq_obj_data:
+  class: File
+  path: "/Users/pavb5f/Documents/barskilab-workflows/my_local_test_data/deseq_lrt_step_1/outputs/full_run/deseq_lrt_step1_basic_test_contrasts.rds"
+contrasts_table:
+  class: File
+  path: "/Users/pavb5f/Documents/barskilab-workflows/my_local_test_data/deseq_lrt_step_1/outputs/full_run/deseq_lrt_step1_basic_test_contrasts_table.tsv"

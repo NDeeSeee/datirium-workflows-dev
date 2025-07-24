@@ -1,0 +1,37 @@
+# ATAC LRT Step 1 Tool Test Input
+test_peak_files:
+  - class: File
+    path: "../../core_data/sample1_peaks.csv"
+  - class: File
+    path: "../../core_data/sample2_peaks.csv"
+  - class: File
+    path: "../../core_data/sample3_peaks.csv"
+  - class: File
+    path: "../../core_data/sample4_peaks.csv"
+
+peak_file_names:
+  - "sample1"
+  - "sample2"
+  - "sample3"
+  - "sample4"
+
+bam_files:
+  - class: File
+    path: "../../core_data/sample1.bam"
+  - class: File
+    path: "../../core_data/sample2.bam"
+  - class: File
+    path: "../../core_data/sample3.bam"
+  - class: File
+    path: "../../core_data/sample4.bam"
+
+metadata_file:
+  class: File
+  path: "../../core_data/atac_metadata.csv"
+
+design_formula: "~ Condition + Tissue + Condition:Tissue"
+reduced_formula: "~ Condition + Tissue"
+output_prefix: "atac_lrt_step1_tool_test"
+test_mode: true
+lrt_only_mode: true
+threads: 2 

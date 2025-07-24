@@ -1,0 +1,5 @@
+SampleID,treatment,cond,rep
+sample1,N,Rest,1
+sample2,N,Rest,2
+sample3,N,Act,1
+sample4,N,Act,2 

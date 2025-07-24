@@ -1,0 +1,10 @@
+SampleID,Tissue,Condition,Factor
+D0N_0H_GFP_new,n,1,t0hgfp
+D0N_5H_GFP_new,n,1,t5hgfp
+D0N_5H_AFOS_new,n,1,t5hafos
+D0TEM_0H_GFP_new,tem,1,t0hgfp
+D0TEM_5H_GFP_new,tem,1,t5hgfp
+D0TEM_5H_AFOS_new,tem,1,t5hafos
+D0TCM_0H_GFP_new,tcm,1,t0hgfp
+D0TCM_5H_GFP_new,tcm,1,t5hgfp
+D0TCM_5H_AFOS_new,tcm,1,t5hafos

@@ -1,0 +1,90 @@
+# ATAC Pairwise – FULL RUN (Rest vs Active)
+# Rest = samples collected at 0H; Active = samples at 5H (both GFP & AFOS)
+# Using all 27 peak files from bam_peaks_paths.json
+
+# Rest (untreated) group – 9 samples
+untreated_files:
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XFzkdZTJagceFMxQ5/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XtNYa3XwAPkbcu2mz/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/eDXeNuxww7dtBBKHh/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/hfv4x8ZK7GDkYPDtA/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ns5588K3DnwqTgaEA/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/p8jWq5anxYtzZL25g/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1_macs_peaks.xls"
+
+# Active (treated) group – 18 samples
+treated_files:
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/GjW2jbRE2RYgEWv88/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/YRPh3PXRH48CEeEXg/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Z22AogciZnv5iiRpg/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ZMop2L7iZtZfXTGiG/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/b97LFZanxBdNuFWoJ/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/bKJ6rANxWRyqLtkEL/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ccpW7prdfc3vJC9vp/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/emf6RSBrZEAsq9xYT/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/kiW6Q2ZM7qSmbKPxM/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pEg6coQ3rgP5whYY3/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pjYGvvSQduzhqYqxm/read_1_macs_peaks.xls"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1_macs_peaks.xls"
+
+# Group names
+untreated_name: "Rest"
+treated_name: "Act"
+
+# Sample aliases (order must match files)
+untreated_sample_names: ["D4N_0H_GFP_new","D4TCM_0H_GFP_new","D2TEM_0H_GFP_new","D2TCM_0H_GFP_new","D4TEM_0H_GFP_new","D0TEM_0H_GFP_new","D2N_0H_GFP_new","D0N_0H_GFP_new","D0TCM_0H_GFP_new"]
+
+treated_sample_names: ["D0N_5H_GFP_new","D4N_5H_GFP_new","D0TCM_5H_GFP_new","D0TCM_5H_AFOS_new","D4TCM_5H_AFOS_new","D0TEM_5H_GFP_new","D2TCM_5H_GFP_new","D4TCM_5H_GFP_new","D2N_5H_AFOS_new","D2TCM_5H_AFOS_new","D2TEM_5H_AFOS_new","D4TEM_5H_GFP_new","D0N_5H_AFOS_new","D4TEM_5H_AFOS_new","D4N_5H_AFOS_new","D0TEM_5H_AFOS_new","D2N_5H_GFP_new","D2TEM_5H_GFP_new"]
+
+# Analysis parameters
+fdr: 0.05
+lfcthreshold: 0.59
+use_lfc_thresh: true
+regulation: "both"
+
+# Resources
+threads: 16
+cluster_method: "row"
+scaling_type: "zscore"
+k_hopach: 3
+kmax_hopach: 5
+
+test_mode: false
+
+# Output
+output_prefix: "atac_pairwise_full_rest_vs_active" 

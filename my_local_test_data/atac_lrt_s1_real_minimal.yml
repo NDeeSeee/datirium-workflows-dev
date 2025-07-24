@@ -1,0 +1,47 @@
+# ATAC LRT Step-1 with real data - minimal 4 samples for faster testing
+test_peak_files:
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+
+peak_file_names:
+  - "D4N_0H_GFP_new"
+  - "D0N_5H_GFP_new"
+  - "D4N_5H_GFP_new"
+  - "D4TCM_0H_GFP_new"
+
+bam_files:
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1.bam"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1.bam"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1.bam"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1.bam"
+
+metadata_file:
+  class: File
+  path: "core_data/minimal_4sample_metadata.csv"
+  format: "http://edamontology.org/format_2330"
+
+threads: 4
+batchcorrection: "none"
+design_formula: "~Tissue + Condition"
+reduced_formula: "~Tissue"
+fdr: 0.1
+lfcthreshold: 0.59
+use_lfc_thresh: true
+cluster_method: "none"
+scaling_type: "zscore"
+test_mode: true
+output_prefix: "atac_lrt_s1_real_test"

@@ -1,0 +1,54 @@
+# Simple 6-sample subset for testing - using first 6 samples from working config
+test_peak_files:
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+
+peak_file_names:
+  - "D4N_0H_GFP_new"
+  - "D0N_5H_GFP_new"
+  - "D4N_5H_GFP_new"
+  - "D4TCM_0H_GFP_new"
+  - "D0TCM_5H_GFP_new"
+  - "D0TCM_5H_AFOS_new"
+
+bam_files:
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1.bam"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1.bam"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1.bam"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1.bam"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1.bam"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1.bam"
+
+metadata_file:
+  class: File
+  path: "/users/pavb5f/git_projects/barskilab-workflows/my_local_test_data/core_data/afos_atac_metadata_6samples.csv"
+  format: "http://edamontology.org/format_2330"
+
+design_formula: "~Tissue + Condition + Factor"
+reduced_formula: "~Tissue + Condition"
+
+use_lfc_thresh: true
+threads: 8
+test_mode: false

@@ -414,7 +414,13 @@ steps:
   morpheus_heatmap:
     run: ../tools/morpheus-heatmap.cwl
     in:
-      read_counts_gct: deseq/counts_filtered_gct
+      read_counts_gct:
+        source: [deseq/counts_filtered_gct, deseq/counts_all_gct]
+        valueFrom: |
+          ${
+            // Prefer the padj-filtered matrix when it exists; otherwise use the full counts.
+            return self[0] ? self[0] : self[1];
+          }
     out:
       - heatmap_html
       - stdout_log

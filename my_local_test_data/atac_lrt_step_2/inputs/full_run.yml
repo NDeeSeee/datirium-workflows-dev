@@ -1,0 +1,19 @@
+# ATAC LRT Step-2 – FULL RUN
+# NOTE: Update the dsq_obj_data path if you change Step-1's output_prefix.
+
+# Differential binding R object from the full Step-1 run
+# (The Step-1 CWL tool writes <output_prefix>_contrasts.rds in its outputs dir.)
+dsq_obj_data:
+  class: File
+  path: "../../atac_lrt_step_1/outputs/atac_lrt_step_1/atac_lrt_step_1_contrasts.rds"
+
+# Contrasts CSV (list of factor comparisons). Replace if you have a custom table.
+contrasts_table:
+  class: File
+  path: "../../core_data/contrasts_table_example.csv"
+
+# Which contrast(s) to run – comma-separated indices as a string
+contrast_indices: "1,2,3"
+
+# Output prefix for Step-2 artefacts
+output_prefix: "atac_lrt_step_2_full" 

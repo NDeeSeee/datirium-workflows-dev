@@ -1,0 +1,5 @@
+SampleID,Condition,Tissue,Replicate
+sample1,Rest,N,1
+sample2,Rest,N,2
+sample3,Act,N,1
+sample4,Act,N,2 

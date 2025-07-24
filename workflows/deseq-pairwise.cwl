@@ -672,7 +672,13 @@ steps:
   morpheus_heatmap:
     run: ../tools/morpheus-heatmap.cwl
     in:
-      read_counts_gct: deseq/read_counts_file_filtered
+      read_counts_gct:
+        source: [deseq/read_counts_file_filtered, deseq/read_counts_file_all]
+        valueFrom: |
+          ${
+            // Use filtered GCT if present, otherwise fall back to the unfiltered counts
+            return self[0] ? self[0] : self[1];
+          }
     out:
       - heatmap_html
       - stdout_log

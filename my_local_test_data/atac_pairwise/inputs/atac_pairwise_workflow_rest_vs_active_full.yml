@@ -1,0 +1,66 @@
+# ATAC Pairwise Full Run Input
+# Comparing Rest (untreated) vs Act (treated) conditions
+
+# Untreated group files (Rest condition)
+untreated_files:
+  - class: File
+    path: "../../core_data/sample1_peaks.csv"
+    format: "http://edamontology.org/format_3752"
+    secondaryFiles:
+      - class: File
+        path: "../../core_data/sample1.bam"
+  - class: File  
+    path: "../../core_data/sample2_peaks.csv"
+    format: "http://edamontology.org/format_3752"
+    secondaryFiles:
+      - class: File
+        path: "../../core_data/sample2.bam"
+# Treated group files (Act condition)
+treated_files:
+  - class: File
+    path: "../../core_data/sample3_peaks.csv"
+    format: "http://edamontology.org/format_3752"
+    secondaryFiles:
+      - class: File
+        path: "../../core_data/sample3.bam"
+  - class: File
+    path: "../../core_data/sample4_peaks.csv"
+    format: "http://edamontology.org/format_3752"
+    secondaryFiles:
+      - class: File
+        path: "../../core_data/sample4.bam"
+# Group names
+untreated_name: "Rest"
+treated_name: "Act"
+# Alias names for conditions
+alias_cond_1: "Rest"
+alias_cond_2: "Act"
+# Sample aliases (wrapper-level keys)
+sample_names_cond_1:
+  - "sample1"
+  - "sample2"
+sample_names_cond_2:
+  - "sample3"
+  - "sample4"
+# Tool-level sample aliases
+untreated_sample_names:
+  - "sample1"
+  - "sample2"
+treated_sample_names:
+  - "sample3"
+  - "sample4"
+# Analysis parameters
+fdr: 0.05
+lfcthreshold: 0.5
+use_lfc_thresh: true
+regulation: "both"
+# Processing parameters
+threads: 1
+test_mode: true
+# Clustering and visualization
+cluster_method: "row"
+scaling_type: "zscore"
+k_hopach: 3
+kmax_hopach: 5
+# Output
+output_prefix: "atac_pairwise_full"

@@ -1,0 +1,30 @@
+# ATAC Pairwise Test with local test files
+untreated_files:
+  - class: File
+    path: "core_data/sample1_peaks.csv"
+  - class: File  
+    path: "core_data/sample2_peaks.csv"
+
+treated_files:
+  - class: File
+    path: "core_data/sample3_peaks.csv"
+  - class: File
+    path: "core_data/sample4_peaks.csv"
+
+untreated_name: "Rest"
+treated_name: "Act"
+
+untreated_sample_names: ["sample1", "sample2"]
+treated_sample_names: ["sample3", "sample4"]
+
+fdr: 0.05
+lfcthreshold: 0.5
+use_lfc_thresh: true
+regulation: "both"
+threads: 1
+test_mode: true
+cluster_method: "row"
+scaling_type: "zscore"
+k_hopach: 3
+kmax_hopach: 5
+output_prefix: "atac_pairwise_test"

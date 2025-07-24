@@ -1,0 +1,5 @@
+SampleID,Condition,Tissue,Replicate,bamReads,Peaks
+sample1,Rest,N,1,my_local_test_data/core_data/sample1.bam,my_local_test_data/core_data/sample1_peaks.csv
+sample2,Rest,N,2,my_local_test_data/core_data/sample2.bam,my_local_test_data/core_data/sample2_peaks.csv
+sample3,Act,N,1,my_local_test_data/core_data/sample3.bam,my_local_test_data/core_data/sample3_peaks.csv
+sample4,Act,N,2,my_local_test_data/core_data/sample4.bam,my_local_test_data/core_data/sample4_peaks.csv 

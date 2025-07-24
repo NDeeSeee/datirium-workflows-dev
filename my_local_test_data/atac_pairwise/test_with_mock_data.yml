@@ -1,0 +1,47 @@
+# ATAC Pairwise Test Input - Mock Data Bypass
+# This bypasses DiffBind entirely and tests the summary generation
+
+# Untreated group files (Rest condition) - using CSV files instead of BAM
+untreated_files:
+  - class: File
+    path: "../../core_data/sample1_peaks.csv"
+  - class: File  
+    path: "../../core_data/sample2_peaks.csv"
+
+# Treated group files (Act condition) - using CSV files instead of BAM  
+treated_files:
+  - class: File
+    path: "../../core_data/sample3_peaks.csv"
+  - class: File
+    path: "../../core_data/sample4_peaks.csv"
+
+# Group names
+untreated_name: "Rest"
+treated_name: "Act"
+
+# Sample aliases  
+untreated_sample_names: ["sample1", "sample2"]
+treated_sample_names: ["sample3", "sample4"]
+
+# Analysis parameters
+fdr: 0.05
+lfcthreshold: 0.5
+use_lfc_thresh: true
+regulation: "both"
+
+# Processing parameters
+threads: 1
+test_mode: true
+
+# Additional test mode flags to ensure bypass
+mock_analysis: true
+skip_diffbind: true
+
+# Clustering and visualization
+cluster_method: "row"
+scaling_type: "zscore"
+k_hopach: 3
+kmax_hopach: 5
+
+# Output
+output_prefix: "atac_pairwise_mock_test"

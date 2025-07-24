@@ -1,0 +1,60 @@
+alias_trigger: "deseq_lrt_step1_basic_test"
+
+# Expression files (8 samples: 2 treatments × 2 conditions × 2 replicates)
+expression_files:
+  - class: File
+    path: "../../core_data/ABSK0218_CMR_rm.isoforms.csv"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "../../core_data/ABSK0222_CMR_rm.isoforms.csv"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "../../core_data/ABSK0219_CMA_rm.isoforms.csv"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "../../core_data/ABSK0223_CMA_rm.isoforms.csv"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "../../core_data/ABSK0226_KMR_rm.isoforms.csv"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "../../core_data/ABSK0230_KMR_rm.isoforms.csv"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "../../core_data/ABSK0227_KMA_rm.isoforms.csv"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "../../core_data/ABSK231238_rm.isoforms.csv"
+    format: "http://edamontology.org/format_3752"
+
+# Sample names matching the file names
+expression_file_names:
+  - "ABSK0218_CMR_rm"
+  - "ABSK0222_CMR_rm"
+  - "ABSK0219_CMA_rm"
+  - "ABSK0223_CMA_rm"
+  - "ABSK0226_KMR_rm"
+  - "ABSK0230_KMR_rm"
+  - "ABSK0227_KMA_rm"
+  - "ABSK231238_rm"
+
+# Metadata file
+metadata_file:
+  class: File
+  path: "../../core_data/metadata.csv"
+  format: "http://edamontology.org/format_2330"
+
+# Analysis parameters
+group_by: "genes"
+design_formula: "~ treatment + cond + treatment:cond"
+reduced_formula: "~ treatment + cond"
+batchcorrection: "none"
+fdr: 0.1
+lfcthreshold: 0.59
+use_lfc_thresh: true
+cluster_method: "column"
+k_hopach: 3
+kmax_hopach: 5
+threads: 4
+lrt_only_mode: false 
+rpkm_cutoff: 3 

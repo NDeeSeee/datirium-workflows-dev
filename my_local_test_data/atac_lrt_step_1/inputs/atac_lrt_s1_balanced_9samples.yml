@@ -1,0 +1,89 @@
+test_peak_files:
+  # D0N_0H_GFP_new - position 23 in original list  
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  # D0N_5H_GFP_new - position 2 in original list
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  # D0TEM_5H_GFP_new - position 8 in original list
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  # D2N_0H_GFP_new - position 22 in original list
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/uNqaY8gGJzfLqJPxP/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  # D2N_5H_GFP_new - position 25 in original list  
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  # D2TEM_5H_GFP_new - position 26 in original list
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  # D4N_0H_GFP_new - position 1 in original list
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  # D4N_5H_GFP_new - position 3 in original list
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  # D4TEM_5H_GFP_new - position 16 in original list
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+
+peak_file_names:
+  - "D0N_0H_GFP_new"
+  - "D0N_5H_GFP_new"
+  - "D0TEM_5H_GFP_new"
+  - "D2N_0H_GFP_new"
+  - "D2N_5H_GFP_new"
+  - "D2TEM_5H_GFP_new"
+  - "D4N_0H_GFP_new"
+  - "D4N_5H_GFP_new"
+  - "D4TEM_5H_GFP_new"
+
+bam_files:
+  # D0N_0H_GFP_new
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1.bam"
+  # D0N_5H_GFP_new
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1.bam"
+  # D0TEM_5H_GFP_new
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1.bam"
+  # D2N_0H_GFP_new
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/uNqaY8gGJzfLqJPxP/read_1.bam"
+  # D2N_5H_GFP_new
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1.bam"
+  # D2TEM_5H_GFP_new
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1.bam"
+  # D4N_0H_GFP_new
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1.bam"
+  # D4N_5H_GFP_new
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1.bam"
+  # D4TEM_5H_GFP_new
+  - class: File
+    location: "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1.bam"
+
+metadata_file:
+  class: File
+  location: "file:///users/pavb5f/git_projects/barskilab-workflows/my_local_test_data/core_data/afos_atac_metadata_balanced.csv"
+  format: "http://edamontology.org/format_2330"
+
+design_formula: "~Tissue + Condition + Factor + Tissue:Condition"
+reduced_formula: "~Tissue + Condition + Factor"
+
+use_lfc_thresh: true
+threads: 8
+test_mode: false

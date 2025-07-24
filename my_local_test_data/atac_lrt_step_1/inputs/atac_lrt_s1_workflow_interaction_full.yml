@@ -1,0 +1,51 @@
+# Peak files (4 samples: 2 treatments × 2 conditions × 1 replicate for testing)
+test_peak_files:
+  - class: File
+    path: "../../core_data/sample1_peaks.csv"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "../../core_data/sample2_peaks.csv"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "../../core_data/sample3_peaks.csv"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "../../core_data/sample4_peaks.csv"
+    format: "http://edamontology.org/format_3752"
+
+# Peak file names matching the samples (required by ATAC workflow)
+peak_file_names:
+  - "sample1"
+  - "sample2"
+  - "sample3"
+  - "sample4"
+
+# BAM files for DiffBind
+bam_files:
+  - class: File
+    path: "../../core_data/sample1.bam"
+  - class: File
+    path: "../../core_data/sample2.bam"
+  - class: File
+    path: "../../core_data/sample3.bam"
+  - class: File
+    path: "../../core_data/sample4.bam"
+
+# Metadata file
+metadata_file:
+  class: File
+  path: "../../core_data/atac_metadata_std.csv"
+
+# Analysis parameters for ATAC-seq
+group_by: "genes"
+design_formula: "~ treatment + cond + treatment:cond"
+reduced_formula: "~ treatment + cond"
+batchcorrection: "combatseq"
+fdr: 0.001
+lfcthreshold: 0.59
+use_lfc_thresh: true
+cluster_method: "row"
+k_hopach: 3
+kmax_hopach: 5
+threads: 4
+lrt_only_mode: true 

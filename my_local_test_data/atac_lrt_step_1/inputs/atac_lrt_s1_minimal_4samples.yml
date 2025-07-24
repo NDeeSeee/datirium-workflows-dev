@@ -1,0 +1,56 @@
+# ATAC LRT Step-1 – MINIMAL 4-sample test
+# Minimal dataset to overcome computational limitations
+# 2 conditions × 2 replicates each = 4 samples minimum for LRT
+
+# Peak files
+input_files:
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1_macs_peaks.xls"
+    format: "http://edamontology.org/format_3752"
+
+# Sample aliases (must match order above)
+name:
+  - "D4N_0H_GFP_rep1"
+  - "D0N_5H_GFP_rep1"
+  - "D4TCM_0H_GFP_rep1"
+  - "D0TCM_5H_GFP_rep1"
+
+# BAM files (same order)
+bam_files:
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1.bam"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1.bam"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1.bam"
+  - class: File
+    path: "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1.bam"
+
+# Metadata
+data_metadata:
+  class: File
+  path: "/users/pavb5f/git_projects/barskilab-workflows/my_local_test_data/core_data/minimal_4sample_metadata.csv"
+  format: "http://edamontology.org/format_2330"
+
+# Analysis parameters
+threads: 8
+batchcorrection: "none"
+design_formula: "~Tissue + Condition"
+reduced_formula: "~Tissue"
+fdr: 0.1
+lfcthreshold: 0.59
+use_lfc_thresh: true
+cluster_method: "none"
+scaling_type: "zscore"
+
+# LRT mode (not test mode)
+test_mode: false

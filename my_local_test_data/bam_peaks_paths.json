@@ -1,0 +1,1468 @@
+{
+    "alias": "atacformdsplot_newsample",
+    "alignment_files": [
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$c4afc05f5a2fbd67fbf74ed670d268501eb7e3ce",
+            "size": 1450505642,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 3256032,
+                    "checksum": "sha1$83f90e81ba5b4ad75c394bc066f7ad330d67abc2",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$1b7bcfe74a50a2fdabe6f8faffc1cb16cb841b99",
+            "size": 4583743481,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2967344,
+                    "checksum": "sha1$713d3d7afea656699bda671c4d66e3581e4b32bf",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$c8c642b23d6a9f1d7772803214df59b37a233a8c",
+            "size": 1949904713,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 3008192,
+                    "checksum": "sha1$016544b1a69345b4337d048885fc3a508511bbe0",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$40ca9f504b051dd5828b3ff5f26fd39c237f8afb",
+            "size": 972860880,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 4319304,
+                    "checksum": "sha1$6e67364d3b2c2fe706001394933bb36a43c305bd",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$1ef3621f2105ce0f4b58025353196da4142dc7e3",
+            "size": 4134559101,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 3017736,
+                    "checksum": "sha1$b697931371481fcd9bc0191e4d4a97c3e13eb75b",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$4ab9b1317a0851c3b83d3971fba1249f25543d3e",
+            "size": 4818304576,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 3080712,
+                    "checksum": "sha1$d23447c7efc92b4f8b3800b6041457b0417bf600",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/GjW2jbRE2RYgEWv88/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$8f5ba223ca0bada3f3dbc084c472f206b11e2043",
+            "size": 1834242484,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/GjW2jbRE2RYgEWv88/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2719792,
+                    "checksum": "sha1$ab904b600416b90bde6baa8b24d212132d218330",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/GjW2jbRE2RYgEWv88/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/GjW2jbRE2RYgEWv88/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$a39fdfd1110f2fcd106ad4744ff62aa98042d42a",
+            "size": 2398691678,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2744784,
+                    "checksum": "sha1$9eb95d0dc48c81a30debb999d4fe90a4d4e2a0d5",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XFzkdZTJagceFMxQ5/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$e10b64e7c4f9d8fd28b6eba2550b7165f789b8f1",
+            "size": 476829482,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XFzkdZTJagceFMxQ5/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 3785928,
+                    "checksum": "sha1$9b47a00ebfe5349999187a7b06d6eab46dba78b8",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XFzkdZTJagceFMxQ5/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XFzkdZTJagceFMxQ5/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XtNYa3XwAPkbcu2mz/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$ad6563c2dc7190f730ace22371d6cd0d7fc9a437",
+            "size": 1176624183,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XtNYa3XwAPkbcu2mz/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2723904,
+                    "checksum": "sha1$5c4067fed09eacac82e00c069e79d2895b0ebfb9",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XtNYa3XwAPkbcu2mz/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XtNYa3XwAPkbcu2mz/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/YRPh3PXRH48CEeEXg/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$3199c5c55f82edf0decaf379edfff084a4253d05",
+            "size": 1235115962,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/YRPh3PXRH48CEeEXg/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2744968,
+                    "checksum": "sha1$3012fe3b7d693c775c5cee7049bdf714519e9990",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/YRPh3PXRH48CEeEXg/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/YRPh3PXRH48CEeEXg/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Z22AogciZnv5iiRpg/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$063adac71f57849fafbc22ee7c9f3a065993b304",
+            "size": 2070618752,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Z22AogciZnv5iiRpg/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2837768,
+                    "checksum": "sha1$bda30adeb3c165123fa0222adb6f4ab4324c4e9a",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Z22AogciZnv5iiRpg/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Z22AogciZnv5iiRpg/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ZMop2L7iZtZfXTGiG/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$d0e40004de406ce5f9c76b6876e3ae9f1e278e29",
+            "size": 986436447,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ZMop2L7iZtZfXTGiG/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2802880,
+                    "checksum": "sha1$c87c826f99d9ced61a8bda2e148c3a5a39ea9076",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ZMop2L7iZtZfXTGiG/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ZMop2L7iZtZfXTGiG/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$812d5e1fe2fac8ce8f295d84cc987fb1519b6da7",
+            "size": 1570293557,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2647824,
+                    "checksum": "sha1$2aeec7aedf2410c95612fdf998a01a7cbde8a826",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/b97LFZanxBdNuFWoJ/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$4cde207f11bdb6e15abe71503ffb760ddaf1871f",
+            "size": 1136172421,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/b97LFZanxBdNuFWoJ/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2642120,
+                    "checksum": "sha1$4e50c7e97da61bf4569be0f119a3916a9debc776",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/b97LFZanxBdNuFWoJ/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/b97LFZanxBdNuFWoJ/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/bKJ6rANxWRyqLtkEL/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$c167b3fe600a61ae82f70b800dfa262ede25f702",
+            "size": 1259409729,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/bKJ6rANxWRyqLtkEL/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2922320,
+                    "checksum": "sha1$4188c1b472641eebec4e36f44e9c6d8473542637",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/bKJ6rANxWRyqLtkEL/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/bKJ6rANxWRyqLtkEL/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ccpW7prdfc3vJC9vp/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$289d86b74696c073c598dd36e422fd4e08ff2630",
+            "size": 2969465919,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ccpW7prdfc3vJC9vp/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2738344,
+                    "checksum": "sha1$c3e1e4dd41de27968275097b25c0558399a9191e",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ccpW7prdfc3vJC9vp/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ccpW7prdfc3vJC9vp/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/eDXeNuxww7dtBBKHh/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$f856f3a6606841c0ad4a5b8bd14948395aec4afc",
+            "size": 1170181635,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/eDXeNuxww7dtBBKHh/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2550536,
+                    "checksum": "sha1$173a24e21330e2b81716bc9e1c3ade6021ee3ebf",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/eDXeNuxww7dtBBKHh/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/eDXeNuxww7dtBBKHh/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/emf6RSBrZEAsq9xYT/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$1e2d68e48d8c5bf2a1230ddd01eaa371e3c99947",
+            "size": 1008113056,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/emf6RSBrZEAsq9xYT/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 3001680,
+                    "checksum": "sha1$434ed1fdec5c18b23b0276955df59ad35e2916f1",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/emf6RSBrZEAsq9xYT/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/emf6RSBrZEAsq9xYT/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/hfv4x8ZK7GDkYPDtA/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$323e05ba26f91d74d789c4ad86fb39e95897e9d1",
+            "size": 296159966,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/hfv4x8ZK7GDkYPDtA/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 4759528,
+                    "checksum": "sha1$216efebd0d52d3d437b06294d4bee899d885c7bb",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/hfv4x8ZK7GDkYPDtA/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/hfv4x8ZK7GDkYPDtA/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/kiW6Q2ZM7qSmbKPxM/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$ea774f017a028a0de37cc5c667e06f83bed82612",
+            "size": 1415684301,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/kiW6Q2ZM7qSmbKPxM/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2816296,
+                    "checksum": "sha1$c2ef3f39c8abd73070503155853bf41b305f23fc",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/kiW6Q2ZM7qSmbKPxM/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/kiW6Q2ZM7qSmbKPxM/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ns5588K3DnwqTgaEA/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$461a97ecf2479f0d9e826dfb2cd3ee14a7da06be",
+            "size": 823319616,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ns5588K3DnwqTgaEA/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 3368800,
+                    "checksum": "sha1$222890afdd9452d425a1a6fba4887c9389f55612",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ns5588K3DnwqTgaEA/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ns5588K3DnwqTgaEA/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/p8jWq5anxYtzZL25g/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$be6d4e1cb9e4802bbe3c7b8c765a814b316cd8a1",
+            "size": 1167423314,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/p8jWq5anxYtzZL25g/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 3071792,
+                    "checksum": "sha1$e0eabff74a4e4426478dcd75803fa1a376175c2f",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/p8jWq5anxYtzZL25g/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/p8jWq5anxYtzZL25g/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pEg6coQ3rgP5whYY3/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$7a3b902e20d54c384258f013fb729c96344e4f75",
+            "size": 3523013751,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pEg6coQ3rgP5whYY3/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2673488,
+                    "checksum": "sha1$b2dd7e3756f294b2e03227a96fa15fbfbbd281e7",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pEg6coQ3rgP5whYY3/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pEg6coQ3rgP5whYY3/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pjYGvvSQduzhqYqxm/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$e7fee70d8d69d974f999bf1f9f06b287f9ff5ef7",
+            "size": 646008614,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pjYGvvSQduzhqYqxm/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 3381336,
+                    "checksum": "sha1$2f0355c730cc6b3c7d3bfc1bf341c38f8a0ea2dc",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pjYGvvSQduzhqYqxm/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pjYGvvSQduzhqYqxm/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$ac5b20721e7082991ed0ef45ef8aa3860ec0af4d",
+            "size": 625011320,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 3208664,
+                    "checksum": "sha1$e1bb7bf10c0c14abfb70a01539229002a1788c10",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1.bam"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1.bam",
+            "basename": "read_1.bam",
+            "nameroot": "read_1",
+            "nameext": ".bam",
+            "class": "File",
+            "checksum": "sha1$674c3bcced1ee038644d89ffafd0520db9fa1446",
+            "size": 2381381566,
+            "secondaryFiles": [
+                {
+                    "basename": "read_1.bam.bai",
+                    "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1.bam.bai",
+                    "class": "File",
+                    "nameroot": "read_1.bam",
+                    "nameext": ".bai",
+                    "size": 2813840,
+                    "checksum": "sha1$4a20af5e906017d505e2e531939bf6f47e469121",
+                    "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1.bam.bai"
+                }
+            ],
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1.bam"
+        }
+    ],
+    "peak_files": [
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$1a91b9a7a0ebf2e2731c67bdec5e688c6838e00b",
+            "size": 13150122,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$14b02b9d7e48c8479cc2de1c826c0f7a031402e9",
+            "size": 36929605,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$d19c95e262d96823b203ea18f024b1e7971ad870",
+            "size": 17228713,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$2835224b91bd64939f4d285588fee02f53d815bb",
+            "size": 18484292,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$737dff2c08583d6edc03ffd39900e09ae55fa115",
+            "size": 25506179,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$c7507c52d954ea4c572c4650f427e5167ab4686c",
+            "size": 26340338,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/GjW2jbRE2RYgEWv88/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$228b2160064f74aef29563c5620fc04c9729e6ba",
+            "size": 14892021,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/GjW2jbRE2RYgEWv88/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$984b5a2cbae208eae98902067b88c0732626f403",
+            "size": 17973916,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XFzkdZTJagceFMxQ5/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$b4f7467795cfb3de00d0aa0e0d96dd827989b8cf",
+            "size": 7199637,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XFzkdZTJagceFMxQ5/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XtNYa3XwAPkbcu2mz/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$16aa340afc642e32b7ad2179f96d8d3109642934",
+            "size": 7246540,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XtNYa3XwAPkbcu2mz/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/YRPh3PXRH48CEeEXg/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$8898cd608cc8ecfc2c74a160c92fd3324171476b",
+            "size": 7750339,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/YRPh3PXRH48CEeEXg/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Z22AogciZnv5iiRpg/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$9c85f72e1f6c77b34d4d3d828955fbe4f433cdb1",
+            "size": 19494274,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Z22AogciZnv5iiRpg/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ZMop2L7iZtZfXTGiG/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$d667c6e5aaf0a07aac64b49290aee609929b0205",
+            "size": 6599508,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ZMop2L7iZtZfXTGiG/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$054fafbe4085727a742afc6364e8757264168e28",
+            "size": 11350177,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/b97LFZanxBdNuFWoJ/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$ac618c4897d022e201e209c3a6555b4f007224f2",
+            "size": 7337914,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/b97LFZanxBdNuFWoJ/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/bKJ6rANxWRyqLtkEL/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$56a78cab8293d14c4ba4493238926c38eada11ea",
+            "size": 13088805,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/bKJ6rANxWRyqLtkEL/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ccpW7prdfc3vJC9vp/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$75e7d9181d8f502bebc6f581d83aee5218be4c96",
+            "size": 16842847,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ccpW7prdfc3vJC9vp/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/eDXeNuxww7dtBBKHh/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$0697763a92e811ed92a4523e966e3aad802eb6c1",
+            "size": 7934171,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/eDXeNuxww7dtBBKHh/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/emf6RSBrZEAsq9xYT/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$0903ded76ebde26127be0d9560e8b54683f9feff",
+            "size": 10624754,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/emf6RSBrZEAsq9xYT/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/hfv4x8ZK7GDkYPDtA/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$f5240e3774b7a7580b60708f727861b9bbf79660",
+            "size": 6569045,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/hfv4x8ZK7GDkYPDtA/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/kiW6Q2ZM7qSmbKPxM/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$44e3a27966c622a40d21e82cbbea563e05adac14",
+            "size": 10325946,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/kiW6Q2ZM7qSmbKPxM/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ns5588K3DnwqTgaEA/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$1c302d1c755d855933fdce15a6a9875f7e1994ea",
+            "size": 8935465,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ns5588K3DnwqTgaEA/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/p8jWq5anxYtzZL25g/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$6014829525686c3149951d6affeb775c5d80c28e",
+            "size": 11575217,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/p8jWq5anxYtzZL25g/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pEg6coQ3rgP5whYY3/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$f73b669b2ce8ada771b32db26d2a8306aa29a5c6",
+            "size": 15317378,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pEg6coQ3rgP5whYY3/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pjYGvvSQduzhqYqxm/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$56e8418bef71eb02fe7c3911d9a3198f884c92d1",
+            "size": 6540339,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pjYGvvSQduzhqYqxm/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$15f2d0db82349b4e51f078147389a33cd4ef596c",
+            "size": 5964231,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1_macs_peaks.xls"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1_macs_peaks.xls",
+            "basename": "read_1_macs_peaks.xls",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".xls",
+            "class": "File",
+            "checksum": "sha1$e94ae07677493a573fcdbdba868f5cfe74241229",
+            "size": 16135122,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1_macs_peaks.xls"
+        }
+    ],
+    "dataset_names": [
+        "D4N_0H_GFP_new",
+        "D0N_5H_GFP_new",
+        "D4N_5H_GFP_new",
+        "D4TCM_0H_GFP_new",
+        "D0TCM_5H_GFP_new",
+        "D0TCM_5H_AFOS_new",
+        "D4TCM_5H_AFOS_new",
+        "D0TEM_5H_GFP_new",
+        "D2TEM_0H_GFP_new",
+        "D2TCM_0H_GFP_new",
+        "D2TCM_5H_GFP_new",
+        "D4TCM_5H_GFP_new",
+        "D2N_5H_AFOS_new",
+        "D2TCM_5H_AFOS_new",
+        "D2TEM_5H_AFOS_new",
+        "D4TEM_5H_GFP_new",
+        "D0N_5H_AFOS_new",
+        "D4TEM_0H_GFP_new",
+        "D4TEM_5H_AFOS_new",
+        "D0TEM_0H_GFP_new",
+        "D4N_5H_AFOS_new",
+        "D2N_0H_GFP_new",
+        "D0N_0H_GFP_new",
+        "D0TEM_5H_AFOS_new",
+        "D2N_5H_GFP_new",
+        "D2TEM_5H_GFP_new",
+        "D0TCM_0H_GFP_new"
+    ],
+    "genome_coverage_files": [
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$28fb373ad42c4da54e1bfcc303ca010c349b63b4",
+            "size": 169877492,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$94d60a9523cc80c612b167a5b2673399866c2ab0",
+            "size": 561575418,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$be9302f4efa814f31dd770ef5e8f555d18cda2ee",
+            "size": 323208352,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$b569541caab2f8326df45850293eee7a617e80de",
+            "size": 144708002,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$097a6cc6b440193b7ac7a6407ac2abf6e458aaee",
+            "size": 615440430,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$0f49b3c7e8ce3517cea0633bfd99493d13ca7673",
+            "size": 720324506,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/GjW2jbRE2RYgEWv88/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$80b58c50e0b4524186e62e0665e02bfce791bceb",
+            "size": 308138733,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/GjW2jbRE2RYgEWv88/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$d499a127ec126d5d3f8d16268f00d5b3334d6d18",
+            "size": 392903151,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XFzkdZTJagceFMxQ5/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$22f2606ae2fcc41ed4589d603b26e5e7551b4d53",
+            "size": 80455660,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XFzkdZTJagceFMxQ5/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XtNYa3XwAPkbcu2mz/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$d395f0966073b0349515767554f82440ef8af696",
+            "size": 159794251,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XtNYa3XwAPkbcu2mz/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/YRPh3PXRH48CEeEXg/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$7836b8632f4ebe2601b7a4860ff53af1cf0c61c4",
+            "size": 181530170,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/YRPh3PXRH48CEeEXg/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Z22AogciZnv5iiRpg/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$9ee386b89e4b246f043bcd4dabcbb4c2cc6763c4",
+            "size": 326331030,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Z22AogciZnv5iiRpg/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ZMop2L7iZtZfXTGiG/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$07ee41ae3a2625f2e0f0775a2d62ebf77e5e595f",
+            "size": 150475782,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ZMop2L7iZtZfXTGiG/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$ef6f3ec42a9d8d036a9026ee771bc738975c40ac",
+            "size": 200736242,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/b97LFZanxBdNuFWoJ/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$cf06e15346612721b9dc9bd02a1acd76c4ffef12",
+            "size": 171059456,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/b97LFZanxBdNuFWoJ/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/bKJ6rANxWRyqLtkEL/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$bfae02900be70ba046cba7d64fa479a7fe64bd98",
+            "size": 174329709,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/bKJ6rANxWRyqLtkEL/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ccpW7prdfc3vJC9vp/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$3c8620509b524435aa6e05a484fed9e97d12e318",
+            "size": 438451062,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ccpW7prdfc3vJC9vp/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/eDXeNuxww7dtBBKHh/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$a7a8bb7d090964fd5dc2648f95ac99043257e9d5",
+            "size": 176666062,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/eDXeNuxww7dtBBKHh/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/emf6RSBrZEAsq9xYT/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$6983986f4663d9278527168f6f30fb5a8e0682aa",
+            "size": 147072098,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/emf6RSBrZEAsq9xYT/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/hfv4x8ZK7GDkYPDtA/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$607e2b6d70fd1ffebeab0f72678d6f2660ff8531",
+            "size": 52828640,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/hfv4x8ZK7GDkYPDtA/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/kiW6Q2ZM7qSmbKPxM/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$21233c09ec64b3f0271f78556274a58e2ec32ff7",
+            "size": 198618361,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/kiW6Q2ZM7qSmbKPxM/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ns5588K3DnwqTgaEA/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$79620e1832abbdfa33452f3758848bdbb521909a",
+            "size": 121057141,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ns5588K3DnwqTgaEA/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/p8jWq5anxYtzZL25g/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$b194efda646cd506fb2ffd47618abc361c9981a1",
+            "size": 156766998,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/p8jWq5anxYtzZL25g/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pEg6coQ3rgP5whYY3/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$4605759df053da38e94f72addb7b534087365cc0",
+            "size": 590221065,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pEg6coQ3rgP5whYY3/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pjYGvvSQduzhqYqxm/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$f4cb13fd3f8b7bf0f59cb2ceae165cd0a579e50e",
+            "size": 103422744,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pjYGvvSQduzhqYqxm/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$2659398d219c85946b352040e8742fa2ade33514",
+            "size": 100692421,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1.bigWig"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1.bigWig",
+            "basename": "read_1.bigWig",
+            "nameroot": "read_1",
+            "nameext": ".bigWig",
+            "class": "File",
+            "checksum": "sha1$a8279c2cd1712f0557774ee018ce4787a5f27ef2",
+            "size": 384899086,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1.bigWig"
+        }
+    ],
+    "narrow_peak_files": [
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$6189111abd07c5c44b11e3f3fb3df06520e397c7",
+            "size": 11732819,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/3krKveeeLa5er72KL/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$8ad99c9d33a948de2c6b8e1b131da9c11ee7330f",
+            "size": 32887208,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/7Ram8tno8YJZ4C8nM/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$a164c2ad0da20fa82f8e7425ef8752210a2413b9",
+            "size": 15393661,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9ZTLb7uqjS82qhu8a/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$a0dfdf9c6a7f4ffd552e04659b0559d33d5194a5",
+            "size": 16500444,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/9hDW5BRBAgBjRgMdZ/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$037b43eb1a1ab9e575bd5acae227a859032a61bb",
+            "size": 22761007,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DCavYkwjmWZPT7yZY/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$037ed311eed3c9c3582e1c2f60e96de25fa09a7a",
+            "size": 23467787,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/DMojdiFbMjKDW3HjX/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/GjW2jbRE2RYgEWv88/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$db21d661d340ffbf5d9627fe357ac4586101b049",
+            "size": 13277702,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/GjW2jbRE2RYgEWv88/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$339c4d8b779375b5fc551c818ef01354ddababff",
+            "size": 16053529,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Tui7jgwK4HK6aDbWx/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XFzkdZTJagceFMxQ5/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$539c91dd9b0e135490d85514901e14a303b68eea",
+            "size": 6427170,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XFzkdZTJagceFMxQ5/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XtNYa3XwAPkbcu2mz/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$fb817241d8e55492a3211472a010ca4a63ce8f97",
+            "size": 6461365,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/XtNYa3XwAPkbcu2mz/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/YRPh3PXRH48CEeEXg/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$cd28e584610e22ea6919fe1bc65454214b2a8b77",
+            "size": 6920436,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/YRPh3PXRH48CEeEXg/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Z22AogciZnv5iiRpg/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$6421e407390772cb86d085e0ef2cb81f99aac395",
+            "size": 17388037,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/Z22AogciZnv5iiRpg/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ZMop2L7iZtZfXTGiG/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$d6379aeb2f7febf9c7623bc234c327e69effb28c",
+            "size": 5891070,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ZMop2L7iZtZfXTGiG/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$b7d5765cd4fc6e7c1cd0a93726f583068fcdc596",
+            "size": 10118532,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/aMD7L4fsfDyeJzNNT/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/b97LFZanxBdNuFWoJ/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$30e9d8ce7c91dc47251bc2f4779c2c3550809288",
+            "size": 6551188,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/b97LFZanxBdNuFWoJ/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/bKJ6rANxWRyqLtkEL/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$04e66f4a94a0e40890ba6464e2d308c93404bae4",
+            "size": 11691594,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/bKJ6rANxWRyqLtkEL/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ccpW7prdfc3vJC9vp/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$127a87814f130737c82e737e6aa2cb5904e06786",
+            "size": 15006484,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ccpW7prdfc3vJC9vp/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/eDXeNuxww7dtBBKHh/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$4652b39b352c8e422a8ab0b7e671012a779f6e94",
+            "size": 7080309,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/eDXeNuxww7dtBBKHh/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/emf6RSBrZEAsq9xYT/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$b912b41d4cd870c8416f27b6340d1ae2e6cd97dc",
+            "size": 9490222,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/emf6RSBrZEAsq9xYT/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/hfv4x8ZK7GDkYPDtA/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$8ea5b99f3e3d590a1a5a2937d5f98c52a5d21762",
+            "size": 5868031,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/hfv4x8ZK7GDkYPDtA/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/kiW6Q2ZM7qSmbKPxM/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$d8af3136fd98a63e3737ed59b36f0fb4eaab7053",
+            "size": 9222858,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/kiW6Q2ZM7qSmbKPxM/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ns5588K3DnwqTgaEA/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$4dc993a2636801e4306929c58e81e3f385f4c38d",
+            "size": 7982958,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ns5588K3DnwqTgaEA/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/p8jWq5anxYtzZL25g/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$64588d4a15adc67b0eded60f9e50da3c7c673124",
+            "size": 10345501,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/p8jWq5anxYtzZL25g/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pEg6coQ3rgP5whYY3/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$bb58405449679aa47582c1763a58f428c67474ef",
+            "size": 13666465,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pEg6coQ3rgP5whYY3/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pjYGvvSQduzhqYqxm/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$0ba03ba94903d0b65811b707c836f106ba8a634d",
+            "size": 5838486,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/pjYGvvSQduzhqYqxm/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$d445dc64a7d923e2ecdd224714615e85758325f4",
+            "size": 5323567,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ut8GacXyeD72mALdd/read_1_macs_peaks.narrowPeak"
+        },
+        {
+            "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1_macs_peaks.narrowPeak",
+            "basename": "read_1_macs_peaks.narrowPeak",
+            "nameroot": "read_1_macs_peaks",
+            "nameext": ".narrowPeak",
+            "class": "File",
+            "checksum": "sha1$fa32c9cb732e519a84d5504a7c6347566c85a734",
+            "size": 14412305,
+            "path": "/data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/yyPkDgL4dX8AjfPQ3/read_1_macs_peaks.narrowPeak"
+        }
+    ],
+    "annotation_file": {
+        "location": "file:///data/barskilab/scidap_server/projects/7y3eFwpZDyR3TdmXJ/866jbfHDwFRpdPJZc/refgene.tsv",
+        "basename": "refgene.tsv",
+        "nameroot": "refgene",
+        "nameext": ".tsv",
+        "class": "File",
+        "checksum": "sha1$e50ddeba148ca37cc9dd0d121bb2069d700c166e",
+        "size": 23325150
+    },
+    "chrom_length_file": {
+        "location": "file:///data/barskilab/scidap_server/projects/7y3eFwpZDyR3TdmXJ/866jbfHDwFRpdPJZc/hg38_star_genome/chrNameLength.txt",
+        "basename": "chrNameLength.txt",
+        "nameroot": "chrNameLength",
+        "nameext": ".txt",
+        "class": "File",
+        "checksum": "sha1$3df5cfeabf9e90efe1bd4b71d3ffaa5e0ec2fb78",
+        "size": 376
+    },
+    "metadata_file": {
+        "location": "file:///data/barskilab/scidap_server/projects/FsEuKGHXhGcDfTJEK/ijQyjXaysFRsG8ZnE/afos_atac_metadata (2).csv",
+        "token": "token://eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJpbUg4eXFINlR6aGdpQ05lOCIsImZpbGVJZCI6Im5aYWZ4TUNTZWVvREhhTWpvIiwicHJvamVjdElkIjoiRnNFdUtHSFhoR2NEZlRKRUsiLCJpbnB1dElkIjoibWV0YWRhdGFfZmlsZSIsImRyYWZ0SWQiOiI2RDgyeFc0R2I0RG9LZTNMYSIsImlhdCI6MTc0MzE5NDcwMiwiZXhwIjoxNzQzMjM3OTAyLCJhdWQiOiJkek02WUdoampKdWhFQ0Z3ZiIsInN1YiI6InVwbG9hZCJ9.AIFB-0JHf4ddRKEq8ZVPrE38ZiCwmZzo7TncO4-chvko-q89Mm6SAkMU6lKNlJdvKSc95dzNBdnG32ZYLR1p6dkfAdOgfAxI--1zpJuEO9ZFUYQ9COcWGp1efolvCQ0FHrX6yp3BhbIzQmnmCNYs5VqLF91MvVADkPq2kG4zlijeX5ss",
+        "class": "File"
+    },
+    "design_formula": "~Tissue+Condition+Factor"
+}

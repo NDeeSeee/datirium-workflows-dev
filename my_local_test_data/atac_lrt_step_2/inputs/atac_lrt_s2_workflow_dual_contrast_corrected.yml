@@ -1,0 +1,33 @@
+# ATAC LRT Step 2 Test Input (Corrected Paths)
+# This file matches the actual CWL tool parameter names
+
+# Input objects from Step 1 (using available test data)
+dsq_obj_data:
+  class: File
+  path: "../../atac_lrt_step_1/outputs_full/atac_lrt_step_1_contrasts.rds"
+
+contrasts_table:
+  class: File
+  path: "../../core_data/contrasts_table_example.csv"
+
+# Required parameters
+contrast_indices: "1"  # Test first two contrasts
+
+# Analysis parameters
+fdr: 0.05
+lfcthreshold: 0.5
+use_lfc_thresh: true
+regulation: "both"
+
+# Processing parameters  
+threads: 1
+test_mode: true
+
+# Clustering parameters
+cluster_method: "row"
+scaling_type: "zscore"
+k_hopach: 3
+kmax_hopach: 5
+
+# Output
+output_prefix: "atac_lrt_step_2_test" 
